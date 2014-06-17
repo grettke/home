@@ -1,0 +1,105 @@
+			     ______________
+
+				PUBLISH
+
+			      Grant Rettke
+			     ______________
+
+
+Table of Contents
+_________________
+
+1 Overview
+2 Prepare
+3 Publish
+
+
+1 Overview
+==========
+
+  This *system* is defined by:
+  - [[file:TC3F.org]]
+  - [[file:Makefile]]
+  - [[file:Cask]]
+  - [[file:publish.org]]
+
+  It generates:
+  - [[file:.emacs.el]]
+  - [[file:.org-mode.emacs.el]]
+  - `.org-mode.emacs.el' *must* be used to boostrap this /system/
+
+  The purpose of this document is to prepare the system for external
+  publishing such that anyone may execute it.
+
+
+2 Prepare
+=========
+
+  Bootstrap with `.org-mode.emacs.el'.
+
+  Prepare the run:
+  ,----
+  | mv typescript typescript-$(date +%F-%T)
+  | script
+  `----
+
+  Remove all generated files:
+  ,----
+  | make clean
+  `----
+
+  Tangle `.emacs.el' *twice*:
+  - First to create the new artefacts
+  - Second to verify that it may self-build
+    - Only a self-building system will ever be committed to the VCS
+  ,----
+  | make .emacs.el ; rm .emacs.el ; make .emacs.el
+  `----
+
+  Weave the document:
+  ,----
+  | make TC3F.txt
+  | make TC3F.html
+  | make TC3F.pdf
+  `----
+
+  Release details:
+  ,----
+  | (message "Emacs: %s\nOrg: %S\nCask: %s" (emacs-version) (org-version) (cask-version))
+  `----
+
+  Prepare the libraries:
+  ,----
+  | rm ~/tmp/cask.tgz
+  | tar -czf ~/tmp/cask.tgz ~/.emacs.d/.cask/
+  | rm ~/tmp/ditaa0_9.jar
+  | cp ~/java/jar/ditaa0_9.jar ~/tmp
+  `----
+
+
+3 Publish
+=========
+
+  This is manual publishing from my personal, private repo to a public
+  repo. The intent to keep publically accessible, /known good/ versions
+  of the system available.
+
+  Originals:
+  ,----
+  | cp TC3F.org ~/git/github-grettke/home
+  | cp Makefile ~/git/github-grettke/home
+  | cp Cask ~/git/github-grettke/home
+  `----
+
+  Collected:
+  ,----
+  | cp .emacs.el ~/git/github-grettke/home
+  | cp .org-mode.emacs.el ~/git/github-grettke/home
+  | cp ~/tmp/cask.tgz ~/git/github-grettke/home
+  | cp ~/tmp/digaa0_9.tar ~/git/github-grettke/home
+  `----
+
+  Turn the typescript off:
+  ,----
+  | exit
+  `----
