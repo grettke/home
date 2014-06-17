@@ -8,6 +8,9 @@ ongoing, unstable changes. This repository is used to publish a known good and
 It contains everything required to build it but for Emacs. It also contains
 tangled and weaved artifacts that this system creates.
 
+This configuration is still very raw, incomplete, and untested. It is lovingly
+referred to as /a work in progress/.
+
 * Contents
 
 ** Source
