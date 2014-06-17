@@ -24,6 +24,9 @@ ongoing, unstable changes. This repository is used to publish a known good and
 It contains everything required to build it but for Emacs. It also contains
 tangled and weaved artifacts that this system creates.
 
+This configuration is still very raw, incomplete, and untested. It is lovingly
+referred to as *a work in progress*.
+
 # Contents<a id="sec-2" name="sec-2"></a>
 
 ## Source<a id="sec-2-1" name="sec-2-1"></a>
@@ -32,6 +35,7 @@ tangled and weaved artifacts that this system creates.
 -   **Makefile:** orchestrates the work
 -   **Cask:** defines build requirements
 -   **publish.txt:** notes on how to prepare the system publishing
+-   **README.make:** generate this document
 
 ## Tangled<a id="sec-2-2" name="sec-2-2"></a>
 
