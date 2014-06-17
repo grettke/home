@@ -16,6 +16,7 @@ tangled and weaved artifacts that this system creates.
 - Makefile :: orchestrates the work
 - Cask :: defines build requirements
 - publish.txt :: notes on how to prepare the system publishing
+- README.make :: generate this document
 
 ** Tangled
 
