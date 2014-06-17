@@ -1,6 +1,3 @@
-home
-====
-
 * Intent
 
 This repository is used to publish my home directory org document. Virtually
