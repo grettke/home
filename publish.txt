@@ -61,6 +61,7 @@ _________________
   | make TC3F.txt
   | make TC3F.html
   | make TC3F.pdf
+  | make publish.txt
   `----
 
   Release details:
@@ -89,6 +90,14 @@ _________________
   | cp TC3F.org ~/git/github-grettke/home
   | cp Makefile ~/git/github-grettke/home
   | cp Cask ~/git/github-grettke/home
+  | cp publish.txt ~/git/github-grettke/home
+  `----
+
+  Weaved:
+  ,----
+  | cp TC3F.txt ~/git/github-grettke/home
+  | cp TC3F.html ~/git/github-grettke/home
+  | cp TC3F.pdf ~/git/github-grettke/home
   `----
 
   Collected:
@@ -96,7 +105,7 @@ _________________
   | cp .emacs.el ~/git/github-grettke/home
   | cp .org-mode.emacs.el ~/git/github-grettke/home
   | cp ~/tmp/cask.tgz ~/git/github-grettke/home
-  | cp ~/tmp/digaa0_9.tar ~/git/github-grettke/home
+  | cp ~/tmp/ditaa0_9.tar ~/git/github-grettke/home
   `----
 
   Turn the typescript off:
