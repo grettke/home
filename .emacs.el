@@ -269,6 +269,243 @@ Attribution: URL http://orgmode.org/manual/System_002dwide-header-arguments.html
  (gcr/on-osx
    (setq alert-default-style 'growl)))
 (setq alert-reveal-idle-time 120)
+(defadvice global-set-key (before check-keymapping activate)
+  (let* ((key (ad-get-arg 0))
+         (new-command (ad-get-arg 1))
+         (old-command (lookup-key global-map key)))
+    (when
+        (and
+         old-command
+         (not (equal old-command new-command))
+         (not (equal old-command 'digit-argument))
+         (not (equal old-command 'negative-argument))
+         (not (equal old-command 'ns-print-buffer))
+         (not (equal old-command 'move-beginning-of-line))
+         (not (equal old-command 'execute-extended-command))
+         (not (equal new-command 'execute-extended-command))
+         (not (equal old-command 'ns-prev-frame))
+         (not (equal old-command 'ns-next-frame))
+         (not (equal old-command 'mwheel-scroll))
+         )
+      (warn "Just stomped the global-map binding for %S, replaced %S with %S"
+            key old-command new-command))))
+(require 'key-chord)
+(key-chord-mode 1)
+;; magic x goes here →x
+(gcr/on-osx
+ (setq mac-control-modifier 'control)
+ (setq mac-command-modifier 'meta)
+ (setq mac-option-modifier 'super))
+
+(gcr/on-windows
+ (setq w32-lwindow-modifier 'super)
+ (setq w32-rwindow-modifier 'super))
+(put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
+(key-chord-define-global "3." 'gcr/insert-ellipsis)
+(key-chord-define-global (concat "A" "{") (lambda () (interactive) (insert "ä")))
+(key-chord-define-global (concat "A" "}") (lambda () (interactive) (insert "Ä")))
+(key-chord-define-global (concat "O" "{") (lambda () (interactive) (insert "ö")))
+(key-chord-define-global (concat "O" "}") (lambda () (interactive) (insert "Ö")))
+(key-chord-define-global (concat "U" "{") (lambda () (interactive) (insert "ü")))
+(key-chord-define-global (concat "U" "}") (lambda () (interactive) (insert "Ü")))
+(key-chord-define-global "<<" (lambda () (interactive) (insert "«")))
+(key-chord-define-global ">>" (lambda () (interactive) (insert "»")))
+(key-chord-define-global "jk" 'ace-jump-mode)
+(key-chord-define-global "nm" 'ace-window)
+(key-chord-define-global "JK" (lambda () (interactive) (other-window 1)))
+(key-chord-define-global "KL" (lambda () (interactive) (next-buffer)))
+(key-chord-define-global "L:" (lambda () (interactive) (previous-buffer)))
+(global-set-key (kbd "C-a") 'beginning-of-line-dwim)
+(global-set-key (kbd "C-;") 'vc-next-action)
+(global-set-key (kbd "C-'") 'er/expand-region)
+(global-set-key (kbd "M-9") 'mc/edit-lines)
+(global-set-key (kbd "M-0") 'mc/mark-next-like-this)
+(global-set-key (kbd "M--") 'mc/mark-all-like-this)
+(global-set-key (kbd "M-8") 'mc/mark-previous-like-this)
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
+(global-set-key (kbd "s-p") 'gcr/describe-thing-in-popup)
+(global-set-key (kbd "C--") 'ace-window)
+(global-set-key (kbd "C-3") 'yas/expand)
+(global-set-key (kbd "C-4") 'gcr/comment-or-uncomment)
+(global-set-key (kbd "C-7") 'gcr/insert-timestamp)
+(global-set-key (kbd "M-7") 'gcr/insert-datestamp)
+(global-set-key (kbd "s-<tab>") 'auto-complete)
+(gcr/on-gui
+ (global-set-key (kbd "s-<f7>") 'gcr/text-scale-increase)
+ (global-set-key (kbd "M-<f7>") 'gcr/text-scale-decrease))
+(global-set-key (kbd "C-<f2>") 'emacs-index-search)
+(global-set-key (kbd "S-<f2>") 'elisp-index-search)
+(global-set-key (kbd "C-<f3>") 'imenu-anywhere)
+(global-set-key (kbd "s-<up>") 'enlarge-window)
+(global-set-key (kbd "s-<down>") 'shrink-window)
+(global-set-key (kbd "s-<right>") 'enlarge-window-horizontally)
+(global-set-key (kbd "s-<left>") 'shrink-window-horizontally)
+(let ((ditaa-jar "~/java/jar/ditaa0_9.jar"))
+  (when (not (file-exists-p ditaa-jar))
+    (warn (concat "Can't seem to find a ditaa runtime file where it was "
+                  "expected at: " ditaa-jar
+                  ". Download a copy here: http://sourceforge.net/projects/ditaa/")))
+  (setq org-ditaa-jar-path ditaa-jar))
+(setq org-list-allow-alphabetical +1)
+(require 'org)
+(require 'ox-beamer)
+(require 'ox-md)
+(require 'htmlize)
+
+;; (require 'org2blog-autoloads)
+
+(defun gcr/org-mode-hook ()
+  (fci-mode)
+  (gcr/untabify-buffer-hook)
+;;  (org2blog/wp-mode)
+  )
+
+(add-hook 'org-mode-hook 'gcr/org-mode-hook)
+
+(setq org-todo-keywords
+      '((sequence "TODO" "IN-PROGRESS" "WAITING" "REVIEW" "DONE")))
+
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((css . t)
+   (dot . t)
+   (ditaa . t)
+   (emacs-lisp . t)
+   (js . t)
+   (latex . t)
+   (lilypond . t)
+   (makefile . t)
+   (org . t)
+   (python . t)
+   (plantuml . t)
+   (R . t)
+   (scheme . t)
+   (sh . t)))
+
+(setq org-confirm-babel-evaluate nil)
+
+(setq org-babel-use-quick-and-dirty-noweb-expansion nil)
+
+(setq org-startup-with-inline-images (display-graphic-p))
+
+(setq org-export-copy-to-kill-ring nil)
+
+(setq org-completion-use-ido +1)
+
+(setq org-use-speed-commands +1)
+
+(setq org-confirm-shell-link-function 'y-or-n-p)
+
+(setq org-confirm-elisp-link-function 'y-or-n-p)
+
+(setq org-footnote-auto-adjust +1)
+
+(setq org-enforce-todo-dependencies +1)
+
+(gcr/on-gui
+ (require 'org-mouse))
+
+(setq org-pretty-entities +1)
+
+(setq org-ellipsis "…")
+
+(setq org-hide-leading-stars +1)
+
+(setq org-src-fontify-natively nil)
+
+(setq org-fontify-emphasized-text +1)
+
+(setq org-src-preserve-indentation +1)
+
+(setq org-highlight-latex-and-related '(latex script entities))
+
+(mapc (lambda (asc)
+        (let ((org-sce-dc (downcase (nth 1 asc))))
+          (setf (nth 1 asc) org-sce-dc)))
+      org-structure-template-alist)
+
+(when (not (version= (org-version) "8.2.7"))
+  (display-warning
+   'org-mode
+   (concat
+    "Insufficient requirements. Expected 8.2.7. Found " (org-version))
+   :emergency))
+
+(defadvice org-babel-tangle (before org-babel-tangle-before activate)
+  (gcr/save-all-file-buffers)
+  (message (concat "org-babel-tangle BEFORE: <"
+                   (format-time-string "%Y-%m-%dT%T%z")
+                   ">")))
+
+(defadvice org-babel-tangle (after org-babel-tangle-after activate)
+  (message (concat "org-babel-tangle AFTER: <"
+                   (format-time-string "%Y-%m-%dT%T%z")
+                   ">"))
+  (alert "Your tangling is complete." :title "org-mode"))
+
+(defadvice org-ascii-export-as-ascii (before org-ascii-export-as-ascii-before activate)
+  (gcr/save-all-file-buffers))
+
+(defadvice org-html-export-to-html (before before-org-html-export-to-html activate)
+  (gcr/save-all-file-buffers)
+  (message (concat "org-html-export-to-html BEFORE: <"
+                   (format-time-string "%Y-%m-%dT%T%z")
+                   ">")))
+
+(defadvice org-html-export-to-html (after after-org-html-export-to-html activate)
+  (message (concat "org-html-export-to-html AFTER: <"
+                   (format-time-string "%Y-%m-%dT%T%z")
+                   ">")))
+
+(when (boundp 'org-html-checkbox-type)
+  (display-warning
+   'org-mode
+   "Org mode now supports HTML export to unicode checkboxes. Please update your configuration to use the variable 'org-html-checkbox-type'."
+   :warning))
+
+(defadvice org-latex-export-to-pdf (before org-latex-export-to-pdf-before activate)
+  (gcr/save-all-file-buffers))
+
+(defun sacha/org-html-checkbox (checkbox)
+  "Format CHECKBOX into HTML. http://sachachua.com/blog/2014/03/emacs-tweaks-export-org-checkboxes-using-utf-8-symbols/?shareadraft=baba27119_533313c944f64"
+  (case checkbox (on "<span class=\"check\">&#x2611;</span>") ; checkbox (checked)
+        (off "<span class=\"checkbox\">&#x2610;</span>")
+        (trans "<code>[-]</code>")
+        (t "")))
+
+(defadvice org-html-checkbox (around sacha activate)
+  (setq ad-return-value (sacha/org-html-checkbox (ad-get-arg 0))))
+
+(setq org2blog/wp-blog-alist
+      '(("wisdomandwonder"
+         :url "http://www.wisdomandwonder.com/wordpress/xmlrpc.php"
+         :username "admin"
+         :default-title "Title goes here"
+         :default-categories ("Article")
+         :tags-as-categories nil
+         :confirm t
+         :show 'show
+         :keep-new-lines nil
+         :wp-latex t
+         :wp-code nil
+         :track-posts (list "~/wnw.org2blog.org" "Posts"))))
+(setq org-babel-tangle-comment-format-beg "line %start-line in %file\n[[%link][%start-line, %file]]")
+(setq org-babel-tangle-comment-format-end (make-string 77 ?=))
+(require 'org-ac)
+(org-ac/config-default)
+(let* ((allowed '(exports
+                  file
+                  noweb
+                  noweb-ref
+                  session
+                  tangle))
+       (new-ls
+        (--filter (member (car it) allowed)
+                  org-babel-common-header-args-w-values)))
+  (setq org-babel-common-header-args-w-values new-ls))
 (gcr/on-gui
   (defconst gcr/font-base "DejaVu Sans Mono" "The preferred font name.")
   (defvar gcr/font-size 10 "The preferred font size.")
@@ -350,6 +587,8 @@ Attribution: URL http://orgmode.org/manual/System_002dwide-header-arguments.html
  (setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
  (setq mouse-wheel-progressive-speed nil)
  (require 'pos-tip)
+ (setq pos-tip-foreground-color "#073642")
+ (setq pos-tip-background-color "#839496")
  (gcr/on-windows
   (pos-tip-w32-max-width-height)))
 (desktop-save-mode 1)
@@ -456,6 +695,7 @@ Attribution: URL http://orgmode.org/manual/System_002dwide-header-arguments.html
 (require 'smartparens-config)
 (show-smartparens-global-mode +1)
 (diminish 'smartparens-mode)
+(setq sp-show-pair-from-inside nil)
 (setq tramp-default-user "gcr")
 (setq tramp-default-method "ssh")
 (require 'expand-region)
@@ -560,7 +800,7 @@ Attribution: URL http://orgmode.org/manual/System_002dwide-header-arguments.html
 
 (defun gcr/log-edit-mode-hook-local-bindings ()
   "Helpful bindings for log edit buffers."
-  (local-set-key (kbd "C-9") 'log-edit-done))
+  (local-set-key (kbd "C-;") 'log-edit-done))
 
 (add-hook 'log-edit-mode-hook 'gcr/log-edit-mode-hook-local-bindings)
 (defun gcr/graphviz-dot-mode-hook ()
@@ -695,9 +935,13 @@ Attribution: URL http://orgmode.org/manual/System_002dwide-header-arguments.html
   "Major mode for editing Markdown files" +1)
 
 (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
-(defadvice vc-next-action (before save-before-vc first activate )
-  "Save the buffer before any VC function calls."
-  (save-buffer))
+(defadvice vc-next-action (before save-before-vc first activate)
+  "Save all buffers before any VC next-action function calls."
+  (gcr/save-all-file-buffers))
+
+(defadvice vc-diff (before save-before-vc-diff first activate)
+  "Save all buffers before vc-diff calls."
+  (gcr/save-all-file-buffers))
 (require 'ess-site)
 (setq ess-eldoc-show-on-symbol t)
 (setq ess-use-tracebug t)
@@ -835,227 +1079,7 @@ Attribution: URL http://orgmode.org/manual/System_002dwide-header-arguments.html
   (local-set-key (kbd "RET") 'newline-and-indent))
 
 (add-hook 'ruby-mode-hook 'gcr/ruby-mode-hook)
-(let ((ditaa-jar "~/java/jar/ditaa0_9.jar"))
-  (when (not (file-exists-p ditaa-jar))
-    (warn (concat "Can't seem to find a ditaa runtime file where it was "
-                  "expected at: " ditaa-jar
-                  ". Download a copy here: http://sourceforge.net/projects/ditaa/")))
-  (setq org-ditaa-jar-path ditaa-jar))
-(setq org-list-allow-alphabetical +1)
-(require 'org)
-(require 'ox-beamer)
-(require 'ox-md)
-(require 'htmlize)
-
-;; (require 'org2blog-autoloads)
-
-(defun gcr/org-mode-hook ()
-  (fci-mode)
-  (gcr/untabify-buffer-hook)
-;;  (org2blog/wp-mode)
-  )
-
-(add-hook 'org-mode-hook 'gcr/org-mode-hook)
-
-(setq org-todo-keywords
-      '((sequence "TODO" "IN-PROGRESS" "WAITING" "REVIEW" "DONE")))
-
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((css . t)
-   (dot . t)
-   (ditaa . t)
-   (emacs-lisp . t)
-   (js . t)
-   (latex . t)
-   (lilypond . t)
-   (makefile . t)
-   (org . t)
-   (python . t)
-   (plantuml . t)
-   (R . t)
-   (scheme . t)
-   (sh . t)))
-
-(setq org-confirm-babel-evaluate nil)
-
-(setq org-babel-use-quick-and-dirty-noweb-expansion nil)
-
-(setq org-startup-with-inline-images (display-graphic-p))
-
-(setq org-export-copy-to-kill-ring nil)
-
-(setq org-completion-use-ido +1)
-
-(setq org-use-speed-commands +1)
-
-(setq org-confirm-shell-link-function 'y-or-n-p)
-
-(setq org-confirm-elisp-link-function 'y-or-n-p)
-
-(setq org-footnote-auto-adjust +1)
-
-(setq org-enforce-todo-dependencies +1)
-
-(gcr/on-gui
- (require 'org-mouse))
-
-(setq org-pretty-entities +1)
-
-(setq org-ellipsis "…")
-
-(setq org-hide-leading-stars +1)
-
-(setq org-src-fontify-natively nil)
-
-(setq org-fontify-emphasized-text +1)
-
-(setq org-src-preserve-indentation +1)
-
-(setq org-highlight-latex-and-related '(latex script entities))
-
-(mapc (lambda (asc)
-        (let ((org-sce-dc (downcase (nth 1 asc))))
-          (setf (nth 1 asc) org-sce-dc)))
-      org-structure-template-alist)
-
-(when (not (version= (org-version) "8.2.7"))
-  (display-warning
-   'org-mode
-   (concat
-    "Insufficient requirements. Expected 8.2.7. Found " (org-version))
-   :emergency))
-
-(defadvice org-babel-tangle (before org-babel-tangle-before activate)
-  (message (concat "org-babel-tangle BEFORE: <"
-                   (format-time-string "%Y-%m-%dT%T%z")
-                   ">")))
-
-(defadvice org-babel-tangle (after org-babel-tangle-after activate)
-  (message (concat "org-babel-tangle AFTER: <"
-                   (format-time-string "%Y-%m-%dT%T%z")
-                   ">"))
-  (alert "Your tangling is complete." :title "org-mode"))
-
-(defadvice org-html-export-to-html (around org-html-export-to-html-around)
-  "Report on org HTML exporting."
-  (message (concat "org-html-export-to-html BEFORE: <"
-                   (format-time-string "%Y-%m-%dT%T%z")
-                   ">"))
-  ad-do-it
-  (message (concat "org-html-export-to-html AFTER: <"
-                   (format-time-string "%Y-%m-%dT%T%z")
-                   ">")))
-(when (boundp 'org-html-checkbox-type)
-  (display-warning
-   'org-mode
-   "Org mode now supports HTML export to unicode checkboxes. Please update your configuration to use the variable 'org-html-checkbox-type'."
-   :warning))
-
-(defun sacha/org-html-checkbox (checkbox)
-  "Format CHECKBOX into HTML. http://sachachua.com/blog/2014/03/emacs-tweaks-export-org-checkboxes-using-utf-8-symbols/?shareadraft=baba27119_533313c944f64"
-  (case checkbox (on "<span class=\"check\">&#x2611;</span>") ; checkbox (checked)
-        (off "<span class=\"checkbox\">&#x2610;</span>")
-        (trans "<code>[-]</code>")
-        (t "")))
-
-(defadvice org-html-checkbox (around sacha activate)
-  (setq ad-return-value (sacha/org-html-checkbox (ad-get-arg 0))))
-
-(setq org2blog/wp-blog-alist
-      '(("wisdomandwonder"
-         :url "http://www.wisdomandwonder.com/wordpress/xmlrpc.php"
-         :username "admin"
-         :default-title "Title goes here"
-         :default-categories ("Article")
-         :tags-as-categories nil
-         :confirm t
-         :show 'show
-         :keep-new-lines nil
-         :wp-latex t
-         :wp-code nil
-         :track-posts (list "~/wnw.org2blog.org" "Posts"))))
-(gcr/set-org-system-header-arg :padline "yes")
-(gcr/set-org-system-header-arg :comments "no")
-(setq org-babel-tangle-comment-format-beg "line %start-line in %file\n[[%link][%start-line, %file]]")
-(setq org-babel-tangle-comment-format-end (make-string 77 ?=))
-(require 'org-ac)
-(org-ac/config-default)
-(defadvice global-set-key (before check-keymapping activate)
-  (let* ((key (ad-get-arg 0))
-         (new-command (ad-get-arg 1))
-         (old-command (lookup-key global-map key)))
-    (when
-        (and
-         old-command
-         (not (equal old-command new-command))
-         (not (equal old-command 'digit-argument))
-         (not (equal old-command 'negative-argument))
-         (not (equal old-command 'ns-print-buffer))
-         (not (equal old-command 'move-beginning-of-line))
-         (not (equal old-command 'execute-extended-command))
-         (not (equal new-command 'execute-extended-command))
-         (not (equal old-command 'ns-prev-frame))
-         (not (equal old-command 'ns-next-frame))
-         (not (equal old-command 'mwheel-scroll))
-         )
-      (warn "Just stomped the global-map binding for %S, replaced %S with %S"
-            key old-command new-command))))
-(require 'key-chord)
-(key-chord-mode 1)
-;; magic x goes here →x
-(gcr/on-osx
- (setq mac-control-modifier 'control)
- (setq mac-command-modifier 'meta)
- (setq mac-option-modifier 'super))
-
-(gcr/on-windows
- (setq w32-lwindow-modifier 'super)
- (setq w32-rwindow-modifier 'super))
-(put 'upcase-region 'disabled nil)
-(put 'downcase-region 'disabled nil)
-(key-chord-define-global "3." 'gcr/insert-ellipsis)
-(key-chord-define-global (concat "A" "{") (lambda () (interactive) (insert "ä")))
-(key-chord-define-global (concat "A" "}") (lambda () (interactive) (insert "Ä")))
-(key-chord-define-global (concat "O" "{") (lambda () (interactive) (insert "ö")))
-(key-chord-define-global (concat "O" "}") (lambda () (interactive) (insert "Ö")))
-(key-chord-define-global (concat "U" "{") (lambda () (interactive) (insert "ü")))
-(key-chord-define-global (concat "U" "}") (lambda () (interactive) (insert "Ü")))
-(key-chord-define-global "<<" (lambda () (interactive) (insert "«")))
-(key-chord-define-global ">>" (lambda () (interactive) (insert "»")))
-(key-chord-define-global "jk" 'ace-jump-mode)
-(key-chord-define-global "nm" 'ace-window)
-(key-chord-define-global "JK" (lambda () (interactive) (other-window 1)))
-(key-chord-define-global "KL" (lambda () (interactive) (next-buffer)))
-(key-chord-define-global "L:" (lambda () (interactive) (previous-buffer)))
-(key-chord-define-global "df" 'vc-next-action)
-(global-set-key (kbd "C-a") 'beginning-of-line-dwim)
-(global-set-key (kbd "C-9") 'vc-next-action)
-(global-set-key (kbd "M-9") 'mc/edit-lines)
-(global-set-key (kbd "M-0") 'mc/mark-next-like-this)
-(global-set-key (kbd "M--") 'mc/mark-all-like-this)
-(global-set-key (kbd "M-8") 'mc/mark-previous-like-this)
-(global-set-key (kbd "M-x") 'smex)
-(global-set-key (kbd "M-X") 'smex-major-mode-commands)
-(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
-(global-set-key (kbd "C--") 'ace-window)
-(global-set-key (kbd "C-=") 'er/expand-region)
-(global-set-key (kbd "<C-`>") 'yas/expand)
-(global-set-key (kbd "C-4") 'gcr/comment-or-uncomment)
-(global-set-key (kbd "s-p") 'gcr/describe-thing-in-popup)
-(global-set-key (kbd "C-7") 'gcr/insert-timestamp)
-(global-set-key (kbd "M-7") 'gcr/insert-datestamp)
-(global-set-key (kbd "s-<tab>") 'auto-complete)
-(gcr/on-gui
- (global-set-key (kbd "C-<f7>") 'gcr/text-scale-increase)
- (global-set-key (kbd "M-<f7>") 'gcr/text-scale-decrease))
-(global-set-key (kbd "C-<f2>") 'emacs-index-search)
-(global-set-key (kbd "S-<f2>") 'elisp-index-search)
-(global-set-key (kbd "C-<f3>") 'imenu-anywhere)
-(global-set-key (kbd "s-<up>") 'enlarge-window)
-(global-set-key (kbd "s-<down>") 'shrink-window)
-(global-set-key (kbd "s-<right>") 'enlarge-window-horizontally)
-(global-set-key (kbd "s-<left>") 'shrink-window-horizontally)
+(eval-after-load "dash" '(dash-enable-font-lock))
 (require 'erc)
 
 (setq gcr/erc-after-connect-hook-BODY nil)

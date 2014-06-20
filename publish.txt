@@ -43,17 +43,12 @@ _________________
   | script
   `----
 
-  Remove all generated files:
-  ,----
-  | make clean
-  `----
-
-  Tangle `.emacs.el' *twice*:
+  Remove all generated files: Tangle `.emacs.el' *twice*:
   - First to create the new artefacts
   - Second to verify that it may self-build
     - Only a self-building system will ever be committed to the VCS
   ,----
-  | make .emacs.el ; rm .emacs.el ; make .emacs.el
+  | make clean ; make .emacs.el ; rm .emacs.el ; make .emacs.el
   `----
 
   Weave the document:

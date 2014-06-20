@@ -41,10 +41,8 @@
 
 * How to design a file conservator (HTDFC)
   :PROPERTIES:
-  :exports: none
-  :tangle: no
+  :header-args: :exports none :tangle no
   :END:
-# INTENT: never weave or tangle this headline or its children
 ** Audience [fn:1]
 Who should be reading this?
 Possibly…
@@ -234,10 +232,8 @@ Where else has this acronym shown up?
 
 * On the role of, and the need for, a personal philosophy
   :PROPERTIES:
-  :exports: none
-  :tangle: no
+  :header-args: :exports none :tangle no
   :END:
-# INTENT: never weave or tangle this headline or its children
 ** Audience
 - Myself
 - The scope of my approach is neither scientific nor entirely thought out or
@@ -734,6 +730,9 @@ have to think about it, especially during an active touch-typing
 spoken-language even. Whatever happens, I'm trying to keep an open mind and let
 it develop organically.
 
+8. Realized today that since I use vc-next and er/expand-region *so* much that
+they should be even *closer* to home. Fixed that.
+
 ** Ponderings
 *** Make things "secure by default"  [fn:288]
 
@@ -924,6 +923,10 @@ a flawless, rational, and logical human being to:
 - Deliver a supportable system
 - Deliver an adaptable system
 - Deliver an expandable system
+** Reminders
+
+- *NEVER* edit source blocks outside of their editor mode
+  - *Guaranteed* issues will occur if it is LISP
 
 * Decisions
 Given values and restrictions, review, identify, and evaluate available options.
@@ -965,22 +968,22 @@ by my init scripts, so I learn towards the more specific versions here.
 (setq-default case-fold-search nil)
 #+end_src
 
-Not totally sure where this belongs, but dash [fn:263] is something that a lot
-of the packages I use require, and it is an excellent library, so it needs
-recognition in this document, and the Cask file, too.
-
 Starting to think that I might want a "useful library" section, because I just
 added the xml-rpc [fn:286] library here because it is clearly useful:
 #+begin_src emacs-lisp
 ;; TODO: Move this to a lib section after Cask (require 'xml-rpc)
 #+end_src
 
-
 Another notable note that touches upon why =cons= cells shouldn't be directly
 manipulated:
 #+begin_quote
 (info "(elisp) Rearrangement")
 #+end_quote
+
+A common theme in the modes and before various operations is to save all
+buffers. This is a desire, to have all files persisted so that everything run
+/just works/. I'm not quite sure how to codify and automate this yet, but I am
+on the path.
 
 ** Environment
     :PROPERTIES:
@@ -1183,9 +1186,14 @@ Let the mousewheel move the cursor in a sane manner. [fn:52]
 
 If possible, use a better popup [fn:279] . Pos-tip should help [fn:278].
 Have mixed feelings about this. First, glad it is here, and a lot of packages do
-use it. Eventually I'll need to set up a larger font.
+use it. Eventually I'll need to set up a larger font. My desire was to have
+pos-tip use the current theme values, but I couldn't figure out how and the
+folks online weren't quite sure either… it wasn't worth pusuing and I copied the
+values straight out of the theme itself.
 #+begin_src emacs-lisp
 (require 'pos-tip)
+(setq pos-tip-foreground-color "#073642")
+(setq pos-tip-background-color "#839496")
 (gcr/on-windows
  (pos-tip-w32-max-width-height))
 #+end_src
@@ -1414,6 +1422,12 @@ recursion.
 (setq enable-recursive-minibuffers t)
 (minibuffer-depth-indicate-mode 1)
 #+end_src
+*** Filesystem management
+
+Not quite sure where this should go yet. Finder is [fn:293] is just fine, and
+the curiosuity is still there for an in-Emacs solution. Speedbar [fn:294] and
+SrSpeedbar [fn:295] look nice, as does [fn:296].
+
 ** Modes (functionality)
 The purpose of this section is to put some visiblity on the modes, how they are
 used, and where. After configuring a bunch of modes you may find that you want
@@ -1544,11 +1558,24 @@ I object to doing things that computers can do.
 You get a lot of niceties that you would expect like balanced brackets and
 since there is a strict mode it acts just like Paredit. Additionally you may
 wrap selections with pairs, auto-escape strings that occur within other strings,
-and showing matching pairs (of any supported form).
+and showing matching pairs (of any supported form). =sp-show-pair-from-inside=
+is kind of interesting. How it works is that normally when your cursor is to the
+right of a bracket, then the entire expression is highlighted. My assumption is
+to make it easy for you to see the scope of the s-exp. When you move forward, to
+the right of that opening bracket, then that highlight goes away. When you set
+this flag to non-nil, you get a different behavior where just the bracket is
+highlighted. Not sure how this would help, but still it is kind of interesting
+to me because it keep your focus. My use case is that you find an s-exp that you
+want to edit and start doing it, and in that case I wouldn't use this flag.
+However, say you had wanted to edit and moved the cursor one char forward and
+were interrupted. Perhaps you would this kind of highlight so when you come back
+there is still some indicator. From a user-perspective, it just seemed
+interesting.
 #+begin_src emacs-lisp
 (require 'smartparens-config)
 (show-smartparens-global-mode +1)
 (diminish 'smartparens-mode)
+(setq sp-show-pair-from-inside nil)
 #+end_src
 **** Remote file access [fn:87]
 TRAMP stands for "Transparent Remote (file) Access, Multiple Protocol". It is
@@ -1815,7 +1842,7 @@ this makes it easier to finish it.
 
 (defun gcr/log-edit-mode-hook-local-bindings ()
   "Helpful bindings for log edit buffers."
-  (local-set-key (kbd "C-9") 'log-edit-done))
+  (local-set-key (kbd "C-;") 'log-edit-done))
 
 (add-hook 'log-edit-mode-hook 'gcr/log-edit-mode-hook-local-bindings)
 #+end_src
@@ -2015,11 +2042,15 @@ save to occur quite frequently, it was still possible to iniate a VC action
 without the buffering being saved. My solution for that is that before *every*
 VC action, at least the current buffer must be saved. This is OK because I
 believe that VC actions only occur on a per-file basis, versus command line VC
-operations.
+operations. Then I added he same thing for diff.
 #+begin_src emacs-lisp
-(defadvice vc-next-action (before save-before-vc first activate )
-  "Save the buffer before any VC function calls."
-  (save-buffer))
+(defadvice vc-next-action (before save-before-vc first activate)
+  "Save all buffers before any VC next-action function calls."
+  (gcr/save-all-file-buffers))
+
+(defadvice vc-diff (before save-before-vc-diff first activate)
+  "Save all buffers before vc-diff calls."
+  (gcr/save-all-file-buffers))
 #+end_src
 ***** LilyPond [fn:141]
 All of my experience with musical notation is through GuitarPro [fn:142]
@@ -2481,15 +2512,28 @@ uses that and how I may being refactoring.
 
 (add-hook 'ruby-mode-hook 'gcr/ruby-mode-hook)
 #+end_src
+***** Libraries
+****** Dash / Dash-Functional
+
+Not totally sure where this belongs, but dash [fn:263] is something that a lot
+of the packages I use require, and it is an excellent library, so it needs
+recognition in this document, and the Cask file, too.
+
+#+begin_src emacs-lisp
+(eval-after-load "dash" '(dash-enable-font-lock))
+#+end_src
+****** Built-in
+
+pcase [fn:287] provides pattern-matching macros. This is very nice whether
+you've already used something like this before, or not!
+
 **** Module
 ***** All of them
-    :PROPERTIES:
-    :noweb-ref: modes-application-module-all-decision
-    :END:
 
 Modules are designed to be used at a granular level. For sake of convenience
 though sometimes you will all of them, which is the goal of this heading.
 
+#+name: modes-application-module-all-decision
 #+begin_src emacs-lisp
 <<diagramming-decision>>
 <<modes-application-org-mode-module-decision>>
@@ -2516,25 +2560,29 @@ good fit depending upon what you want to accomplish:
 ditaa was my first pick for usage for the blaring simplicity and power of it.
 org-mode provides a setup [fn:147]document that I followed. It required installing
 a JRE and that was about it. artist-mode is automatically loaded for the source
-block. The example below [fn:140] is much better than my hello world business.
+block. The example below; thank you [fn:189] Craig Larman
 
-#+begin_src ditaa :file ditaa-simple.png :tangle no :exports both
-  +------+   +-----+   +-----+   +-----+
-  |{io}  |   |{d}  |   |{s}  |   |cBLU |
-  | Foo  +---+ Bar +---+ Baz +---+ Moo |
-  |      |   |     |   |     |   |     |
-  +------+   +-----+   +--+--+   +-----+
-                          |
-             /-----\      |      +------+
-             |     |      |      | c1AB |
-             | Goo +------+---=--+ Shoo |
-             \-----/             |      |
-                                 +------+
+#+begin_src ditaa :file auap.png :tangle no :exports both
+
+
+
+
+              +----------+1       1…3+------+
+              | Sailboat +◆----------+ Mast |
+              +-----+----+           +------+
+                    ◆1
+                    |
+                    |             1…2+------+
+                    +----------------+ Hull |
+                                     +------+
+
+
+                  This is not a sailboat
 #+end_src
+
 ****** Setup
-     :PROPERTIES:
-     :noweb-ref: diagramming-decision
-     :END:
+
+#+name: diagramming-decision
 #+begin_src emacs-lisp
 (let ((ditaa-jar "~/java/jar/ditaa0_9.jar"))
   (when (not (file-exists-p ditaa-jar))
@@ -2543,10 +2591,7 @@ block. The example below [fn:140] is much better than my hello world business.
                   ". Download a copy here: http://sourceforge.net/projects/ditaa/")))
   (setq org-ditaa-jar-path ditaa-jar))
 #+end_src
-Emacs comes with out-of-the-box support for most image types. org lets you
-include images of course, and will render them too if you want. The general idea
-sort of interested me, and this article [fn:257] explained how a more
-lightweight version may work.
+
 ***** Org Mode
     :PROPERTIES:
     :noweb-ref: modes-application-org-mode-module-decision
@@ -2696,6 +2741,7 @@ The bulk of the configuration is as you would expect.
    :emergency))
 
 (defadvice org-babel-tangle (before org-babel-tangle-before activate)
+  (gcr/save-all-file-buffers)
   (message (concat "org-babel-tangle BEFORE: <"
                    (format-time-string "%Y-%m-%dT%T%z")
                    ">")))
@@ -2706,20 +2752,28 @@ The bulk of the configuration is as you would expect.
                    ">"))
   (alert "Your tangling is complete." :title "org-mode"))
 
-(defadvice org-html-export-to-html (around org-html-export-to-html-around)
-  "Report on org HTML exporting."
+(defadvice org-ascii-export-as-ascii (before org-ascii-export-as-ascii-before activate)
+  (gcr/save-all-file-buffers))
+
+(defadvice org-html-export-to-html (before before-org-html-export-to-html activate)
+  (gcr/save-all-file-buffers)
   (message (concat "org-html-export-to-html BEFORE: <"
                    (format-time-string "%Y-%m-%dT%T%z")
-                   ">"))
-  ad-do-it
+                   ">")))
+
+(defadvice org-html-export-to-html (after after-org-html-export-to-html activate)
   (message (concat "org-html-export-to-html AFTER: <"
                    (format-time-string "%Y-%m-%dT%T%z")
                    ">")))
+
 (when (boundp 'org-html-checkbox-type)
   (display-warning
    'org-mode
    "Org mode now supports HTML export to unicode checkboxes. Please update your configuration to use the variable 'org-html-checkbox-type'."
    :warning))
+
+(defadvice org-latex-export-to-pdf (before org-latex-export-to-pdf-before activate)
+  (gcr/save-all-file-buffers))
 
 (defun sacha/org-html-checkbox (checkbox)
   "Format CHECKBOX into HTML. http://sachachua.com/blog/2014/03/emacs-tweaks-export-org-checkboxes-using-utf-8-symbols/?shareadraft=baba27119_533313c944f64"
@@ -2784,11 +2838,11 @@ document.
 ;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Windows%20%5Bfn:38%5D][nil]]
 ;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Frames%20%5Bfn:46%5D][nil]]
 #+end_quote
-Here is an easy way to set up these preferences:
-#+begin_src emacs-lisp
-(gcr/set-org-system-header-arg :padline "yes")
-(gcr/set-org-system-header-arg :comments "no")
-#+end_src
+After all of this research, I found that doing noweb-ref tangling, the source
+locations are not included, so it is no very useful to include comments, and
+I removed them, at least for now. I am not sure how I want to use them right
+now.
+
 The type of information that you provide as meta-data is up to you and depends
 upon your mental model for your org document. My mental model is mostly to use
 headings as the logical area for addressing a particular /concern/ satisfied by
@@ -2814,6 +2868,24 @@ though:
 #+begin_src emacs-lisp
 (require 'org-ac)
 (org-ac/config-default)
+#+end_src
+
+There is a performance issue with tangling when header property inheritance is
+enabled. Eric explained that [fn:188] there may be performance gains if some
+of the header properties are not considered. The list below defines what will
+be allowed, and everything else will be removed.:
+
+#+begin_src emacs-lisp
+(let* ((allowed '(exports
+                  file
+                  noweb
+                  noweb-ref
+                  session
+                  tangle))
+       (new-ls
+        (--filter (member (car it) allowed)
+                  org-babel-common-header-args-w-values)))
+  (setq org-babel-common-header-args-w-values new-ls))
 #+end_src
 
 *** Operation (Keybindings/Keymaps) [fn:154]
@@ -2936,11 +3008,6 @@ sometimes you just don't, and that is when you do it this way:
 (key-chord-define-global "L:" (lambda () (interactive) (previous-buffer)))
 #+end_src
 
-I use VC quite frequently. This is easy to reach, and does what must be done:
-#+begin_src emacs-lisp
-(key-chord-define-global "df" 'vc-next-action)
-#+end_src
-
 **** NON-DISRUPTIVE : KEY-MAPPINGS
 ***** ACTIONS
 
@@ -2953,7 +3020,12 @@ Do the /right thing/ for getting to the start of the line!
 
 I use VC quite frequently. This is easy to reach, and does what must be done:
 #+begin_src emacs-lisp
-(global-set-key (kbd "C-9") 'vc-next-action)
+(global-set-key (kbd "C-;") 'vc-next-action)
+#+end_src
+
+Easily select regions:
+#+begin_src emacs-lisp
+(global-set-key (kbd "C-'") 'er/expand-region)
 #+end_src
 
 multiple cursor mode… I kept these together because until I make an image, it
@@ -2976,19 +3048,19 @@ smex integration points:
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 #+end_src
 
+Pop up help:
+#+begin_src emacs-lisp
+(global-set-key (kbd "s-p") 'gcr/describe-thing-in-popup)
+#+end_src
+
 ace-window naviation:
 #+begin_src emacs-lisp
 (global-set-key (kbd "C--") 'ace-window)
 #+end_src
 
-Easily select regions:
-#+begin_src emacs-lisp
-(global-set-key (kbd "C-=") 'er/expand-region)
-#+end_src
-
 yas expansion:
 #+begin_src emacs-lisp
-(global-set-key (kbd "<C-`>") 'yas/expand)
+(global-set-key (kbd "C-3") 'yas/expand)
 #+end_src
 
 Command and uncomment anything:
@@ -3001,10 +3073,6 @@ Do smart new line inside, indenting given the mode:
 (global-set-key (kbd "s-<return>") 'gcr/smart-open-line)
 #+end_src
 
-Pop up help:
-#+begin_src emacs-lisp
-(global-set-key (kbd "s-p") 'gcr/describe-thing-in-popup)
-#+end_src
 **** DISRUPTIVE : KEY-MAPPINGS
 ***** ACTIONS
 
@@ -3026,7 +3094,7 @@ like yas:
 Manage every font size:
 #+begin_src emacs-lisp
 (gcr/on-gui
- (global-set-key (kbd "C-<f7>") 'gcr/text-scale-increase)
+ (global-set-key (kbd "s-<f7>") 'gcr/text-scale-increase)
  (global-set-key (kbd "M-<f7>") 'gcr/text-scale-decrease))
 #+end_src
 
@@ -3120,9 +3188,9 @@ alias top proced
              "ln -s ~/git/bitbucket-grettke/home/eshell/ ~/.emacs.d/eshell"))))
 #+end_src
 ** IRC [fn:160] [fn:161] [fn:162] [fn:163] [fn:164]
-:PROPERTIES:
-:noweb-ref: communications-decision
-:END:
+  :PROPERTIES:
+  :noweb-ref: communications-decision
+  :END:
 For a while I used MIRC [fn:165], and then Irssi [fn:166] and both are very
 nice. Since I hang around in Emacs all day though, I figured I ought to
 take a look at ERC. The documentation is highly modular, reflecting how the
@@ -3349,8 +3417,15 @@ have a chance at knowing what is going on.
    :emergency))
 #+end_src
 *** Cask  [fn:186]
-Install required packages first using Cask [fn:187].
+Install required packages first using Cask [fn:187]. Recently I changed the
+layout, assuming that order matters for repositories. Logically order would
+matter too for packages… I'm going to keep my eye open for any issues.
+
 #+begin_src emacs-lisp :tangle Cask
+(source org)
+
+(depends-on "org-plus-contrib")
+
 (source gnu)
 
 (depends-on "rainbow-mode")
@@ -3361,115 +3436,116 @@ Install required packages first using Cask [fn:187].
 
 (source melpa)
 
-(depends-on "dash")
-
 (depends-on "ace-jump-mode")
-
-(depends-on "ace-window")
 
 (depends-on "ace-link")
 
-(depends-on "solarized-theme")
+(depends-on "ace-window")
 
-(depends-on "fill-column-indicator")
+(depends-on "alert")
 
-(depends-on "fuzzy")
 (depends-on "auto-complete")
 
-(depends-on "yasnippet")
+(depends-on "auto-complete-chunk")
+
+(depends-on "dash")
+
+(depends-on "dash-functional")
 
 (depends-on "diminish")
 
-(depends-on "flx-ido")
-(depends-on "projectile")
-
-(depends-on "geiser")
-
-(depends-on "smartparens")
-
-(depends-on "undo-tree")
-
-(depends-on "htmlize")
-
-(depends-on "pretty-mode")
-
-(depends-on "lexbind-mode")
-
-(depends-on "web-mode")
-
-(depends-on "expand-region")
-
 (depends-on "dired-details+")
-
-(depends-on "hideshow-org")
-
-(depends-on "markdown-mode")
-
-(depends-on "smex")
-
-(depends-on "magit")
-
-(depends-on "ido-vertical-mode")
-
-(depends-on "ido-hacks")
-
-(depends-on "ido-ubiquitous")
-
-(depends-on "erc-tweet")
-
-(depends-on "erc-image")
-
-(depends-on "erc-youtube")
 
 (depends-on "erc-hl-nicks")
 
-(depends-on "multiple-cursors")
+(depends-on "erc-image")
 
-(depends-on "json-reformat")
+(depends-on "erc-tweet")
 
-(depends-on "org2blog")
-
-(depends-on "fancy-narrow")
+(depends-on "erc-youtube")
 
 (depends-on "ess")
-
-(depends-on "imenu-anywhere")
 
 (depends-on "ess-R-data-view")
 
 (depends-on "ess-R-object-popup")
 
-(depends-on "r-autoyas")
-
 (depends-on "exec-path-from-shell")
+
+(depends-on "expand-region")
+
+(depends-on "fancy-narrow")
+
+(depends-on "fill-column-indicator")
+
+(depends-on "flx-ido")
+
+(depends-on "fuzzy")
+
+(depends-on "geiser")
 
 (depends-on "graphviz-dot-mode")
 
-(depends-on "alert")
+(depends-on "hideshow-org")
 
-(depends-on "osx-browse")
+(depends-on "htmlize")
 
-(depends-on "sublimity")
+(depends-on "ido-hacks")
 
-(depends-on "vagrant")
+(depends-on "ido-ubiquitous")
 
-(depends-on "vagrant-tramp")
+(depends-on "ido-vertical-mode")
+
+(depends-on "imenu-anywhere")
+
+(depends-on "json-reformat")
 
 (depends-on "key-chord")
+
+(depends-on "lexbind-mode")
+
+(depends-on "magit")
+
+(depends-on "markdown-mode")
+
+(depends-on "multiple-cursors")
+
+(depends-on "org-ac")
+
+(depends-on "org2blog")
+
+(depends-on "osx-browse")
 
 (depends-on "popup")
 
 (depends-on "pos-tip")
 
-(depends-on "org-ac")
+(depends-on "pretty-mode")
 
-(depends-on "auto-complete-chunk")
+(depends-on "projectile")
+
+(depends-on "r-autoyas")
+
+(depends-on "smartparens")
+
+(depends-on "smex")
+
+(depends-on "solarized-theme")
+
+(depends-on "sublimity")
+
+(depends-on "undo-tree")
+
+(depends-on "vagrant")
+
+(depends-on "vagrant-tramp")
+
+(depends-on "web-mode")
 
 (depends-on "xml-rpc")
 
-(source org)
+(depends-on "yasnippet")
 
-(depends-on "org-plus-contrib")
 ;; Local Variables:
 ;; mode: emacs-lisp
 ;; End:
@@ -3503,31 +3579,29 @@ Two systems will be configured here:
 
 *** Org Only System
 
-#+name: refactoring
+#+name: base-configuration
 #+begin_src emacs-lisp
 <<runtime-check>>
 <<general-stuff-block>>
-#+end_src
-
-Run it like this: =emacs --no-init-file --load .org-mode.emacs.el=
-#+begin_src emacs-lisp :tangle .org-mode.emacs.el :noweb tangle
-<<refactoring>>
+<<custom-variables>>
 <<utility-block>>
 <<cask-block>>
 <<environment-block>>
-<<modes-application-module-all-decision>>
 <<keymaps-decision>>
+<<modes-application-module-all-decision>>
+#+end_src
+
+Run it like this: =emacs --no-init-file --load .org-mode.emacs.el=
+
+#+begin_src emacs-lisp :tangle .org-mode.emacs.el :noweb tangle
+<<base-configuration>>
 #+end_src
 
 *** Fully Loaded System
 
 Convert decisions into a runnable system.
 #+begin_src emacs-lisp :tangle .emacs.el :noweb tangle
-<<refactoring>>
-<<custom-variables>>
-<<utility-block>>
-<<cask-block>>
-<<environment-block>>
+<<base-configuration>>
 <<font-block>>
 <<uxo-windows-decision>>
 (gcr/on-gui
@@ -3539,8 +3613,6 @@ Convert decisions into a runnable system.
 <<modes-config-decision>>
 <<shells-decision>>
 <<modes-application-monolith-decision>>
-<<modes-application-module-all-decision>>
-<<keymaps-decision>>
 <<communications-decision>>
 <<line-wrapping-decision>>
 #+end_src
@@ -3820,10 +3892,8 @@ supportable way. These are my rough attempt to defining my personal beliefs.
 - No comments in generated source code ever; barring a few special cases.
 * Footnotes
   :PROPERTIES:
-  :exports: none
-  :tangle: no
+  :header-args: :exports none :tangle no
   :END:
-# INTENT: never weave or tangle this headline or its children
 
 [fn:1] http://dictionary.reference.com/cite.html?qh=audience&ia=luna
 
@@ -4197,6 +4267,10 @@ supportable way. These are my rough attempt to defining my personal beliefs.
 
 [fn:187] https://www.gnu.org/software/emacs/manual/html_node/emacs/Packages.html
 
+[fn:188] https://lists.gnu.org/archive/html/emacs-orgmode/2014-06/msg00719.html
+
+[fn:189] http://www.craiglarman.com/wiki/index.php?title=Books_by_Craig_Larman
+
 [fn:190] https://en.wikipedia.org/wiki/The_Treachery_of_Images
 
 [fn:191] http://www.color-hex.com/color/cc33ff
@@ -4402,5 +4476,15 @@ supportable way. These are my rough attempt to defining my personal beliefs.
 [fn:291] http://www.brainyquote.com/quotes/quotes/a/abrahamlin109275.html
 
 [fn:292] http://library.readscheme.org/page1.html
+
+[fn:287] http://www.emacswiki.org/emacs/PatternMatching
+
+[fn:293] https://en.wikipedia.org/wiki/Finder_(software)
+
+[fn:294] http://www.emacswiki.org/emacs/SpeedBar
+
+[fn:295] http://www.emacswiki.org/emacs/SrSpeedbar
+
+[fn:296] https://github.com/jaypei/emacs-neotree
 
 #  LocalWords:  OCaml

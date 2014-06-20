@@ -60,31 +60,33 @@ _________________
 .. 2.6 The preparation
 .. 2.7 Expressivity
 .. 2.8 The story
+.. 2.9 Reminders
 3 Decisions
 .. 3.1 General stuff [64] [65] [66] [67]
 .. 3.2 Environment
 .. 3.3 Font (Appearance)
 .. 3.4 UXO (Traits, user experience/orthogonality)
 ..... 3.4.1 Keyboard
-..... 3.4.2 Windows [75]
-..... 3.4.3 Frames [88]
-..... 3.4.4 Buffers [97]
-..... 3.4.5 Modeline [117]
-..... 3.4.6 Mark and Region [125]
-..... 3.4.7 Minibuffer [127]
+..... 3.4.2 Windows [74]
+..... 3.4.3 Frames [87]
+..... 3.4.4 Buffers [96]
+..... 3.4.5 Modeline [116]
+..... 3.4.6 Mark and Region [124]
+..... 3.4.7 Minibuffer [126]
+..... 3.4.8 Filesystem management
 .. 3.5 Modes (functionality)
 ..... 3.5.1 Custom variables
 ..... 3.5.2 Configuration
-..... 3.5.3 Application Modes [180] [181]
-..... 3.5.4 Operation (Keybindings/Keymaps) [251]
-.. 3.6 Shells [253] [254] [255]
+..... 3.5.3 Application Modes [183] [184]
+..... 3.5.4 Operation (Keybindings/Keymaps) [257]
+.. 3.6 Shells [259] [260] [261]
 ..... 3.6.1 Control Files
-..... 3.6.2 Config [256] [257]org-
-.. 3.7 IRC [258] [259] [260] [261] [262]
+..... 3.6.2 Config [262] [263]org-
+.. 3.7 IRC [264] [265] [266] [267] [268]
 4 Assembly
 .. 4.1 Prerequisites
 ..... 4.1.1 Runtime
-..... 4.1.2 Cask  [284]
+..... 4.1.2 Cask  [290]
 .. 4.2 Layout
 ..... 4.2.1 Detail
 ..... 4.2.2 Org Only System
@@ -960,6 +962,10 @@ _________________
   active touch-typing spoken-language even. Whatever happens, I'm trying
   to keep an open mind and let it develop organically.
 
+  1. Realized today that since I use vc-next and er/expand-region *so*
+     much that
+  they should be even *closer* to home. Fixed that.
+
 
 2.3 Ponderings
 ~~~~~~~~~~~~~~
@@ -1186,6 +1192,13 @@ _________________
   - Deliver an expandable system
 
 
+2.9 Reminders
+~~~~~~~~~~~~~
+
+  - *NEVER* edit source blocks outside of their editor mode
+    - *Guaranteed* issues will occur if it is LISP
+
+
 3 Decisions
 ===========
 
@@ -1233,21 +1246,21 @@ _________________
   | (setq-default case-fold-search nil)
   `----
 
-  Not totally sure where this belongs, but dash [68] is something that a
-  lot of the packages I use require, and it is an excellent library, so
-  it needs recognition in this document, and the Cask file, too.
-
   Starting to think that I might want a "useful library" section,
-  because I just added the xml-rpc [69] library here because it is
+  because I just added the xml-rpc [68] library here because it is
   clearly useful:
   ,----
   | ;; TODO: Move this to a lib section after Cask (require 'xml-rpc)
   `----
 
-
   Another notable note that touches upon why `cons' cells shouldn't be
   directly manipulated:
         (info "(elisp) Rearrangement")
+
+  A common theme in the modes and before various operations is to save
+  all buffers. This is a desire, to have all files persisted so that
+  everything run /just works/. I'm not quite sure how to codify and
+  automate this yet, but I am on the path.
 
 
 3.2 Environment
@@ -1266,9 +1279,9 @@ _________________
   attention to the minibuffer or `Messages' for stuff and just started
   looking for GUI options. The plan is to have `Messages' for most stuff
   and if there are alerts by any definition then I want that to be an
-  option. First choice was todochiku [70] due to the high download count
+  option. First choice was todochiku [69] due to the high download count
   but two issues, it didn't work and it is not used by anything
-  else. Alert [71], on the other hand, is, and also lives on Github
+  else. Alert [70], on the other hand, is, and also lives on Github
   meaning that it is maintainable.
   ,----
   | (require 'alert)
@@ -1285,7 +1298,7 @@ _________________
 
   The studies cited above indicate that the two major factors that
   contribute to readabilty of a document are contrast and
-  font-face. Sayre's law [72] however demands that any number of other
+  font-face. Sayre's law [71] however demands that any number of other
   things are critical to how your IDE looks! That is OK. This section
   captures some of the basics to getting the system looking how I like
   it.
@@ -1309,7 +1322,7 @@ _________________
   their documentation quite closely it came down something relatively
   simple: face support. Trying to set up help popups to look decent I
   noticed that `auto-complete' and `popup' looked horrible. Reading
-  through the different versions, there was only one [73] package that
+  through the different versions, there was only one [72] package that
   provided so many faces that I needed and the others did not so the
   decision was easy.
 
@@ -1340,7 +1353,7 @@ _________________
 
   The user experience revolving around th keyboard is usually accounted
   for by the features built-in to Emacs. Along came something radical,
-  though, in the form of key-chord [74].
+  though, in the form of key-chord [73].
 
   ,----
   | (require 'key-chord)
@@ -1349,53 +1362,53 @@ _________________
   `----
 
 
-3.4.2 Windows [75]
+3.4.2 Windows [74]
 ------------------
 
-  Menu bars are not required. [76]
+  Menu bars are not required. [75]
   ,----
   | (menu-bar-mode 0)
   `----
-  Make it really obvious where the 80th column sits. [77]
+  Make it really obvious where the 80th column sits. [76]
   ,----
   | (setq-default fill-column 80)
   `----
-  The cursor should not blink. [78]
+  The cursor should not blink. [77]
   ,----
   | (blink-cursor-mode 0)
   | (gcr/on-gui
   |  (setq-default cursor-type 'box))
   | (setq x-stretch-cursor 1)
   `----
-  Show line numbers everywhere. [79]
+  Show line numbers everywhere. [78]
   ,----
   | (global-linum-mode 1)
   `----
-  Activate syntax highlighting everywhere. [80]
+  Activate syntax highlighting everywhere. [79]
   ,----
   | (global-font-lock-mode 1)
   `----
-  Visualize parentheses a certain way. [81]
+  Visualize parentheses a certain way. [80]
   ,----
   | (setq blink-matching-paren nil)
   | (show-paren-mode +1)
   | (setq show-paren-delay 0)
   | (setq show-paren-style 'expression)
   `----
-  Don't use audible bells, use visual bells. [82]
+  Don't use audible bells, use visual bells. [81]
   ,----
   | (setq ring-bell-function 'ignore)
   | (setq visible-bell +1)
   `----
 
-  This post [83] got me thinking that perhaps it was wrong of me to be
+  This post [82] got me thinking that perhaps it was wrong of me to be
   happy with simply re-positioning all of my windows after their layout
   gets changed.  Probably, I'm just a simple user and never run into
   this problem, or perhaps my layout is so simple that restoring it is
   not a big deal. That said, I've been having a nagging feeling about
   how exactly I plan to utilize ERC now that I've got it set up and
   simply avoided the topic for a while. Now is the time to address
-  it. Reading more about winner-mode [84] [85], though, has sort of got
+  it. Reading more about winner-mode [83] [84], though, has sort of got
   me wondering why I never pursued something like this before now.
   ,----
   | (winner-mode +1)
@@ -1410,7 +1423,7 @@ _________________
   `----
 
   For some reason, on OSX dialogs don't work and essentially end up
-  locking up Emacs! Here [86] is the solution:
+  locking up Emacs! Here [85] is the solution:
   ,----
   | (gcr/on-osx
   |  (defadvice yes-or-no-p (around prevent-dialog activate)
@@ -1424,28 +1437,28 @@ _________________
   |      ad-do-it)))
   `----
 
-  Add this [87] to the list of things to maintain your sanity… how to
+  Add this [86] to the list of things to maintain your sanity… how to
   resize windows. My bindings are in the keybindings section.
 
 
-3.4.3 Frames [88]
+3.4.3 Frames [87]
 -----------------
 
-  Make the title frame something special. [89]
+  Make the title frame something special. [88]
   ,----
   | (setq frame-title-format '("the ultimate…"))
   `----
   The scroll bars are actually quite nice. Despite that, I don't
-  actually use them, so there they go. [90]
+  actually use them, so there they go. [89]
   ,----
   | (scroll-bar-mode -1)
   `----
-  The tool bars are not very nice.  [91]
+  The tool bars are not very nice.  [90]
   ,----
   | (tool-bar-mode 0)
   `----
-  Browse URLs in a real browser; nothing against W3C. [92] EWW looks
-  interesting, too [93]
+  Browse URLs in a real browser; nothing against W3C. [91] EWW looks
+  interesting, too [92]
   ,----
   | (setq browse-url-browser-function 'browse-url-generic)
   | (gcr/on-gnu/linux (setq browse-url-generic-program "chromium-browser"))
@@ -1453,41 +1466,47 @@ _________________
   |  (require 'osx-browse)
   |  (osx-browse-mode 1))
   `----
-  Let the mousewheel move the cursor in a sane manner. [94]
+  Let the mousewheel move the cursor in a sane manner. [93]
   ,----
   | (setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
   | (setq mouse-wheel-progressive-speed nil)
   `----
 
-  If possible, use a better popup [95] . Pos-tip should help [96].  Have
+  If possible, use a better popup [94] . Pos-tip should help [95].  Have
   mixed feelings about this. First, glad it is here, and a lot of
-  packages do use it. Eventually I'll need to set up a larger font.
+  packages do use it. Eventually I'll need to set up a larger font. My
+  desire was to have pos-tip use the current theme values, but I
+  couldn't figure out how and the folks online weren't quite sure
+  either… it wasn't worth pusuing and I copied the values straight out
+  of the theme itself.
   ,----
   | (require 'pos-tip)
+  | (setq pos-tip-foreground-color "#073642")
+  | (setq pos-tip-background-color "#839496")
   | (gcr/on-windows
   |  (pos-tip-w32-max-width-height))
   `----
 
 
-3.4.4 Buffers [97]
+3.4.4 Buffers [96]
 ------------------
 
   It is nice to have an indicator of the right column that indicates the
   maximum depth of the line. My favorite package is
-  fill-column-indicator [98]. Its use shows up in almost all of the
+  fill-column-indicator [97]. Its use shows up in almost all of the
   modes. While working on this build though the export to HTML included
   junk characters, so I had to disable it, at least in Lispy modes. My
   final solution to be able to use this package was to generate two
   Emacs configuration files, one for general use and one just for doing
   exports.
 
-  Keep open files open across sessions. [99]
+  Keep open files open across sessions. [98]
   ,----
   | (desktop-save-mode 1)
   | (setq desktop-restore-eager 10)
   `----
 
-  Automatically save every buffer associated with a file [100]. This is
+  Automatically save every buffer associated with a file [99]. This is
   another IntelliJ holdover. The built in auto-save in Emacs wasn't
   something that I needed, and this does the right thing. There is a bit
   more though to it, namely because the interval is only 20s I still
@@ -1499,34 +1518,34 @@ _________________
   | (setq real-auto-save-interval 20)
   `----
 
-  Make two buffers with the same file name open distinguishable. [101]
+  Make two buffers with the same file name open distinguishable. [100]
   ,----
   | (require 'uniquify)
   | (setq uniquify-buffer-name-style 'forward)
   `----
-  Support transparent AES encryption of buffers. [102] See also for
-  library paths [103]
+  Support transparent AES encryption of buffers. [101] See also for
+  library paths [102]
   ,----
   | (add-to-list 'load-path "/usr/share/emacs/site-lisp/ccrypt")
   | (require 'ps-ccrypt "ps-ccrypt.el")
   `----
-  With modern VCS, backup files aren't required. [104]
+  With modern VCS, backup files aren't required. [103]
   ,----
   | (setq backup-inhibited 1)
   `----
   The built in auto save isn't required either because of the
-  above. [105]
+  above. [104]
   ,----
   | (setq auto-save-default nil)
   `----
-  Ban whitespace at end of lines, globally. [106]
+  Ban whitespace at end of lines, globally. [105]
   ,----
   | (add-hook 'write-file-hooks
   |           '(lambda ()
   |              (gcr/delete-trailing-whitespace)))
   `----
   The world is so rich with expressivity. Although Unicode may never
-  capture all of the worlds symbols, it comes close. [107] [108] [109]
+  capture all of the worlds symbols, it comes close. [106] [107] [108]
   ,----
   | (prefer-coding-system 'utf-8)
   | (gcr/on-gui
@@ -1553,7 +1572,7 @@ _________________
   How to jump to locations in a buffer in an easier way than by using
   the built in key bindings? Science… that is how.
 
-  This package [110] searches for the character for which you are
+  This package [109] searches for the character for which you are
   searching at the start of a word, highlights matches, and presents you
   with the letter to press to jump to the match. You may also search in
   the middle of words. The key to using this to utilize `pop-mark' to
@@ -1566,12 +1585,12 @@ _________________
   |   t)
   `----
 
-  A long, long time ago I saw a neat feature in Sublime Text [111]
+  A long, long time ago I saw a neat feature in Sublime Text [110]
   (their zeal for their editor is great, very sweet) where you could see
   a miniature version of your buffer off to the side of the buffer
   itself. Wasn't totally sure what I would use it for, but it was really
-  neat. Ended up on this [112] page but I didn'tw ant to depend upon
-  CEDET [113]. Then, Sublimity [114] showed up in a post somewhere. The
+  neat. Ended up on this [111] page but I didn'tw ant to depend upon
+  CEDET [112]. Then, Sublimity [113] showed up in a post somewhere. The
   timing was perfect because I was getting really curious about a "quiet
   mode" that didn't show the modeline or the line numbers or fringe, and
   I didn't feel like implementing it at that moment. It turns out that
@@ -1583,7 +1602,7 @@ _________________
   | (require 'sublimity-attractive)
   `----
   By default, the map is hidden while scrolling and this makes it work
-  in a responsive and pleasant manner [115]. It makes Emacs quite slow
+  in a responsive and pleasant manner [114]. It makes Emacs quite slow
   actually.  Unfortuantely, having the map constantly disappear is
   really unpleasant, and the slow down is, too. Well, this will be a
   balance. I'll turn it on and live with it. The cool thing here is that
@@ -1604,7 +1623,7 @@ _________________
   `----
 
   Navigating a buffer was never slow… until learning about ace-jump-mode
-  [116]. The idea is so deceptively simple, and when you grok it, you
+  [115]. The idea is so deceptively simple, and when you grok it, you
   will be truly shocked. The author sums it up quite succinctly
 
   ,----
@@ -1625,11 +1644,11 @@ _________________
   `----
 
 
-3.4.5 Modeline [117]
+3.4.5 Modeline [116]
 --------------------
 
   The modelines is capable of so many things. Though I use it for few, I
-  value it greatly. Even the generic, optional options [118] are nice.
+  value it greatly. Even the generic, optional options [117] are nice.
 
   Show the file size.
   ,----
@@ -1648,22 +1667,22 @@ _________________
   `----
   When you load modes, most of them show up in the minibuffer. After you
   read their name a few thousand times, you eventually quite forgetting
-  that you loaded them and need a diminished reminder. [119]
+  that you loaded them and need a diminished reminder. [118]
   ,----
   | (require 'diminish)
   `----
 
   Over time you start to, as which everything else in Emacs, think about
   configuring it "better". Simple things like the file state indicator
-  [120] is one of the first to jump out at you. In my case I've made
-  some nice changes via the built-in mechanisms. Powerline [121] really
+  [119] is one of the first to jump out at you. In my case I've made
+  some nice changes via the built-in mechanisms. Powerline [120] really
   got me thinking though just because it is so stunning with the use of
-  XPM [122]. Reading through it though, it would require some real
+  XPM [121]. Reading through it though, it would require some real
   digging in, and the documentation doesn't say much and I wasn't sure
-  that I wanted to pursue that much right now.  Simple mode line [123]
+  that I wanted to pursue that much right now.  Simple mode line [122]
   says all the right things, I like their documentation and am not sure
   whether or not it knows the right things to highlight, or not.  How
-  does it know? Clearly there are many ideas [124] on how to customize
+  does it know? Clearly there are many ideas [123] on how to customize
   the modeline. How may we be sure that they are doing it right and
   displaying everything that mode expects them to possibly be
   displaying? Like most things it is just trust, and verify. For now it
@@ -1671,17 +1690,17 @@ _________________
   more importantly, I /do/ like the built-in modeline style.
 
 
-3.4.6 Mark and Region [125]
+3.4.6 Mark and Region [124]
 ---------------------------
 
   When you start typing and text is selected, replace it with what you
-  are typing, or pasting, or whatever. [126]
+  are typing, or pasting, or whatever. [125]
   ,----
   | (delete-selection-mode 1)
   `----
 
 
-3.4.7 Minibuffer [127]
+3.4.7 Minibuffer [126]
 ----------------------
 
   You will want to configure this at some point.
@@ -1691,7 +1710,7 @@ _________________
   | (fset 'yes-or-no-p 'y-or-n-p)
   `----
   It often displays so much information, even temporarily, that it is
-  nice to give it some room to breath. [128]
+  nice to give it some room to breath. [127]
   ,----
   | (setq resize-mini-windows +1)
   | (setq max-mini-window-height 0.33)
@@ -1702,6 +1721,14 @@ _________________
   | (setq enable-recursive-minibuffers t)
   | (minibuffer-depth-indicate-mode 1)
   `----
+
+
+3.4.8 Filesystem management
+---------------------------
+
+  Not quite sure where this should go yet. Finder is [128] is just fine,
+  and the curiosuity is still there for an in-Emacs solution. Speedbar
+  [129] and SrSpeedbar [130] look nice, as does [131].
 
 
 3.5 Modes (functionality)
@@ -1735,7 +1762,7 @@ _________________
 3.5.2 Configuration
 -------------------
 
-* 3.5.2.1 Intellisense (Auto Completion) [129]
+* 3.5.2.1 Intellisense (Auto Completion) [132]
 
   Can you thrive and profit without auto-completion? Surely. The feature
   is kind of a comfort blanket for most of us; you will never fail to
@@ -1745,7 +1772,7 @@ _________________
   friends make our lives easier.
 
   Thus far, auto-complete has worked fine. More than a few blogposts do
-  mention company-mode [130], so I read up on it. It seems quite nice,
+  mention company-mode [133], so I read up on it. It seems quite nice,
   but right now I haven't got a reason to explore it further though.
 
   Still having some mixed feelings about what engine to use to display
@@ -1767,7 +1794,7 @@ _________________
   `----
 
 
-* 3.5.2.2 Whitespace management [131]
+* 3.5.2.2 Whitespace management [134]
 
   Do you need to see tabs and other control characters? Usually, yes.
   ,----
@@ -1780,7 +1807,7 @@ _________________
   `----
 
 
-* 3.5.2.3 Color visualizing [132]
+* 3.5.2.3 Color visualizing [135]
 
   Nothing against the multitude of RGB hex value web finder web pages…
   it is just convenient to have it built right in.
@@ -1790,7 +1817,7 @@ _________________
   `----
 
 
-* 3.5.2.4 Templating [133]
+* 3.5.2.4 Templating [136]
 
   Code complating is nice to have; but the second you install it and
   learn how to use it, you will never find the need to again. Accept it
@@ -1808,7 +1835,7 @@ _________________
   `----
 
 
-* 3.5.2.5 Searching / Finding [134] [135]
+* 3.5.2.5 Searching / Finding [137] [138]
 
   There are many ways to easily find what you need, for a command, for a
   file, and this mode seems to be a quite nice way. Something I had been
@@ -1832,7 +1859,7 @@ _________________
   `----
 
 
-* 3.5.2.6 Project management [136]
+* 3.5.2.6 Project management [139]
 
   Not everyone likes projects, but I do. There is no perfect middle
   ground though, that is until this library came along. It is such a joy
@@ -1843,9 +1870,9 @@ _________________
   `----
 
 
-* 3.5.2.7 Expression Management [137]
+* 3.5.2.7 Expression Management [140]
 
-  There are a lot of nice options [138] [139] [140] [141] [142]. For the
+  There are a lot of nice options [141] [142] [143] [144] [145]. For the
   longest time, paredit was all that I used, but then I started using
   Emacs for everyone else besides Lisp and was kind of stymied not
   having great expression management tools.  Smartparens seems to have
@@ -1861,15 +1888,29 @@ _________________
   and since there is a strict mode it acts just like
   Paredit. Additionally you may wrap selections with pairs, auto-escape
   strings that occur within other strings, and showing matching pairs
-  (of any supported form).
+  (of any supported form). `sp-show-pair-from-inside' is kind of
+  interesting. How it works is that normally when your cursor is to the
+  right of a bracket, then the entire expression is highlighted. My
+  assumption is to make it easy for you to see the scope of the
+  s-exp. When you move forward, to the right of that opening bracket,
+  then that highlight goes away. When you set this flag to non-nil, you
+  get a different behavior where just the bracket is highlighted. Not
+  sure how this would help, but still it is kind of interesting to me
+  because it keep your focus. My use case is that you find an s-exp that
+  you want to edit and start doing it, and in that case I wouldn't use
+  this flag.  However, say you had wanted to edit and moved the cursor
+  one char forward and were interrupted. Perhaps you would this kind of
+  highlight so when you come back there is still some indicator. From a
+  user-perspective, it just seemed interesting.
   ,----
   | (require 'smartparens-config)
   | (show-smartparens-global-mode +1)
   | (diminish 'smartparens-mode)
+  | (setq sp-show-pair-from-inside nil)
   `----
 
 
-* 3.5.2.8 Remote file access [143]
+* 3.5.2.8 Remote file access [146]
 
   TRAMP stands for "Transparent Remote (file) Access, Multiple
   Protocol". It is really, really beautiful.
@@ -1879,7 +1920,7 @@ _________________
   `----
 
 
-* 3.5.2.9 Selection style [144]
+* 3.5.2.9 Selection style [147]
 
   IntelliJ Idea is yet again to blame for being awesome; even the author
   of this library suffers, or rather enjoys, this phenomenon. When you
@@ -1896,17 +1937,17 @@ _________________
   `----
 
 
-* 3.5.2.10 File-system/directory management [145]
+* 3.5.2.10 File-system/directory management [148]
 
   The last file or filesyste management tool that I used wast Norton
-  Commander [146] and then Midnight Commander [147], but my usage was
+  Commander [149] and then Midnight Commander [150], but my usage was
   pretty basic. Beyond those basics, I can do even more, basic stuff, in
   `bash'. Lately I've wanted something a little more consistent,
   powerful, and memorable, and that led me here. Dired is a
   user-interface for working with your filesystem; you select files and
   directories and then choose what to do with them. The ability to
   customize what you see is included out of the box, and there are
-  additional helper packages [148], too.
+  additional helper packages [151], too.
 
   You can use the usual machinery to work with the files. Highlight a
   region and operation selections occur for all files in that
@@ -1917,7 +1958,7 @@ _________________
   things you can think if like directories or modified-files or
   whatever, meaning you can use regexen to mark whatever you like
   however you like. If that suits you, then don't be afraid of using the
-  regular expression builder [149] that is built into Emacs. Bulk marked
+  regular expression builder [152] that is built into Emacs. Bulk marked
   file operations include additionally copying, deleting, creating hard
   links to, renaming, modifying the mode, owner, and group information,
   changing the timestamp, listing the marked files, compressing them,
@@ -1945,7 +1986,7 @@ _________________
   `----
 
 
-* 3.5.2.11 Save history of all things [150] [151] [152]
+* 3.5.2.11 Save history of all things [153] [154] [155]
 
   It is nice to have commands and their history saved so that every time
   you get back to work, you can just re-run stuff as you need it. It
@@ -1966,15 +2007,15 @@ _________________
   `----
 
 
-* 3.5.2.12 Code folding [153] [154]
+* 3.5.2.12 Code folding [156] [157]
 
   Code folding really isn't a hugely important function. You just use it
   once in a while and you notice it when you don't have it. For years I
-  used this [155] and it is fine, but I figured I ought to stick with a
+  used this [158] and it is fine, but I figured I ought to stick with a
   more feature rich option, just to give it a try. Here are some of the
-  other options: [156][157][158][159].  If you know org-mode, then using
+  other options: [159][160][161][162].  If you know org-mode, then using
   that style of control makes it easier to use then the built in
-  bindings for hideshow [160], on which hideshow-org is built.
+  bindings for hideshow [163], on which hideshow-org is built.
   ,----
   | (setq hs-hide-comments-when-hiding-all +1)
   | (setq hs-isearch-open +1)
@@ -1994,17 +2035,17 @@ _________________
   `----
 
 
-* 3.5.2.13 Copyright [161]
+* 3.5.2.13 Copyright [164]
 
   Copyright management includes only two problems: keeping the near up
   to date and choosing the right one. The built in functions will insert
   a generic copyright and also update the year, and that is pretty
-  nice. It would be nice to have something like this [162] created,
-  though. Even an OSS license chooser would be nice [163], but I haven't
+  nice. It would be nice to have something like this [165] created,
+  though. Even an OSS license chooser would be nice [166], but I haven't
   found a nice option yet.
 
 
-* 3.5.2.14 Spellchecking [164]
+* 3.5.2.14 Spellchecking [167]
 
   There are two ways to spell-check: run-at-a-time or interactive. Both
   delegate the actual checking to aspell, ispell, and hunspell. Both
@@ -2020,7 +2061,7 @@ _________________
   in the first place.
 
 
-* 3.5.2.15 Binary file editing [165] [166]
+* 3.5.2.15 Binary file editing [168] [169]
 
   Long ago it was quite common to edit binary files if not for adding
   lots of cheats to games then to see CAFEBABE written in Java class
@@ -2029,27 +2070,27 @@ _________________
   that it is there.
 
 
-* 3.5.2.16 Games [167]
+* 3.5.2.16 Games [170]
 
   Sometimes you need a break, and you aren't a gamer any more, but that
   doesn't mean you can't have fun. `life' and `doctor' alone will give
   you something to ponder and practice not taking too seriously.
 
 
-* 3.5.2.17 LaTeX [168] [169]
+* 3.5.2.17 LaTeX [171] [172]
 
   There is great support for LaTeX via AUCTeX and Ebib. For a while I
-  used TeXWorks [170] and I was and remain very happy with it. Two
+  used TeXWorks [173] and I was and remain very happy with it. Two
   things drew me back to Emacs for doing TeX primarily org-mode support
   for Ebib for managing my citation database. There is nothing more to
   it than that. This secion is a bit bare at the moment, as I will be
   filling it up as I move back to doing my work here. Perhaps a bigger
-  project is figuring out where XeTeX fits in my future. [171] RefTeX
-  looks too quite helpful [172] especially considering how well it seems
+  project is figuring out where XeTeX fits in my future. [174] RefTeX
+  looks too quite helpful [175] especially considering how well it seems
   to integrate with org-mode.
 
 
-* 3.5.2.18 Command execution helper [173]
+* 3.5.2.18 Command execution helper [176]
 
   When I call commands, I usually end up running the same commands over
   and over.  There are of course keybdings to deal with this, and also
@@ -2065,22 +2106,22 @@ _________________
 * 3.5.2.19 Location awareness
 
   The idea of reporting to you the current logical location within in
-  the current file via information in the modeline [174] sounds very
+  the current file via information in the modeline [177] sounds very
   interesting to me.  However, when I really thinkg about it, I have no
   good answer to the question: "If you didn't know how you got there,
   then how does it help to know that you are where you are?". That holds
   true at least, when it comes to maintaining files.
 
 
-* 3.5.2.20 Rectangle / Cursors [175] [176]
+* 3.5.2.20 Rectangle / Cursors [178] [179]
 
   Once in a very long while I have the need to modify rectangles. Only
   once in a while because one may use the key recorder to do most of the
-  same work. There are a few options [177], and that bothers me, so I
+  same work. There are a few options [180], and that bothers me, so I
   didn't choose any of them.
 
   Working here thought got me thinking about other folks perspectives,
-  and I ended up here [178]. This is a strangely intriguing feature. It
+  and I ended up here [181]. This is a strangely intriguing feature. It
   is quite versatile as long as you have got a mental model for
   things. The difference is that if you are OK with key macros, imagine
   that multiple-cursors is kind of a way to use keyboard macros while
@@ -2097,10 +2138,10 @@ _________________
   Emacs will warn you if you open "large files" into a
   buffer. Thankfully, I have never had such an issue. However, surely I
   will have the need at some point in the future, and when I do I will
-  look at vlfi [179]
+  look at vlfi [182]
 
 
-3.5.3 Application Modes [180] [181]
+3.5.3 Application Modes [183] [184]
 -----------------------------------
 
   When I set about on this project, I had ideas about how this document
@@ -2117,7 +2158,7 @@ _________________
 
 * 3.5.3.1 Monolith
 
-  + 3.5.3.1.1 Auto Modes [182]
+  + 3.5.3.1.1 Auto Modes [185]
 
     ,----
     | (setq auto-mode-alist
@@ -2149,7 +2190,7 @@ _________________
     needed rather than tracking down or writing some code to do it
     myself.
 
-    `fancy-narrow-to-region' [183] is a nice to have. Their approach is
+    `fancy-narrow-to-region' [186] is a nice to have. Their approach is
     kind of worth noting, simply in that `;;;###autoload' commands are
     utilized so that the library is not required to be specified for
     use. Is this convenience without downside or just a bad idea from a
@@ -2166,7 +2207,7 @@ _________________
     | (require 'imenu-anywhere)
     `----
 
-    Auto-completion for .-separated words [184] seems like a good idea,
+    Auto-completion for .-separated words [187] seems like a good idea,
     so I will put it here and not worry too much about what header this
     lives in. The source explains how to use this feature… it must be
     specified what is allowed per-mode
@@ -2206,13 +2247,13 @@ _________________
     | 
     | (defun gcr/log-edit-mode-hook-local-bindings ()
     |   "Helpful bindings for log edit buffers."
-    |   (local-set-key (kbd "C-9") 'log-edit-done))
+    |   (local-set-key (kbd "C-;") 'log-edit-done))
     | 
     | (add-hook 'log-edit-mode-hook 'gcr/log-edit-mode-hook-local-bindings)
     `----
 
 
-  + 3.5.3.1.5 Graphviz [185] [186] [187]
+  + 3.5.3.1.5 Graphviz [188] [189] [190]
 
     ,----
     | (defun gcr/graphviz-dot-mode-hook ()
@@ -2264,13 +2305,13 @@ _________________
 
   + 3.5.3.1.7 Emacs Lisp
 
-    Make it obvious whether or not it is lexically scoped [188] or not
+    Make it obvious whether or not it is lexically scoped [191] or not
     and don't show that message whenever you enter a scratch buffer
-    [189].
+    [192].
 
-    You may read more about Lisp Doc here [190].
+    You may read more about Lisp Doc here [193].
 
-    You may read more about default console messages here [191].
+    You may read more about default console messages here [194].
 
     ,----
     | (defun gcr/elisp-eval-buffer ()
@@ -2297,10 +2338,10 @@ _________________
     `----
 
 
-  + 3.5.3.1.8 Scheme [192]
+  + 3.5.3.1.8 Scheme [195]
 
-    You should probably only use Geiser, forever. [193] Some day I would
-    like to explore ac-geiser [194].
+    You should probably only use Geiser, forever. [196] Some day I would
+    like to explore ac-geiser [197].
     ,----
     | (require 'geiser)
     | (setq geiser-active-implementations '(racket))
@@ -2319,7 +2360,7 @@ _________________
     `----
 
 
-  + 3.5.3.1.9 Javascript [195] [196]
+  + 3.5.3.1.9 Javascript [198] [199]
 
     ,----
     | (defun gcr/js-mode-hook ()
@@ -2341,7 +2382,7 @@ _________________
     `----
 
 
-  + 3.5.3.1.10 Web [197]
+  + 3.5.3.1.10 Web [200]
 
     JSON support is included here, too. As you go about your business
     you read about features that seem nice or you really didn't actively
@@ -2350,7 +2391,7 @@ _________________
     JSON string, like this `{"foo":10, "bar":20, "baz":50}' example. For
     whatever reason, that is always just the way that I had done
     it. Reading irreal a nice option/reminder was posted for a JSON
-    formatter [198]
+    formatter [201]
     ,----
     | (require 'web-mode)
     | (setq web-mode-engines-alist
@@ -2392,7 +2433,7 @@ _________________
     `----
 
 
-  + 3.5.3.1.12 Make [199] [200] [201]
+  + 3.5.3.1.12 Make [202] [203] [204]
 
     ,----
     | (defun gcr/make-modehook ()
@@ -2408,7 +2449,7 @@ _________________
     `----
 
 
-  + 3.5.3.1.13 Markdown [202]
+  + 3.5.3.1.13 Markdown [205]
 
     Since org-mode exports to just about everything; my Markdown usage
     will be mostly limited to working with files on Github.
@@ -2420,7 +2461,7 @@ _________________
     `----
 
 
-  + 3.5.3.1.14 Git [203] [204]
+  + 3.5.3.1.14 Git [206] [207]
 
     This used to be the version control section, but there is only
     really Git that needs to be discussed. All version control systems
@@ -2437,25 +2478,29 @@ _________________
     solution for that is that before *every* VC action, at least the
     current buffer must be saved. This is OK because I believe that VC
     actions only occur on a per-file basis, versus command line VC
-    operations.
+    operations. Then I added he same thing for diff.
     ,----
-    | (defadvice vc-next-action (before save-before-vc first activate )
-    |   "Save the buffer before any VC function calls."
-    |   (save-buffer))
+    | (defadvice vc-next-action (before save-before-vc first activate)
+    |   "Save all buffers before any VC next-action function calls."
+    |   (gcr/save-all-file-buffers))
+    | 
+    | (defadvice vc-diff (before save-before-vc-diff first activate)
+    |   "Save all buffers before vc-diff calls."
+    |   (gcr/save-all-file-buffers))
     `----
 
 
-  + 3.5.3.1.15 LilyPond [205]
+  + 3.5.3.1.15 LilyPond [208]
 
     All of my experience with musical notation is through GuitarPro
-    [206] and even there I'm a baby user. Despite that, I've been
+    [209] and even there I'm a baby user. Despite that, I've been
     curious about music theory for a long time and this seems like a
     good way to take a dip.  At first, it didn't seem to work. then I
     "rebooted" and it seemed to work, but not in org HTML export. This
     will require furthe research.
 
 
-  + 3.5.3.1.16 Line Wrapping [207] [208] / Line breaking [209]
+  + 3.5.3.1.16 Line Wrapping [210] [211] / Line breaking [212]
 
     A long time ago I disabled line-wrapping because I kept all of my
     files less than 80 lines and life was simple. This approach actually
@@ -2482,14 +2527,14 @@ _________________
     particular buffer, and visual line mode makes that loads easier.
 
 
-  + 3.5.3.1.17 Emacs Speaks Statistics (ESS) [210] [211] [212] [213] [214] [215]
+  + 3.5.3.1.17 Emacs Speaks Statistics (ESS) [213] [214] [215] [216] [217] [218]
 
-    For a minimalist release history, read the news file [216].
+    For a minimalist release history, read the news file [219].
 
     For a brief, brief overview and release history, read the readme
-    [217].
+    [220].
 
-    For a comprehensive overview, read the manual [218]. In it:
+    For a comprehensive overview, read the manual [221]. In it:
     - `S' refers to any language in the family. `R' is what I'm
       interested in.
     - First 2.5 pages do some nice expectation-setting.
@@ -2624,7 +2669,7 @@ _________________
     - `n': Goto next BP
     - `p': Goto previous BP
 
-    Debugging; be sure to read this [219]:
+    Debugging; be sure to read this [222]:
     - `‘': Show traceback
     - `~': Show callstack
     - `e': Toggle error action (repeat to cycle)
@@ -2695,18 +2740,18 @@ _________________
     hand code this.
 
     As of <2014-01-31 Fri>, you need to manually load ESS when you pull
-    it from MELPA [220]. That is totally fine with me, that is really
+    it from MELPA [223]. That is totally fine with me, that is really
     the best way to load stuff.  Out of curiousity, I read more about it
-    here [221], but that occurred before this previous post made by the
+    here [224], but that occurred before this previous post made by the
     maintainers. Even the source code in `ess-autoloads.el' has a
     license from 2012, which is before the aforementioned post. As such,
     this configuration step seems correct and necessary for now.
     Additionally, this how the user manual expects a typical manual
     setup to be configured.
 
-    Looked a tiny bit at how R hackers are formatting their code [222]
-    [223].  The simple (dumb) part of me suspects that C++ formatting is
-    generally just fine [224].
+    Looked a tiny bit at how R hackers are formatting their code [225]
+    [226].  The simple (dumb) part of me suspects that C++ formatting is
+    generally just fine [227].
 
     There is strangely nice discussion about where temp files may be
     stored; specifically for cases where you edit samely-named objects
@@ -2791,7 +2836,7 @@ _________________
     | (add-hook 'inferior-ess-mode-hook 'gcr/inferior-ess-mode-hook)
     `----
 
-    - This [225] post shares a nice setup for the assignment key;
+    - This [228] post shares a nice setup for the assignment key;
       primarily if
     you use underscores in your variable names, which I do on
     occassion. After coding like this for just 10 short minutes it drove
@@ -2901,16 +2946,16 @@ _________________
     powerfully distracting. It is like a mosquito in your tent!
     Searching for a solution revealed that I am not alone here.
 
-    This post [226] handles brackets, but not indentation. ESS itself
-    handles indentation quite well [227] but doesn't provide the
-    behavior that I want.  This post [228] captured exactly what I was
+    This post [229] handles brackets, but not indentation. ESS itself
+    handles indentation quite well [230] but doesn't provide the
+    behavior that I want.  This post [231] captured exactly what I was
     facing, yet didn't end with a solution which was kind of
-    shocking. Searching some more I ended up here [229], and this seems
+    shocking. Searching some more I ended up here [232], and this seems
     like the ideal solution by the author of smartparens himself. This
     is probably a common thing as I found another post with exactly my
-    situation referencing that aforementioned solution, too [230]. This
+    situation referencing that aforementioned solution, too [233]. This
     is a nice generalizable approach that should serve me well for just
-    about everything in this solution-area. Here [231]is a post showing
+    about everything in this solution-area. Here [234]is a post showing
     a more advanced usage that handles context which is nice to know is
     an option.
 
@@ -2919,18 +2964,18 @@ _________________
     `----
 
 
-  + 3.5.3.1.18 Info [232]
+  + 3.5.3.1.18 Info [235]
 
     Once you accept Emacs and learn to enjoy Info files you may want to
     be able to navigate them quickly, even if you haven't read the user
-    manual as I have not.  ace-link [233] is really a nice way to do
+    manual as I have not.  ace-link [236] is really a nice way to do
     that.
     ,----
     | (ace-link-setup-default)
     `----
 
 
-  + 3.5.3.1.19 Vagrant [234]
+  + 3.5.3.1.19 Vagrant [237]
 
     Vagrant is quite nice. Perhaps a bit preemptively, I'm trying to get
     Emacs setup nice for what I already know I must do.
@@ -2940,17 +2985,17 @@ _________________
     | (add-to-list 'auto-mode-alist '("Vagrantfile$" . ruby-mode))
     `----
 
-    Nice package [235] for working with Vagrant; hundreds of people
+    Nice package [238] for working with Vagrant; hundreds of people
     already using it. No configuration even necessary.
 
-    This package [236] is also quite nice:
+    This package [239] is also quite nice:
     ,----
     | (eval-after-load 'tramp
     |   '(vagrant-tramp-enable))
     `----
 
 
-  + 3.5.3.1.20 Ruby [237]
+  + 3.5.3.1.20 Ruby [240]
 
     My first setup of Ruby is primarily for Vagrant, so I didn't dig
     super deep into the options. The defaults will be just fine. The
@@ -2968,6 +3013,26 @@ _________________
     | 
     | (add-hook 'ruby-mode-hook 'gcr/ruby-mode-hook)
     `----
+
+
+  + 3.5.3.1.21 Libraries
+
+    - 3.5.3.1.21.1 Dash / Dash-Functional
+
+      Not totally sure where this belongs, but dash [241] is something
+      that a lot of the packages I use require, and it is an excellent
+      library, so it needs recognition in this document, and the Cask
+      file, too.
+
+      ,----
+      | (eval-after-load "dash" '(dash-enable-font-lock))
+      `----
+
+
+    - 3.5.3.1.21.2 Built-in
+
+      pcase [242] provides pattern-matching macros. This is very nice
+      whether you've already used something like this before, or not!
 
 
 * 3.5.3.2 Module
@@ -2989,9 +3054,9 @@ _________________
     How you perform these taks is entirely up to you. There are a lot of
     good options both inside and outside of Emacs. For the general
     cases, I like the ones that are built in and play nice, especially
-    with org-mode. At its simplest, artist-mode [238] is plenty fine for
-    diagramming and stuff. Graphviz also works well [239].  Ditaa is
-    sort of the next level up [240], and finally PlantUML [241]. They
+    with org-mode. At its simplest, artist-mode [243] is plenty fine for
+    diagramming and stuff. Graphviz also works well [244].  Ditaa is
+    sort of the next level up [245], and finally PlantUML [246]. They
     are all good options at different times, and they all work with
     org-mode. Everything I will publish will go through
     org-mode. org-modes just shines so, so brightly.
@@ -3007,26 +3072,26 @@ _________________
       sequence, use case, class, activity, component, state, and object.
 
     ditaa was my first pick for usage for the blaring simplicity and
-    power of it.  org-mode provides a setup [242]document that I
+    power of it.  org-mode provides a setup [247]document that I
     followed. It required installing a JRE and that was about
     it. artist-mode is automatically loaded for the source block. The
-    example below [243] is much better than my hello world business.
+    example below; thank you [248] Craig Larman
 
     ,----
-    |   +------+   +-----+   +-----+   +-----+
-    |   |{io}  |   |{d}  |   |{s}  |   |cBLU |
-    |   | Foo  +---+ Bar +---+ Baz +---+ Moo |
-    |   |      |   |     |   |     |   |     |
-    |   +------+   +-----+   +--+--+   +-----+
-    |                           |
-    |              /-----\      |      +------+
-    |              |     |      |      | c1AB |
-    |              | Goo +------+---=--+ Shoo |
-    |              \-----/             |      |
-    |                                  +------+
+    |               +----------+1       1…3+------+
+    |               | Sailboat +◆----------+ Mast |
+    |               +-----+----+           +------+
+    |                     ◆1
+    |                     |
+    |                     |             1…2+------+
+    |                     +----------------+ Hull |
+    |                                      +------+
+    | 
+    | 
+    |                   This is not a sailboat
     `----
 
-    [file:ditaa-simple.png]
+    [file:auap.png]
 
 
     - 3.5.3.2.2.1 Setup
@@ -3039,10 +3104,6 @@ _________________
       |                   ". Download a copy here: http://sourceforge.net/projects/ditaa/")))
       |   (setq org-ditaa-jar-path ditaa-jar))
       `----
-      Emacs comes with out-of-the-box support for most image types. org
-      lets you include images of course, and will render them too if you
-      want. The general idea sort of interested me, and this article
-      [244] explained how a more lightweight version may work.
 
 
   + 3.5.3.2.3 Org Mode
@@ -3068,13 +3129,13 @@ _________________
     with it. After using it for 50+ hours or so you start wanting some
     easier way to navigate then by typing in the commands over and over
     (doesn't matter how you re-run them).  Reading the miscellaneous
-    section, I learned about speed keys [245] [246].  Wonderful, just
+    section, I learned about speed keys [249] [250].  Wonderful, just
     wonderful.
 
     Visualizing hierarchical lists in a flat manner has been fine for
     me. Sometimes though I wanted to depth-based view, but didn't think
     much more of it. Reading abouto org-mode, I came upon
-    `org-indent-mode' [247], and decided to give it a try for a while
+    `org-indent-mode' [251], and decided to give it a try for a while
     because it is kind of easier to read. Both modes are nice, and thus
     far I'm switching back and force as I feel like it. Once I opened my
     eyes and learned about `org-hide-leading-stars' though, I really
@@ -3089,7 +3150,7 @@ _________________
     highlighting that you want. That is really my personal perference,
     nonethless, `org-src-fontify-natively' is still always an option.
 
-    This [243] article is really fascinating in that crams a ton of
+    This [252] article is really fascinating in that crams a ton of
     information into a tiny space. It also is kind of fun to read
     because it sumultaneously teaches you so many new things, yet at the
     same time re-teaches or re-educates you about things that you
@@ -3100,7 +3161,7 @@ _________________
     exclusively for Wisdom&Wonder.
 
     The HTML export of org documents has an optional JavaScript
-    supported display [248].  Not sure how I ended up on this, but it is
+    supported display [253].  Not sure how I ended up on this, but it is
     actually a very nice option. The info style view is nice once you
     read the directions. The foldinger interface is also interesting; I
     tried out all 3 generation options but didn't find anything that I
@@ -3200,6 +3261,7 @@ _________________
     |    :emergency))
     | 
     | (defadvice org-babel-tangle (before org-babel-tangle-before activate)
+    |   (gcr/save-all-file-buffers)
     |   (message (concat "org-babel-tangle BEFORE: <"
     |                    (format-time-string "%Y-%m-%dT%T%z")
     |                    ">")))
@@ -3210,20 +3272,28 @@ _________________
     |                    ">"))
     |   (alert "Your tangling is complete." :title "org-mode"))
     | 
-    | (defadvice org-html-export-to-html (around org-html-export-to-html-around)
-    |   "Report on org HTML exporting."
+    | (defadvice org-ascii-export-as-ascii (before org-ascii-export-as-ascii-before activate)
+    |   (gcr/save-all-file-buffers))
+    | 
+    | (defadvice org-html-export-to-html (before before-org-html-export-to-html activate)
+    |   (gcr/save-all-file-buffers)
     |   (message (concat "org-html-export-to-html BEFORE: <"
     |                    (format-time-string "%Y-%m-%dT%T%z")
-    |                    ">"))
-    |   ad-do-it
+    |                    ">")))
+    | 
+    | (defadvice org-html-export-to-html (after after-org-html-export-to-html activate)
     |   (message (concat "org-html-export-to-html AFTER: <"
     |                    (format-time-string "%Y-%m-%dT%T%z")
     |                    ">")))
+    | 
     | (when (boundp 'org-html-checkbox-type)
     |   (display-warning
     |    'org-mode
     |    "Org mode now supports HTML export to unicode checkboxes. Please update your configuration to use the variable 'org-html-checkbox-type'."
     |    :warning))
+    | 
+    | (defadvice org-latex-export-to-pdf (before org-latex-export-to-pdf-before activate)
+    |   (gcr/save-all-file-buffers))
     | 
     | (defun sacha/org-html-checkbox (checkbox)
     |   "Format CHECKBOX into HTML. http://sachachua.com/blog/2014/03/emacs-tweaks-export-org-checkboxes-using-utf-8-symbols/?shareadraft=baba27119_533313c944f64"
@@ -3251,7 +3321,7 @@ _________________
     `----
 
     There is always a question of how to instill traceability in your
-    artifacts. org provides `:comments' [249] for that. Tangling with
+    artifacts. org provides `:comments' [254] for that. Tangling with
     that value set to `link', for example, would add a prefix and
     postfix comment to the tangled file with the name of the header from
     which the generated file was tangled. When I tangle the .emacs.el,
@@ -3282,11 +3352,11 @@ _________________
     programmers want which is traceability back from every tangled piece
     of code to the original document.
           ;; [nil] [nil] [nil]
-    Here is an easy way to set up these preferences:
-    ,----
-    | (gcr/set-org-system-header-arg :padline "yes")
-    | (gcr/set-org-system-header-arg :comments "no")
-    `----
+    After all of this research, I found that doing noweb-ref tangling,
+    the source locations are not included, so it is no very useful to
+    include comments, and I removed them, at least for now. I am not
+    sure how I want to use them right now.
+
     The type of information that you provide as meta-data is up to you
     and depends upon your mental model for your org document. My mental
     model is mostly to use headings as the logical area for addressing a
@@ -3307,7 +3377,7 @@ _________________
     Probably someone will show be a better way to do repeated string
     creation :).
 
-    There is an auto-complete provider for org-mode [250]. Nice as I
+    There is an auto-complete provider for org-mode [255]. Nice as I
     didn't even think to check. Perhaps a check should go on the
     standard setup list. This seems to work when you type out things
     like block definitions; and it won't apply to EasyTemplate generated
@@ -3315,6 +3385,25 @@ _________________
     ,----
     | (require 'org-ac)
     | (org-ac/config-default)
+    `----
+
+    There is a performance issue with tangling when header property
+    inheritance is enabled. Eric explained that [256] there may be
+    performance gains if some of the header properties are not
+    considered. The list below defines what will be allowed, and
+    everything else will be removed.:
+
+    ,----
+    | (let* ((allowed '(exports
+    |                   file
+    |                   noweb
+    |                   noweb-ref
+    |                   session
+    |                   tangle))
+    |        (new-ls
+    |         (--filter (member (car it) allowed)
+    |                   org-babel-common-header-args-w-values)))
+    |   (setq org-babel-common-header-args-w-values new-ls))
     `----
 
 
@@ -3328,7 +3417,7 @@ _________________
     file:~/git/bitbucket-grettke/home/TC3F.org::*Frames%20%5Bfn:46%5D
 
 
-3.5.4 Operation (Keybindings/Keymaps) [251]
+3.5.4 Operation (Keybindings/Keymaps) [257]
 -------------------------------------------
 
   *This section is entirely defined adhering to the philosopy defined
@@ -3453,12 +3542,6 @@ _________________
     | (key-chord-define-global "L:" (lambda () (interactive) (previous-buffer)))
     `----
 
-    I use VC quite frequently. This is easy to reach, and does what must
-    be done:
-    ,----
-    | (key-chord-define-global "df" 'vc-next-action)
-    `----
-
 
 * 3.5.4.2 NON-DISRUPTIVE : KEY-MAPPINGS
 
@@ -3475,7 +3558,12 @@ _________________
     I use VC quite frequently. This is easy to reach, and does what must
     be done:
     ,----
-    | (global-set-key (kbd "C-9") 'vc-next-action)
+    | (global-set-key (kbd "C-;") 'vc-next-action)
+    `----
+
+    Easily select regions:
+    ,----
+    | (global-set-key (kbd "C-'") 'er/expand-region)
     `----
 
     multiple cursor mode… I kept these together because until I make an
@@ -3500,19 +3588,19 @@ _________________
     | (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
     `----
 
+    Pop up help:
+    ,----
+    | (global-set-key (kbd "s-p") 'gcr/describe-thing-in-popup)
+    `----
+
     ace-window naviation:
     ,----
     | (global-set-key (kbd "C--") 'ace-window)
     `----
 
-    Easily select regions:
-    ,----
-    | (global-set-key (kbd "C-=") 'er/expand-region)
-    `----
-
     yas expansion:
     ,----
-    | (global-set-key (kbd "<C-`>") 'yas/expand)
+    | (global-set-key (kbd "C-3") 'yas/expand)
     `----
 
     Command and uncomment anything:
@@ -3523,11 +3611,6 @@ _________________
     Do smart new line inside, indenting given the mode:
     ,----
     | (global-set-key (kbd "s-<return>") 'gcr/smart-open-line)
-    `----
-
-    Pop up help:
-    ,----
-    | (global-set-key (kbd "s-p") 'gcr/describe-thing-in-popup)
     `----
 
 
@@ -3555,7 +3638,7 @@ _________________
     Manage every font size:
     ,----
     | (gcr/on-gui
-    |  (global-set-key (kbd "C-<f7>") 'gcr/text-scale-increase)
+    |  (global-set-key (kbd "s-<f7>") 'gcr/text-scale-increase)
     |  (global-set-key (kbd "M-<f7>") 'gcr/text-scale-decrease))
     `----
 
@@ -3566,7 +3649,7 @@ _________________
     | (global-set-key (kbd "C-<f3>") 'imenu-anywhere)
     `----
 
-    Resize the current windows [252]:
+    Resize the current windows [258]:
     ,----
     | (global-set-key (kbd "s-<up>") 'enlarge-window)
     | (global-set-key (kbd "s-<down>") 'shrink-window)
@@ -3575,7 +3658,7 @@ _________________
     `----
 
 
-3.6 Shells [253] [254] [255]
+3.6 Shells [259] [260] [261]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   If you've never learned bash or korn or c-shell, then you are missing
@@ -3620,7 +3703,7 @@ _________________
   `----
 
 
-3.6.2 Config [256] [257]org-
+3.6.2 Config [262] [263]org-
 ----------------------------
 
   ,----
@@ -3660,10 +3743,10 @@ _________________
   `----
 
 
-3.7 IRC [258] [259] [260] [261] [262]
+3.7 IRC [264] [265] [266] [267] [268]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  For a while I used MIRC [263], and then Irssi [264] and both are very
+  For a while I used MIRC [269], and then Irssi [270] and both are very
   nice. Since I hang around in Emacs all day though, I figured I ought
   to take a look at ERC. The documentation is highly modular, reflecting
   how the application itself is implemented. Patience may be required,
@@ -3712,7 +3795,7 @@ _________________
   ERC functionality. Some of them are automatically loaded for you, some
   are not.
 
-  Autoaway [265] automatically marks you away or present after a desired
+  Autoaway [271] automatically marks you away or present after a desired
   timespan.
   ,----
   | (require 'erc-autoaway)
@@ -3723,7 +3806,7 @@ _________________
   | (erc-update-modules)
   `----
 
-  Autojoin [266] automatically joins you to your preferred channels
+  Autojoin [272] automatically joins you to your preferred channels
   ,----
   | (require 'erc-join)
   | (erc-autojoin-mode +1)
@@ -3731,7 +3814,7 @@ _________________
   |       '((".*freenode.net" "#emacs" "#org-mode" "#scheme" "#r")))
   `----
 
-  Button [267] gives you clickable button-based events for various types
+  Button [273] gives you clickable button-based events for various types
   of objects.
   ,----
   | (require 'erc-button)
@@ -3740,10 +3823,10 @@ _________________
   |       erc-button-buttonize-nicks nil)
   `----
 
-  Completion [268] for various fields is provided by pcomplete and
+  Completion [274] for various fields is provided by pcomplete and
   requires no configuration.
 
-  Wrap [269] long lines in the buffer.
+  Wrap [275] long lines in the buffer.
   ,----
   | (require 'erc-fill)
   | (erc-fill-mode +1)
@@ -3752,14 +3835,14 @@ _________________
   | (setq erc-fill-static-center 0)
   `----
 
-  IRC control characters [270] may be made visible.
+  IRC control characters [276] may be made visible.
   ,----
   | (erc-irccontrols-enable)
   `----
 
-  List [271] lists channels nicely and requires no configuration.
+  List [277] lists channels nicely and requires no configuration.
 
-  Match [272] highlights things that you care about.
+  Match [278] highlights things that you care about.
   ,----
   | (setq erc-current-nick-highlight-type 'keyword)
   | (setq erc-pals '("leppie"))
@@ -3767,7 +3850,7 @@ _________________
   | (remove-hook 'erc-text-matched-hook 'erc-hide-fools)
   `----
 
-  Netsplits [273] occur when an IRC server is disconnected.
+  Netsplits [279] occur when an IRC server is disconnected.
   ,----
   | (require 'erc-netsplit)
   | (erc-netsplit-mode 1)
@@ -3776,13 +3859,13 @@ _________________
   Noncommands lets you ignore command output of non-IRC related
   commands.  For now I don't uses any, but wanted to note this feature.
 
-  Notify [274] notifies you when you are messaged.
+  Notify [280] notifies you when you are messaged.
   ,----
   | (add-to-list 'erc-modules 'notify)
   | (erc-update-modules)
   `----
 
-  Handle paging [275] from other users.
+  Handle paging [281] from other users.
   ,----
   | (add-to-list 'erc-modules 'page)
   | (require 'erc-page)
@@ -3790,19 +3873,19 @@ _________________
   | (erc-update-modules)
   `----
 
-  Ring [276] gives you a command history.
+  Ring [282] gives you a command history.
   ,----
   | (require 'erc-ring)
   | (erc-ring-mode 1)
   `----
 
-  Scrolltobottom [277] keeps your prompt line at the bottom.
+  Scrolltobottom [283] keeps your prompt line at the bottom.
   ,----
   | (add-to-list 'erc-modules 'scrolltobottom)
   | (erc-update-modules)
   `----
 
-  Timestamp [278] nicely shows you when messages occurred.
+  Timestamp [284] nicely shows you when messages occurred.
   ,----
   | (add-to-list 'erc-modules 'stamp)
   | (require 'erc-stamp)
@@ -3815,7 +3898,7 @@ _________________
   | (erc-update-modules)
   `----
 
-  Tracking [279] of channels helps you know what is happening on closed
+  Tracking [285] of channels helps you know what is happening on closed
   windows.
   ,----
   | (add-to-list 'erc-modules 'track)
@@ -3839,7 +3922,7 @@ _________________
   | (erc-update-modules)
   `----
 
-  Tweet [280]: Show inlined info about youtube links in erc buffers.
+  Tweet [286]: Show inlined info about youtube links in erc buffers.
 
   ,----
   | (require 'erc-tweet)
@@ -3847,7 +3930,7 @@ _________________
   | (erc-update-modules)
   `----
 
-  Image [281]: Show inlined images (png/jpg/gif/svg) in erc buffers.
+  Image [287]: Show inlined images (png/jpg/gif/svg) in erc buffers.
 
   ,----
   | (require 'erc-image)
@@ -3855,7 +3938,7 @@ _________________
   | (erc-update-modules)
   `----
 
-  Youtube [282]: Show inlined info about youtube links in erc buffers.
+  Youtube [288]: Show inlined info about youtube links in erc buffers.
 
   ,----
   | (require 'erc-youtube)
@@ -3863,7 +3946,7 @@ _________________
   | (erc-update-modules)
   `----
 
-  Highlight nicks [283]: ERC Module to Highlight Nicknames.
+  Highlight nicks [289]: ERC Module to Highlight Nicknames.
 
   ,----
   | (require 'erc-hl-nicks)
@@ -3901,11 +3984,19 @@ _________________
   `----
 
 
-4.1.2 Cask  [284]
+4.1.2 Cask  [290]
 -----------------
 
-  Install required packages first using Cask [285].
+  Install required packages first using Cask [291]. Recently I changed
+  the layout, assuming that order matters for repositories. Logically
+  order would matter too for packages… I'm going to keep my eye open for
+  any issues.
+
   ,----
+  | (source org)
+  | 
+  | (depends-on "org-plus-contrib")
+  | 
   | (source gnu)
   | 
   | (depends-on "rainbow-mode")
@@ -3916,115 +4007,116 @@ _________________
   | 
   | (source melpa)
   | 
-  | (depends-on "dash")
-  | 
   | (depends-on "ace-jump-mode")
-  | 
-  | (depends-on "ace-window")
   | 
   | (depends-on "ace-link")
   | 
-  | (depends-on "solarized-theme")
+  | (depends-on "ace-window")
   | 
-  | (depends-on "fill-column-indicator")
+  | (depends-on "alert")
   | 
-  | (depends-on "fuzzy")
   | (depends-on "auto-complete")
   | 
-  | (depends-on "yasnippet")
+  | (depends-on "auto-complete-chunk")
+  | 
+  | (depends-on "dash")
+  | 
+  | (depends-on "dash-functional")
   | 
   | (depends-on "diminish")
   | 
-  | (depends-on "flx-ido")
-  | (depends-on "projectile")
-  | 
-  | (depends-on "geiser")
-  | 
-  | (depends-on "smartparens")
-  | 
-  | (depends-on "undo-tree")
-  | 
-  | (depends-on "htmlize")
-  | 
-  | (depends-on "pretty-mode")
-  | 
-  | (depends-on "lexbind-mode")
-  | 
-  | (depends-on "web-mode")
-  | 
-  | (depends-on "expand-region")
-  | 
   | (depends-on "dired-details+")
-  | 
-  | (depends-on "hideshow-org")
-  | 
-  | (depends-on "markdown-mode")
-  | 
-  | (depends-on "smex")
-  | 
-  | (depends-on "magit")
-  | 
-  | (depends-on "ido-vertical-mode")
-  | 
-  | (depends-on "ido-hacks")
-  | 
-  | (depends-on "ido-ubiquitous")
-  | 
-  | (depends-on "erc-tweet")
-  | 
-  | (depends-on "erc-image")
-  | 
-  | (depends-on "erc-youtube")
   | 
   | (depends-on "erc-hl-nicks")
   | 
-  | (depends-on "multiple-cursors")
+  | (depends-on "erc-image")
   | 
-  | (depends-on "json-reformat")
+  | (depends-on "erc-tweet")
   | 
-  | (depends-on "org2blog")
-  | 
-  | (depends-on "fancy-narrow")
+  | (depends-on "erc-youtube")
   | 
   | (depends-on "ess")
-  | 
-  | (depends-on "imenu-anywhere")
   | 
   | (depends-on "ess-R-data-view")
   | 
   | (depends-on "ess-R-object-popup")
   | 
-  | (depends-on "r-autoyas")
-  | 
   | (depends-on "exec-path-from-shell")
+  | 
+  | (depends-on "expand-region")
+  | 
+  | (depends-on "fancy-narrow")
+  | 
+  | (depends-on "fill-column-indicator")
+  | 
+  | (depends-on "flx-ido")
+  | 
+  | (depends-on "fuzzy")
+  | 
+  | (depends-on "geiser")
   | 
   | (depends-on "graphviz-dot-mode")
   | 
-  | (depends-on "alert")
+  | (depends-on "hideshow-org")
   | 
-  | (depends-on "osx-browse")
+  | (depends-on "htmlize")
   | 
-  | (depends-on "sublimity")
+  | (depends-on "ido-hacks")
   | 
-  | (depends-on "vagrant")
+  | (depends-on "ido-ubiquitous")
   | 
-  | (depends-on "vagrant-tramp")
+  | (depends-on "ido-vertical-mode")
+  | 
+  | (depends-on "imenu-anywhere")
+  | 
+  | (depends-on "json-reformat")
   | 
   | (depends-on "key-chord")
+  | 
+  | (depends-on "lexbind-mode")
+  | 
+  | (depends-on "magit")
+  | 
+  | (depends-on "markdown-mode")
+  | 
+  | (depends-on "multiple-cursors")
+  | 
+  | (depends-on "org-ac")
+  | 
+  | (depends-on "org2blog")
+  | 
+  | (depends-on "osx-browse")
   | 
   | (depends-on "popup")
   | 
   | (depends-on "pos-tip")
   | 
-  | (depends-on "org-ac")
+  | (depends-on "pretty-mode")
   | 
-  | (depends-on "auto-complete-chunk")
+  | (depends-on "projectile")
+  | 
+  | (depends-on "r-autoyas")
+  | 
+  | (depends-on "smartparens")
+  | 
+  | (depends-on "smex")
+  | 
+  | (depends-on "solarized-theme")
+  | 
+  | (depends-on "sublimity")
+  | 
+  | (depends-on "undo-tree")
+  | 
+  | (depends-on "vagrant")
+  | 
+  | (depends-on "vagrant-tramp")
+  | 
+  | (depends-on "web-mode")
   | 
   | (depends-on "xml-rpc")
   | 
-  | (source org)
+  | (depends-on "yasnippet")
   | 
-  | (depends-on "org-plus-contrib")
   | ;; Local Variables:
   | ;; mode: emacs-lisp
   | ;; End:
@@ -4068,16 +4160,18 @@ _________________
   ,----
   | <<runtime-check>>
   | <<general-stuff-block>>
-  `----
-
-  Run it like this: `emacs --no-init-file --load .org-mode.emacs.el'
-  ,----
-  | <<refactoring>>
+  | <<custom-variables>>
   | <<utility-block>>
   | <<cask-block>>
   | <<environment-block>>
-  | <<modes-application-module-all-decision>>
   | <<keymaps-decision>>
+  | <<modes-application-module-all-decision>>
+  `----
+
+  Run it like this: `emacs --no-init-file --load .org-mode.emacs.el'
+
+  ,----
+  | <<base-configuration>>
   `----
 
 
@@ -4086,11 +4180,7 @@ _________________
 
   Convert decisions into a runnable system.
   ,----
-  | <<refactoring>>
-  | <<custom-variables>>
-  | <<utility-block>>
-  | <<cask-block>>
-  | <<environment-block>>
+  | <<base-configuration>>
   | <<font-block>>
   | <<uxo-windows-decision>>
   | (gcr/on-gui
@@ -4102,8 +4192,6 @@ _________________
   | <<modes-config-decision>>
   | <<shells-decision>>
   | <<modes-application-monolith-decision>>
-  | <<modes-application-module-all-decision>>
-  | <<keymaps-decision>>
   | <<communications-decision>>
   | <<line-wrapping-decision>>
   `----
@@ -4555,518 +4643,531 @@ _________
 [67]
 [http://nic.ferrier.me.uk/blog/2012_07/tips-and-tricks-for-emacslisp]
 
-[68] [https://github.com/magnars/dash.el]
+[68] [http://melpa.milkbox.net/#/xml-rpc]
 
-[69] [http://melpa.milkbox.net/#/xml-rpc]
+[69] [http://melpa.milkbox.net/#/todochiku]
 
-[70] [http://melpa.milkbox.net/#/todochiku]
+[70] [http://melpa.milkbox.net/#/alert]
 
-[71] [http://melpa.milkbox.net/#/alert]
+[71] [https://en.wikipedia.org/wiki/Sayre's_law]
 
-[72] [https://en.wikipedia.org/wiki/Sayre's_law]
+[72] [https://github.com/bbatsov/solarized-emacs]
 
-[73] [https://github.com/bbatsov/solarized-emacs]
+[73] [http://melpa.milkbox.net/#/key-chord]
 
-[74] [http://melpa.milkbox.net/#/key-chord]
-
-[75]
+[74]
 [https://www.gnu.org/software/emacs/manual/html_node/emacs/Windows.html]
 
-[76]
+[75]
 [https://www.gnu.org/software/emacs/manual/html_node/emacs/Menu-Bars.html]
 
-[77] [http://melpa.milkbox.net/#/fill-column-indicator]
+[76] [http://melpa.milkbox.net/#/fill-column-indicator]
 
-[78]
+[77]
 [https://www.gnu.org/software/emacs/manual/html_node/emacs/Cursor-Display.html]
 
-[79]
+[78]
 [http://git.savannah.gnu.org/cgit/emacs.git/tree/lisp/linum.el?h=emacs-24]
 
-[80]
+[79]
 [https://www.gnu.org/software/emacs/manual/html_node/emacs/Font-Lock.html]
 
-[81]
+[80]
 [https://www.gnu.org/software/emacs/manual/html_node/emacs/Matching.html]
 
-[82]
+[81]
 [https://www.gnu.org/software/emacs/manual/html_node/elisp/Beeping.html]
 
-[83]
+[82]
 [http://www.wisdomandwonder.com/link/8533/avoiding-window-takeover-in-emacs]
 
-[84]
+[83]
 [https://www.gnu.org/software/emacs/manual/html_node/emacs/Window-Convenience.html]
 
-[85] [http://irreal.org/blog/?p=1557]
+[84] [http://irreal.org/blog/?p=1557]
 
-[86]
+[85]
 [https://superuser.com/questions/125569/how-to-fix-emacs-popup-dialogs-on-mac-os-x]
 
-[87]
+[86]
 [https://www.gnu.org/software/emacs/manual/html_node/elisp/Resizing-Windows.html]
 
-[88]
+[87]
 [https://www.gnu.org/software/emacs/manual/html_node/emacs/Frames.html]
 
-[89]
+[88]
 [https://www.gnu.org/software/emacs/manual/html_node/elisp/Display-Feature-Testing.html]
 
-[90]
+[89]
 [https://www.gnu.org/software/emacs/manual/html_node/emacs/Scroll-Bars.html]
 
-[91]
+[90]
 [https://www.gnu.org/software/emacs/manual/html_node/emacs/Tool-Bars.html]
 
-[92]
+[91]
 [https://www.gnu.org/software/emacs/manual/html_node/emacs/Browse_002dURL.html]
 
-[93] [http://lars.ingebrigtsen.no/2013/06/16/eww/]
+[92] [http://lars.ingebrigtsen.no/2013/06/16/eww/]
 
-[94]
+[93]
 [https://www.gnu.org/software/emacs/manual/html_node/emacs/Mouse-Commands.html]
 
-[95] [https://github.com/auto-complete/popup-el]
+[94] [https://github.com/auto-complete/popup-el]
 
-[96] [https://github.com/pitkali/pos-tip]
+[95] [https://github.com/pitkali/pos-tip]
 
-[97]
+[96]
 [https://www.gnu.org/software/emacs/manual/html_node/emacs/Buffers.html#Buffers]
 
-[98] [https://github.com/alpaker/Fill-Column-Indicator]
+[97] [https://github.com/alpaker/Fill-Column-Indicator]
 
-[99]
+[98]
 [https://www.gnu.org/software/emacs/manual/html_node/emacs/Saving-Emacs-Sessions.html#Saving-Emacs-Sessions]
 
-[100] [http://marmalade-repo.org/packages/real-auto-save]
+[99] [http://marmalade-repo.org/packages/real-auto-save]
 
-[101]
+[100]
 [https://www.gnu.org/software/emacs/manual/html_node/emacs/Uniquify.html]
 
-[102] [http://ccrypt.sourceforge.net/#emacs]
+[101] [http://ccrypt.sourceforge.net/#emacs]
 
-[103]
+[102]
 [https://www.gnu.org/software/emacs/manual/html_node/emacs/Lisp-Libraries.html]
 
-[104]
+[103]
 [https://www.gnu.org/software/emacs/manual/html_node/elisp/Making-Backups.html]
 
-[105]
+[104]
 [https://www.gnu.org/software/emacs/manual/html_node/emacs/Auto-Save-Control.html]
 
-[106]
+[105]
 [https://www.gnu.org/software/emacs/manual/html_node/emacs/Useless-Whitespace.html]
 
-[107]
+[106]
 [https://www.gnu.org/software/emacs/manual/html_node/emacs/International.html#International]
 
-[108]
+[107]
 [https://www.gnu.org/software/emacs/manual/html_node/emacs/Recognize-Coding.html]
 
-[109]
+[108]
 [https://www.gnu.org/software/emacs/manual/html_node/emacs/Output-Coding.html]
 
-[110] [https://github.com/winterTTr/ace-jump-mode]
+[109] [https://github.com/winterTTr/ace-jump-mode]
 
-[111] [http://www.sublimetext.com/]
+[110] [http://www.sublimetext.com/]
 
-[112] [http://www.emacswiki.org/emacs/MiniMap]
+[111] [http://www.emacswiki.org/emacs/MiniMap]
 
-[113] [http://cedet.sourceforge.net/]
+[112] [http://cedet.sourceforge.net/]
 
-[114] [https://github.com/zk-phi/sublimity]
+[113] [https://github.com/zk-phi/sublimity]
 
-[115] [https://github.com/zk-phi/sublimity/issues/10]
+[114] [https://github.com/zk-phi/sublimity/issues/10]
 
-[116] [https://github.com/winterTTr/ace-jump-mode/wiki/AceJump-FAQ]
+[115] [https://github.com/winterTTr/ace-jump-mode/wiki/AceJump-FAQ]
 
-[117]
+[116]
 [https://www.gnu.org/software/emacs/manual/html_node/elisp/Mode-Line-Format.html]
 
-[118]
+[117]
 [https://www.gnu.org/software/emacs/manual/html_node/emacs/Optional-Mode-Line.html]
 
-[119] [http://marmalade-repo.org/packages/diminish]
+[118] [http://marmalade-repo.org/packages/diminish]
 
-[120] [http://ergoemacs.org/emacs/modernization_mode_line.html]
+[119] [http://ergoemacs.org/emacs/modernization_mode_line.html]
 
-[121] [https://github.com/milkypostman/powerline]
+[120] [https://github.com/milkypostman/powerline]
 
-[122] [https://en.wikipedia.org/wiki/X_PixMap]
+[121] [https://en.wikipedia.org/wiki/X_PixMap]
 
-[123] [https://github.com/Bruce-Connor/smart-mode-line/]
+[122] [https://github.com/Bruce-Connor/smart-mode-line/]
 
-[124] [http://www.emacswiki.org/emacs/ModeLineConfiguration]
+[123] [http://www.emacswiki.org/emacs/ModeLineConfiguration]
 
-[125]
+[124]
 [https://www.gnu.org/software/emacs/manual/html_node/emacs/Mark.html#Mark]
 
-[126]
+[125]
 [https://www.gnu.org/software/emacs/manual/html_node/emacs/Using-Region.html]
 
-[127]
+[126]
 [https://www.gnu.org/software/emacs/manual/html_node/emacs/Minibuffer.html]
 
-[128]
+[127]
 [https://www.gnu.org/software/emacs/manual/html_node/emacs/Minibuffer-Edit.html]
 
-[129] [http://cx4a.org/software/auto-complete/]
+[128] [https://en.wikipedia.org/wiki/Finder_(software)]
 
-[130] [https://company-mode.github.io/]
+[129] [http://www.emacswiki.org/emacs/SpeedBar]
 
-[131]
+[130] [http://www.emacswiki.org/emacs/SrSpeedbar]
+
+[131] [https://github.com/jaypei/emacs-neotree]
+
+[132] [http://cx4a.org/software/auto-complete/]
+
+[133] [https://company-mode.github.io/]
+
+[134]
 [https://www.gnu.org/software/emacs/manual/html_node/emacs/Useless-Whitespace.html]
 
-[132] [http://elpa.gnu.org/packages/rainbow-mode.html]
+[135] [http://elpa.gnu.org/packages/rainbow-mode.html]
 
-[133] [https://github.com/capitaomorte/yasnippet]
+[136] [https://github.com/capitaomorte/yasnippet]
 
-[134] [http://repo.or.cz/w/emacs.git/blob_plain/HEAD:/lisp/ido.el]
+[137] [http://repo.or.cz/w/emacs.git/blob_plain/HEAD:/lisp/ido.el]
 
-[135] [https://github.com/lewang/flx]
+[138] [https://github.com/lewang/flx]
 
-[136] [http://batsov.com/projectile/]
+[139] [http://batsov.com/projectile/]
 
-[137] [https://github.com/Fuco1/smartparens]
+[140] [https://github.com/Fuco1/smartparens]
 
-[138] [http://www.emacswiki.org/emacs/ParEdit]
+[141] [http://www.emacswiki.org/emacs/ParEdit]
 
-[139] [http://www.emacswiki.org/emacs/ElectricPair]
+[142] [http://www.emacswiki.org/emacs/ElectricPair]
 
-[140] [https://github.com/rejeep/wrap-region.el]
+[143] [https://github.com/rejeep/wrap-region.el]
 
-[141] [https://code.google.com/p/emacs-textmate/]
+[144] [https://code.google.com/p/emacs-textmate/]
 
-[142] [https://github.com/capitaomorte/autopair]
+[145] [https://github.com/capitaomorte/autopair]
 
-[143] [https://www.gnu.org/software/tramp/]
+[146] [https://www.gnu.org/software/tramp/]
 
-[144] [https://github.com/magnars/expand-region.el]
+[147] [https://github.com/magnars/expand-region.el]
 
-[145]
+[148]
 [https://www.gnu.org/software/emacs/manual/html_node/emacs/Dired.html]
 
-[146] [https://en.wikipedia.org/wiki/Norton_Commander]
+[149] [https://en.wikipedia.org/wiki/Norton_Commander]
 
-[147] [https://www.midnight-commander.org/]
+[150] [https://www.midnight-commander.org/]
 
-[148] [http://www.emacswiki.org/DiredDetails]
-
-[149]
-[https://www.gnu.org/software/emacs/manual/html_node/elisp/Regular-Expressions.html]
-
-[150]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/Saving-Emacs-Sessions.html]
-
-[151] [http://fly.srk.fer.hr/~hniksic/emacs/savehist.el]
+[151] [http://www.emacswiki.org/DiredDetails]
 
 [152]
-[https://stackoverflow.com/questions/1229142/how-can-i-save-my-mini-buffer-history-in-emacs]
+[https://www.gnu.org/software/emacs/manual/html_node/elisp/Regular-Expressions.html]
 
-[153] [http://www.emacswiki.org/emacs/HideShow]
+[153]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/Saving-Emacs-Sessions.html]
 
-[154]
-[http://gnufool.blogspot.com/2009/03/make-hideshow-behave-more-like-org-mode.html]
+[154] [http://fly.srk.fer.hr/~hniksic/emacs/savehist.el]
 
 [155]
+[https://stackoverflow.com/questions/1229142/how-can-i-save-my-mini-buffer-history-in-emacs]
+
+[156] [http://www.emacswiki.org/emacs/HideShow]
+
+[157]
+[http://gnufool.blogspot.com/2009/03/make-hideshow-behave-more-like-org-mode.html]
+
+[158]
 [http://emacs.wordpress.com/2007/01/16/quick-and-dirty-code-folding/]
 
-[156] [http://www.emacswiki.org/emacs/OutlineMode]
+[159] [http://www.emacswiki.org/emacs/OutlineMode]
 
-[157] [http://www.emacswiki.org/emacs/FoldingMode]
+[160] [http://www.emacswiki.org/emacs/FoldingMode]
 
-[158] [https://github.com/zenozeng/yafolding.el]
+[161] [https://github.com/zenozeng/yafolding.el]
 
-[159] [http://cedet.sourceforge.net/]
+[162] [http://cedet.sourceforge.net/]
 
-[160]
+[163]
 [https://www.gnu.org/software/emacs/manual/html_node/emacs/Hideshow.html]
-
-[161]
-[https://www.gnu.org/software/emacs/manual/html_mono/autotype.html#Copyrights]
-
-[162]
-[https://www.gnu.org/software/emacs/manual/html_node/elisp/Library-Headers.html]
-
-[163] [http://choosealicense.com/]
 
 [164]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/Spelling.html]
+[https://www.gnu.org/software/emacs/manual/html_mono/autotype.html#Copyrights]
 
 [165]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/Editing-Binary-Files.html]
+[https://www.gnu.org/software/emacs/manual/html_node/elisp/Library-Headers.html]
 
-[166] [http://www.emacswiki.org/emacs/HexlMode]
+[166] [http://choosealicense.com/]
 
 [167]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/Spelling.html]
+
+[168]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/Editing-Binary-Files.html]
+
+[169] [http://www.emacswiki.org/emacs/HexlMode]
+
+[170]
 [https://www.gnu.org/software/emacs/manual/html_node/emacs/Amusements.html#Amusements]
 
-[168] [https://www.gnu.org/software/auctex/]
+[171] [https://www.gnu.org/software/auctex/]
 
-[169] [http://ebib.sourceforge.net/]
+[172] [http://ebib.sourceforge.net/]
 
-[170] [https://www.tug.org/texworks/]
+[173] [https://www.tug.org/texworks/]
 
-[171] [http://xetex.sourceforge.net/]
+[174] [http://xetex.sourceforge.net/]
 
-[172] [https://www.gnu.org/software/auctex/reftex.html]
+[175] [https://www.gnu.org/software/auctex/reftex.html]
 
-[173] [https://github.com/nonsequitur/smex/]
+[176] [https://github.com/nonsequitur/smex/]
 
-[174]
+[177]
 [https://www.gnu.org/software/emacs/manual/html_node/emacs/Which-Function.html]
 
-[175]
+[178]
 [https://www.gnu.org/software/emacs/manual/html_node/emacs/Rectangles.html]
 
-[176] [https://github.com/magnars/multiple-cursors.el]
+[179] [https://github.com/magnars/multiple-cursors.el]
 
-[177] [http://www.emacswiki.org/emacs/RectangleCommands]
+[180] [http://www.emacswiki.org/emacs/RectangleCommands]
 
-[178] [http://emacsrocks.com/e13.html]
+[181] [http://emacsrocks.com/e13.html]
 
-[179] [https://github.com/m00natic/vlfi]
+[182] [https://github.com/m00natic/vlfi]
 
-[180]
+[183]
 [https://www.gnu.org/software/emacs/manual/html_node/emacs/Hideshow.html]
 
-[181]
+[184]
 [https://www.gnu.org/software/emacs/manual/html_node/emacs/Modes.html#Modes]
 
-[182]
+[185]
 [https://www.gnu.org/software/emacs/manual/html_node/elisp/Auto-Major-Mode.html]
 
-[183] [https://github.com/Bruce-Connor/fancy-narrow]
+[186] [https://github.com/Bruce-Connor/fancy-narrow]
 
-[184] [https://github.com/tkf/auto-complete-chunk]
+[187] [https://github.com/tkf/auto-complete-chunk]
 
-[185] [http://www.graphviz.org/]
+[188] [http://www.graphviz.org/]
 
-[186] [http://marmalade-repo.org/packages/graphviz-dot-mode]
-
-[187]
-[http://orgmode.org/worg/org-contrib/babel/languages/ob-doc-dot.html]
-
-[188] [http://marmalade-repo.org/packages/lexbind-mode]
-
-[189]
-[https://www.gnu.org/software/emacs/manual/html_node/elisp/Startup-Summary.html]
+[189] [http://marmalade-repo.org/packages/graphviz-dot-mode]
 
 [190]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/Lisp-Doc.html]
+[http://orgmode.org/worg/org-contrib/babel/languages/ob-doc-dot.html]
 
-[191]
+[191] [http://marmalade-repo.org/packages/lexbind-mode]
+
+[192]
 [https://www.gnu.org/software/emacs/manual/html_node/elisp/Startup-Summary.html]
 
-[192] [http://library.readscheme.org/index.html]
+[193]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/Lisp-Doc.html]
 
-[193] [http://www.nongnu.org/geiser/]
+[194]
+[https://www.gnu.org/software/emacs/manual/html_node/elisp/Startup-Summary.html]
 
-[194] [https://github.com/xiaohanyu/ac-geiser]
+[195] [http://library.readscheme.org/index.html]
 
-[195] [https://en.wikipedia.org/wiki/ECMAScript]
+[196] [http://www.nongnu.org/geiser/]
 
-[196] [http://www.emacswiki.org/emacs/JavaScriptMode]
+[197] [https://github.com/xiaohanyu/ac-geiser]
 
-[197] [https://en.wikipedia.org/wiki/HTML]
+[198] [https://en.wikipedia.org/wiki/ECMAScript]
 
-[198] [https://github.com/gongo/json-reformat]
+[199] [http://www.emacswiki.org/emacs/JavaScriptMode]
 
-[199] [http://www.emacswiki.org/emacs/MakefileMode]
+[200] [https://en.wikipedia.org/wiki/HTML]
 
-[200]
-[http://orgmode.org/worg/org-contrib/babel/languages/ob-doc-makefile.html]
+[201] [https://github.com/gongo/json-reformat]
 
-[201] [https://www.gnu.org/software/make/manual/make.html]
-
-[202] [http://jblevins.org/projects/markdown-mode/]
+[202] [http://www.emacswiki.org/emacs/MakefileMode]
 
 [203]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/Version-Control.html]
+[http://orgmode.org/worg/org-contrib/babel/languages/ob-doc-makefile.html]
 
-[204] [https://github.com/magit/magit]
+[204] [https://www.gnu.org/software/make/manual/make.html]
 
-[205] [http://lilypond.org/]
+[205] [http://jblevins.org/projects/markdown-mode/]
 
 [206]
-[http://www.guitar-pro.com/en/index.php?pg=accueil-2&utm_expid=13369301-5.jyDTwdKfQ_CCdEqtpCIynQ.1&utm_referrer=https%3A%2F%2Fwww.google.com%2F]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/Version-Control.html]
 
-[207]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/Visual-Line-Mode.html]
+[207] [https://github.com/magit/magit]
 
-[208] [http://www.emacswiki.org/emacs/VisualLineMode]
+[208] [http://lilypond.org/]
 
 [209]
+[http://www.guitar-pro.com/en/index.php?pg=accueil-2&utm_expid=13369301-5.jyDTwdKfQ_CCdEqtpCIynQ.1&utm_referrer=https%3A%2F%2Fwww.google.com%2F]
+
+[210]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/Visual-Line-Mode.html]
+
+[211] [http://www.emacswiki.org/emacs/VisualLineMode]
+
+[212]
 [https://www.gnu.org/software/emacs/manual/html_node/emacs/Auto-Fill.html]
 
-[210] [http://ess.r-project.org/]
+[213] [http://ess.r-project.org/]
 
-[211] [https://en.wikipedia.org/wiki/Emacs_Speaks_Statistics]
+[214] [https://en.wikipedia.org/wiki/Emacs_Speaks_Statistics]
 
-[212] [http://www.emacswiki.org/emacs/EmacsSpeaksStatistics]
+[215] [http://www.emacswiki.org/emacs/EmacsSpeaksStatistics]
 
-[213] [http://blog.revolutionanalytics.com/2011/08/ess.html]
+[216] [http://blog.revolutionanalytics.com/2011/08/ess.html]
 
-[214]
+[217]
 [http://blog.revolutionanalytics.com/2014/03/emacs-ess-and-r-for-zombies.html]
 
-[215]
+[218]
 [https://rstudio-pubs-static.s3.amazonaws.com/2246_6f220d4de90c4cfda4109e62455bc70f.html]
 
-[216] [http://ess.r-project.org/Manual/news.html]
+[219] [http://ess.r-project.org/Manual/news.html]
 
-[217] [http://ess.r-project.org/Manual/readme.html]
+[220] [http://ess.r-project.org/Manual/readme.html]
 
-[218] [http://ess.r-project.org/Manual/ess.html]
+[221] [http://ess.r-project.org/Manual/ess.html]
 
-[219] [https://code.google.com/p/ess-tracebug/]
+[222] [https://code.google.com/p/ess-tracebug/]
 
-[220]
+[223]
 [https://stat.ethz.ch/pipermail/ess-help/2014-January/009705.html]
 
-[221] [https://github.com/milkypostman/melpa/issues/6]
+[224] [https://github.com/milkypostman/melpa/issues/6]
 
-[222] [https://google-styleguide.googlecode.com/svn/trunk/Rguide.xml]
+[225] [https://google-styleguide.googlecode.com/svn/trunk/Rguide.xml]
 
-[223] [http://adv-r.had.co.nz/Style.html]
-
-[224]
-[https://stackoverflow.com/questions/7502540/make-emacs-ess-follow-r-style-guide]
-
-[225] [http://www.r-bloggers.com/a-small-customization-of-ess/]
-
-[226] [http://www.emacswiki.org/emacs/ESSAutoParens]
+[226] [http://adv-r.had.co.nz/Style.html]
 
 [227]
+[https://stackoverflow.com/questions/7502540/make-emacs-ess-follow-r-style-guide]
+
+[228] [http://www.r-bloggers.com/a-small-customization-of-ess/]
+
+[229] [http://www.emacswiki.org/emacs/ESSAutoParens]
+
+[230]
 [http://emacs.1067599.n5.nabble.com/indentation-not-working-if-parentheses-are-already-closed-td283806.html]
 
-[228]
+[231]
 [https://stackoverflow.com/questions/18420933/enabling-mode-specific-paren-indentation-in-emacs-prelude]
 
-[229] [https://github.com/Fuco1/smartparens/issues/80]
+[232] [https://github.com/Fuco1/smartparens/issues/80]
 
-[230] [https://github.com/bbatsov/prelude/issues/374]
+[233] [https://github.com/bbatsov/prelude/issues/374]
 
-[231]
+[234]
 [https://github.com/rdallasgray/graphene/blob/master/graphene-smartparens-config.el]
 
-[232] [http://www.emacswiki.org/emacs/InfoMode]
+[235] [http://www.emacswiki.org/emacs/InfoMode]
 
-[233] [https://github.com/abo-abo/ace-link]
+[236] [https://github.com/abo-abo/ace-link]
 
-[234] [http://www.vagrantup.com/]
+[237] [http://www.vagrantup.com/]
 
-[235] [https://github.com/ottbot/vagrant.el]
+[238] [https://github.com/ottbot/vagrant.el]
 
-[236] [https://github.com/dougm/vagrant-tramp]
+[239] [https://github.com/dougm/vagrant-tramp]
 
-[237] [https://www.ruby-lang.org/en/]
+[240] [https://www.ruby-lang.org/en/]
 
-[238] [http://www.emacswiki.org/emacs/ArtistMode]
+[241] [https://github.com/magnars/dash.el]
 
-[239] [http://www.graphviz.org/]
+[242] [http://www.emacswiki.org/emacs/PatternMatching]
 
-[240] [http://ditaa.sourceforge.net/]
+[243] [http://www.emacswiki.org/emacs/ArtistMode]
 
-[241] [http://plantuml.sourceforge.net/]
+[244] [http://www.graphviz.org/]
 
-[242]
+[245] [http://ditaa.sourceforge.net/]
+
+[246] [http://plantuml.sourceforge.net/]
+
+[247]
 [http://orgmode.org/worg/org-contrib/babel/languages/ob-doc-ditaa.html]
 
-[243]
-[http://home.fnal.gov/~neilsen/notebook/orgExamples/org-examples.html]
+[248]
+[http://www.craiglarman.com/wiki/index.php?title=Books_by_Craig_Larman]
 
-[244]
-[http://shallowsky.com/blog/linux/editors/graphics-in-emacs.html]
+[249] [http://orgmode.org/manual/Speed-keys.html#Speed-keys]
 
-[245] [http://orgmode.org/manual/Speed-keys.html#Speed-keys]
-
-[246]
+[250]
 [http://notesyoujustmightwanttosave.blogspot.com/2011/12/org-speed-keys.html]
 
-[247] [http://orgmode.org/manual/Clean-view.html#Clean-view]
+[251] [http://orgmode.org/manual/Clean-view.html#Clean-view]
 
-[248] [http://orgmode.org/manual/JavaScript-support.html]
+[252]
+[http://home.fnal.gov/~neilsen/notebook/orgExamples/org-examples.html]
 
-[249] [http://orgmode.org/manual/comments.html#comments]
+[253] [http://orgmode.org/manual/JavaScript-support.html]
 
-[250] [https://github.com/aki2o/org-ac]
+[254] [http://orgmode.org/manual/comments.html#comments]
 
-[251]
-[https://www.gnu.org/software/emacs/manual/html_node/elisp/Keymaps.html#Keymaps]
-
-[252] [http://www.emacswiki.org/emacs/WindowResize]
-
-[253]
-[https://www.gnu.org/software/emacs/manual/html_mono/eshell.html]
-
-[254]
-[http://www.masteringemacs.org/articles/2010/12/13/complete-guide-mastering-eshell/]
-
-[255] [http://www.khngai.com/emacs/eshell.php]
+[255] [https://github.com/aki2o/org-ac]
 
 [256]
-[http://eschulte.github.io/emacs-starter-kit/starter-kit-eshell.html]
+[https://lists.gnu.org/archive/html/emacs-orgmode/2014-06/msg00719.html]
 
 [257]
-[https://github.com/bbatsov/emacs-dev-kit/blob/master/eshell-config.el]
+[https://www.gnu.org/software/emacs/manual/html_node/elisp/Keymaps.html#Keymaps]
 
-[258] [http://mwolson.org/static/doc/erc.html]
+[258] [http://www.emacswiki.org/emacs/WindowResize]
 
-[259] [http://emacs-fu.blogspot.com/2009/06/erc-emacs-irc-client.html]
+[259]
+[https://www.gnu.org/software/emacs/manual/html_mono/eshell.html]
 
-[260] [http://edward.oconnor.cx/config/.ercrc.el]
+[260]
+[http://www.masteringemacs.org/articles/2010/12/13/complete-guide-mastering-eshell/]
 
-[261]
-[http://www.shakthimaan.com/posts/2011/08/13/gnu-emacs-erc/news.html]
+[261] [http://www.khngai.com/emacs/eshell.php]
 
 [262]
+[http://eschulte.github.io/emacs-starter-kit/starter-kit-eshell.html]
+
+[263]
+[https://github.com/bbatsov/emacs-dev-kit/blob/master/eshell-config.el]
+
+[264] [http://mwolson.org/static/doc/erc.html]
+
+[265] [http://emacs-fu.blogspot.com/2009/06/erc-emacs-irc-client.html]
+
+[266] [http://edward.oconnor.cx/config/.ercrc.el]
+
+[267]
+[http://www.shakthimaan.com/posts/2011/08/13/gnu-emacs-erc/news.html]
+
+[268]
 [https://gitcafe.com/Darksair/dotfiles-mac/blob/master/.emacs-erc.el]
 
-[263] [http://www.mirc.com/]
+[269] [http://www.mirc.com/]
 
-[264] [http://www.irssi.org/]
+[270] [http://www.irssi.org/]
 
-[265] [http://www.emacswiki.org/emacs/ErcAutoAway]
+[271] [http://www.emacswiki.org/emacs/ErcAutoAway]
 
-[266] [http://www.emacswiki.org/emacs/ErcAutoJoin]
+[272] [http://www.emacswiki.org/emacs/ErcAutoJoin]
 
-[267] [http://www.emacswiki.org/emacs/ErcButton]
+[273] [http://www.emacswiki.org/emacs/ErcButton]
 
-[268] [http://www.emacswiki.org/emacs/ErcCompletion]
+[274] [http://www.emacswiki.org/emacs/ErcCompletion]
 
-[269] [http://www.emacswiki.org/emacs/ErcFilling]
+[275] [http://www.emacswiki.org/emacs/ErcFilling]
 
-[270]
+[276]
 [http://www.opensource.apple.com/source/emacs/emacs-84/emacs/lisp/erc/erc.el]
 
-[271] [https://github.com/pymander/erc/blob/master/erc-list.el]
+[277] [https://github.com/pymander/erc/blob/master/erc-list.el]
 
-[272] [http://www.emacswiki.org/emacs/ErcMatch]
+[278] [http://www.emacswiki.org/emacs/ErcMatch]
 
-[273] [http://www.emacswiki.org/emacs/ErcNetsplit]
+[279] [http://www.emacswiki.org/emacs/ErcNetsplit]
 
-[274] [http://www.emacswiki.org/emacs/ErcNickNotify]
+[280] [http://www.emacswiki.org/emacs/ErcNickNotify]
 
-[275] [https://github.com/emacsmirror/erc/blob/master/erc-page.el]
+[281] [https://github.com/emacsmirror/erc/blob/master/erc-page.el]
 
-[276] [https://github.com/emacsmirror/erc/blob/master/erc-ring.el]
+[282] [https://github.com/emacsmirror/erc/blob/master/erc-ring.el]
 
-[277] [http://www.emacswiki.org/emacs/ErcScrollToBottom]
+[283] [http://www.emacswiki.org/emacs/ErcScrollToBottom]
 
-[278] [http://www.emacswiki.org/emacs/ErcStamp]
+[284] [http://www.emacswiki.org/emacs/ErcStamp]
 
-[279] [http://www.emacswiki.org/emacs/ErcChannelTracking]
+[285] [http://www.emacswiki.org/emacs/ErcChannelTracking]
 
-[280] [https://github.com/kidd/erc-tweet.el]
+[286] [https://github.com/kidd/erc-tweet.el]
 
-[281] [https://github.com/kidd/erc-image.el]
+[287] [https://github.com/kidd/erc-image.el]
 
-[282] [https://github.com/kidd/erc-youtube.el]
+[288] [https://github.com/kidd/erc-youtube.el]
 
-[283] [https://github.com/leathekd/erc-hl-nicks]
+[289] [https://github.com/leathekd/erc-hl-nicks]
 
-[284] [https://github.com/cask/cask]
+[290] [https://github.com/cask/cask]
 
-[285]
+[291]
 [https://www.gnu.org/software/emacs/manual/html_node/emacs/Packages.html]
