@@ -7,6 +7,8 @@
 
 (depends-on "rainbow-mode")
 
+(depends-on "ascii-art-to-unicode")
+
 (source marmalade)
 
 (depends-on "real-auto-save")
@@ -24,6 +26,8 @@
 (depends-on "auto-complete")
 
 (depends-on "auto-complete-chunk")
+
+(depends-on "boxquote")
 
 (depends-on "dash")
 
@@ -51,11 +55,17 @@
 
 (depends-on "expand-region")
 
+(depends-on "f")
+
 (depends-on "fancy-narrow")
+
+(depends-on "figlet")
 
 (depends-on "fill-column-indicator")
 
 (depends-on "flx-ido")
+
+(depends-on "flycheck")
 
 (depends-on "fuzzy")
 
@@ -64,6 +74,8 @@
 (depends-on "graphviz-dot-mode")
 
 (depends-on "hideshow-org")
+
+(depends-on "diff-hl")
 
 (depends-on "htmlize")
 
@@ -103,6 +115,8 @@
 
 (depends-on "r-autoyas")
 
+(depends-on "s")
+
 (depends-on "smartparens")
 
 (depends-on "smex")
@@ -118,6 +132,8 @@
 (depends-on "vagrant-tramp")
 
 (depends-on "web-mode")
+
+(depends-on "world-time-mode")
 
 (depends-on "xml-rpc")
 

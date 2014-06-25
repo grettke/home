@@ -100,7 +100,8 @@ _________________
   | cp .emacs.el ~/git/github-grettke/home
   | cp .org-mode.emacs.el ~/git/github-grettke/home
   | cp ~/tmp/cask.tgz ~/git/github-grettke/home
-  | cp ~/tmp/ditaa0_9.tar ~/git/github-grettke/home
+  | cp ~/tmp/ditaa0_9.jar ~/git/github-grettke/home
+  | cp auap.png ~/git/github-grettke/home
   `----
 
   Turn the typescript off:

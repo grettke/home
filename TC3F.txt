@@ -18,28 +18,28 @@ _________________
 .. 1.2 Cogito ergo sum [4]
 .. 1.3 Means [9]
 .. 1.4 Madness [12]
-.. 1.5 Goal
-.. 1.6 Decision
-.. 1.7 Methodology [16]
-..... 1.7.1 Medium
-.. 1.8 Developmental Values
-..... 1.8.1 Traits
-..... 1.8.2 Coding
-..... 1.8.3 Editing
-..... 1.8.4 Development
-.. 1.9 Operational Values
-..... 1.9.1 Fonts
-..... 1.9.2 Images
-..... 1.9.3 Spreadsheet
-..... 1.9.4 Files
-..... 1.9.5 Commands
-..... 1.9.6 Publishing
-..... 1.9.7 Terminal
-..... 1.9.8 Remote file access and management
-..... 1.9.9 Music
-..... 1.9.10 Communications
-.. 1.10 Observations
-.. 1.11 La trahison des images [33]
+..... 1.4.1 Goal
+.. 1.5 Decision
+.. 1.6 Methodology [16]
+..... 1.6.1 Medium
+.. 1.7 Developmental Values
+..... 1.7.1 Traits
+..... 1.7.2 Coding
+..... 1.7.3 Editing
+..... 1.7.4 Development
+.. 1.8 Operational Values
+..... 1.8.1 Fonts
+..... 1.8.2 Images
+..... 1.8.3 Spreadsheet
+..... 1.8.4 Files
+..... 1.8.5 Commands
+..... 1.8.6 Publishing
+..... 1.8.7 Terminal
+..... 1.8.8 Remote file access and management
+..... 1.8.9 Music
+..... 1.8.10 Communications
+.. 1.9 Observations
+.. 1.10 La trahison des images [34]
 2 On the role of, and the need for, a personal philosophy
 .. 2.1 Audience
 .. 2.2 Keyboard usage strategies
@@ -51,7 +51,7 @@ _________________
 ..... 2.2.6 Version 003
 ..... 2.2.7 Version 004
 .. 2.3 Ponderings
-..... 2.3.1 Make things "secure by default"  [60]
+..... 2.3.1 Make things "secure by default"  [63]
 ..... 2.3.2 What it means to test
 ..... 2.3.3 Practice
 ..... 2.3.4 Audience
@@ -60,40 +60,37 @@ _________________
 .. 2.6 The preparation
 .. 2.7 Expressivity
 .. 2.8 The story
-.. 2.9 Reminders
+.. 2.9 Inspirations
+.. 2.10 Reminders
 3 Decisions
-.. 3.1 General stuff [64] [65] [66] [67]
+.. 3.1 General stuff [70] [71] [72] [73]
 .. 3.2 Environment
-.. 3.3 Font (Appearance)
-.. 3.4 UXO (Traits, user experience/orthogonality)
-..... 3.4.1 Keyboard
-..... 3.4.2 Windows [74]
-..... 3.4.3 Frames [87]
-..... 3.4.4 Buffers [96]
-..... 3.4.5 Modeline [116]
-..... 3.4.6 Mark and Region [124]
-..... 3.4.7 Minibuffer [126]
-..... 3.4.8 Filesystem management
-.. 3.5 Modes (functionality)
-..... 3.5.1 Custom variables
-..... 3.5.2 Configuration
-..... 3.5.3 Application Modes [183] [184]
-..... 3.5.4 Operation (Keybindings/Keymaps) [257]
-.. 3.6 Shells [259] [260] [261]
-..... 3.6.1 Control Files
-..... 3.6.2 Config [262] [263]org-
-.. 3.7 IRC [264] [265] [266] [267] [268]
+.. 3.3 Time
+.. 3.4 Font (Appearance)
+.. 3.5 UXO (Traits, user experience/orthogonality)
+..... 3.5.1 Keyboard
+..... 3.5.2 Windows [80]
+..... 3.5.3 Frames [93]
+..... 3.5.4 Buffers [102]
+..... 3.5.5 Modeline [123]
+..... 3.5.6 Mark and Region [132]
+..... 3.5.7 Minibuffer [134]
+..... 3.5.8 Filesystem management
+..... 3.5.9 Operation (Keybindings/Keymaps) [140]
+.. 3.6 Primary usage
+..... 3.6.1 Custom variables
+..... 3.6.2 Configuration
+..... 3.6.3 Application Modes [201] [202]
 4 Assembly
 .. 4.1 Prerequisites
 ..... 4.1.1 Runtime
-..... 4.1.2 Cask  [290]
+..... 4.1.2 Cask  [314]
 .. 4.2 Layout
 ..... 4.2.1 Detail
 ..... 4.2.2 Org Only System
 ..... 4.2.3 Fully Loaded System
 .. 4.3 Font block
 .. 4.4 Utility fuctions
-.. 4.5 Values
 
 
 
@@ -163,21 +160,21 @@ _________________
         Thinking is required.
 
 
-1.5 Goal
-~~~~~~~~
+1.4.1 Goal
+----------
 
   What is my measure of success?
     To provide a self-suportable environment in which the creation and
   	  conservation of computer files may occur with ease
 
 
-1.6 Decision
+1.5 Decision
 ~~~~~~~~~~~~
 
         GNU Emacs is an extensible, customizable text editor [15]
 
 
-1.7 Methodology [16]
+1.6 Methodology [16]
 ~~~~~~~~~~~~~~~~~~~~
 
   How will I customize it?
@@ -199,7 +196,7 @@ _________________
   provides that freedom out of the box.
 
 
-1.7.1 Medium
+1.6.1 Medium
 ------------
 
   How will explain what I did?
@@ -208,10 +205,10 @@ _________________
   - Reusable data structures
 
 
-1.8 Developmental Values
+1.7 Developmental Values
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-1.8.1 Traits
+1.7.1 Traits
 ------------
 
   - [X] Pleasing user experience
@@ -219,7 +216,7 @@ _________________
   - [X] Self-suportable
 
 
-1.8.2 Coding
+1.7.2 Coding
 ------------
 
   - [X] Completion
@@ -227,7 +224,7 @@ _________________
   - [X] Templates
 
 
-1.8.3 Editing
+1.7.3 Editing
 -------------
 
   - [X] Auto-indenting
@@ -264,7 +261,7 @@ _________________
   - [X] Tab management
 
 
-1.8.4 Development
+1.7.4 Development
 -----------------
 
   - [X] Build tools: make
@@ -276,27 +273,27 @@ _________________
   - [X] Workflow
 
 
-1.9 Operational Values
+1.8 Operational Values
 ~~~~~~~~~~~~~~~~~~~~~~
 
-1.9.1 Fonts
+1.8.1 Fonts
 -----------
 
   - [X] Focus on easily-screen-readable, mono-spaced
   - [X] Research suggests that san-serif fonts are easier to read [19]
     [20] [21] [22] [23] [24]
-  - [X] Research suggests that color doesn't matter; only contrast
-    [25][26] [27] [28] [29] [30] [31] [32]
+  - [X] Research suggests that color doesn't matter; only contrast [25]
+      [26] [27] [28] [29] [30] [31] [32]
   - [X] Unicode support is critical
 
 
-1.9.2 Images
+1.8.2 Images
 ------------
 
   - [X] Ascii art
 
 
-1.9.3 Spreadsheet
+1.8.3 Spreadsheet
 -----------------
 
   - [X] Calculation
@@ -304,7 +301,7 @@ _________________
   - [X] Import/Export
 
 
-1.9.4 Files
+1.8.4 Files
 -----------
 
   - [X] Auto-save & synchronize
@@ -314,7 +311,7 @@ _________________
   - [X] Search everywhere
 
 
-1.9.5 Commands
+1.8.5 Commands
 --------------
 
   - [X] Key recording
@@ -323,41 +320,41 @@ _________________
   - [X] Undo
 
 
-1.9.6 Publishing
+1.8.6 Publishing
 ----------------
 
   - [X] Code
   - [X] Multiple formats: HTML, JS, PDF
 
 
-1.9.7 Terminal
+1.8.7 Terminal
 --------------
 
   - [X] Cross-platform shell
   - [X] Games
 
 
-1.9.8 Remote file access and management
+1.8.8 Remote file access and management
 ---------------------------------------
 
   - [X] SSH
   - [X] SCP
 
 
-1.9.9 Music
+1.8.9 Music
 -----------
 
   - [X] LilyPond
 
 
-1.9.10 Communications
+1.8.10 Communications
 ---------------------
 
   - [X] IRC
 
 
-1.10 Observations
-~~~~~~~~~~~~~~~~~
+1.9 Observations
+~~~~~~~~~~~~~~~~
 
   - Went stunningly well
   - Stopped logging hours spent >100h
@@ -371,19 +368,27 @@ _________________
     the efforts to consider, realize, and support this system
   - Before beginning I had no value system about testing this kind of
     artifact
+  - If this attribution, which is /only/ about Wolfram's MathWorld [33],
+    the you may be interested in this style of programming and
+    literature:
+        Created, developed, and nurtured by Eric Weisstein at
+        Wolfram Research
 
 
-1.11 La trahison des images [33]
+1.10 La trahison des images [34]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   Where else has this acronym shown up?
-  #cc33ff: bright purple color [34]
-  Commander, U.S. Third Fleet: WWII navy [35]
-  A spasmogenic fragment: a peptide [36]
+  #cc33ff: bright purple color [35]
+  Commander, U.S. Third Fleet: WWII navy [36]
+  A spasmogenic fragment: a peptide [37]
 
 
 2 On the role of, and the need for, a personal philosophy
 =========================================================
+
+
+
 
 2.1 Audience
 ~~~~~~~~~~~~
@@ -437,13 +442,13 @@ _________________
   and years. It was after years of usage that I got curious about
   "better ways" to do; and I suppose that is the driving force behind
   thousands of Emacs packages. The change works well on Windows, Linux,
-  and OSX. Lately I've read a lot of material published by bbatsov [37]
-  and xahlee [38] about their quests to perfect Emacs and there is a lot
+  and OSX. Lately I've read a lot of material published by bbatsov [38]
+  and xahlee [39] about their quests to perfect Emacs and there is a lot
   of discussion about keyboard mappings that go so far as to talk about
-  how to avoid repetitive strain injury [39]. By "lately", I mean over
-  the course of a few years. That alone will get any computer user
-  interested in really thinking about their mappings and how to make
-  things easier on their wrists.
+  how to avoid repetitive strain injury [40] due to QWERTY [41]. By
+  "lately", I mean over the course of a few years. That alone will get
+  any computer user interested in really thinking about their mappings
+  and how to make things easier on their wrists.
 
 
 2.2.3 Version 002
@@ -486,7 +491,7 @@ _________________
   conceptually, so I generally know where to put thing and where to find
   things.
 
-  Articles on things like god mode [40] were my first thought on how to
+  Articles on things like god mode [42] were my first thought on how to
   tackle this, but on further review it became clear pretty quickly that
   the best approach for me would be to follow Xah's advice and start
   using more meta keys.
@@ -496,7 +501,7 @@ _________________
 ----------------------
 
   My desire is to have a pleasant key binding approach that works on all
-  keyboards and supports all meta keys [41] supported by Emacs [42]. To
+  keyboards and supports all meta keys [43] supported by Emacs [44]. To
   get started I tracked down some examples of what I want to support for
   work, home, and other:
   - A [Macbook Pro Retina 15"]
@@ -504,6 +509,8 @@ _________________
   - A [Lenovo W540]
   - A [Dell external USB keyboard]
   - A [HP EliteBook 8570W]
+
+  (Still not sure how to track down one of these [45]
 
   Staring at these for a while got me thinking about the "perfect"
   layout and it started to get a bit overwhelming so I set out to reduce
@@ -559,8 +566,8 @@ _________________
               there and the decision will be final. Now I need to figure
               out the plan.
 
-  Having had some really good experience with KeyMapper [43] on Windows
-  and KeyRemap4MacBook [44] on OSX I am feeling very confident and
+  Having had some really good experience with KeyMapper [46] on Windows
+  and KeyRemap4MacBook [47] on OSX I am feeling very confident and
   adventurous on pursuing an quite aggressive remap that looks like
   this:
   Caps lock: control
@@ -627,7 +634,7 @@ _________________
 
   Second, find a way to make enter key send enter when pressed act as
   control when held. We really lucked out here, and bbatsov already
-  figured this out for us here [45]. It is kind of cool that many of us
+  figured this out for us here [48]. It is kind of cool that many of us
   will reach the same conclusion as him, and of course also that he
   graciously blogged the solution. Yet to be done is to find a good
   solution for Windows and Linux.
@@ -646,7 +653,7 @@ _________________
   have their place and use, and I'm not ditching them. That leaves one
   place, the F keys. F1 and F12 are open. Would ie nice to use them for
   super? Would it be horrible? Is it even possible? Well, not
-  really. This article [46] explains the notion of reserved keys, and
+  really. This article [49] explains the notion of reserved keys, and
   how F1-F4 are not available, thus negating the chance to have balanced
   hyper on each side using F keys. That is OK. That is sticking with my
   philosophy of "close to the original" and I feel like it is very OK
@@ -695,7 +702,7 @@ _________________
 
   + 2.2.7.2.1 MASTERING KEY BINDINGS IN EMACS
 
-    First, Micky stepped in [47] with a potent summary [48] of where to
+    First, Micky stepped in [50] with a potent summary [51] of where to
     begin mastering your keybindings. This is /critical/.
 
     - Grokking `self-insert-command' helps grok the notion of
@@ -722,11 +729,11 @@ _________________
     - Keymap lookup order, first-found, minor modes are first
       - `overriding-terminal-local-map'
       - `overriding-local-map'
-      - Inside of char properties [49]
+      - Inside of char properties [52]
       - `emulation-mode-map-alists'
       - `minor-mode-overriding-map-alist'
       - `minor-mode-map-alist'
-      - Inside of text properties [50]
+      - Inside of text properties [53]
       - `current-local-map'
       - `current-global-map'
     - /commands/ are /interactive functions/
@@ -740,7 +747,7 @@ _________________
 
   + 2.2.7.2.2 Custom Global Emacs Bindings with Key Chord and the Semi-Colon Key
 
-    Justin posted this [51] his approach here, and I think that I
+    Justin posted this [54] his approach here, and I think that I
     understood his goals. His comment that:
 
           learning Emacs and molding it with lisp is a great
@@ -748,7 +755,7 @@ _________________
 
     is *spot on*.
 
-    His advice on how to use key-chord mode [52] also struck a note with
+    His advice on how to use key-chord mode [55] also struck a note with
     me:
 
           this is basically an empty binding namespace… you can
@@ -765,7 +772,7 @@ _________________
     Justin shared a concise bit of wisdom that is, like most things you
     will find in this community, a pleasure to consume.
 
-    EmacsWiki shared some details [53], too:
+    EmacsWiki shared some details [56], too:
     - The term /key chord/
       - Is specific to using this mode
       - Is two keys pressed simultaneously
@@ -773,11 +780,11 @@ _________________
     - Use the thumb a lot, it is strong!
     - Avoid chords common to how you "write"
 
-    Of course, Magnar already knew [54], yet further evidence that all
+    Of course, Magnar already knew [57], yet further evidence that all
     of his vlogs are required viewing.
 
 
-  + 2.2.7.2.3 key-chord.el [55]
+  + 2.2.7.2.3 key-chord.el [58]
 
     Many times, the source /is/ required-reading, too
     - `key-chord-define-global'
@@ -796,7 +803,7 @@ _________________
 
   + 2.2.7.2.4 Emacs: How to Define Keys
 
-    This article [56] will serve many:
+    This article [59] will serve many:
     - One may define bindings of:
       - A single keyA sequence of single keys
       - Key combinations
@@ -826,7 +833,7 @@ _________________
   + 2.2.7.2.5 A Curious Look at GNU Emacs's 1000+ Default Keybinding
 
     Something of a diversion for me having covered stuff elsewhere, but
-    this [57] is a nice to know, too:
+    this [60] is a nice to know, too:
     - The fact that `F1' is bound to help really reveals how thoughtful
       Emacs was provided for its users
     - Special symbols are nice to know about, I've always used
@@ -840,7 +847,7 @@ _________________
 
   + 2.2.7.2.6 Emacs Keybinding: the Power of Key Sequences
 
-    More [58] from Xah's great pool of Emacs wisdom. Something great to
+    More [61] from Xah's great pool of Emacs wisdom. Something great to
     think about when you design your layout:
     - Yet another keyspace
     - Use these when there is discontinuity in your in your editing
@@ -935,7 +942,7 @@ _________________
      and pleasnt
   to press.
 
-  1. The ease of access becomes quite clear. For me it is C-[59]23 and
+  1. The ease of access becomes quite clear. For me it is `C-[123]' and
      C-90[-] that
   are quite easy to reach. Good to know and note, note sure how though
   yet.
@@ -966,11 +973,25 @@ _________________
      much that
   they should be even *closer* to home. Fixed that.
 
+  1. Looking at the version control mappings to s-d… that was a
+     relatively easy key combo, and naturally it ended up with the
+     choices all occurring on the right hand. That was almost without
+     thinking.
+
+  2. Another idea of name-spacing is to use sequences of letters that
+     are meaninful. This [62] articles covers something that I never
+     though to do: C-c word. Simple.  Instead of limiting it to meta
+     sequences, like C-x C-e, just do C-x ce!
+
+  3. Just added a key-chord for =a'= because I do that *all the time*.
+     Left-control and ' are already used, and this just popped into my
+     mind.  Perhaps it is obvious?
+
 
 2.3 Ponderings
 ~~~~~~~~~~~~~~
 
-2.3.1 Make things "secure by default"  [60]
+2.3.1 Make things "secure by default"  [63]
 -------------------------------------------
 
   Your artifacts may end up in use anywhere by anyone. Create an
@@ -1069,7 +1090,7 @@ _________________
   built, at least from a software perspective, occurred due to the
   efforts of great inviduals, who may be broadly and perhaps unfairly
   lumped under the singular umbrella of The Free Software Foundation
-  [6].
+  [64].
 
   Sadly most computer professionals today, especially developers, make a
   non-trivial percentage of their income using the artifacts produced by
@@ -1099,7 +1120,7 @@ _________________
   tool. Unlike carpenters and wood-workers who have a bevy of
   interesting and delightful tools, we are stuck with but
   one. Fortunately for us, our singular tool allows limitless creation,
-  of tools and more. Alan Kay said it so well [61]:
+  of tools and more. Alan Kay said it so well [65]:
 
         The computer is a medium that can dynamically simulate the
         details of any other medium, including media that cannot
@@ -1118,7 +1139,7 @@ _________________
 
   As of writing, although there are many nice options out there, none of
   them come within even light-years, of power that you are granted for
-  working with a computer as that metamedium, that GNU Emacs [9]. With
+  working with a computer as that metamedium, that GNU Emacs [66]. With
   that in mind, the following is what I actually want to do with it.
 
 
@@ -1126,7 +1147,7 @@ _________________
 ~~~~~~~~~~~~~~~~~~~
 
         Give me six hours to chop down a tree and I will spend the
-        first four sharpening the axe. [62]
+        first four sharpening the axe. [67]
 
   Even better, configure Emacs properly and you will end up with a
   lightsaber. It takes investment though, and it begins with
@@ -1140,7 +1161,7 @@ _________________
   combined with our existing experience, could help us to produce some
   really beautiful things. That experience is often reflected in the
   love, adoration, and resect held collectively for the Lambda papers
-  [63].
+  [68].
 
   At its simplest, reading about Emacs and org-mode are a perfectly fine
   place to start with this kind of a document.
@@ -1192,11 +1213,40 @@ _________________
   - Deliver an expandable system
 
 
-2.9 Reminders
-~~~~~~~~~~~~~
+2.9 Inspirations
+~~~~~~~~~~~~~~~~
+
+  Eric Weisstein: Creator of MathWorld [69]
+
+
+2.10 Reminders
+~~~~~~~~~~~~~~
 
   - *NEVER* edit source blocks outside of their editor mode
     - *Guaranteed* issues will occur if it is LISP
+  - Treat source blocks amazingly delicately and thoughtfully because if
+    you don't then you will break your system
+  - The flow is
+    - First make the new changes directly in the code
+    - Verify that they work
+    - *Then* place them in this document
+  - Only use in-line footnotes unless your document is very very small
+    - Footnotes in org-mode are really, really great. Before you really
+      get into using them, take a bit of time to think about how you
+      want to use them.
+    - If you have 5 footnotes or less, then don't think anymore about
+      it. If more then read on.
+    - This topic is not unique to org first of all, it just isn't
+      something that you consider much until it is too late. Once you
+      get into the org lifecycle, you start tossing and slinging
+      document and code fragments with ease, especially while
+      refactoring. This is all find and well, until you realize that
+      your footnotes will be left sad and alone, abandoned for some
+      cruel fate. In particular, it will break your document.
+    - The better way is to define them all in-line; that will allow
+      simple and easy refactoring in a quite pleasant manner.
+  - No comments in generated source code ever; barring a few special
+    cases.
 
 
 3 Decisions
@@ -1217,7 +1267,7 @@ _________________
   nearly every level possible.
 
 
-3.1 General stuff [64] [65] [66] [67]
+3.1 General stuff [70] [71] [72] [73]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   A number of variables are generally important, and are also
@@ -1247,7 +1297,7 @@ _________________
   `----
 
   Starting to think that I might want a "useful library" section,
-  because I just added the xml-rpc [68] library here because it is
+  because I just added the xml-rpc [74] library here because it is
   clearly useful:
   ,----
   | ;; TODO: Move this to a lib section after Cask (require 'xml-rpc)
@@ -1261,6 +1311,11 @@ _________________
   all buffers. This is a desire, to have all files persisted so that
   everything run /just works/. I'm not quite sure how to codify and
   automate this yet, but I am on the path.
+
+  Performance, give Emacs more RAM:
+  ,----
+  | (setq gc-cons-threshold (* 25 1024 1024))
+  `----
 
 
 3.2 Environment
@@ -1279,9 +1334,9 @@ _________________
   attention to the minibuffer or `Messages' for stuff and just started
   looking for GUI options. The plan is to have `Messages' for most stuff
   and if there are alerts by any definition then I want that to be an
-  option. First choice was todochiku [69] due to the high download count
+  option. First choice was todochiku [75] due to the high download count
   but two issues, it didn't work and it is not used by anything
-  else. Alert [70], on the other hand, is, and also lives on Github
+  else. Alert [76], on the other hand, is, and also lives on Github
   meaning that it is maintainable.
   ,----
   | (require 'alert)
@@ -1293,12 +1348,21 @@ _________________
   `----
 
 
-3.3 Font (Appearance)
+3.3 Time
+~~~~~~~~
+
+  There are time zones that I do care to know about:
+  ,----
+  | (require 'world-time-mode)
+  `----
+
+
+3.4 Font (Appearance)
 ~~~~~~~~~~~~~~~~~~~~~
 
   The studies cited above indicate that the two major factors that
   contribute to readabilty of a document are contrast and
-  font-face. Sayre's law [71] however demands that any number of other
+  font-face. Sayre's law [77] however demands that any number of other
   things are critical to how your IDE looks! That is OK. This section
   captures some of the basics to getting the system looking how I like
   it.
@@ -1322,7 +1386,7 @@ _________________
   their documentation quite closely it came down something relatively
   simple: face support. Trying to set up help popups to look decent I
   noticed that `auto-complete' and `popup' looked horrible. Reading
-  through the different versions, there was only one [72] package that
+  through the different versions, there was only one [78] package that
   provided so many faces that I needed and the others did not so the
   decision was easy.
 
@@ -1345,15 +1409,15 @@ _________________
   `----
 
 
-3.4 UXO (Traits, user experience/orthogonality)
+3.5 UXO (Traits, user experience/orthogonality)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-3.4.1 Keyboard
+3.5.1 Keyboard
 --------------
 
   The user experience revolving around th keyboard is usually accounted
   for by the features built-in to Emacs. Along came something radical,
-  though, in the form of key-chord [73].
+  though, in the form of key-chord [79].
 
   ,----
   | (require 'key-chord)
@@ -1362,53 +1426,59 @@ _________________
   `----
 
 
-3.4.2 Windows [74]
+3.5.2 Windows [80]
 ------------------
 
-  Menu bars are not required. [75]
+  Menu bars are not required. [81]
   ,----
   | (menu-bar-mode 0)
   `----
-  Make it really obvious where the 80th column sits. [76]
+
+  Make it really obvious where the 80th column sits. [82]
   ,----
   | (setq-default fill-column 80)
   `----
-  The cursor should not blink. [77]
+
+  The cursor should not blink. [83]
   ,----
   | (blink-cursor-mode 0)
   | (gcr/on-gui
   |  (setq-default cursor-type 'box))
   | (setq x-stretch-cursor 1)
   `----
-  Show line numbers everywhere. [78]
+
+  Show line numbers everywhere. [84]
   ,----
   | (global-linum-mode 1)
   `----
-  Activate syntax highlighting everywhere. [79]
+
+  Activate syntax highlighting everywhere. [85]
   ,----
   | (global-font-lock-mode 1)
   `----
-  Visualize parentheses a certain way. [80]
+
+  Visualize parentheses a certain way. [86]
   ,----
   | (setq blink-matching-paren nil)
   | (show-paren-mode +1)
   | (setq show-paren-delay 0)
   | (setq show-paren-style 'expression)
   `----
-  Don't use audible bells, use visual bells. [81]
+
+  Don't use audible bells, use visual bells. [87]
   ,----
   | (setq ring-bell-function 'ignore)
   | (setq visible-bell +1)
   `----
 
-  This post [82] got me thinking that perhaps it was wrong of me to be
+  This post [88] got me thinking that perhaps it was wrong of me to be
   happy with simply re-positioning all of my windows after their layout
   gets changed.  Probably, I'm just a simple user and never run into
   this problem, or perhaps my layout is so simple that restoring it is
   not a big deal. That said, I've been having a nagging feeling about
   how exactly I plan to utilize ERC now that I've got it set up and
   simply avoided the topic for a while. Now is the time to address
-  it. Reading more about winner-mode [83] [84], though, has sort of got
+  it. Reading more about winner-mode [89] [90], though, has sort of got
   me wondering why I never pursued something like this before now.
   ,----
   | (winner-mode +1)
@@ -1423,7 +1493,7 @@ _________________
   `----
 
   For some reason, on OSX dialogs don't work and essentially end up
-  locking up Emacs! Here [85] is the solution:
+  locking up Emacs! Here [91] is the solution:
   ,----
   | (gcr/on-osx
   |  (defadvice yes-or-no-p (around prevent-dialog activate)
@@ -1437,28 +1507,32 @@ _________________
   |      ad-do-it)))
   `----
 
-  Add this [86] to the list of things to maintain your sanity… how to
+  Add this [92] to the list of things to maintain your sanity… how to
   resize windows. My bindings are in the keybindings section.
 
 
-3.4.3 Frames [87]
+3.5.3 Frames [93]
 -----------------
 
-  Make the title frame something special. [88]
+  Make the title frame something special. [94]
   ,----
   | (setq frame-title-format '("the ultimate…"))
   `----
+
   The scroll bars are actually quite nice. Despite that, I don't
-  actually use them, so there they go. [89]
+  actually use them, so there they go. [95]
   ,----
   | (scroll-bar-mode -1)
   `----
-  The tool bars are not very nice.  [90]
+
+  The tool bars are not very nice.  [96]
   ,----
   | (tool-bar-mode 0)
   `----
-  Browse URLs in a real browser; nothing against W3C. [91] EWW looks
-  interesting, too [92]
+
+  Browse URLs in a real browser; nothing against W3C. [97]
+
+  EWW looks interesting, too [98]
   ,----
   | (setq browse-url-browser-function 'browse-url-generic)
   | (gcr/on-gnu/linux (setq browse-url-generic-program "chromium-browser"))
@@ -1466,14 +1540,15 @@ _________________
   |  (require 'osx-browse)
   |  (osx-browse-mode 1))
   `----
-  Let the mousewheel move the cursor in a sane manner. [93]
+
+  Let the mousewheel move the cursor in a sane manner. [99]
   ,----
   | (setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
   | (setq mouse-wheel-progressive-speed nil)
   `----
 
-  If possible, use a better popup [94] . Pos-tip should help [95].  Have
-  mixed feelings about this. First, glad it is here, and a lot of
+  If possible, use a better popup [100] . Pos-tip should help [101].
+  Have mixed feelings about this. First, glad it is here, and a lot of
   packages do use it. Eventually I'll need to set up a larger font. My
   desire was to have pos-tip use the current theme values, but I
   couldn't figure out how and the folks online weren't quite sure
@@ -1488,25 +1563,25 @@ _________________
   `----
 
 
-3.4.4 Buffers [96]
-------------------
+3.5.4 Buffers [102]
+-------------------
 
   It is nice to have an indicator of the right column that indicates the
   maximum depth of the line. My favorite package is
-  fill-column-indicator [97]. Its use shows up in almost all of the
+  fill-column-indicator [103]. Its use shows up in almost all of the
   modes. While working on this build though the export to HTML included
   junk characters, so I had to disable it, at least in Lispy modes. My
   final solution to be able to use this package was to generate two
   Emacs configuration files, one for general use and one just for doing
   exports.
 
-  Keep open files open across sessions. [98]
+  Keep open files open across sessions. [104]
   ,----
   | (desktop-save-mode 1)
   | (setq desktop-restore-eager 10)
   `----
 
-  Automatically save every buffer associated with a file [99]. This is
+  Automatically save every buffer associated with a file [105]. This is
   another IntelliJ holdover. The built in auto-save in Emacs wasn't
   something that I needed, and this does the right thing. There is a bit
   more though to it, namely because the interval is only 20s I still
@@ -1515,42 +1590,48 @@ _________________
   all buffers with files attached are saved /first/.
   ,----
   | (require 'real-auto-save)
-  | (setq real-auto-save-interval 20)
+  | (setq real-auto-save-interval 15)
   `----
 
-  Make two buffers with the same file name open distinguishable. [100]
+  Make two buffers with the same file name open distinguishable. [106]
   ,----
   | (require 'uniquify)
   | (setq uniquify-buffer-name-style 'forward)
   `----
-  Support transparent AES encryption of buffers. [101] See also for
-  library paths [102]
+
+  Support transparent AES encryption of buffers. [107] See also for
+  library paths [108]
   ,----
   | (add-to-list 'load-path "/usr/share/emacs/site-lisp/ccrypt")
   | (require 'ps-ccrypt "ps-ccrypt.el")
   `----
-  With modern VCS, backup files aren't required. [103]
+
+  With modern VCS, backup files aren't required. [109]
   ,----
   | (setq backup-inhibited 1)
   `----
+
   The built in auto save isn't required either because of the
-  above. [104]
+  above. [110]
   ,----
   | (setq auto-save-default nil)
   `----
-  Ban whitespace at end of lines, globally. [105]
+
+  Ban whitespace at end of lines, globally. [111]
   ,----
   | (add-hook 'write-file-hooks
-  |           '(lambda ()
-  |              (gcr/delete-trailing-whitespace)))
+  |           (lambda ()
+  |             (gcr/delete-trailing-whitespace)))
   `----
+
   The world is so rich with expressivity. Although Unicode may never
-  capture all of the worlds symbols, it comes close. [106] [107] [108]
+  capture all of the worlds symbols, it comes close. [112] [113] [114]
   ,----
   | (prefer-coding-system 'utf-8)
   | (gcr/on-gui
   |  (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)))
   `----
+
   Emacs has a powerful buffer tracking change system. Unfortunately, I
   don't understand any of it. Undo should "just work".
   ,----
@@ -1558,21 +1639,24 @@ _________________
   | (global-undo-tree-mode 1)
   | (diminish 'undo-tree-mode)
   `----
+
   Sometimes it is a problem when you havne't got a newline ending a file
   with source code before it… org-mode is one such case. Require that
   evry file have a final newline before saving it.
   ,----
   | (setq require-final-newline t)
   `----
+
   For a long time I wanted auto-revert everywhere and for some reason
   gave up on adding it. What the heck? I am human.
   ,----
   | (global-auto-revert-mode 1)
   `----
+
   How to jump to locations in a buffer in an easier way than by using
   the built in key bindings? Science… that is how.
 
-  This package [109] searches for the character for which you are
+  This package [115] searches for the character for which you are
   searching at the start of a word, highlights matches, and presents you
   with the letter to press to jump to the match. You may also search in
   the middle of words. The key to using this to utilize `pop-mark' to
@@ -1585,12 +1669,12 @@ _________________
   |   t)
   `----
 
-  A long, long time ago I saw a neat feature in Sublime Text [110]
+  A long, long time ago I saw a neat feature in Sublime Text [116]
   (their zeal for their editor is great, very sweet) where you could see
   a miniature version of your buffer off to the side of the buffer
   itself. Wasn't totally sure what I would use it for, but it was really
-  neat. Ended up on this [111] page but I didn'tw ant to depend upon
-  CEDET [112]. Then, Sublimity [113] showed up in a post somewhere. The
+  neat. Ended up on this [117] page but I didn'tw ant to depend upon
+  CEDET [118]. Then, Sublimity [119] showed up in a post somewhere. The
   timing was perfect because I was getting really curious about a "quiet
   mode" that didn't show the modeline or the line numbers or fringe, and
   I didn't feel like implementing it at that moment. It turns out that
@@ -1601,8 +1685,9 @@ _________________
   | (require 'sublimity-map)
   | (require 'sublimity-attractive)
   `----
+
   By default, the map is hidden while scrolling and this makes it work
-  in a responsive and pleasant manner [114]. It makes Emacs quite slow
+  in a responsive and pleasant manner [120]. It makes Emacs quite slow
   actually.  Unfortuantely, having the map constantly disappear is
   really unpleasant, and the slow down is, too. Well, this will be a
   balance. I'll turn it on and live with it. The cool thing here is that
@@ -1623,7 +1708,7 @@ _________________
   `----
 
   Navigating a buffer was never slow… until learning about ace-jump-mode
-  [115]. The idea is so deceptively simple, and when you grok it, you
+  [121]. The idea is so deceptively simple, and when you grok it, you
   will be truly shocked. The author sums it up quite succinctly
 
   ,----
@@ -1643,12 +1728,39 @@ _________________
   | (define-key global-map (kbd "C-x SPC") 'ace-jump-mode-pop-mark)
   `----
 
+  Perhaps an odd topic, but how you handle spaces when performing an
+  interactive search is a choice:
+  ,----
+  | (setq isearch-lax-whitespace +1)
+  | (setq isearch-regexp-lax-whitespace +1)
+  `----
 
-3.4.5 Modeline [116]
+  A lot of times you write things that involves quoting large chunks
+  from other documents. I'm thinking this is more spur of the moment…
+  like in emails.  However, this may occur anywhere I suppose. Perhaps
+  coding is another place? At least when you are not doing LP it would
+  be more likely. This [122] seems like a nice way to make it obvious
+  when I insert quoted text:
+  ,----
+  | (require 'boxquote)
+  `----
+
+  How you move around lines in a file is configurable. My preference is
+  that if I am on the end of a line, and I go up or down, then I want to
+  go to the end of line on that new line. Specifically, I do not want to
+  account for anything special about the character I am dealing
+  with. This is what most folks would expect:
+  ,----
+  | (setq track-eol +1)
+  | (setq line-move-visual nil)
+  `----
+
+
+3.5.5 Modeline [123]
 --------------------
 
   The modelines is capable of so many things. Though I use it for few, I
-  value it greatly. Even the generic, optional options [117] are nice.
+  value it greatly. Even the generic, optional options [124] are nice.
 
   Show the file size.
   ,----
@@ -1660,47 +1772,56 @@ _________________
   ,----
   | (column-number-mode 1)
   `----
+
   It is a pain to look at the clock in the GUI bar.
   ,----
   | (setq display-time-format "%R %y-%m-%d")
   | (display-time-mode +1)
   `----
+
   When you load modes, most of them show up in the minibuffer. After you
   read their name a few thousand times, you eventually quite forgetting
-  that you loaded them and need a diminished reminder. [118]
+  that you loaded them and need a diminished reminder. [125]
   ,----
   | (require 'diminish)
   `----
 
   Over time you start to, as which everything else in Emacs, think about
   configuring it "better". Simple things like the file state indicator
-  [119] is one of the first to jump out at you. In my case I've made
-  some nice changes via the built-in mechanisms. Powerline [120] really
+  [126] is one of the first to jump out at you. In my case I've made
+  some nice changes via the built-in mechanisms. Powerline [127] really
   got me thinking though just because it is so stunning with the use of
-  XPM [121]. Reading through it though, it would require some real
+  XPM [128]. Reading through it though, it would require some real
   digging in, and the documentation doesn't say much and I wasn't sure
-  that I wanted to pursue that much right now.  Simple mode line [122]
+  that I wanted to pursue that much right now.  Simple mode line [129]
   says all the right things, I like their documentation and am not sure
   whether or not it knows the right things to highlight, or not.  How
-  does it know? Clearly there are many ideas [123] on how to customize
+  does it know? Clearly there are many ideas [130] on how to customize
   the modeline. How may we be sure that they are doing it right and
   displaying everything that mode expects them to possibly be
   displaying? Like most things it is just trust, and verify. For now it
   is easier to stick with the built in, and grow it organically. Perhaps
   more importantly, I /do/ like the built-in modeline style.
 
+  Make deleting an entire line work how you may expect [131]
+  ,----
+  | (defadvice kill-line (around kill-line-remove-newline activate)
+  |   (let ((kill-whole-line t))
+  |     ad-do-it))
+  `----
 
-3.4.6 Mark and Region [124]
+
+3.5.6 Mark and Region [132]
 ---------------------------
 
   When you start typing and text is selected, replace it with what you
-  are typing, or pasting, or whatever. [125]
+  are typing, or pasting, or whatever. [133]
   ,----
   | (delete-selection-mode 1)
   `----
 
 
-3.4.7 Minibuffer [126]
+3.5.7 Minibuffer [134]
 ----------------------
 
   You will want to configure this at some point.
@@ -1710,7 +1831,7 @@ _________________
   | (fset 'yes-or-no-p 'y-or-n-p)
   `----
   It often displays so much information, even temporarily, that it is
-  nice to give it some room to breath. [127]
+  nice to give it some room to breath. [135]
   ,----
   | (setq resize-mini-windows +1)
   | (setq max-mini-window-height 0.33)
@@ -1722,17 +1843,303 @@ _________________
   | (minibuffer-depth-indicate-mode 1)
   `----
 
+  Handle pasting from the clipboard to the minibuffer:
+  ,----
+  | (defun gcr/minibuffer-setup-hook ()
+  |   "Personal setup."
+  |   (local-set-key "ESC y" 'gcr/paste-from-x-clipboard))
+  | 
+  | (add-hook 'minibuffer-setup-hook 'gcr/minibuffer-setup-hook)
+  `----
 
-3.4.8 Filesystem management
+
+3.5.8 Filesystem management
 ---------------------------
 
-  Not quite sure where this should go yet. Finder is [128] is just fine,
+  Not quite sure where this should go yet. Finder is [136] is just fine,
   and the curiosuity is still there for an in-Emacs solution. Speedbar
-  [129] and SrSpeedbar [130] look nice, as does [131].
+  [137] and SrSpeedbar [138] look nice, as does [139].
 
 
-3.5 Modes (functionality)
-~~~~~~~~~~~~~~~~~~~~~~~~~
+3.5.9 Operation (Keybindings/Keymaps) [140]
+-------------------------------------------
+
+  *This section is entirely defined adhering to the philosopy defined
+   above*.
+
+  Generally disallow stomping of global keymappings unless it makes
+  sense to me (thank you Stefan Monnier for pointing out that
+  referencing the map variable is all it takes):
+  ,----
+  | (defadvice global-set-key (before check-keymapping activate)
+  |   (let* ((key (ad-get-arg 0))
+  |          (new-command (ad-get-arg 1))
+  |          (old-command (lookup-key global-map key)))
+  |     (when
+  |         (and
+  |          old-command
+  |          (not (equal old-command new-command))
+  |          (not (equal old-command 'digit-argument))
+  |          (not (equal old-command 'negative-argument))
+  |          (not (equal old-command 'ns-print-buffer))
+  |          (not (equal old-command 'move-beginning-of-line))
+  |          (not (equal old-command 'execute-extended-command))
+  |          (not (equal new-command 'execute-extended-command))
+  |          (not (equal old-command 'ns-prev-frame))
+  |          (not (equal old-command 'ns-next-frame))
+  |          (not (equal old-command 'mwheel-scroll))
+  |          (not (equal new-command 'diff-hl-mode))
+  |          )
+  |       (warn "Just stomped the global-map binding for %S, replaced %S with %S"
+  |             key old-command new-command))))
+  `----
+
+  Enable key-chord'ing:
+  ,----
+  | <<uxo-keyboard-decision>>x
+  `----
+
+  Enable the `super' key-space:
+  ,----
+  | (gcr/on-osx
+  |  (setq mac-control-modifier 'control)
+  |  (setq mac-command-modifier 'meta)
+  |  (setq mac-option-modifier 'super))
+  | 
+  | (gcr/on-windows
+  |  (setq w32-lwindow-modifier 'super)
+  |  (setq w32-rwindow-modifier 'super))
+  `----
+
+  These keybindings are custom for me and I've been using them for so
+  long, and that makes it rig+1ht. There are always opportunities for
+  improvement, though.  Recently it dawned on me that it is poor-form to
+  waste 3 function keys on the same task, so I rebound `F1' to different
+  modifiers that I hope are consistent, and free up space, too. My
+  preference is to leave `F5', `F6, and =F7' generally unbound and
+  available for similar operations that are performed in most
+  programming modes. For example, `F5' will execute code in any
+  Lisp-like environment.
+
+  Allow these commands:
+  ,----
+  | (put 'upcase-region 'disabled nil)
+  | (put 'downcase-region 'disabled nil)
+  `----
+
+  Guide:
+  NON-DISRUPTIVE: hands on home, no finger strain, C-[(2|3)|(9|0)]
+  SLIGHTLY-DISRUPTIVE: hands on home, slight finger strain, C-[1|-]
+  DISRUPTIVE: hands on keyboard, not home, palms are home
+  VERY-DISRUPTIVE: hands on keyboard, not home, palms are moved from home
+
+
+  `M-x' truly is the Emacs command line [141].
+
+  Echo keystrokes immediately:
+  ,----
+  | (setq echo-keystrokes 0.02)
+  `----
+
+
+* 3.5.9.1 NON-DISRUPTIVE : KEY-CHORDS
+
+  + 3.5.9.1.1 CHARACTERS
+
+    Save 3 bytes:
+    ,----
+    | (key-chord-define-global "3." 'gcr/insert-ellipsis)
+    `----
+
+    German umlauts for a, o, und u:
+    ,----
+    | (key-chord-define-global (concat "A" "{") (lambda () (interactive) (insert "ä")))
+    | (key-chord-define-global (concat "A" "}") (lambda () (interactive) (insert "Ä")))
+    | (key-chord-define-global (concat "O" "{") (lambda () (interactive) (insert "ö")))
+    | (key-chord-define-global (concat "O" "}") (lambda () (interactive) (insert "Ö")))
+    | (key-chord-define-global (concat "U" "{") (lambda () (interactive) (insert "ü")))
+    | (key-chord-define-global (concat "U" "}") (lambda () (interactive) (insert "Ü")))
+    `----
+
+    Arrows, so many:
+    ,----
+    | (key-chord-define-global (concat "<" "_") (lambda () (interactive) (insert "←")))
+    | (key-chord-define-global (concat "_" ">") (lambda () (interactive) (insert "→")))
+    `----
+
+    Nice for UML, and French?
+    ,----
+    | (key-chord-define-global "<<" (lambda () (interactive) (insert "«")))
+    | (key-chord-define-global ">>" (lambda () (interactive) (insert "»")))
+    `----
+
+    ace-jumping is frequent, too, and this one is perfect all home keys
+    same, dominant strong hand:
+    ,----
+    | (key-chord-define-global "jk" 'ace-jump-mode)
+    `----
+
+    ace-window is frequent, is beginning to adhere to a pattern of dual
+    approaches:
+    ,----
+    | (key-chord-define-global "nm" 'ace-window)
+    `----
+
+    Jumping to lines actually happens a lot. When you look at this
+    layout, remember, or rather consider, that what you jump to, or
+    navigate to, is layered in the sense that the granularity of your
+    actions changes and all actions provided here are helpful for those
+    different situations.
+    ,----
+    | (key-chord-define-global "fj" 'goto-line)
+    `----
+
+
+  + 3.5.9.1.2 ACTIONS
+
+    Do nearly a IKJL style up/down/left/right arrow key, using using
+    chords, saves a trip.
+
+    You might wonder why I would use this when ace-jump-window is
+    available? Good question. Sometimes you know exactly what buffer oyu
+    want, so jump to it, and sometimes you just don't, and that is when
+    you do it this way:
+    ,----
+    | (key-chord-define-global "JK" (lambda () (interactive) (other-window 1)))
+    | (key-chord-define-global "KL" (lambda () (interactive) (next-buffer)))
+    | (key-chord-define-global "L:" (lambda () (interactive) (previous-buffer)))
+    `----
+
+
+* 3.5.9.2 NON-DISRUPTIVE : KEY-MAPPINGS
+
+  + 3.5.9.2.1 ACTIONS
+
+    These actions appear in order of importance, and thusly frequency of
+    use
+
+    Do the /right thing/ for getting to the start of the line!
+    ,----
+    | (global-set-key (kbd "C-a") 'beginning-of-line-dwim)
+    `----
+
+    I use VC quite frequently. This is easy to reach, and does what must
+    be done:
+    ,----
+    | (global-set-key (kbd "C-;") 'vc-next-action)
+    `----
+
+    Easily select regions:
+    ,----
+    | (global-set-key (kbd "C-'") 'er/expand-region)
+    `----
+
+    multiple cursor mode… I kept these together because until I make an
+    image, it would be too confusing to keep them in the non and
+    slightly disruptive sections, as they are clearly that:
+    ,----
+    | (global-set-key (kbd "M-9") 'mc/edit-lines)
+    | (global-set-key (kbd "M-0") 'mc/mark-next-like-this)
+    | (global-set-key (kbd "M--") 'mc/mark-all-like-this)
+    | (global-set-key (kbd "M-8") 'mc/mark-previous-like-this)
+    `----
+
+
+* 3.5.9.3 SLIGHTLY-DISRUPTIVE : KEY-MAPPINGS
+
+  + 3.5.9.3.1 ACTIONS
+
+    smex integration points:
+    ,----
+    | (global-set-key (kbd "M-x") 'smex)
+    | (global-set-key (kbd "M-X") 'smex-major-mode-commands)
+    | (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
+    `----
+
+    Pop up help:
+    ,----
+    | (global-set-key (kbd "s-p") 'gcr/describe-thing-in-popup)
+    `----
+
+    ace-window naviation:
+    ,----
+    | (global-set-key (kbd "C--") 'ace-window)
+    `----
+
+    auto-completeness
+    ,----
+    | (global-set-key (kbd "C-3") 'auto-complete)
+    `----
+
+    yas expansion:
+    ,----
+    | (global-set-key (kbd "C-4") 'yas/expand)
+    `----
+
+    Command and uncomment anything:
+    ,----
+    | (global-set-key (kbd "C-5") 'gcr/comment-or-uncomment)
+    `----
+
+    Do smart new line inside, indenting given the mode:
+    ,----
+    | (global-set-key (kbd "s-<return>") 'gcr/smart-open-line)
+    `----
+
+    Anything having to do with version control differences:
+    ,----
+    | (global-set-key (kbd "s-d h") 'diff-hl-mode)
+    | (global-set-key (kbd "s-d l") 'vc-diff)
+    | (global-set-key (kbd "s-d u") 'vc-revert)
+    `----
+
+
+* 3.5.9.4 DISRUPTIVE : KEY-MAPPINGS
+
+  + 3.5.9.4.1 ACTIONS
+
+    These do get used a lot believe it or not:
+    ,----
+    | (global-set-key (kbd "C-7") 'gcr/insert-timestamp)
+    | (global-set-key (kbd "M-7") 'gcr/insert-datestamp)
+    `----
+
+    Make auto-complete easily accessible because sometimes other modes
+    bork it just like yas:
+    ,----
+    | (global-set-key (kbd "s-<tab>") 'auto-complete)
+    `----
+
+
+* 3.5.9.5 VERY DISRUPTIVE : KEY-MAPPINGS
+
+  + 3.5.9.5.1 ACTIONS
+
+    Manage every font size:
+    ,----
+    | (gcr/on-gui
+    |  (global-set-key (kbd "s-<f7>") 'gcr/text-scale-increase)
+    |  (global-set-key (kbd "M-<f7>") 'gcr/text-scale-decrease))
+    `----
+
+    Helper stuff:
+    ,----
+    | (global-set-key (kbd "C-<f2>") 'emacs-index-search)
+    | (global-set-key (kbd "S-<f2>") 'elisp-index-search)
+    | (global-set-key (kbd "C-<f3>") 'imenu-anywhere)
+    `----
+
+    Resize the current windows [142]:
+    ,----
+    | (global-set-key (kbd "s-<up>") 'enlarge-window)
+    | (global-set-key (kbd "s-<down>") 'shrink-window)
+    | (global-set-key (kbd "s-<right>") 'enlarge-window-horizontally)
+    | (global-set-key (kbd "s-<left>") 'shrink-window-horizontally)
+    `----
+
+
+3.6 Primary usage
+~~~~~~~~~~~~~~~~~
 
   The purpose of this section is to put some visiblity on the modes, how
   they are used, and where. After configuring a bunch of modes you may
@@ -1740,7 +2147,7 @@ _________________
   changes (and reverting them too).
 
 
-3.5.1 Custom variables
+3.6.1 Custom variables
 ----------------------
 
   ,----
@@ -1749,7 +2156,8 @@ _________________
   |  ;; If you edit it by hand, you could mess it up, so be careful.
   |  ;; Your init file should contain only one such instance.
   |  ;; If there is more than one, they won't work right.
-  |  '(custom-safe-themes (quote ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default))))
+  |  '(custom-safe-themes (quote ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
+  |  '(display-time-world-list (quote (("America/Los_Angeles" "Los_Angeles") ("America/Denver" "Denver") ("America/Chicago" "Chicago") ("America/New_York" "New York") ("Asia/Kolkata" "Kolkata") ("Asia/Kuala_Lumpur" "Kuala Lumpur")))))
   | (custom-set-faces
   |  ;; custom-set-faces was added by Custom.
   |  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -1759,10 +2167,13 @@ _________________
   `----
 
 
-3.5.2 Configuration
+3.6.2 Configuration
 -------------------
 
-* 3.5.2.1 Intellisense (Auto Completion) [132]
+
+
+
+* 3.6.2.1 Intellisense (Auto Completion) [143]
 
   Can you thrive and profit without auto-completion? Surely. The feature
   is kind of a comfort blanket for most of us; you will never fail to
@@ -1772,7 +2183,7 @@ _________________
   friends make our lives easier.
 
   Thus far, auto-complete has worked fine. More than a few blogposts do
-  mention company-mode [133], so I read up on it. It seems quite nice,
+  mention company-mode [144], so I read up on it. It seems quite nice,
   but right now I haven't got a reason to explore it further though.
 
   Still having some mixed feelings about what engine to use to display
@@ -1794,7 +2205,7 @@ _________________
   `----
 
 
-* 3.5.2.2 Whitespace management [134]
+* 3.6.2.2 Whitespace management [145]
 
   Do you need to see tabs and other control characters? Usually, yes.
   ,----
@@ -1807,7 +2218,7 @@ _________________
   `----
 
 
-* 3.5.2.3 Color visualizing [135]
+* 3.6.2.3 Color visualizing [146]
 
   Nothing against the multitude of RGB hex value web finder web pages…
   it is just convenient to have it built right in.
@@ -1817,7 +2228,7 @@ _________________
   `----
 
 
-* 3.5.2.4 Templating [136]
+* 3.6.2.4 Templating [147]
 
   Code complating is nice to have; but the second you install it and
   learn how to use it, you will never find the need to again. Accept it
@@ -1835,7 +2246,7 @@ _________________
   `----
 
 
-* 3.5.2.5 Searching / Finding [137] [138]
+* 3.6.2.5 Searching / Finding [148] [149]
 
   There are many ways to easily find what you need, for a command, for a
   file, and this mode seems to be a quite nice way. Something I had been
@@ -1859,7 +2270,7 @@ _________________
   `----
 
 
-* 3.5.2.6 Project management [139]
+* 3.6.2.6 Project management [150]
 
   Not everyone likes projects, but I do. There is no perfect middle
   ground though, that is until this library came along. It is such a joy
@@ -1870,9 +2281,9 @@ _________________
   `----
 
 
-* 3.5.2.7 Expression Management [140]
+* 3.6.2.7 Expression Management [151]
 
-  There are a lot of nice options [141] [142] [143] [144] [145]. For the
+  There are a lot of nice options [152] [153] [154] [155] [156]. For the
   longest time, paredit was all that I used, but then I started using
   Emacs for everyone else besides Lisp and was kind of stymied not
   having great expression management tools.  Smartparens seems to have
@@ -1882,6 +2293,7 @@ _________________
   nightmare of having to keep expressions balanced yourself. Sure we did
   fine with VI… but it is so nice to have the tool do it for
   you. Remember what Olin Shivers said?
+
         I object to doing things that computers can do.
 
   You get a lot of niceties that you would expect like balanced brackets
@@ -1910,7 +2322,7 @@ _________________
   `----
 
 
-* 3.5.2.8 Remote file access [146]
+* 3.6.2.8 Remote file access [157]
 
   TRAMP stands for "Transparent Remote (file) Access, Multiple
   Protocol". It is really, really beautiful.
@@ -1920,7 +2332,7 @@ _________________
   `----
 
 
-* 3.5.2.9 Selection style [147]
+* 3.6.2.9 Selection style [158]
 
   IntelliJ Idea is yet again to blame for being awesome; even the author
   of this library suffers, or rather enjoys, this phenomenon. When you
@@ -1937,17 +2349,17 @@ _________________
   `----
 
 
-* 3.5.2.10 File-system/directory management [148]
+* 3.6.2.10 File-system/directory management [159]
 
   The last file or filesyste management tool that I used wast Norton
-  Commander [149] and then Midnight Commander [150], but my usage was
+  Commander [160] and then Midnight Commander [161], but my usage was
   pretty basic. Beyond those basics, I can do even more, basic stuff, in
   `bash'. Lately I've wanted something a little more consistent,
   powerful, and memorable, and that led me here. Dired is a
   user-interface for working with your filesystem; you select files and
   directories and then choose what to do with them. The ability to
   customize what you see is included out of the box, and there are
-  additional helper packages [151], too.
+  additional helper packages [162], too.
 
   You can use the usual machinery to work with the files. Highlight a
   region and operation selections occur for all files in that
@@ -1958,7 +2370,7 @@ _________________
   things you can think if like directories or modified-files or
   whatever, meaning you can use regexen to mark whatever you like
   however you like. If that suits you, then don't be afraid of using the
-  regular expression builder [152] that is built into Emacs. Bulk marked
+  regular expression builder [163] that is built into Emacs. Bulk marked
   file operations include additionally copying, deleting, creating hard
   links to, renaming, modifying the mode, owner, and group information,
   changing the timestamp, listing the marked files, compressing them,
@@ -1983,10 +2395,82 @@ _________________
   | (setq dired-recursive-deletes  +1)
   | (require 'dired-details+)
   | (setq-default dired-details-hidden-string "")
+  | (defun gcr/dired-mode-hook ()
+  |   "Personal dired customizations."
+  |   (diff-hl-dired-mode)
+  |   (load "dired-x"))
+  | (add-hook 'dired-mode-hook 'gcr/dired-mode-hook)
+  `----
+
+  After dabbling, something happend that really changed my mind. These
+  three articles changed everything: [164] [165] [166].  They just made
+  the power of Dired so obvious, and so easy to use, that it instantly
+  because delightful to use. That was very, very cool. Even though I was
+  really, really happy with Finder and Explorer… suddenly it just became
+  so obvious and pleasant to use Dired. That is so wild.
+
+  Key notes when executing shell commands on file selection…
+
+  Substitution:
+  `<cmd> ?': 1* calls to cmd, each file a single argument
+  `<cmd> *': 1 call to cmd, selected list as argument
+  =<cmd> *""=: have the shell expand the * as a globbign wildcard
+               - Not sure what this means
+
+  Synchronicity:
+  `<cmd> …': by default commands are called synchronously
+  `<cmd> &': execute in parallel
+  `<cmd> ;': execute sequentially, asynchronously
+  `<cmd> ;&': execute in parallel, asynchronously
+
+  Key notes on working with files in multiple directories… use the
+  following:
+
+  Use `find' just like you would at the command line and all of the
+  results show up in a single Dired buffer that you may work with just
+  like you would any other file appearing in a Dired buffer. The
+  abstraction here becomes so obvious, you may ask yourself why you
+  never considered such a thing /before/ now (as I did):
+  ,----
+  | (require 'find-dired)
+  | (setq find-ls-option '("-print0 | xargs -0 ls -ld" . "-ld"))
+  `----
+
+  Noting that:
+  `find-dired': is the general use case
+  `find-name-dired': is for simple, single string cases
+
+  And if you want to use the faster elisp version, that uses lisp regex,
+  use:
+  `find-lisp-find-dired': for anything
+  `find-lisp-find-dired-subdirectories': for only directories
+
+  Key notes on working with editable buffers…
+
+  As the author notes, you probably already instinctually knew what is
+  possible.  After reading his brief and concise exposition, it would be
+  hard /not/ to intuit what is possible! The options are big if you make
+  a writable file buffer.  Think about using multiple cursors. Done?
+  Well, that is a no-brainer. Once you grok multiple cursors just
+  `find-dired' what you need and then do what you need to do to it. Very
+  cool.
+
+  `dired-toggle-read-only, C-x C-q': cycle between dired-mode and
+                                     wdired-mode
+  `wdired-finish-edit, C-c C-c': commit your changes
+  `wdired-abort-changes, C-c ESC': revert your changes
+
+  ,----
+  | (require 'wdired)
+  | (setq wdired-allow-to-change-permissions t)
+  | (setq wdired-allow-to-redirect-links t)
+  | (setq wdired-use-interactive-rename +1)
+  | (setq wdired-confirm-overwrite +1)
+  | (setq wdired-use-dired-vertical-movement 'sometimes)
   `----
 
 
-* 3.5.2.11 Save history of all things [153] [154] [155]
+* 3.6.2.11 Save history of all things [167] [168] [169]
 
   It is nice to have commands and their history saved so that every time
   you get back to work, you can just re-run stuff as you need it. It
@@ -2007,15 +2491,15 @@ _________________
   `----
 
 
-* 3.5.2.12 Code folding [156] [157]
+* 3.6.2.12 Code folding [170] [171]
 
   Code folding really isn't a hugely important function. You just use it
   once in a while and you notice it when you don't have it. For years I
-  used this [158] and it is fine, but I figured I ought to stick with a
+  used this [172] and it is fine, but I figured I ought to stick with a
   more feature rich option, just to give it a try. Here are some of the
-  other options: [159][160][161][162].  If you know org-mode, then using
+  other options: [173][174][175][176].  If you know org-mode, then using
   that style of control makes it easier to use then the built in
-  bindings for hideshow [163], on which hideshow-org is built.
+  bindings for hideshow [177], on which hideshow-org is built.
   ,----
   | (setq hs-hide-comments-when-hiding-all +1)
   | (setq hs-isearch-open +1)
@@ -2035,17 +2519,17 @@ _________________
   `----
 
 
-* 3.5.2.13 Copyright [164]
+* 3.6.2.13 Copyright [178]
 
   Copyright management includes only two problems: keeping the near up
   to date and choosing the right one. The built in functions will insert
   a generic copyright and also update the year, and that is pretty
-  nice. It would be nice to have something like this [165] created,
-  though. Even an OSS license chooser would be nice [166], but I haven't
+  nice. It would be nice to have something like this [179] created,
+  though. Even an OSS license chooser would be nice [180], but I haven't
   found a nice option yet.
 
 
-* 3.5.2.14 Spellchecking [167]
+* 3.6.2.14 Spellchecking [181] [182] [183] [184]
 
   There are two ways to spell-check: run-at-a-time or interactive. Both
   delegate the actual checking to aspell, ispell, and hunspell. Both
@@ -2053,15 +2537,25 @@ _________________
   compilers to help report those kinds of errors to you, too, but my
   personal preference for now is run-at-a-time. The taxpayers didn't pay
   so much to make flyspell have to do all the hard work for me. aspell
-  most UNI*, running `ispell' from Emacs just does the right thing.
+  is there most UNI*, running `ispell' from Emacs just does the right
+  thing.
 
   Even after reading this later, I agree with it despite the fact that I
-  constantly wax and wane between wantint to use it and finding
+  constantly wax and wane between wanting to use it and finding
   something /better/ despite having no criteria by which to truly judge
   in the first place.
 
+  ,----
+  | (let ((aspell-dict "~/.aspell.en.pws"))
+  |   (when (not (file-symlink-p aspell-dict))
+  |     (warn
+  |      (concat "aspell needs a symlink from " aspell-dict " to its true location. "
+  |              "Please double check this. The fix might be as simple as: "
+  |              "ln -s ~/git/bitbucket-grettke/home/.aspell.en.pws ~/.aspell.en.pws"))))
+  `----
 
-* 3.5.2.15 Binary file editing [168] [169]
+
+* 3.6.2.15 Binary file editing [185] [186]
 
   Long ago it was quite common to edit binary files if not for adding
   lots of cheats to games then to see CAFEBABE written in Java class
@@ -2070,27 +2564,27 @@ _________________
   that it is there.
 
 
-* 3.5.2.16 Games [170]
+* 3.6.2.16 Games [187]
 
   Sometimes you need a break, and you aren't a gamer any more, but that
   doesn't mean you can't have fun. `life' and `doctor' alone will give
   you something to ponder and practice not taking too seriously.
 
 
-* 3.5.2.17 LaTeX [171] [172]
+* 3.6.2.17 LaTeX [188] [189]
 
   There is great support for LaTeX via AUCTeX and Ebib. For a while I
-  used TeXWorks [173] and I was and remain very happy with it. Two
+  used TeXWorks [190] and I was and remain very happy with it. Two
   things drew me back to Emacs for doing TeX primarily org-mode support
   for Ebib for managing my citation database. There is nothing more to
   it than that. This secion is a bit bare at the moment, as I will be
   filling it up as I move back to doing my work here. Perhaps a bigger
-  project is figuring out where XeTeX fits in my future. [174] RefTeX
-  looks too quite helpful [175] especially considering how well it seems
+  project is figuring out where XeTeX fits in my future. [191] RefTeX
+  looks too quite helpful [192] especially considering how well it seems
   to integrate with org-mode.
 
 
-* 3.5.2.18 Command execution helper [176]
+* 3.6.2.18 Command execution helper [193]
 
   When I call commands, I usually end up running the same commands over
   and over.  There are of course keybdings to deal with this, and also
@@ -2103,25 +2597,25 @@ _________________
   `----
 
 
-* 3.5.2.19 Location awareness
+* 3.6.2.19 Location awareness
 
   The idea of reporting to you the current logical location within in
-  the current file via information in the modeline [177] sounds very
+  the current file via information in the modeline [194] sounds very
   interesting to me.  However, when I really thinkg about it, I have no
   good answer to the question: "If you didn't know how you got there,
   then how does it help to know that you are where you are?". That holds
   true at least, when it comes to maintaining files.
 
 
-* 3.5.2.20 Rectangle / Cursors [178] [179]
+* 3.6.2.20 Rectangle / Cursors [195] [196]
 
   Once in a very long while I have the need to modify rectangles. Only
   once in a while because one may use the key recorder to do most of the
-  same work. There are a few options [180], and that bothers me, so I
+  same work. There are a few options [197], and that bothers me, so I
   didn't choose any of them.
 
   Working here thought got me thinking about other folks perspectives,
-  and I ended up here [181]. This is a strangely intriguing feature. It
+  and I ended up here [198]. This is a strangely intriguing feature. It
   is quite versatile as long as you have got a mental model for
   things. The difference is that if you are OK with key macros, imagine
   that multiple-cursors is kind of a way to use keyboard macros while
@@ -2133,15 +2627,28 @@ _________________
   `----
 
 
-* 3.5.2.21 Very large files
+* 3.6.2.21 Very large files
 
   Emacs will warn you if you open "large files" into a
   buffer. Thankfully, I have never had such an issue. However, surely I
   will have the need at some point in the future, and when I do I will
-  look at vlfi [182]
+  look at vlfi [199]
 
 
-3.5.3 Application Modes [183] [184]
+* 3.6.2.22 Syntax checking
+
+  It is a great feature. Flyspell never interested me though because of
+  so many negative reports and it just didn't seem that important. Well,
+  that was before breaking this document for the N^{th} time! There is a
+  need, and Flycheck [200] seems to be the best of the best out there.
+
+  ,----
+  | (require 'flycheck)
+  | (add-hook 'after-init-hook #'global-flycheck-mode)
+  `----
+
+
+3.6.3 Application Modes [201] [202]
 -----------------------------------
 
   When I set about on this project, I had ideas about how this document
@@ -2156,9 +2663,12 @@ _________________
   extracting it from there. As it turns out, I am human.
 
 
-* 3.5.3.1 Monolith
+* 3.6.3.1 Monolith
 
-  + 3.5.3.1.1 Auto Modes [185]
+
+
+
+  + 3.6.3.1.1 Auto Modes [203]
 
     ,----
     | (setq auto-mode-alist
@@ -2177,7 +2687,7 @@ _________________
     `----
 
 
-  + 3.5.3.1.2 All modes
+  + 3.6.3.1.2 All modes
 
     Anything that should always happen goes here.
 
@@ -2190,7 +2700,7 @@ _________________
     needed rather than tracking down or writing some code to do it
     myself.
 
-    `fancy-narrow-to-region' [186] is a nice to have. Their approach is
+    `fancy-narrow-to-region' [204] is a nice to have. Their approach is
     kind of worth noting, simply in that `;;;###autoload' commands are
     utilized so that the library is not required to be specified for
     use. Is this convenience without downside or just a bad idea from a
@@ -2207,7 +2717,7 @@ _________________
     | (require 'imenu-anywhere)
     `----
 
-    Auto-completion for .-separated words [187] seems like a good idea,
+    Auto-completion for .-separated words [205] seems like a good idea,
     so I will put it here and not worry too much about what header this
     lives in. The source explains how to use this feature… it must be
     specified what is allowed per-mode
@@ -2217,7 +2727,7 @@ _________________
     `----
 
 
-  + 3.5.3.1.3 Text
+  + 3.6.3.1.3 Text
 
     ,----
     | (defun gcr/text-mode-hook ()
@@ -2231,7 +2741,7 @@ _________________
     `----
 
 
-  + 3.5.3.1.4 Log edit / VC
+  + 3.6.3.1.4 Log edit / VC
 
     VC is the generalized version control suite for Emacs. It is quite
     nice and amazingly underappreciated. Elsewhere I make it easy to
@@ -2253,7 +2763,7 @@ _________________
     `----
 
 
-  + 3.5.3.1.5 Graphviz [188] [189] [190]
+  + 3.6.3.1.5 Graphviz [206] [207] [208]
 
     ,----
     | (defun gcr/graphviz-dot-mode-hook ()
@@ -2275,7 +2785,7 @@ _________________
     `----
 
 
-  + 3.5.3.1.6 Lispy
+  + 3.6.3.1.6 Lispy
 
     ,----
     | (defconst lispy-modes '(emacs-lisp-mode-hook
@@ -2303,15 +2813,15 @@ _________________
     `----
 
 
-  + 3.5.3.1.7 Emacs Lisp
+  + 3.6.3.1.7 Emacs Lisp
 
-    Make it obvious whether or not it is lexically scoped [191] or not
+    Make it obvious whether or not it is lexically scoped [209] or not
     and don't show that message whenever you enter a scratch buffer
-    [192].
+    [210].
 
-    You may read more about Lisp Doc here [193].
+    You may read more about Lisp Doc here [211].
 
-    You may read more about default console messages here [194].
+    You may read more about default console messages here [212].
 
     ,----
     | (defun gcr/elisp-eval-buffer ()
@@ -2322,8 +2832,11 @@ _________________
     | 
     | (defun gcr/elisp-mode-local-bindings ()
     |   "Helpful behavior for Elisp buffers."
-    |   (local-set-key (kbd "<f5>") 'gcr/elisp-eval-buffer)
-    |   (local-set-key (kbd "<f6>") 'eval-print-last-sexp))
+    |   (local-set-key (kbd "s-l eb") 'gcr/elisp-eval-buffer)
+    |   (local-set-key (kbd "s-l ep") 'eval-print-last-sexp)
+    |   (local-set-key (kbd "s-l td") 'toggle-debug-on-error)
+    |   (local-set-key (kbd "s-l mef") 'macroexpand)
+    |   (local-set-key (kbd "s-l mea") 'macroexpand-all))
     | 
     | (require 'lexbind-mode)
     | 
@@ -2338,10 +2851,10 @@ _________________
     `----
 
 
-  + 3.5.3.1.8 Scheme [195]
+  + 3.6.3.1.8 Scheme [213]
 
-    You should probably only use Geiser, forever. [196] Some day I would
-    like to explore ac-geiser [197].
+    You should probably only use Geiser, forever. [214] Some day I would
+    like to explore ac-geiser [215].
     ,----
     | (require 'geiser)
     | (setq geiser-active-implementations '(racket))
@@ -2360,7 +2873,7 @@ _________________
     `----
 
 
-  + 3.5.3.1.9 Javascript [198] [199]
+  + 3.6.3.1.9 Javascript [216] [217]
 
     ,----
     | (defun gcr/js-mode-hook ()
@@ -2382,7 +2895,7 @@ _________________
     `----
 
 
-  + 3.5.3.1.10 Web [200]
+  + 3.6.3.1.10 Web [218]
 
     JSON support is included here, too. As you go about your business
     you read about features that seem nice or you really didn't actively
@@ -2391,9 +2904,13 @@ _________________
     JSON string, like this `{"foo":10, "bar":20, "baz":50}' example. For
     whatever reason, that is always just the way that I had done
     it. Reading irreal a nice option/reminder was posted for a JSON
-    formatter [201]
+    formatter [219]
+
     ,----
     | (require 'web-mode)
+    | 
+    | (setq web-mode-enable-block-partial-invalidation t)
+    | 
     | (setq web-mode-engines-alist
     |       '(("ctemplate" . "\\.html$")))
     | 
@@ -2417,7 +2934,7 @@ _________________
     `----
 
 
-  + 3.5.3.1.11 CSS
+  + 3.6.3.1.11 CSS
 
     ,----
     | (defun gcr/css-modehook ()
@@ -2433,7 +2950,7 @@ _________________
     `----
 
 
-  + 3.5.3.1.12 Make [202] [203] [204]
+  + 3.6.3.1.12 Make [220] [221] [222]
 
     ,----
     | (defun gcr/make-modehook ()
@@ -2443,13 +2960,13 @@ _________________
     |   (visual-line-mode)
     |   (turn-on-real-auto-save)
     |   (visual-line-mode)
-    |   (local-set-key (kbd "RET") 'newline-and-indent) ())
+    |   (local-set-key (kbd "RET") 'newline-and-indent))
     | 
     | (add-hook 'makefile-mode-hook 'gcr/make-modehook)
     `----
 
 
-  + 3.5.3.1.13 Markdown [205]
+  + 3.6.3.1.13 Markdown [223]
 
     Since org-mode exports to just about everything; my Markdown usage
     will be mostly limited to working with files on Github.
@@ -2461,16 +2978,16 @@ _________________
     `----
 
 
-  + 3.5.3.1.14 Git [206] [207]
+  + 3.6.3.1.14 Version control / Git [224] [225]
 
-    This used to be the version control section, but there is only
-    really Git that needs to be discussed. All version control systems
-    basically work fine in Emacs version control (VC) abstraction layer,
-    and I like it a lot.  What made me focus on Git and how I work with
-    it though was two things: 1-I use that for hours and hours at work
-    and home and 2-I had been using a standalone Git UI and I felt like
-    it was kind of stupid not to use something built into Emacs. This
-    will require furthe research.
+    All version control systems basically work fine in Emacs version
+    control (VC) abstraction layer, and I like it a lot.
+
+    What made me focus on Git and how I work with it though was two
+    things: 1-I use that for hours and hours at work and home and 2-I
+    had been using a standalone Git UI and I felt like it was kind of
+    stupid not to use something built into Emacs. This will require
+    furthe research.
 
     One thing that I did find that I wanted though was that despite
     having set auto save to occur quite frequently, it was still
@@ -2487,20 +3004,36 @@ _________________
     | (defadvice vc-diff (before save-before-vc-diff first activate)
     |   "Save all buffers before vc-diff calls."
     |   (gcr/save-all-file-buffers))
+    | 
+    | (defadvice vc-revert (before save-before-vc-revert first activate)
+    |   "Save all buffers before vc-revert calls."
+    |   (gcr/save-all-file-buffers))
+    `----
+
+    Something that I never missed from Idea was version control status
+    info in the fringe, just never used it. Then when I saw it [226] in
+    Emacs, I got curious about how it /may/ be used. So, I installed
+    it. Curious to see how it will facilitate communicating the status
+    of this document. Initial experiences has me thinking that it is
+    actually much nicer than I figured, so I will enable it globally for
+    a while.
+
+    ,----
+    | (diff-hl-mode)
     `----
 
 
-  + 3.5.3.1.15 LilyPond [208]
+  + 3.6.3.1.15 LilyPond [227]
 
     All of my experience with musical notation is through GuitarPro
-    [209] and even there I'm a baby user. Despite that, I've been
+    [228] and even there I'm a baby user. Despite that, I've been
     curious about music theory for a long time and this seems like a
     good way to take a dip.  At first, it didn't seem to work. then I
     "rebooted" and it seemed to work, but not in org HTML export. This
     will require furthe research.
 
 
-  + 3.5.3.1.16 Line Wrapping [210] [211] / Line breaking [212]
+  + 3.6.3.1.16 Line Wrapping [229] [230] / Line breaking [231]
 
     A long time ago I disabled line-wrapping because I kept all of my
     files less than 80 lines and life was simple. This approach actually
@@ -2515,11 +3048,13 @@ _________________
     disable it in cases where I need to do so. Reading up on it more I
     figured that enabling it for text modes was the simplest thing, and
     I'll tweak it from there.
+
     ,----
     | (global-visual-line-mode 1)
     | (diminish 'visual-line-mode)
     | (diminish 'global-visual-line-mode)
     `----
+
     Another option available to us is to /simply/ break the line once it
     reaches a pre-set length using Auto fill mode. One might break all
     lines at 80 characters for example. Although that is a nice option,
@@ -2527,14 +3062,14 @@ _________________
     particular buffer, and visual line mode makes that loads easier.
 
 
-  + 3.5.3.1.17 Emacs Speaks Statistics (ESS) [213] [214] [215] [216] [217] [218]
+  + 3.6.3.1.17 Emacs Speaks Statistics (ESS) [232] [233] [234] [235] [236] [237]
 
-    For a minimalist release history, read the news file [219].
+    For a minimalist release history, read the news file [238].
 
     For a brief, brief overview and release history, read the readme
-    [220].
+    [239].
 
-    For a comprehensive overview, read the manual [221]. In it:
+    For a comprehensive overview, read the manual [240]. In it:
     - `S' refers to any language in the family. `R' is what I'm
       interested in.
     - First 2.5 pages do some nice expectation-setting.
@@ -2669,7 +3204,7 @@ _________________
     - `n': Goto next BP
     - `p': Goto previous BP
 
-    Debugging; be sure to read this [222]:
+    Debugging; be sure to read this [241]:
     - `‘': Show traceback
     - `~': Show callstack
     - `e': Toggle error action (repeat to cycle)
@@ -2740,18 +3275,18 @@ _________________
     hand code this.
 
     As of <2014-01-31 Fri>, you need to manually load ESS when you pull
-    it from MELPA [223]. That is totally fine with me, that is really
+    it from MELPA [242]. That is totally fine with me, that is really
     the best way to load stuff.  Out of curiousity, I read more about it
-    here [224], but that occurred before this previous post made by the
+    here [243], but that occurred before this previous post made by the
     maintainers. Even the source code in `ess-autoloads.el' has a
     license from 2012, which is before the aforementioned post. As such,
     this configuration step seems correct and necessary for now.
     Additionally, this how the user manual expects a typical manual
     setup to be configured.
 
-    Looked a tiny bit at how R hackers are formatting their code [225]
-    [226].  The simple (dumb) part of me suspects that C++ formatting is
-    generally just fine [227].
+    Looked a tiny bit at how R hackers are formatting their code [244]
+    [245].  The simple (dumb) part of me suspects that C++ formatting is
+    generally just fine [246].
 
     There is strangely nice discussion about where temp files may be
     stored; specifically for cases where you edit samely-named objects
@@ -2836,7 +3371,7 @@ _________________
     | (add-hook 'inferior-ess-mode-hook 'gcr/inferior-ess-mode-hook)
     `----
 
-    - This [228] post shares a nice setup for the assignment key;
+    - This [247] post shares a nice setup for the assignment key;
       primarily if
     you use underscores in your variable names, which I do on
     occassion. After coding like this for just 10 short minutes it drove
@@ -2946,16 +3481,16 @@ _________________
     powerfully distracting. It is like a mosquito in your tent!
     Searching for a solution revealed that I am not alone here.
 
-    This post [229] handles brackets, but not indentation. ESS itself
-    handles indentation quite well [230] but doesn't provide the
-    behavior that I want.  This post [231] captured exactly what I was
+    This post [248] handles brackets, but not indentation. ESS itself
+    handles indentation quite well [249] but doesn't provide the
+    behavior that I want.  This post [250] captured exactly what I was
     facing, yet didn't end with a solution which was kind of
-    shocking. Searching some more I ended up here [232], and this seems
+    shocking. Searching some more I ended up here [251], and this seems
     like the ideal solution by the author of smartparens himself. This
     is probably a common thing as I found another post with exactly my
-    situation referencing that aforementioned solution, too [233]. This
+    situation referencing that aforementioned solution, too [252]. This
     is a nice generalizable approach that should serve me well for just
-    about everything in this solution-area. Here [234]is a post showing
+    about everything in this solution-area. Here [253] is a post showing
     a more advanced usage that handles context which is nice to know is
     an option.
 
@@ -2964,18 +3499,18 @@ _________________
     `----
 
 
-  + 3.5.3.1.18 Info [235]
+  + 3.6.3.1.18 Info [254]
 
     Once you accept Emacs and learn to enjoy Info files you may want to
     be able to navigate them quickly, even if you haven't read the user
-    manual as I have not.  ace-link [236] is really a nice way to do
+    manual as I have not.  ace-link [255] is really a nice way to do
     that.
     ,----
     | (ace-link-setup-default)
     `----
 
 
-  + 3.5.3.1.19 Vagrant [237]
+  + 3.6.3.1.19 Vagrant [256]
 
     Vagrant is quite nice. Perhaps a bit preemptively, I'm trying to get
     Emacs setup nice for what I already know I must do.
@@ -2985,17 +3520,17 @@ _________________
     | (add-to-list 'auto-mode-alist '("Vagrantfile$" . ruby-mode))
     `----
 
-    Nice package [238] for working with Vagrant; hundreds of people
+    Nice package [257] for working with Vagrant; hundreds of people
     already using it. No configuration even necessary.
 
-    This package [239] is also quite nice:
+    This package [258] is also quite nice:
     ,----
     | (eval-after-load 'tramp
     |   '(vagrant-tramp-enable))
     `----
 
 
-  + 3.5.3.1.20 Ruby [240]
+  + 3.6.3.1.20 Ruby [259]
 
     My first setup of Ruby is primarily for Vagrant, so I didn't dig
     super deep into the options. The defaults will be just fine. The
@@ -3015,48 +3550,366 @@ _________________
     `----
 
 
-  + 3.5.3.1.21 Libraries
+  + 3.6.3.1.21 Eshell [260] [261] [262]
 
-    - 3.5.3.1.21.1 Dash / Dash-Functional
+    If you've never learned bash or korn or c-shell, then you are
+    missing out on having some good fun… I mean work, getting work
+    done. That said, I'm a baby when it comes to really using them. It
+    seemed like a good idea to learn some of them well, and one that
+    works seamnlessly with Emacs seems like a great idea. Since it is
+    just another Elisp program, it has access to the same scope as
+    everything else running inside Emacs. The resources on this tool are
+    a bit varied and all valuable so I included all of them. The big
+    takeaway is that you've got a "normal" looking shell interface whose
+    commands work transparently with Elisp commands… and that can bey
+    very pleasant.
 
-      Not totally sure where this belongs, but dash [241] is something
-      that a lot of the packages I use require, and it is an excellent
-      library, so it needs recognition in this document, and the Cask
-      file, too.
+    Command completion is available.  Commands input in eshell are
+    delegated in order to an alias, a built in command, an Elisp
+    function with the same name, and finally to a system
+    call. Semicolons deparate commands. `which' tells you what
+    implementation will satisfy the call that you are going to make. The
+    flag `eshell-prefer-lisp-functions' does what it says. `$$' is the
+    result of the last command. Aliases live in
+    `eshell-aliases-file'. History is maintained and
+    expandable. `eshell-source-file' will run scripts. Since Eshell is
+    not a terminal emulator, you need to tell it about any commands that
+    need to run using a terminal emulator, like anything using curses by
+    adding it to to `eshell-visual-commands'.
+
+
+    - 3.6.3.1.21.1 Control Files
 
       ,----
-      | (eval-after-load "dash" '(dash-enable-font-lock))
+      | alias clear recenter 0
+      | alias d 'dired $1'
+      | alias g git $*
+      | alias gb git branch $*
+      | alias gco git checkout $*
+      | alias gpom git push origin master
+      | alias gst git status
+      | alias la ls -lha $*
+      | alias ll ls -lh $*
+      | alias s ssh $*
+      | alias top proced
       `----
 
 
-    - 3.5.3.1.21.2 Built-in
+    - 3.6.3.1.21.2 Config [263] [264]
 
-      pcase [242] provides pattern-matching macros. This is very nice
-      whether you've already used something like this before, or not!
+      ,----
+      | (setq eshell-prefer-lisp-functions nil
+      |       eshell-cmpl-cycle-completions nil
+      |       eshell-save-history-on-exit t
+      |       eshell-cmpl-dir-ignore "\\`\\(\\.\\.?\\|CVS\\|\\.svn\\|\\.git\\)/\\'")
+      | 
+      | (eval-after-load 'esh-opt
+      |   '(progn
+      |      (require 'em-cmpl)
+      |      (require 'em-prompt)
+      |      (require 'em-term)
+      |      (setenv "PAGER" "cat")
+      |      (add-hook 'eshell-mode-hook
+      |                (lambda ()
+      |                  (message "Protovision… I have you now.")
+      |                  (setq pcomplete-cycle-completions nil)))
+      |      (add-to-list 'eshell-visual-commands "ssh")
+      |      (add-to-list 'eshell-visual-commands "tail")
+      |      (add-to-list 'eshell-command-completions-alist
+      |                   '("tar" "\\(\\.tar|\\.tgz\\|\\.tar\\.gz\\)\\'"))))
+      | 
+      | (let ((eshell-dir "~/.emacs.d/eshell"))
+      |   (when (not (file-symlink-p eshell-dir))
+      |     (warn
+      |      (concat "eshell needs a symlink from " eshell-dir " to its true location. "
+      |              "Please double check this. The fix might be as simple as: "
+      |              "ln -s ~/git/bitbucket-grettke/home/eshell/ ~/.emacs.d/eshell"))))
+      | 
+      | (setq eshell-prompt-regexp "^.+@.+:.+> ")
+      | (setq eshell-prompt-function
+      |       (lambda ()
+      |         (concat
+      |          (user-login-name)
+      |          "@"
+      |          (system-name)
+      |          ":"
+      |          (eshell/pwd)
+      |          "> ")))
+      `----
 
 
-* 3.5.3.2 Module
+  + 3.6.3.1.22 IRC [265] [266] [267] [268] [269]
 
-  + 3.5.3.2.1 All of them
+    For a while I used MIRC [270], and then Irssi [271] and both are
+    very nice. Since I hang around in Emacs all day though, I figured I
+    ought to take a look at ERC. The documentation is highly modular,
+    reflecting how the application itself is implemented. Patience may
+    be required, but the reward for it is brilliant.
 
-    Modules are designed to be used at a granular level. For sake of
-    convenience though sometimes you will all of them, which is the goal
-    of this heading.
+    The main configuration is quite straightforward, with many ways to
+    do it.
+    ,----
+    | (require 'erc)
+    | 
+    | (setq gcr/erc-after-connect-hook-BODY nil)
+    | 
+    | (defun gcr/erc-after-connect-hook ()
+    |   (gcr/erc-after-connect-hook-BODY))
+    | 
+    | (add-hook 'erc-after-connect 'gcr/erc-after-connect-hook)
+    | 
+    | (defun gcr/irc ()
+    |   "Connect to my preferred IRC network."
+    |   (interactive)
+    |   (let ((file "~/.irc.el"))
+    |     (when (not (file-exists-p file))
+    |       (warn (concat "Can't seem to find an ERC credential file at: " file)))
+    |     (with-temp-buffer
+    |       (insert-file-contents file)
+    |       (let ((grettke-irc-freenode-net-password (buffer-string)))
+    |         (erc
+    |          :server "irc.freenode.net"
+    |          :port "6667"
+    |          :nick "grettke"
+    |          :password grettke-irc-freenode-net-password
+    |          :full-name "Grant Rettke")
+    |         (let ((gcr/erc-after-connect-hook-IMPL
+    |                (lambda ()
+    |                  (message "It ran…")
+    |                  (erc-message
+    |                   "PRIVMSG"
+    |                   (concat "NickServ identify "
+    |                           grettke-irc-freenode-net-password)))))
+    |           (setq gcr/erc-after-connect-hook-BODY gcr/erc-after-connect-hook-IMPL))))))
+    | 
+    | (define-key erc-mode-map (kbd "C-c C-RET") 'erc-send-current-line)
+    `----
+
+    The remaining configuration areas for modules that provide
+    additional ERC functionality. Some of them are automatically loaded
+    for you, some are not.
+
+    Autoaway [272] automatically marks you away or present after a
+    desired timespan.
+    ,----
+    | (require 'erc-autoaway)
+    | (add-to-list 'erc-modules 'autoaway)
+    | (setq erc-autoaway-idle-seconds 600)
+    | (setq erc-autoaway-message "autoaway just demanded that I step out now")
+    | (setq erc-auto-set-away +1)
+    | (erc-update-modules)
+    `----
+
+    Autojoin [273] automatically joins you to your preferred channels
+    ,----
+    | (require 'erc-join)
+    | (erc-autojoin-mode +1)
+    | (setq erc-autojoin-channels-alist
+    |       '((".*freenode.net" "#emacs" "#org-mode" "#scheme" "#r")))
+    `----
+
+    Button [274] gives you clickable button-based events for various
+    types of objects.
+    ,----
+    | (require 'erc-button)
+    | (erc-button-mode +1)
+    | (setq erc-button-wrap-long-urls  nil
+    |       erc-button-buttonize-nicks nil)
+    `----
+
+    Completion [275] for various fields is provided by pcomplete and
+    requires no configuration.
+
+    Wrap [276] long lines in the buffer.
+    ,----
+    | (require 'erc-fill)
+    | (erc-fill-mode +1)
+    | (setq erc-fill-column 72)
+    | (setq erc-fill-function 'erc-fill-static)
+    | (setq erc-fill-static-center 0)
+    `----
+
+    IRC control characters [277] may be made visible.
+    ,----
+    | (erc-irccontrols-enable)
+    `----
+
+    List [278] lists channels nicely and requires no configuration.
+
+    Match [279] highlights things that you care about.
+    ,----
+    | (setq erc-current-nick-highlight-type 'keyword)
+    | (setq erc-pals '("leppie"))
+    | (setq erc-fools '("lamer" "dude"))
+    | (remove-hook 'erc-text-matched-hook 'erc-hide-fools)
+    `----
+
+    Netsplits [280] occur when an IRC server is disconnected.
+    ,----
+    | (require 'erc-netsplit)
+    | (erc-netsplit-mode 1)
+    `----
+
+    Noncommands lets you ignore command output of non-IRC related
+    commands.  For now I don't uses any, but wanted to note this
+    feature.
+
+    Notify [281] notifies you when you are messaged.
+    ,----
+    | (add-to-list 'erc-modules 'notify)
+    | (erc-update-modules)
+    `----
+
+    Handle paging [282] from other users.
+    ,----
+    | (add-to-list 'erc-modules 'page)
+    | (require 'erc-page)
+    | (erc-page-mode 1)
+    | (erc-update-modules)
+    `----
+
+    Ring [283] gives you a command history.
+    ,----
+    | (require 'erc-ring)
+    | (erc-ring-mode 1)
+    `----
+
+    Scrolltobottom [284] keeps your prompt line at the bottom.
+    ,----
+    | (add-to-list 'erc-modules 'scrolltobottom)
+    | (erc-update-modules)
+    `----
+
+    Timestamp [285] nicely shows you when messages occurred.
+    ,----
+    | (add-to-list 'erc-modules 'stamp)
+    | (require 'erc-stamp)
+    | (erc-stamp-mode 1)
+    | (setq erc-insert-timestamp-function      'erc-insert-timestamp-left
+    |       erc-timestamp-only-if-changed-flag t
+    |       erc-timestamp-format               "[%H:%M] "
+    |       erc-insert-away-timestamp-function 'erc-insert-timestamp-left
+    |       erc-away-timestamp-format          "<%H:%M> ")
+    | (erc-update-modules)
+    `----
+
+    Tracking [286] of channels helps you know what is happening on
+    closed windows.
+    ,----
+    | (add-to-list 'erc-modules 'track)
+    | (require 'erc-track)
+    | (setq erc-track-switch-direction 'importance)
+    | (setq erc-track-exclude-types
+    |       '("324" "329" "332" "333" "353"
+    |         "JOIN" "NAMES" "NICK" "QUIT" "PART" "TOPIC"))
+    | (setq erc-track-position-in-mode-line +1)
+    | (defvar erc-channels-to-visit nil
+    |   "Channels that have not yet been visited by erc-next-channel-buffer")
+    | (defun erc-next-channel-buffer ()
+    |   "Switch to the next unvisited channel. See erc-channels-to-visit"
+    |   (interactive)
+    |   (when (null erc-channels-to-visit)
+    |     (setq erc-channels-to-visit
+    |           (remove (current-buffer) (erc-channel-list nil))))
+    |   (let ((target (pop erc-channels-to-visit)))
+    |     (if target
+    |         (switch-to-buffer target))))
+    | (erc-update-modules)
+    `----
+
+    Tweet [287]: Show inlined info about youtube links in erc buffers.
 
     ,----
-    | <<diagramming-decision>>
-    | <<modes-application-org-mode-module-decision>>
+    | (require 'erc-tweet)
+    | (add-to-list 'erc-modules 'tweet)
+    | (erc-update-modules)
+    `----
+
+    Image [288]: Show inlined images (png/jpg/gif/svg) in erc buffers.
+
+    ,----
+    | (require 'erc-image)
+    | (add-to-list 'erc-modules 'image)
+    | (erc-update-modules)
+    `----
+
+    Youtube [289]: Show inlined info about youtube links in erc buffers.
+
+    ,----
+    | (require 'erc-youtube)
+    | (add-to-list 'erc-modules 'youtube)
+    | (erc-update-modules)
+    `----
+
+    Highlight nicks [290]: ERC Module to Highlight Nicknames.
+
+    ,----
+    | (require 'erc-hl-nicks)
+    | (add-to-list 'erc-modules 'hl-nicks)
+    | (erc-update-modules)
     `----
 
 
-  + 3.5.3.2.2 Diagramming, UML creation, Workflow
+    + 3.6.3.1.22.0.0.1 Libraries
+
+      - 3.6.3.1.22.0.0.1.1 Generally nice
+
+        - Dash / Dash-Functional
+
+        Not totally sure where this belongs, but dash [291] is
+        something that a lot of the packages I use require, and it
+        is an excellent library, so it needs recognition in this
+        document, and the Cask file, too.
+
+        ,----
+        | (eval-after-load "dash" '(dash-enable-font-lock))
+        `----
+
+        - f [292]
+
+        - s [293]
+
+
+      - 3.6.3.1.22.0.0.1.2 Built-in
+
+        pcase [294] provides pattern-matching macros. This is very
+        nice whether you've already used something like this before,
+        or not!
+
+
+      - 3.6.3.1.22.0.0.1.3 Characters / Unicode
+
+        unidecode [295] does its best to convert UTF-8 to ASCII;
+        then I found that it wouldn't load so I removed it.
+
+        If you've verused a character terminal then you already know
+        that figlet [296] is a mandatory tool.  This [297] package
+        makes it nice to use. It has all the stuff you /would/ want
+        to do, like figletify stuff.  It even has a little helper
+        function to show you how the fonts look… beccause you /know/
+        that you would have ended up writing something like that
+        yourself if it wreren't here:
+        ,----
+        | (require 'figlet)
+        `----
+
+
+  + 3.6.3.1.23 Apropos mode
+
+    Why did I wait to long to learn how pleaasant this is to use?! There
+    is of course a mode for it, with a hook/
+
+
+* 3.6.3.2 Module
+
+  + 3.6.3.2.1 Diagramming, UML creation, Workflow
 
     How you perform these taks is entirely up to you. There are a lot of
     good options both inside and outside of Emacs. For the general
     cases, I like the ones that are built in and play nice, especially
-    with org-mode. At its simplest, artist-mode [243] is plenty fine for
-    diagramming and stuff. Graphviz also works well [244].  Ditaa is
-    sort of the next level up [245], and finally PlantUML [246]. They
+    with org-mode. At its simplest, artist-mode [298] is plenty fine for
+    diagramming and stuff. Graphviz also works well [299].  Ditaa is
+    sort of the next level up [300], and finally PlantUML [301]. They
     are all good options at different times, and they all work with
     org-mode. Everything I will publish will go through
     org-mode. org-modes just shines so, so brightly.
@@ -3072,10 +3925,10 @@ _________________
       sequence, use case, class, activity, component, state, and object.
 
     ditaa was my first pick for usage for the blaring simplicity and
-    power of it.  org-mode provides a setup [247]document that I
+    power of it.  org-mode provides a setup [302]document that I
     followed. It required installing a JRE and that was about
     it. artist-mode is automatically loaded for the source block. The
-    example below; thank you [248] Craig Larman
+    example below; thank you [303] Craig Larman
 
     ,----
     |               +----------+1       1…3+------+
@@ -3093,8 +3946,10 @@ _________________
 
     [file:auap.png]
 
+    This [304] ascii-art-to-unicode tool also is interesting.
 
-    - 3.5.3.2.2.1 Setup
+
+    - 3.6.3.2.1.1 Setup
 
       ,----
       | (let ((ditaa-jar "~/java/jar/ditaa0_9.jar"))
@@ -3106,7 +3961,7 @@ _________________
       `----
 
 
-  + 3.5.3.2.3 Org Mode
+  + 3.6.3.2.2 Org Mode
 
     Late into the development process I ran into some export to HTML
     issues.  After tracking down the source, I learned that tracking
@@ -3129,13 +3984,13 @@ _________________
     with it. After using it for 50+ hours or so you start wanting some
     easier way to navigate then by typing in the commands over and over
     (doesn't matter how you re-run them).  Reading the miscellaneous
-    section, I learned about speed keys [249] [250].  Wonderful, just
+    section, I learned about speed keys [305] [306].  Wonderful, just
     wonderful.
 
     Visualizing hierarchical lists in a flat manner has been fine for
     me. Sometimes though I wanted to depth-based view, but didn't think
     much more of it. Reading abouto org-mode, I came upon
-    `org-indent-mode' [251], and decided to give it a try for a while
+    `org-indent-mode' [307], and decided to give it a try for a while
     because it is kind of easier to read. Both modes are nice, and thus
     far I'm switching back and force as I feel like it. Once I opened my
     eyes and learned about `org-hide-leading-stars' though, I really
@@ -3150,7 +4005,7 @@ _________________
     highlighting that you want. That is really my personal perference,
     nonethless, `org-src-fontify-natively' is still always an option.
 
-    This [252] article is really fascinating in that crams a ton of
+    This [308] article is really fascinating in that crams a ton of
     information into a tiny space. It also is kind of fun to read
     because it sumultaneously teaches you so many new things, yet at the
     same time re-teaches or re-educates you about things that you
@@ -3161,7 +4016,7 @@ _________________
     exclusively for Wisdom&Wonder.
 
     The HTML export of org documents has an optional JavaScript
-    supported display [253].  Not sure how I ended up on this, but it is
+    supported display [309].  Not sure how I ended up on this, but it is
     actually a very nice option. The info style view is nice once you
     read the directions. The foldinger interface is also interesting; I
     tried out all 3 generation options but didn't find anything that I
@@ -3181,15 +4036,27 @@ _________________
     | (require 'ox-md)
     | (require 'htmlize)
     | 
+    | (setq org-export-coding-system 'utf-8)
+    | 
+    | (setq org-export-preserve-breaks nil)
+    | 
     | ;; (require 'org2blog-autoloads)
     | 
     | (defun gcr/org-mode-hook ()
     |   (fci-mode)
     |   (gcr/untabify-buffer-hook)
+    |   (local-set-key (kbd "C-1") 'org-narrow-to-subtree)
+    |   (local-set-key (kbd "M-1") 'widen)
+    |   (local-set-key (kbd "C-2") 'org-edit-special)
     | ;;  (org2blog/wp-mode)
     |   )
     | 
     | (add-hook 'org-mode-hook 'gcr/org-mode-hook)
+    | 
+    | (defun gcr/org-src-mode-hook ()
+    |   (local-set-key (kbd "C-2") 'org-edit-src-exit))
+    | 
+    | (add-hook 'org-src-mode-hook 'gcr/org-src-mode-hook)
     | 
     | (setq org-todo-keywords
     |       '((sequence "TODO" "IN-PROGRESS" "WAITING" "REVIEW" "DONE")))
@@ -3227,8 +4094,6 @@ _________________
     | 
     | (setq org-confirm-elisp-link-function 'y-or-n-p)
     | 
-    | (setq org-footnote-auto-adjust +1)
-    | 
     | (setq org-enforce-todo-dependencies +1)
     | 
     | (gcr/on-gui
@@ -3246,6 +4111,8 @@ _________________
     | 
     | (setq org-src-preserve-indentation +1)
     | 
+    | (setq org-edit-src-content-indentation 0)
+    | 
     | (setq org-highlight-latex-and-related '(latex script entities))
     | 
     | (mapc (lambda (asc)
@@ -3253,11 +4120,11 @@ _________________
     |           (setf (nth 1 asc) org-sce-dc)))
     |       org-structure-template-alist)
     | 
-    | (when (not (version= (org-version) "8.2.7"))
+    | (when (not (version= (org-version) "8.2.7a"))
     |   (display-warning
     |    'org-mode
     |    (concat
-    |     "Insufficient requirements. Expected 8.2.7. Found " (org-version))
+    |     "Insufficient requirements. Expected 8.2.7a. Found " (org-version))
     |    :emergency))
     | 
     | (defadvice org-babel-tangle (before org-babel-tangle-before activate)
@@ -3321,12 +4188,14 @@ _________________
     `----
 
     There is always a question of how to instill traceability in your
-    artifacts. org provides `:comments' [254] for that. Tangling with
+    artifacts. org provides `:comments' [310] for that. Tangling with
     that value set to `link', for example, would add a prefix and
     postfix comment to the tangled file with the name of the header from
     which the generated file was tangled. When I tangle the .emacs.el,
     then it puts something like this for that:
-          ;; [Fully\ Loaded\ System:1]
+          `;;
+          [[file:~/git/bitbucket-grettke/home/TC3F.org::*Fully%20Loaded%20System][Fully\
+          Loaded\ System:1]]'
 
           file contents go here
 
@@ -3341,7 +4210,9 @@ _________________
           ;; Fully Loaded System Convert decisions into a runnable
           ;; system.
 
-          ;; [Fully\ Loaded\ System:1]
+          `;;
+          [[file:~/git/bitbucket-grettke/home/TC3F.org::*Fully%20Loaded%20System][Fully\
+          Loaded\ System:1]]'
 
           file contents go here
 
@@ -3377,7 +4248,10 @@ _________________
     Probably someone will show be a better way to do repeated string
     creation :).
 
-    There is an auto-complete provider for org-mode [255]. Nice as I
+    Then I read this [311].  *WOW*. That is worth another millions bucks
+    for Eric's prolific contribution to humanity with org-babel.
+
+    There is an auto-complete provider for org-mode [312]. Nice as I
     didn't even think to check. Perhaps a check should go on the
     standard setup list. This seems to work when you type out things
     like block definitions; and it won't apply to EasyTemplate generated
@@ -3388,7 +4262,7 @@ _________________
     `----
 
     There is a performance issue with tangling when header property
-    inheritance is enabled. Eric explained that [256] there may be
+    inheritance is enabled. Eric explained that [313] there may be
     performance gains if some of the header properties are not
     considered. The list below defines what will be allowed, and
     everything else will be removed.:
@@ -3406,553 +4280,44 @@ _________________
     |   (setq org-babel-common-header-args-w-values new-ls))
     `----
 
+    Footnote management is an important topic. Though I toched on it
+    above, I should expand on that because I kind of forgot a bit,
+    too. First, only define footnotes in-line, it is the only way to
+    support refactoring. Second, randomly generate footnes because it
+    reduces the likelihood of name-collisons occuring during refactoring
+    from one document to another. Those two things are so, so huge:
+    ,----
+    | (setq org-footnote-define-inline +1)
+    | (setq org-footnote-auto-label 'random)
+    | (setq org-footnote-auto-adjust nil)
+    | (setq org-footnote-section nil)
+    `----
 
-    [Fully\ Loaded\ System:1]
-    file:~/git/bitbucket-grettke/home/TC3F.org::*Fully%20Loaded%20System
+    This is an amazingly easy way to screw up your document. The more
+    you edit org docs, the more you realize how you must truly protect
+    it:
+    ,----
+    | (setq org-catch-invisible-edits 'error)
+    `----
+
+    Though I am not deliving deep, it is hard not to want to customize
+    some stuff and perhaps this is the start:
+    ,----
+    | (setq org-loop-over-headlines-in-active-region t)
+    `----
+
+    Doing literate programming a *lot*… it is a hassle to spell-check
+    source blocks, so don't:
+    ,----
+    | (add-to-list 'ispell-skip-region-alist '("#\\+begin_src". "#\\+end_src"))
+    `----
+
 
     [nil]
     file:~/git/bitbucket-grettke/home/TC3F.org::*Windows%20%5Bfn:38%5D
 
     [nil]
     file:~/git/bitbucket-grettke/home/TC3F.org::*Frames%20%5Bfn:46%5D
-
-
-3.5.4 Operation (Keybindings/Keymaps) [257]
--------------------------------------------
-
-  *This section is entirely defined adhering to the philosopy defined
-   above*.
-
-  Generally disallow stomping of global keymappings unless it makes
-  sense to me (thank you Stefan Monnier for pointing out that
-  referencing the map variable is all it takes):
-  ,----
-  | (defadvice global-set-key (before check-keymapping activate)
-  |   (let* ((key (ad-get-arg 0))
-  |          (new-command (ad-get-arg 1))
-  |          (old-command (lookup-key global-map key)))
-  |     (when
-  |         (and
-  |          old-command
-  |          (not (equal old-command new-command))
-  |          (not (equal old-command 'digit-argument))
-  |          (not (equal old-command 'negative-argument))
-  |          (not (equal old-command 'ns-print-buffer))
-  |          (not (equal old-command 'move-beginning-of-line))
-  |          (not (equal old-command 'execute-extended-command))
-  |          (not (equal new-command 'execute-extended-command))
-  |          (not (equal old-command 'ns-prev-frame))
-  |          (not (equal old-command 'ns-next-frame))
-  |          (not (equal old-command 'mwheel-scroll))
-  |          )
-  |       (warn "Just stomped the global-map binding for %S, replaced %S with %S"
-  |             key old-command new-command))))
-  `----
-
-  Enable key-chord'ing:
-  ,----
-  | <<uxo-keyboard-decision>>x
-  `----
-
-  Enable the `super' key-space:
-  ,----
-  | (gcr/on-osx
-  |  (setq mac-control-modifier 'control)
-  |  (setq mac-command-modifier 'meta)
-  |  (setq mac-option-modifier 'super))
-  | 
-  | (gcr/on-windows
-  |  (setq w32-lwindow-modifier 'super)
-  |  (setq w32-rwindow-modifier 'super))
-  `----
-
-  These keybindings are custom for me and I've been using them for so
-  long, and that makes it rig+1ht. There are always opportunities for
-  improvement, though.  Recently it dawned on me that it is poor-form to
-  waste 3 function keys on the same task, so I rebound `F1' to different
-  modifiers that I hope are consistent, and free up space, too. My
-  preference is to leave `F5', `F6, and =F7' generally unbound and
-  available for similar operations that are performed in most
-  programming modes. For example, `F5' will execute code in any
-  Lisp-like environment.
-
-  Allow these commands:
-  ,----
-  | (put 'upcase-region 'disabled nil)
-  | (put 'downcase-region 'disabled nil)
-  `----
-
-  Guide:
-  NON-DISRUPTIVE: hands on home, no finger strain, C-[(2|3)|(9|0)]
-  SLIGHTLY-DISRUPTIVE: hands on home, slight finger strain, C-[1|-]
-  DISRUPTIVE: hands on keyboard, not home, palms are home
-  VERY-DISRUPTIVE: hands on keyboard, not home, palms are moved from home
-
-
-* 3.5.4.1 NON-DISRUPTIVE : KEY-CHORDS
-
-  + 3.5.4.1.1 CHARACTERS
-
-    Save 3 bytes:
-    ,----
-    | (key-chord-define-global "3." 'gcr/insert-ellipsis)
-    `----
-
-    German umlauts for a, o, und u:
-    ,----
-    | (key-chord-define-global (concat "A" "{") (lambda () (interactive) (insert "ä")))
-    | (key-chord-define-global (concat "A" "}") (lambda () (interactive) (insert "Ä")))
-    | (key-chord-define-global (concat "O" "{") (lambda () (interactive) (insert "ö")))
-    | (key-chord-define-global (concat "O" "}") (lambda () (interactive) (insert "Ö")))
-    | (key-chord-define-global (concat "U" "{") (lambda () (interactive) (insert "ü")))
-    | (key-chord-define-global (concat "U" "}") (lambda () (interactive) (insert "Ü")))
-    `----
-
-    Nice for UML, and French?
-    ,----
-    | (key-chord-define-global "<<" (lambda () (interactive) (insert "«")))
-    | (key-chord-define-global ">>" (lambda () (interactive) (insert "»")))
-    `----
-
-    ace-jumping is frequent, too, and this one is perfect all home keys
-    same, dominant strong hand:
-    ,----
-    | (key-chord-define-global "jk" 'ace-jump-mode)
-    `----
-
-    ace-window is frequent, is beginning to adhere to a pattern of dual
-    approaches:
-    ,----
-    | (key-chord-define-global "nm" 'ace-window)
-    `----
-
-
-  + 3.5.4.1.2 ACTIONS
-
-    Do nearly a IKJL style up/down/left/right arrow key, using using
-    chords, saves a trip.
-
-    You might wonder why I would use this when ace-jump-window is
-    available? Good question. Sometimes you know exactly what buffer oyu
-    want, so jump to it, and sometimes you just don't, and that is when
-    you do it this way:
-    ,----
-    | (key-chord-define-global "JK" (lambda () (interactive) (other-window 1)))
-    | (key-chord-define-global "KL" (lambda () (interactive) (next-buffer)))
-    | (key-chord-define-global "L:" (lambda () (interactive) (previous-buffer)))
-    `----
-
-
-* 3.5.4.2 NON-DISRUPTIVE : KEY-MAPPINGS
-
-  + 3.5.4.2.1 ACTIONS
-
-    These actions appear in order of importance, and thusly frequency of
-    use
-
-    Do the /right thing/ for getting to the start of the line!
-    ,----
-    | (global-set-key (kbd "C-a") 'beginning-of-line-dwim)
-    `----
-
-    I use VC quite frequently. This is easy to reach, and does what must
-    be done:
-    ,----
-    | (global-set-key (kbd "C-;") 'vc-next-action)
-    `----
-
-    Easily select regions:
-    ,----
-    | (global-set-key (kbd "C-'") 'er/expand-region)
-    `----
-
-    multiple cursor mode… I kept these together because until I make an
-    image, it would be too confusing to keep them in the non and
-    slightly disruptive sections, as they are clearly that:
-    ,----
-    | (global-set-key (kbd "M-9") 'mc/edit-lines)
-    | (global-set-key (kbd "M-0") 'mc/mark-next-like-this)
-    | (global-set-key (kbd "M--") 'mc/mark-all-like-this)
-    | (global-set-key (kbd "M-8") 'mc/mark-previous-like-this)
-    `----
-
-
-* 3.5.4.3 SLIGHTLY-DISRUPTIVE : KEY-MAPPINGS
-
-  + 3.5.4.3.1 ACTIONS
-
-    smex integration points:
-    ,----
-    | (global-set-key (kbd "M-x") 'smex)
-    | (global-set-key (kbd "M-X") 'smex-major-mode-commands)
-    | (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
-    `----
-
-    Pop up help:
-    ,----
-    | (global-set-key (kbd "s-p") 'gcr/describe-thing-in-popup)
-    `----
-
-    ace-window naviation:
-    ,----
-    | (global-set-key (kbd "C--") 'ace-window)
-    `----
-
-    yas expansion:
-    ,----
-    | (global-set-key (kbd "C-3") 'yas/expand)
-    `----
-
-    Command and uncomment anything:
-    ,----
-    | (global-set-key (kbd "C-4") 'gcr/comment-or-uncomment)
-    `----
-
-    Do smart new line inside, indenting given the mode:
-    ,----
-    | (global-set-key (kbd "s-<return>") 'gcr/smart-open-line)
-    `----
-
-
-* 3.5.4.4 DISRUPTIVE : KEY-MAPPINGS
-
-  + 3.5.4.4.1 ACTIONS
-
-    These do get used a lot believe it or not:
-    ,----
-    | (global-set-key (kbd "C-7") 'gcr/insert-timestamp)
-    | (global-set-key (kbd "M-7") 'gcr/insert-datestamp)
-    `----
-
-    Make auto-complete easily accessible because sometimes other modes
-    bork it just like yas:
-    ,----
-    | (global-set-key (kbd "s-<tab>") 'auto-complete)
-    `----
-
-
-* 3.5.4.5 VERY DISRUPTIVE : KEY-MAPPINGS
-
-  + 3.5.4.5.1 ACTIONS
-
-    Manage every font size:
-    ,----
-    | (gcr/on-gui
-    |  (global-set-key (kbd "s-<f7>") 'gcr/text-scale-increase)
-    |  (global-set-key (kbd "M-<f7>") 'gcr/text-scale-decrease))
-    `----
-
-    Helper stuff:
-    ,----
-    | (global-set-key (kbd "C-<f2>") 'emacs-index-search)
-    | (global-set-key (kbd "S-<f2>") 'elisp-index-search)
-    | (global-set-key (kbd "C-<f3>") 'imenu-anywhere)
-    `----
-
-    Resize the current windows [258]:
-    ,----
-    | (global-set-key (kbd "s-<up>") 'enlarge-window)
-    | (global-set-key (kbd "s-<down>") 'shrink-window)
-    | (global-set-key (kbd "s-<right>") 'enlarge-window-horizontally)
-    | (global-set-key (kbd "s-<left>") 'shrink-window-horizontally)
-    `----
-
-
-3.6 Shells [259] [260] [261]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-  If you've never learned bash or korn or c-shell, then you are missing
-  out on having some good fun… I mean work, getting work done. That
-  said, I'm a baby when it comes to really using them. It seemed like a
-  good idea to learn some of them well, and one that works seamnlessly
-  with Emacs seems like a great idea. Since it is just another Elisp
-  program, it has access to the same scope as everything else running
-  inside Emacs. The resources on this tool are a bit varied and all
-  valuable so I included all of them. The big takeaway is that you've
-  got a "normal" looking shell interface whose commands work
-  transparently with Elisp commands… and that can bey very pleasant.
-
-  Command completion is available.  Commands input in eshell are
-  delegated in order to an alias, a built in command, an Elisp function
-  with the same name, and finally to a system call. Semicolons deparate
-  commands. `which' tells you what implementation will satisfy the call
-  that you are going to make. The flag `eshell-prefer-lisp-functions'
-  does what it says. `$$' is the result of the last command. Aliases
-  live in `eshell-aliases-file'. History is maintained and
-  expandable. `eshell-source-file' will run scripts. Since Eshell is not
-  a terminal emulator, you need to tell it about any commands that need
-  to run using a terminal emulator, like anything using curses by adding
-  it to to `eshell-visual-commands'.
-
-
-3.6.1 Control Files
--------------------
-
-  ,----
-  | alias clear recenter 0
-  | alias d 'dired $1'
-  | alias g git $*
-  | alias gb git branch $*
-  | alias gco git checkout $*
-  | alias gpom git push origin master
-  | alias gst git status
-  | alias la ls -lha $*
-  | alias ll ls -lh $*
-  | alias s ssh $*
-  | alias top proced
-  `----
-
-
-3.6.2 Config [262] [263]org-
-----------------------------
-
-  ,----
-  | (setq eshell-prefer-lisp-functions nil
-  |       eshell-cmpl-cycle-completions nil
-  |       eshell-save-history-on-exit t
-  |       eshell-cmpl-dir-ignore "\\`\\(\\.\\.?\\|CVS\\|\\.svn\\|\\.git\\)/\\'")
-  | 
-  | (eval-after-load 'esh-opt
-  |   '(progn
-  |      (require 'em-cmpl)
-  |      (require 'em-prompt)
-  |      (require 'em-term)
-  |      (setenv "PAGER" "cat")
-  |      (add-hook 'eshell-mode-hook
-  |                (lambda ()
-  |                  (message "Protovision… I have you now.")
-  |                  (setq pcomplete-cycle-completions nil)))
-  |      (add-to-list 'eshell-visual-commands "ssh")
-  |      (add-to-list 'eshell-visual-commands "tail")
-  |      (add-to-list 'eshell-command-completions-alist
-  |                   '("tar" "\\(\\.tar|\\.tgz\\|\\.tar\\.gz\\)\\'"))))
-  | 
-  | (setq eshell-prompt-function
-  |       (lambda nil
-  |         (concat
-  |          "[" (user-login-name) "@" (getenv "HOSTNAME") ":"
-  |          (eshell/pwd)
-  |          "]$ ")))
-  | 
-  | (let ((eshell-dir "~/.emacs.d/eshell"))
-  |   (when (not (file-symlink-p eshell-dir))
-  |     (warn
-  |      (concat "eshell needs a symlink from " eshell-dir " to its true location. "
-  |              "Please double check this. The fix might be as simple as: "
-  |              "ln -s ~/git/bitbucket-grettke/home/eshell/ ~/.emacs.d/eshell"))))
-  `----
-
-
-3.7 IRC [264] [265] [266] [267] [268]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-  For a while I used MIRC [269], and then Irssi [270] and both are very
-  nice. Since I hang around in Emacs all day though, I figured I ought
-  to take a look at ERC. The documentation is highly modular, reflecting
-  how the application itself is implemented. Patience may be required,
-  but the reward for it is brilliant.
-
-  The main configuration is quite straightforward, with many ways to do
-  it.
-  ,----
-  | (require 'erc)
-  | 
-  | (setq gcr/erc-after-connect-hook-BODY nil)
-  | 
-  | (defun gcr/erc-after-connect-hook ()
-  |   (gcr/erc-after-connect-hook-BODY))
-  | 
-  | (add-hook 'erc-after-connect 'gcr/erc-after-connect-hook)
-  | 
-  | (defun gcr/irc ()
-  |   "Connect to my preferred IRC network."
-  |   (interactive)
-  |   (let ((file "~/.irc.el"))
-  |     (when (not (file-exists-p file))
-  |       (warn (concat "Can't seem to find an ERC credential file at: " file)))
-  |     (with-temp-buffer
-  |       (insert-file-contents file)
-  |       (let ((grettke-irc-freenode-net-password (buffer-string)))
-  |         (erc
-  |          :server "irc.freenode.net"
-  |          :port "6667"
-  |          :nick "grettke"
-  |          :password grettke-irc-freenode-net-password
-  |          :full-name "Grant Rettke")
-  |         (let ((gcr/erc-after-connect-hook-IMPL
-  |                (lambda ()
-  |                  (message "It ran…")
-  |                  (erc-message
-  |                   "PRIVMSG"
-  |                   (concat "NickServ identify "
-  |                           grettke-irc-freenode-net-password)))))
-  |           (setq gcr/erc-after-connect-hook-BODY gcr/erc-after-connect-hook-IMPL))))))
-  | 
-  | (define-key erc-mode-map (kbd "C-c C-RET") 'erc-send-current-line)
-  `----
-
-  The remaining configuration areas for modules that provide additional
-  ERC functionality. Some of them are automatically loaded for you, some
-  are not.
-
-  Autoaway [271] automatically marks you away or present after a desired
-  timespan.
-  ,----
-  | (require 'erc-autoaway)
-  | (add-to-list 'erc-modules 'autoaway)
-  | (setq erc-autoaway-idle-seconds 600)
-  | (setq erc-autoaway-message "autoaway just demanded that I step out now")
-  | (setq erc-auto-set-away +1)
-  | (erc-update-modules)
-  `----
-
-  Autojoin [272] automatically joins you to your preferred channels
-  ,----
-  | (require 'erc-join)
-  | (erc-autojoin-mode +1)
-  | (setq erc-autojoin-channels-alist
-  |       '((".*freenode.net" "#emacs" "#org-mode" "#scheme" "#r")))
-  `----
-
-  Button [273] gives you clickable button-based events for various types
-  of objects.
-  ,----
-  | (require 'erc-button)
-  | (erc-button-mode +1)
-  | (setq erc-button-wrap-long-urls  nil
-  |       erc-button-buttonize-nicks nil)
-  `----
-
-  Completion [274] for various fields is provided by pcomplete and
-  requires no configuration.
-
-  Wrap [275] long lines in the buffer.
-  ,----
-  | (require 'erc-fill)
-  | (erc-fill-mode +1)
-  | (setq erc-fill-column 72)
-  | (setq erc-fill-function 'erc-fill-static)
-  | (setq erc-fill-static-center 0)
-  `----
-
-  IRC control characters [276] may be made visible.
-  ,----
-  | (erc-irccontrols-enable)
-  `----
-
-  List [277] lists channels nicely and requires no configuration.
-
-  Match [278] highlights things that you care about.
-  ,----
-  | (setq erc-current-nick-highlight-type 'keyword)
-  | (setq erc-pals '("leppie"))
-  | (setq erc-fools '("lamer" "dude"))
-  | (remove-hook 'erc-text-matched-hook 'erc-hide-fools)
-  `----
-
-  Netsplits [279] occur when an IRC server is disconnected.
-  ,----
-  | (require 'erc-netsplit)
-  | (erc-netsplit-mode 1)
-  `----
-
-  Noncommands lets you ignore command output of non-IRC related
-  commands.  For now I don't uses any, but wanted to note this feature.
-
-  Notify [280] notifies you when you are messaged.
-  ,----
-  | (add-to-list 'erc-modules 'notify)
-  | (erc-update-modules)
-  `----
-
-  Handle paging [281] from other users.
-  ,----
-  | (add-to-list 'erc-modules 'page)
-  | (require 'erc-page)
-  | (erc-page-mode 1)
-  | (erc-update-modules)
-  `----
-
-  Ring [282] gives you a command history.
-  ,----
-  | (require 'erc-ring)
-  | (erc-ring-mode 1)
-  `----
-
-  Scrolltobottom [283] keeps your prompt line at the bottom.
-  ,----
-  | (add-to-list 'erc-modules 'scrolltobottom)
-  | (erc-update-modules)
-  `----
-
-  Timestamp [284] nicely shows you when messages occurred.
-  ,----
-  | (add-to-list 'erc-modules 'stamp)
-  | (require 'erc-stamp)
-  | (erc-stamp-mode 1)
-  | (setq erc-insert-timestamp-function      'erc-insert-timestamp-left
-  |       erc-timestamp-only-if-changed-flag t
-  |       erc-timestamp-format               "[%H:%M] "
-  |       erc-insert-away-timestamp-function 'erc-insert-timestamp-left
-  |       erc-away-timestamp-format          "<%H:%M> ")
-  | (erc-update-modules)
-  `----
-
-  Tracking [285] of channels helps you know what is happening on closed
-  windows.
-  ,----
-  | (add-to-list 'erc-modules 'track)
-  | (require 'erc-track)
-  | (setq erc-track-switch-direction 'importance)
-  | (setq erc-track-exclude-types
-  |       '("324" "329" "332" "333" "353"
-  |         "JOIN" "NAMES" "NICK" "QUIT" "PART" "TOPIC"))
-  | (setq erc-track-position-in-mode-line +1)
-  | (defvar erc-channels-to-visit nil
-  |   "Channels that have not yet been visited by erc-next-channel-buffer")
-  | (defun erc-next-channel-buffer ()
-  |   "Switch to the next unvisited channel. See erc-channels-to-visit"
-  |   (interactive)
-  |   (when (null erc-channels-to-visit)
-  |     (setq erc-channels-to-visit
-  |           (remove (current-buffer) (erc-channel-list nil))))
-  |   (let ((target (pop erc-channels-to-visit)))
-  |     (if target
-  |         (switch-to-buffer target))))
-  | (erc-update-modules)
-  `----
-
-  Tweet [286]: Show inlined info about youtube links in erc buffers.
-
-  ,----
-  | (require 'erc-tweet)
-  | (add-to-list 'erc-modules 'tweet)
-  | (erc-update-modules)
-  `----
-
-  Image [287]: Show inlined images (png/jpg/gif/svg) in erc buffers.
-
-  ,----
-  | (require 'erc-image)
-  | (add-to-list 'erc-modules 'image)
-  | (erc-update-modules)
-  `----
-
-  Youtube [288]: Show inlined info about youtube links in erc buffers.
-
-  ,----
-  | (require 'erc-youtube)
-  | (add-to-list 'erc-modules 'youtube)
-  | (erc-update-modules)
-  `----
-
-  Highlight nicks [289]: ERC Module to Highlight Nicknames.
-
-  ,----
-  | (require 'erc-hl-nicks)
-  | (add-to-list 'erc-modules 'hl-nicks)
-  | (erc-update-modules)
-  `----
 
 
 4 Assembly
@@ -3984,13 +4349,15 @@ _________________
   `----
 
 
-4.1.2 Cask  [290]
+4.1.2 Cask  [314]
 -----------------
 
-  Install required packages first using Cask [291]. Recently I changed
-  the layout, assuming that order matters for repositories. Logically
-  order would matter too for packages… I'm going to keep my eye open for
-  any issues.
+  Install required packages first using Cask [315]. Recently I changed
+  the
+
+  layout, assuming that order matters for repositories. Logically order
+  would matter too for packages… I'm going to keep my eye open for any
+  issues.
 
   ,----
   | (source org)
@@ -4000,6 +4367,8 @@ _________________
   | (source gnu)
   | 
   | (depends-on "rainbow-mode")
+  | 
+  | (depends-on "ascii-art-to-unicode")
   | 
   | (source marmalade)
   | 
@@ -4018,6 +4387,8 @@ _________________
   | (depends-on "auto-complete")
   | 
   | (depends-on "auto-complete-chunk")
+  | 
+  | (depends-on "boxquote")
   | 
   | (depends-on "dash")
   | 
@@ -4045,11 +4416,17 @@ _________________
   | 
   | (depends-on "expand-region")
   | 
+  | (depends-on "f")
+  | 
   | (depends-on "fancy-narrow")
+  | 
+  | (depends-on "figlet")
   | 
   | (depends-on "fill-column-indicator")
   | 
   | (depends-on "flx-ido")
+  | 
+  | (depends-on "flycheck")
   | 
   | (depends-on "fuzzy")
   | 
@@ -4058,6 +4435,8 @@ _________________
   | (depends-on "graphviz-dot-mode")
   | 
   | (depends-on "hideshow-org")
+  | 
+  | (depends-on "diff-hl")
   | 
   | (depends-on "htmlize")
   | 
@@ -4097,6 +4476,8 @@ _________________
   | 
   | (depends-on "r-autoyas")
   | 
+  | (depends-on "s")
+  | 
   | (depends-on "smartparens")
   | 
   | (depends-on "smex")
@@ -4112,6 +4493,8 @@ _________________
   | (depends-on "vagrant-tramp")
   | 
   | (depends-on "web-mode")
+  | 
+  | (depends-on "world-time-mode")
   | 
   | (depends-on "xml-rpc")
   | 
@@ -4165,7 +4548,8 @@ _________________
   | <<cask-block>>
   | <<environment-block>>
   | <<keymaps-decision>>
-  | <<modes-application-module-all-decision>>
+  | <<diagramming-decision>>
+  | <<modes-application-org-mode-module-decision>>
   `----
 
   Run it like this: `emacs --no-init-file --load .org-mode.emacs.el'
@@ -4467,20 +4851,31 @@ _________________
   |   "Insert an ellipsis into the current buffer."
   |   (interactive)
   |   (insert "…"))
-  | ;;  LocalWords:  modeline traceability HTTPS
+  | 
+  | (defun gcr/insert-noticeable-snip-comment-line ()
+  |   "Insert a noticeable snip comment line (NSCL)."
+  |   (interactive)
+  |   (if (not (bolp))
+  |       (message "I may only insert a NSCL at the beginning of a line.")
+  |     (let ((ncl (make-string 70 ?✂)))
+  |       (newline)
+  |       (previous-line)
+  |       (insert ncl)
+  |       (comment-or-uncomment-region (line-beginning-position) (line-end-position)))))
+  | 
+  | (defun gcr/paste-from-x-clipboard()
+  |   "Intelligently grab clipboard information per OS.
+  | 
+  | Attribution: URL http://blog.binchen.org/posts/paste-string-from-clipboard-into-minibuffer-in-emacs.html"
+  |   (interactive)
+  |   (shell-command
+  |    (cond
+  |     (*cygwin* "getclip")
+  |     (*is-a-mac* "pbpaste")
+  |     (t "xsel -ob")
+  |     )
+  |    1))
   `----
-
-
-4.5 Values
-~~~~~~~~~~
-
-  Assembly of a non-trivial literate system (is there a trivial one?)
-  must have some guiding values and principles to help guyde and shape
-  it in a maintainable and supportable way. These are my rough attempt
-  to defining my personal beliefs.
-
-  - No comments in generated source code ever; barring a few special
-    cases.
 
 
 
@@ -4561,613 +4956,662 @@ _________
 [32]
 [http://usabilitynews.org/a-comparison-of-popular-online-fonts-which-is-best-and-when/]
 
-[33] [https://en.wikipedia.org/wiki/The_Treachery_of_Images]
+[33] [http://mathworld.wolfram.com/]
 
-[34] [http://www.color-hex.com/color/cc33ff]
+[34] [https://en.wikipedia.org/wiki/The_Treachery_of_Images]
 
-[35] [https://secure.flickr.com/people/c3f/]
+[35] [http://www.color-hex.com/color/cc33ff]
 
-[36] [http://books.google.com/books?id=L4CI-qkhuQ8C]
+[36] [https://secure.flickr.com/people/c3f/]
 
-[37] [https://github.com/bbatsov]
+[37] [http://books.google.com/books?id=L4CI-qkhuQ8C]
 
-[38] [http://xahlee.org/]
+[38] [https://github.com/bbatsov]
 
-[39] [https://en.wikipedia.org/wiki/Repetitive_strain_injury]
+[39] [http://xahlee.org/]
 
-[40] [https://github.com/chrisdone/god-mode]
+[40] [https://en.wikipedia.org/wiki/Repetitive_strain_injury]
 
-[41] [https://en.wikipedia.org/wiki/Meta_key]
+[41] [https://en.wikipedia.org/wiki/Keyboard_layout#QWERTY]
 
-[42] [http://ergoemacs.org/emacs/emacs_hyper_super_keys.html]
+[42] [https://github.com/chrisdone/god-mode]
 
-[43] [https://code.google.com/p/keymapper/]
+[43] [http://ergoemacs.org/emacs/emacs_hyper_super_keys.html]
 
-[44] [https://pqrs.org/macosx/keyremap4macbook/]
+[44] [http://ergoemacs.org/emacs/emacs_hyper_super_keys.html]
 
-[45]
-[http://batsov.com/articles/2012/12/06/emacs-tip-number-7-remap-return-to-control-in-osx/]
+[45] [https://en.wikipedia.org/wiki/Space-cadet_keyboard]
 
-[46]
-[http://www.masteringemacs.org/articles/2011/02/08/mastering-key-bindings-emacs/]
+[46] [https://code.google.com/p/keymapper/]
 
-[47] [http://www.masteringemacs.org/about/]
+[47] [https://pqrs.org/macosx/keyremap4macbook/]
 
 [48]
-[http://www.masteringemacs.org/articles/2011/02/08/mastering-key-bindings-emacs/]
+[http://batsov.com/articles/2012/12/06/emacs-tip-number-7-remap-return-to-control-in-osx/]
 
 [49]
-[https://www.gnu.org/software/emacs/manual/html_node/elisp/Searching-Keymaps.html]
+[http://www.masteringemacs.org/articles/2011/02/08/mastering-key-bindings-emacs/]
 
-[50]
-[https://www.gnu.org/software/emacs/manual/html_node/elisp/Special-Properties.html]
+[50] [http://www.masteringemacs.org/about/]
 
 [51]
+[http://www.masteringemacs.org/articles/2011/02/08/mastering-key-bindings-emacs/]
+
+[52]
+[https://www.gnu.org/software/emacs/manual/html_node/elisp/Searching-Keymaps.html]
+
+[53]
+[https://www.gnu.org/software/emacs/manual/html_node/elisp/Special-Properties.html]
+
+[54]
 [http://blog.waymondo.com/2013-01-14-custom-global-emacs-bindings-with-key-chord-and-the-semi-colon-key/]
 
-[52] [https://github.com/emacsmirror/key-chord]
+[55] [https://github.com/emacsmirror/key-chord]
 
-[53] [http://www.emacswiki.org/emacs/KeyChord]
+[56] [http://www.emacswiki.org/emacs/KeyChord]
 
-[54] [http://emacsrocks.com/e07.html]
+[57] [http://emacsrocks.com/e07.html]
 
-[55] [http://www.emacswiki.org/emacs/key-chord.el]
+[58] [http://www.emacswiki.org/emacs/key-chord.el]
 
-[56] [http://ergoemacs.org/emacs/keyboard_shortcuts.html]
+[59] [http://ergoemacs.org/emacs/keyboard_shortcuts.html]
 
-[57] [http://ergoemacs.org/emacs/gnu_emacs_keybinding.html]
+[60] [http://ergoemacs.org/emacs/gnu_emacs_keybinding.html]
 
-[58]
+[61]
 [http://ergoemacs.org/emacs/emacs_keybinding_power_of_keys_sequence.html]
 
-[59] DEFINITION NOT FOUND.
+[62] [https://aaronhawley.livejournal.com/29311.html]
 
-[60] [https://www.openbsd.org/security.html]
+[63] [https://www.openbsd.org/security.html]
 
-[61] [https://www.cs.indiana.edu/~rpjames/]
+[64] [https://www.fsf.org/]
 
-[62]
-[http://www.brainyquote.com/quotes/quotes/a/abrahamlin109275.html]
+[65] [https://www.cs.indiana.edu/~rpjames/]
 
-[63] [http://library.readscheme.org/page1.html]
+[66] [https://www.gnu.org/software/emacs/]
 
-[64]
+[67] [http://www.brainyquote.com/quotes/quotes/a/abrahamlin109275.html]
+
+[68] [http://library.readscheme.org/page1.html]
+
+[69] [http://mathworld.wolfram.com/about/author.html]
+
+[70]
 [https://www.gnu.org/software/emacs/manual/html_node/emacs/General-Variables.html]
 
-[65]
+[71]
 [https://www.gnu.org/software/emacs/manual/html_node/elisp/User-Identification.html]
 
-[66]
+[72]
 [https://www.gnu.org/software/emacs/manual/html_node/emacs/Init-Examples.html]
 
-[67]
+[73]
 [http://nic.ferrier.me.uk/blog/2012_07/tips-and-tricks-for-emacslisp]
 
-[68] [http://melpa.milkbox.net/#/xml-rpc]
+[74] [http://melpa.milkbox.net/#/xml-rpc]
 
-[69] [http://melpa.milkbox.net/#/todochiku]
+[75] [http://melpa.milkbox.net/#/todochiku]
 
-[70] [http://melpa.milkbox.net/#/alert]
+[76] [http://melpa.milkbox.net/#/alert]
 
-[71] [https://en.wikipedia.org/wiki/Sayre's_law]
+[77] [https://en.wikipedia.org/wiki/Sayre's_law]
 
-[72] [https://github.com/bbatsov/solarized-emacs]
+[78] [https://github.com/bbatsov/solarized-emacs]
 
-[73] [http://melpa.milkbox.net/#/key-chord]
-
-[74]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/Windows.html]
-
-[75]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/Menu-Bars.html]
-
-[76] [http://melpa.milkbox.net/#/fill-column-indicator]
-
-[77]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/Cursor-Display.html]
-
-[78]
-[http://git.savannah.gnu.org/cgit/emacs.git/tree/lisp/linum.el?h=emacs-24]
-
-[79]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/Font-Lock.html]
+[79] [http://melpa.milkbox.net/#/key-chord]
 
 [80]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/Matching.html]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/Windows.html]
 
 [81]
-[https://www.gnu.org/software/emacs/manual/html_node/elisp/Beeping.html]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/Menu-Bars.html]
 
-[82]
-[http://www.wisdomandwonder.com/link/8533/avoiding-window-takeover-in-emacs]
+[82] [http://melpa.milkbox.net/#/fill-column-indicator]
 
 [83]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/Window-Convenience.html]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/Cursor-Display.html]
 
-[84] [http://irreal.org/blog/?p=1557]
+[84]
+[http://git.savannah.gnu.org/cgit/emacs.git/tree/lisp/linum.el?h=emacs-24]
 
 [85]
-[https://superuser.com/questions/125569/how-to-fix-emacs-popup-dialogs-on-mac-os-x]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/Font-Lock.html]
 
 [86]
-[https://www.gnu.org/software/emacs/manual/html_node/elisp/Resizing-Windows.html]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/Matching.html]
 
 [87]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/Frames.html]
+[https://www.gnu.org/software/emacs/manual/html_node/elisp/Beeping.html]
 
 [88]
-[https://www.gnu.org/software/emacs/manual/html_node/elisp/Display-Feature-Testing.html]
+[http://www.wisdomandwonder.com/link/8533/avoiding-window-takeover-in-emacs]
 
 [89]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/Scroll-Bars.html]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/Window-Convenience.html]
 
-[90]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/Tool-Bars.html]
+[90] [http://irreal.org/blog/?p=1557]
 
 [91]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/Browse_002dURL.html]
+[https://superuser.com/questions/125569/how-to-fix-emacs-popup-dialogs-on-mac-os-x]
 
-[92] [http://lars.ingebrigtsen.no/2013/06/16/eww/]
+[92]
+[https://www.gnu.org/software/emacs/manual/html_node/elisp/Resizing-Windows.html]
 
 [93]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/Mouse-Commands.html]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/Frames.html]
 
-[94] [https://github.com/auto-complete/popup-el]
+[94]
+[https://www.gnu.org/software/emacs/manual/html_node/elisp/Display-Feature-Testing.html]
 
-[95] [https://github.com/pitkali/pos-tip]
+[95]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/Scroll-Bars.html]
 
 [96]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/Buffers.html#Buffers]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/Tool-Bars.html]
 
-[97] [https://github.com/alpaker/Fill-Column-Indicator]
+[97]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/Browse_002dURL.html]
 
-[98]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/Saving-Emacs-Sessions.html#Saving-Emacs-Sessions]
+[98] [http://lars.ingebrigtsen.no/2013/06/16/eww/]
 
-[99] [http://marmalade-repo.org/packages/real-auto-save]
+[99]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/Mouse-Commands.html]
 
-[100]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/Uniquify.html]
+[100] [https://github.com/auto-complete/popup-el]
 
-[101] [http://ccrypt.sourceforge.net/#emacs]
+[101] [https://github.com/pitkali/pos-tip]
 
 [102]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/Lisp-Libraries.html]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/Buffers.html#Buffers]
 
-[103]
-[https://www.gnu.org/software/emacs/manual/html_node/elisp/Making-Backups.html]
+[103] [https://github.com/alpaker/Fill-Column-Indicator]
 
 [104]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/Auto-Save-Control.html]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/Saving-Emacs-Sessions.html#Saving-Emacs-Sessions]
 
-[105]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/Useless-Whitespace.html]
+[105] [http://marmalade-repo.org/packages/real-auto-save]
 
 [106]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/International.html#International]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/Uniquify.html]
 
-[107]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/Recognize-Coding.html]
+[107] [http://ccrypt.sourceforge.net/#emacs]
 
 [108]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/Output-Coding.html]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/Lisp-Libraries.html]
 
-[109] [https://github.com/winterTTr/ace-jump-mode]
+[109]
+[https://www.gnu.org/software/emacs/manual/html_node/elisp/Making-Backups.html]
 
-[110] [http://www.sublimetext.com/]
+[110]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/Auto-Save-Control.html]
 
-[111] [http://www.emacswiki.org/emacs/MiniMap]
-
-[112] [http://cedet.sourceforge.net/]
-
-[113] [https://github.com/zk-phi/sublimity]
-
-[114] [https://github.com/zk-phi/sublimity/issues/10]
-
-[115] [https://github.com/winterTTr/ace-jump-mode/wiki/AceJump-FAQ]
-
-[116]
-[https://www.gnu.org/software/emacs/manual/html_node/elisp/Mode-Line-Format.html]
-
-[117]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/Optional-Mode-Line.html]
-
-[118] [http://marmalade-repo.org/packages/diminish]
-
-[119] [http://ergoemacs.org/emacs/modernization_mode_line.html]
-
-[120] [https://github.com/milkypostman/powerline]
-
-[121] [https://en.wikipedia.org/wiki/X_PixMap]
-
-[122] [https://github.com/Bruce-Connor/smart-mode-line/]
-
-[123] [http://www.emacswiki.org/emacs/ModeLineConfiguration]
-
-[124]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/Mark.html#Mark]
-
-[125]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/Using-Region.html]
-
-[126]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/Minibuffer.html]
-
-[127]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/Minibuffer-Edit.html]
-
-[128] [https://en.wikipedia.org/wiki/Finder_(software)]
-
-[129] [http://www.emacswiki.org/emacs/SpeedBar]
-
-[130] [http://www.emacswiki.org/emacs/SrSpeedbar]
-
-[131] [https://github.com/jaypei/emacs-neotree]
-
-[132] [http://cx4a.org/software/auto-complete/]
-
-[133] [https://company-mode.github.io/]
-
-[134]
+[111]
 [https://www.gnu.org/software/emacs/manual/html_node/emacs/Useless-Whitespace.html]
 
-[135] [http://elpa.gnu.org/packages/rainbow-mode.html]
+[112]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/International.html#International]
 
-[136] [https://github.com/capitaomorte/yasnippet]
+[113]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/Recognize-Coding.html]
 
-[137] [http://repo.or.cz/w/emacs.git/blob_plain/HEAD:/lisp/ido.el]
+[114]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/Output-Coding.html]
 
-[138] [https://github.com/lewang/flx]
+[115] [https://github.com/winterTTr/ace-jump-mode]
 
-[139] [http://batsov.com/projectile/]
+[116] [http://www.sublimetext.com/]
 
-[140] [https://github.com/Fuco1/smartparens]
+[117] [http://www.emacswiki.org/emacs/MiniMap]
 
-[141] [http://www.emacswiki.org/emacs/ParEdit]
+[118] [http://cedet.sourceforge.net/]
 
-[142] [http://www.emacswiki.org/emacs/ElectricPair]
+[119] [https://github.com/zk-phi/sublimity]
 
-[143] [https://github.com/rejeep/wrap-region.el]
+[120] ttps://github.com/zk-phi/sublimity/issues/10
 
-[144] [https://code.google.com/p/emacs-textmate/]
+[121] [https://github.com/winterTTr/ace-jump-mode/wiki/AceJump-FAQ]
 
-[145] [https://github.com/capitaomorte/autopair]
+[122] [https://github.com/davep/boxquote.el]
 
-[146] [https://www.gnu.org/software/tramp/]
+[123]
+[https://www.gnu.org/software/emacs/manual/html_node/elisp/Mode-Line-Format.html]
 
-[147] [https://github.com/magnars/expand-region.el]
+[124]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/Optional-Mode-Line.html]
 
-[148]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/Dired.html]
+[125] [http://marmalade-repo.org/packages/diminish]
 
-[149] [https://en.wikipedia.org/wiki/Norton_Commander]
+[126] [http://ergoemacs.org/emacs/modernization_mode_line.html]
 
-[150] [https://www.midnight-commander.org/]
+[127] [https://github.com/milkypostman/powerline]
 
-[151] [http://www.emacswiki.org/DiredDetails]
+[128] [https://en.wikipedia.org/wiki/X_PixMap]
 
-[152]
-[https://www.gnu.org/software/emacs/manual/html_node/elisp/Regular-Expressions.html]
+[129] [https://github.com/Bruce-Connor/smart-mode-line/]
 
-[153]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/Saving-Emacs-Sessions.html]
+[130] [http://www.emacswiki.org/emacs/ModeLineConfiguration]
 
-[154] [http://fly.srk.fer.hr/~hniksic/emacs/savehist.el]
+[131] [http://www.wilfred.me.uk/.emacs.d/init.html#sec-3-7]
 
-[155]
-[https://stackoverflow.com/questions/1229142/how-can-i-save-my-mini-buffer-history-in-emacs]
+[132]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/Mark.html#Mark]
 
-[156] [http://www.emacswiki.org/emacs/HideShow]
+[133]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/Using-Region.html]
 
-[157]
-[http://gnufool.blogspot.com/2009/03/make-hideshow-behave-more-like-org-mode.html]
+[134]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/Minibuffer.html]
 
-[158]
-[http://emacs.wordpress.com/2007/01/16/quick-and-dirty-code-folding/]
+[135]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/Minibuffer-Edit.html]
 
-[159] [http://www.emacswiki.org/emacs/OutlineMode]
+[136] [https://en.wikipedia.org/wiki/Finder_(software)]
 
-[160] [http://www.emacswiki.org/emacs/FoldingMode]
+[137] [http://www.emacswiki.org/emacs/SpeedBar]
 
-[161] [https://github.com/zenozeng/yafolding.el]
+[138] [http://www.emacswiki.org/emacs/SrSpeedbar]
 
-[162] [http://cedet.sourceforge.net/]
+[139] [https://github.com/jaypei/emacs-neotree]
 
-[163]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/Hideshow.html]
-
-[164]
-[https://www.gnu.org/software/emacs/manual/html_mono/autotype.html#Copyrights]
-
-[165]
-[https://www.gnu.org/software/emacs/manual/html_node/elisp/Library-Headers.html]
-
-[166] [http://choosealicense.com/]
-
-[167]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/Spelling.html]
-
-[168]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/Editing-Binary-Files.html]
-
-[169] [http://www.emacswiki.org/emacs/HexlMode]
-
-[170]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/Amusements.html#Amusements]
-
-[171] [https://www.gnu.org/software/auctex/]
-
-[172] [http://ebib.sourceforge.net/]
-
-[173] [https://www.tug.org/texworks/]
-
-[174] [http://xetex.sourceforge.net/]
-
-[175] [https://www.gnu.org/software/auctex/reftex.html]
-
-[176] [https://github.com/nonsequitur/smex/]
-
-[177]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/Which-Function.html]
-
-[178]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/Rectangles.html]
-
-[179] [https://github.com/magnars/multiple-cursors.el]
-
-[180] [http://www.emacswiki.org/emacs/RectangleCommands]
-
-[181] [http://emacsrocks.com/e13.html]
-
-[182] [https://github.com/m00natic/vlfi]
-
-[183]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/Hideshow.html]
-
-[184]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/Modes.html#Modes]
-
-[185]
-[https://www.gnu.org/software/emacs/manual/html_node/elisp/Auto-Major-Mode.html]
-
-[186] [https://github.com/Bruce-Connor/fancy-narrow]
-
-[187] [https://github.com/tkf/auto-complete-chunk]
-
-[188] [http://www.graphviz.org/]
-
-[189] [http://marmalade-repo.org/packages/graphviz-dot-mode]
-
-[190]
-[http://orgmode.org/worg/org-contrib/babel/languages/ob-doc-dot.html]
-
-[191] [http://marmalade-repo.org/packages/lexbind-mode]
-
-[192]
-[https://www.gnu.org/software/emacs/manual/html_node/elisp/Startup-Summary.html]
-
-[193]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/Lisp-Doc.html]
-
-[194]
-[https://www.gnu.org/software/emacs/manual/html_node/elisp/Startup-Summary.html]
-
-[195] [http://library.readscheme.org/index.html]
-
-[196] [http://www.nongnu.org/geiser/]
-
-[197] [https://github.com/xiaohanyu/ac-geiser]
-
-[198] [https://en.wikipedia.org/wiki/ECMAScript]
-
-[199] [http://www.emacswiki.org/emacs/JavaScriptMode]
-
-[200] [https://en.wikipedia.org/wiki/HTML]
-
-[201] [https://github.com/gongo/json-reformat]
-
-[202] [http://www.emacswiki.org/emacs/MakefileMode]
-
-[203]
-[http://orgmode.org/worg/org-contrib/babel/languages/ob-doc-makefile.html]
-
-[204] [https://www.gnu.org/software/make/manual/make.html]
-
-[205] [http://jblevins.org/projects/markdown-mode/]
-
-[206]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/Version-Control.html]
-
-[207] [https://github.com/magit/magit]
-
-[208] [http://lilypond.org/]
-
-[209]
-[http://www.guitar-pro.com/en/index.php?pg=accueil-2&utm_expid=13369301-5.jyDTwdKfQ_CCdEqtpCIynQ.1&utm_referrer=https%3A%2F%2Fwww.google.com%2F]
-
-[210]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/Visual-Line-Mode.html]
-
-[211] [http://www.emacswiki.org/emacs/VisualLineMode]
-
-[212]
-[https://www.gnu.org/software/emacs/manual/html_node/emacs/Auto-Fill.html]
-
-[213] [http://ess.r-project.org/]
-
-[214] [https://en.wikipedia.org/wiki/Emacs_Speaks_Statistics]
-
-[215] [http://www.emacswiki.org/emacs/EmacsSpeaksStatistics]
-
-[216] [http://blog.revolutionanalytics.com/2011/08/ess.html]
-
-[217]
-[http://blog.revolutionanalytics.com/2014/03/emacs-ess-and-r-for-zombies.html]
-
-[218]
-[https://rstudio-pubs-static.s3.amazonaws.com/2246_6f220d4de90c4cfda4109e62455bc70f.html]
-
-[219] [http://ess.r-project.org/Manual/news.html]
-
-[220] [http://ess.r-project.org/Manual/readme.html]
-
-[221] [http://ess.r-project.org/Manual/ess.html]
-
-[222] [https://code.google.com/p/ess-tracebug/]
-
-[223]
-[https://stat.ethz.ch/pipermail/ess-help/2014-January/009705.html]
-
-[224] [https://github.com/milkypostman/melpa/issues/6]
-
-[225] [https://google-styleguide.googlecode.com/svn/trunk/Rguide.xml]
-
-[226] [http://adv-r.had.co.nz/Style.html]
-
-[227]
-[https://stackoverflow.com/questions/7502540/make-emacs-ess-follow-r-style-guide]
-
-[228] [http://www.r-bloggers.com/a-small-customization-of-ess/]
-
-[229] [http://www.emacswiki.org/emacs/ESSAutoParens]
-
-[230]
-[http://emacs.1067599.n5.nabble.com/indentation-not-working-if-parentheses-are-already-closed-td283806.html]
-
-[231]
-[https://stackoverflow.com/questions/18420933/enabling-mode-specific-paren-indentation-in-emacs-prelude]
-
-[232] [https://github.com/Fuco1/smartparens/issues/80]
-
-[233] [https://github.com/bbatsov/prelude/issues/374]
-
-[234]
-[https://github.com/rdallasgray/graphene/blob/master/graphene-smartparens-config.el]
-
-[235] [http://www.emacswiki.org/emacs/InfoMode]
-
-[236] [https://github.com/abo-abo/ace-link]
-
-[237] [http://www.vagrantup.com/]
-
-[238] [https://github.com/ottbot/vagrant.el]
-
-[239] [https://github.com/dougm/vagrant-tramp]
-
-[240] [https://www.ruby-lang.org/en/]
-
-[241] [https://github.com/magnars/dash.el]
-
-[242] [http://www.emacswiki.org/emacs/PatternMatching]
-
-[243] [http://www.emacswiki.org/emacs/ArtistMode]
-
-[244] [http://www.graphviz.org/]
-
-[245] [http://ditaa.sourceforge.net/]
-
-[246] [http://plantuml.sourceforge.net/]
-
-[247]
-[http://orgmode.org/worg/org-contrib/babel/languages/ob-doc-ditaa.html]
-
-[248]
-[http://www.craiglarman.com/wiki/index.php?title=Books_by_Craig_Larman]
-
-[249] [http://orgmode.org/manual/Speed-keys.html#Speed-keys]
-
-[250]
-[http://notesyoujustmightwanttosave.blogspot.com/2011/12/org-speed-keys.html]
-
-[251] [http://orgmode.org/manual/Clean-view.html#Clean-view]
-
-[252]
-[http://home.fnal.gov/~neilsen/notebook/orgExamples/org-examples.html]
-
-[253] [http://orgmode.org/manual/JavaScript-support.html]
-
-[254] [http://orgmode.org/manual/comments.html#comments]
-
-[255] [https://github.com/aki2o/org-ac]
-
-[256]
-[https://lists.gnu.org/archive/html/emacs-orgmode/2014-06/msg00719.html]
-
-[257]
+[140]
 [https://www.gnu.org/software/emacs/manual/html_node/elisp/Keymaps.html#Keymaps]
 
-[258] [http://www.emacswiki.org/emacs/WindowResize]
+[141] [https://aaronhawley.livejournal.com/28413.html]
 
-[259]
-[https://www.gnu.org/software/emacs/manual/html_mono/eshell.html]
+[142] [http://www.emacswiki.org/emacs/WindowResize]
 
-[260]
+[143] [http://cx4a.org/software/auto-complete/]
+
+[144] [https://company-mode.github.io/]
+
+[145]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/Useless-Whitespace.html]
+
+[146] [http://elpa.gnu.org/packages/rainbow-mode.html]
+
+[147] [https://github.com/capitaomorte/yasnippet]
+
+[148] [http://repo.or.cz/w/emacs.git/blob_plain/HEAD:/lisp/ido.el]
+
+[149] [https://github.com/lewang/flx]
+
+[150] [http://batsov.com/projectile/]
+
+[151] [https://github.com/Fuco1/smartparens]
+
+[152] [http://www.emacswiki.org/emacs/ParEdit]
+
+[153] [http://www.emacswiki.org/emacs/ElectricPair]
+
+[154] [https://github.com/rejeep/wrap-region.el]
+
+[155] [https://code.google.com/p/emacs-textmate/]
+
+[156] [https://github.com/capitaomorte/autopair]
+
+[157] [https://www.gnu.org/software/tramp/]
+
+[158] [https://github.com/magnars/expand-region.el]
+
+[159]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/Dired.html]
+
+[160] [https://en.wikipedia.org/wiki/Norton_Commander]
+
+[161] [https://www.midnight-commander.org/]
+
+[162] [http://www.emacswiki.org/DiredDetails]
+
+[163]
+[https://www.gnu.org/software/emacs/manual/html_node/elisp/Regular-Expressions.html]
+
+[164]
+[http://www.masteringemacs.org/articles/2014/04/10/dired-shell-commands-find-xargs-replacement/]
+
+[165]
+[http://www.masteringemacs.org/articles/2011/03/25/working-multiple-files-dired/]
+
+[166]
+[http://www.masteringemacs.org/articles/2013/10/10/wdired-editable-dired-buffers/]
+
+[167]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/Saving-Emacs-Sessions.html]
+
+[168] [http://fly.srk.fer.hr/~hniksic/emacs/savehist.el]
+
+[169]
+[https://stackoverflow.com/questions/1229142/how-can-i-save-my-mini-buffer-history-in-emacs]
+
+[170] [http://www.emacswiki.org/emacs/HideShow]
+
+[171]
+[http://gnufool.blogspot.com/2009/03/make-hideshow-behave-more-like-org-mode.html]
+
+[172]
+[http://emacs.wordpress.com/2007/01/16/quick-and-dirty-code-folding/]
+
+[173] [http://www.emacswiki.org/emacs/OutlineMode]
+
+[174] [http://www.emacswiki.org/emacs/FoldingMode]
+
+[175] [https://github.com/zenozeng/yafolding.el]
+
+[176] [http://cedet.sourceforge.net/]
+
+[177]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/Hideshow.html]
+
+[178]
+[https://www.gnu.org/software/emacs/manual/html_mono/autotype.html#Copyrights]
+
+[179]
+[https://www.gnu.org/software/emacs/manual/html_node/elisp/Library-Headers.html]
+
+[180] [http://choosealicense.com/]
+
+[181]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/Spelling.html]
+
+[182] [http://www.emacswiki.org/emacs/InteractiveSpell]
+
+[183]
+[http://blog.binchen.org/posts/what-s-the-best-spell-check-set-up-in-emacs.html]
+
+[184] [http://melpa.milkbox.net/#/ac-ispell]
+
+[185]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/Editing-Binary-Files.html]
+
+[186] [http://www.emacswiki.org/emacs/HexlMode]
+
+[187]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/Amusements.html#Amusements]
+
+[188] [https://www.gnu.org/software/auctex/]
+
+[189] [http://ebib.sourceforge.net/]
+
+[190] [https://www.tug.org/texworks/]
+
+[191] [http://xetex.sourceforge.net/]
+
+[192] [https://www.gnu.org/software/auctex/reftex.html]
+
+[193] [https://github.com/nonsequitur/smex/]
+
+[194]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/Which-Function.html]
+
+[195]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/Rectangles.html]
+
+[196] [https://github.com/magnars/multiple-cursors.el]
+
+[197] [http://www.emacswiki.org/emacs/RectangleCommands]
+
+[198] [http://emacsrocks.com/e13.html]
+
+[199] [https://github.com/m00natic/vlfi]
+
+[200] [https://github.com/flycheck/flycheck]
+
+[201]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/Hideshow.html]
+
+[202]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/Modes.html#Modes]
+
+[203]
+[https://www.gnu.org/software/emacs/manual/html_node/elisp/Auto-Major-Mode.html]
+
+[204] [https://github.com/Bruce-Connor/fancy-narrow]
+
+[205] [https://github.com/tkf/auto-complete-chunk]
+
+[206] [http://www.graphviz.org/]
+
+[207] [http://marmalade-repo.org/packages/graphviz-dot-mode]
+
+[208]
+[http://orgmode.org/worg/org-contrib/babel/languages/ob-doc-dot.html]
+
+[209] [http://marmalade-repo.org/packages/lexbind-mode]
+
+[210]
+[https://www.gnu.org/software/emacs/manual/html_node/elisp/Startup-Summary.html]
+
+[211]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/Lisp-Doc.html]
+
+[212]
+[https://www.gnu.org/software/emacs/manual/html_node/elisp/Startup-Summary.html]
+
+[213] [http://library.readscheme.org/index.html]
+
+[214] [http://www.nongnu.org/geiser/]
+
+[215] [https://github.com/xiaohanyu/ac-geiser]
+
+[216] [https://en.wikipedia.org/wiki/ECMAScript]
+
+[217] [http://www.emacswiki.org/emacs/JavaScriptMode]
+
+[218] [https://en.wikipedia.org/wiki/HTML]
+
+[219] [https://github.com/gongo/json-reformat]
+
+[220] [https://www.gnu.org/software/make/manual/make.html]
+
+[221]
+[http://orgmode.org/worg/org-contrib/babel/languages/ob-doc-makefile.html]
+
+[222] [http://www.emacswiki.org/emacs/MakefileMode]
+
+[223] [http://jblevins.org/projects/markdown-mode/]
+
+[224]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/Version-Control.html]
+
+[225] [https://github.com/magit/magit]
+
+[226] [https://github.com/dgutov/diff-hl]
+
+[227] [http://lilypond.org/]
+
+[228]
+[http://www.guitar-pro.com/en/index.php?pg=accueil-2&utm_expid=13369301-5.jyDTwdKfQ_CCdEqtpCIynQ.1&utm_referrer=https%3A%2F%2Fwww.google.com%2F]
+
+[229]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/Visual-Line-Mode.html]
+
+[230] [http://www.emacswiki.org/emacs/VisualLineMode]
+
+[231]
+[https://www.gnu.org/software/emacs/manual/html_node/emacs/Auto-Fill.html]
+
+[232] [http://ess.r-project.org/]
+
+[233] [https://en.wikipedia.org/wiki/Emacs_Speaks_Statistics]
+
+[234] [http://www.emacswiki.org/emacs/EmacsSpeaksStatistics]
+
+[235] [http://blog.revolutionanalytics.com/2011/08/ess.html]
+
+[236]
+[http://blog.revolutionanalytics.com/2014/03/emacs-ess-and-r-for-zombies.html]
+
+[237]
+[https://rstudio-pubs-static.s3.amazonaws.com/2246_6f220d4de90c4cfda4109e62455bc70f.html]
+
+[238] [http://ess.r-project.org/Manual/news.html]
+
+[239] [http://ess.r-project.org/Manual/readme.html]
+
+[240] [http://ess.r-project.org/Manual/ess.html]
+
+[241] [https://code.google.com/p/ess-tracebug/]
+
+[242] [https://stat.ethz.ch/pipermail/ess-help/2014-January/009705.html]
+
+[243] [https://github.com/milkypostman/melpa/issues/6]
+
+[244] [https://google-styleguide.googlecode.com/svn/trunk/Rguide.xml]
+
+[245] [http://adv-r.had.co.nz/Style.html]
+
+[246]
+[https://stackoverflow.com/questions/7502540/make-emacs-ess-follow-r-style-guide]
+
+[247] [http://www.r-bloggers.com/a-small-customization-of-ess/]
+
+[248] [http://www.emacswiki.org/emacs/ESSAutoParens]
+
+[249]
+[http://emacs.1067599.n5.nabble.com/indentation-not-working-if-parentheses-are-already-closed-td283806.html]
+
+[250]
+[https://stackoverflow.com/questions/18420933/enabling-mode-specific-paren-indentation-in-emacs-prelude]
+
+[251] [https://github.com/Fuco1/smartparens/issues/80]
+
+[252] [https://github.com/bbatsov/prelude/issues/374]
+
+[253] :
+[https://github.com/rdallasgray/graphene/blob/master/graphene-smartparens-config.el]
+
+[254] [http://www.emacswiki.org/emacs/InfoMode]
+
+[255] [https://github.com/abo-abo/ace-link]
+
+[256] [http://www.vagrantup.com/]
+
+[257] [https://github.com/ottbot/vagrant.el]
+
+[258] [https://github.com/dougm/vagrant-tramp]
+
+[259] [https://www.ruby-lang.org/en/]
+
+[260] [https://www.gnu.org/software/emacs/manual/html_mono/eshell.html]
+
+[261]
 [http://www.masteringemacs.org/articles/2010/12/13/complete-guide-mastering-eshell/]
 
-[261] [http://www.khngai.com/emacs/eshell.php]
-
-[262]
-[http://eschulte.github.io/emacs-starter-kit/starter-kit-eshell.html]
+[262] [http://www.khngai.com/emacs/eshell.php]
 
 [263]
+[http://eschulte.github.io/emacs-starter-kit/starter-kit-eshell.html]
+
+[264]
 [https://github.com/bbatsov/emacs-dev-kit/blob/master/eshell-config.el]
 
-[264] [http://mwolson.org/static/doc/erc.html]
+[265] [http://mwolson.org/static/doc/erc.html]
 
-[265] [http://emacs-fu.blogspot.com/2009/06/erc-emacs-irc-client.html]
+[266] [http://emacs-fu.blogspot.com/2009/06/erc-emacs-irc-client.html]
 
-[266] [http://edward.oconnor.cx/config/.ercrc.el]
-
-[267]
-[http://www.shakthimaan.com/posts/2011/08/13/gnu-emacs-erc/news.html]
+[267] [http://edward.oconnor.cx/config/.ercrc.el]
 
 [268]
+[http://www.shakthimaan.com/posts/2011/08/13/gnu-emacs-erc/news.html]
+
+[269]
 [https://gitcafe.com/Darksair/dotfiles-mac/blob/master/.emacs-erc.el]
 
-[269] [http://www.mirc.com/]
+[270] [http://www.mirc.com/]
 
-[270] [http://www.irssi.org/]
+[271] [http://www.irssi.org/]
 
-[271] [http://www.emacswiki.org/emacs/ErcAutoAway]
+[272] [http://www.emacswiki.org/emacs/ErcAutoAway]
 
-[272] [http://www.emacswiki.org/emacs/ErcAutoJoin]
+[273] [http://www.emacswiki.org/emacs/ErcAutoJoin]
 
-[273] [http://www.emacswiki.org/emacs/ErcButton]
+[274] [http://www.emacswiki.org/emacs/ErcButton]
 
-[274] [http://www.emacswiki.org/emacs/ErcCompletion]
+[275] [http://www.emacswiki.org/emacs/ErcCompletion]
 
-[275] [http://www.emacswiki.org/emacs/ErcFilling]
+[276] [http://www.emacswiki.org/emacs/ErcFilling]
 
-[276]
+[277]
 [http://www.opensource.apple.com/source/emacs/emacs-84/emacs/lisp/erc/erc.el]
 
-[277] [https://github.com/pymander/erc/blob/master/erc-list.el]
+[278] [https://github.com/pymander/erc/blob/master/erc-list.el]
 
-[278] [http://www.emacswiki.org/emacs/ErcMatch]
+[279] [http://www.emacswiki.org/emacs/ErcMatch]
 
-[279] [http://www.emacswiki.org/emacs/ErcNetsplit]
+[280] [http://www.emacswiki.org/emacs/ErcNetsplit]
 
-[280] [http://www.emacswiki.org/emacs/ErcNickNotify]
+[281] [http://www.emacswiki.org/emacs/ErcNickNotify]
 
-[281] [https://github.com/emacsmirror/erc/blob/master/erc-page.el]
+[282] [https://github.com/emacsmirror/erc/blob/master/erc-page.el]
 
-[282] [https://github.com/emacsmirror/erc/blob/master/erc-ring.el]
+[283] [https://github.com/emacsmirror/erc/blob/master/erc-ring.el]
 
-[283] [http://www.emacswiki.org/emacs/ErcScrollToBottom]
+[284] [http://www.emacswiki.org/emacs/ErcScrollToBottom]
 
-[284] [http://www.emacswiki.org/emacs/ErcStamp]
+[285] [http://www.emacswiki.org/emacs/ErcStamp]
 
-[285] [http://www.emacswiki.org/emacs/ErcChannelTracking]
+[286] [http://www.emacswiki.org/emacs/ErcChannelTracking]
 
-[286] [https://github.com/kidd/erc-tweet.el]
+[287] [https://github.com/kidd/erc-tweet.el]
 
-[287] [https://github.com/kidd/erc-image.el]
+[288] [https://github.com/kidd/erc-image.el]
 
-[288] [https://github.com/kidd/erc-youtube.el]
+[289] [https://github.com/kidd/erc-youtube.el]
 
-[289] [https://github.com/leathekd/erc-hl-nicks]
+[290] [https://github.com/leathekd/erc-hl-nicks]
 
-[290] [https://github.com/cask/cask]
+[291] [https://github.com/magnars/dash.el]
 
-[291]
+[292] [https://github.com/rejeep/f.el]
+
+[293] [https://github.com/magnars/s.el]
+
+[294] [http://www.emacswiki.org/emacs/PatternMatching]
+
+[295] [https://github.com/sindikat/unidecode]
+
+[296] [http://www.figlet.org/]
+
+[297] [https://bitbucket.org/jpkotta/figlet]
+
+[298] [http://www.emacswiki.org/emacs/ArtistMode]
+
+[299] [http://www.graphviz.org/]
+
+[300] [http://ditaa.sourceforge.net/]
+
+[301] [http://plantuml.sourceforge.net/]
+
+[302]
+[http://orgmode.org/worg/org-contrib/babel/languages/ob-doc-ditaa.html]
+
+[303]
+[http://www.craiglarman.com/wiki/index.php?title=Books_by_Craig_Larman]
+
+[304] [http://www.gnuvola.org/software/aa2u/]
+
+[305] [http://orgmode.org/manual/Speed-keys.html#Speed-keys]
+
+[306]
+[http://notesyoujustmightwanttosave.blogspot.com/2011/12/org-speed-keys.html]
+
+[307] [http://orgmode.org/manual/Clean-view.html#Clean-view]
+
+[308]
+[http://home.fnal.gov/~neilsen/notebook/orgExamples/org-examples.html]
+
+[309] [http://orgmode.org/manual/JavaScript-support.html]
+
+[310] [http://orgmode.org/manual/comments.html#comments]
+
+[311] [http://comments.gmane.org/gmane.emacs.orgmode/32814]
+
+[312] [https://github.com/aki2o/org-ac]
+
+[313]
+[https://lists.gnu.org/archive/html/emacs-orgmode/2014-06/msg00719.html]
+
+[314] [https://github.com/cask/cask]
+
+[315]
 [https://www.gnu.org/software/emacs/manual/html_node/emacs/Packages.html]

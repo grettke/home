@@ -15,12 +15,14 @@
 (setq-default eval-expression-print-level nil)
 (setq-default case-fold-search nil)
 ;; TODO: Move this to a lib section after Cask (require 'xml-rpc)
+(setq gc-cons-threshold (* 25 1024 1024))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-safe-themes (quote ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default))))
+ '(custom-safe-themes (quote ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
+ '(display-time-world-list (quote (("America/Los_Angeles" "Los_Angeles") ("America/Denver" "Denver") ("America/Chicago" "Chicago") ("America/New_York" "New York") ("Asia/Kolkata" "Kolkata") ("Asia/Kuala_Lumpur" "Kuala Lumpur")))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -253,8 +255,30 @@ Attribution: URL http://orgmode.org/manual/System_002dwide-header-arguments.html
   "Insert an ellipsis into the current buffer."
   (interactive)
   (insert "…"))
-;;  LocalWords:  modeline traceability HTTPS
 
+(defun gcr/insert-noticeable-snip-comment-line ()
+  "Insert a noticeable snip comment line (NSCL)."
+  (interactive)
+  (if (not (bolp))
+      (message "I may only insert a NSCL at the beginning of a line.")
+    (let ((ncl (make-string 70 ?✂)))
+      (newline)
+      (previous-line)
+      (insert ncl)
+      (comment-or-uncomment-region (line-beginning-position) (line-end-position)))))
+
+(defun gcr/paste-from-x-clipboard()
+  "Intelligently grab clipboard information per OS.
+
+Attribution: URL http://blog.binchen.org/posts/paste-string-from-clipboard-into-minibuffer-in-emacs.html"
+  (interactive)
+  (shell-command
+   (cond
+    (*cygwin* "getclip")
+    (*is-a-mac* "pbpaste")
+    (t "xsel -ob")
+    )
+   1))
 (let ((cask-runtime "~/.cask/cask.el"))
   (when (not (file-exists-p cask-runtime))
     (warn (concat "Can't seem to find a Cask runtime file where it was expected "
@@ -286,6 +310,7 @@ Attribution: URL http://orgmode.org/manual/System_002dwide-header-arguments.html
          (not (equal old-command 'ns-prev-frame))
          (not (equal old-command 'ns-next-frame))
          (not (equal old-command 'mwheel-scroll))
+         (not (equal new-command 'diff-hl-mode))
          )
       (warn "Just stomped the global-map binding for %S, replaced %S with %S"
             key old-command new-command))))
@@ -302,6 +327,7 @@ Attribution: URL http://orgmode.org/manual/System_002dwide-header-arguments.html
  (setq w32-rwindow-modifier 'super))
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
+(setq echo-keystrokes 0.02)
 (key-chord-define-global "3." 'gcr/insert-ellipsis)
 (key-chord-define-global (concat "A" "{") (lambda () (interactive) (insert "ä")))
 (key-chord-define-global (concat "A" "}") (lambda () (interactive) (insert "Ä")))
@@ -309,10 +335,13 @@ Attribution: URL http://orgmode.org/manual/System_002dwide-header-arguments.html
 (key-chord-define-global (concat "O" "}") (lambda () (interactive) (insert "Ö")))
 (key-chord-define-global (concat "U" "{") (lambda () (interactive) (insert "ü")))
 (key-chord-define-global (concat "U" "}") (lambda () (interactive) (insert "Ü")))
+(key-chord-define-global (concat "<" "_") (lambda () (interactive) (insert "←")))
+(key-chord-define-global (concat "_" ">") (lambda () (interactive) (insert "→")))
 (key-chord-define-global "<<" (lambda () (interactive) (insert "«")))
 (key-chord-define-global ">>" (lambda () (interactive) (insert "»")))
 (key-chord-define-global "jk" 'ace-jump-mode)
 (key-chord-define-global "nm" 'ace-window)
+(key-chord-define-global "fj" 'goto-line)
 (key-chord-define-global "JK" (lambda () (interactive) (other-window 1)))
 (key-chord-define-global "KL" (lambda () (interactive) (next-buffer)))
 (key-chord-define-global "L:" (lambda () (interactive) (previous-buffer)))
@@ -328,8 +357,12 @@ Attribution: URL http://orgmode.org/manual/System_002dwide-header-arguments.html
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 (global-set-key (kbd "s-p") 'gcr/describe-thing-in-popup)
 (global-set-key (kbd "C--") 'ace-window)
-(global-set-key (kbd "C-3") 'yas/expand)
-(global-set-key (kbd "C-4") 'gcr/comment-or-uncomment)
+(global-set-key (kbd "C-3") 'auto-complete)
+(global-set-key (kbd "C-4") 'yas/expand)
+(global-set-key (kbd "C-5") 'gcr/comment-or-uncomment)
+(global-set-key (kbd "s-d h") 'diff-hl-mode)
+(global-set-key (kbd "s-d l") 'vc-diff)
+(global-set-key (kbd "s-d u") 'vc-revert)
 (global-set-key (kbd "C-7") 'gcr/insert-timestamp)
 (global-set-key (kbd "M-7") 'gcr/insert-datestamp)
 (global-set-key (kbd "s-<tab>") 'auto-complete)
@@ -355,15 +388,27 @@ Attribution: URL http://orgmode.org/manual/System_002dwide-header-arguments.html
 (require 'ox-md)
 (require 'htmlize)
 
+(setq org-export-coding-system 'utf-8)
+
+(setq org-export-preserve-breaks nil)
+
 ;; (require 'org2blog-autoloads)
 
 (defun gcr/org-mode-hook ()
   (fci-mode)
   (gcr/untabify-buffer-hook)
+  (local-set-key (kbd "C-1") 'org-narrow-to-subtree)
+  (local-set-key (kbd "M-1") 'widen)
+  (local-set-key (kbd "C-2") 'org-edit-special)
 ;;  (org2blog/wp-mode)
   )
 
 (add-hook 'org-mode-hook 'gcr/org-mode-hook)
+
+(defun gcr/org-src-mode-hook ()
+  (local-set-key (kbd "C-2") 'org-edit-src-exit))
+
+(add-hook 'org-src-mode-hook 'gcr/org-src-mode-hook)
 
 (setq org-todo-keywords
       '((sequence "TODO" "IN-PROGRESS" "WAITING" "REVIEW" "DONE")))
@@ -401,8 +446,6 @@ Attribution: URL http://orgmode.org/manual/System_002dwide-header-arguments.html
 
 (setq org-confirm-elisp-link-function 'y-or-n-p)
 
-(setq org-footnote-auto-adjust +1)
-
 (setq org-enforce-todo-dependencies +1)
 
 (gcr/on-gui
@@ -420,6 +463,8 @@ Attribution: URL http://orgmode.org/manual/System_002dwide-header-arguments.html
 
 (setq org-src-preserve-indentation +1)
 
+(setq org-edit-src-content-indentation 0)
+
 (setq org-highlight-latex-and-related '(latex script entities))
 
 (mapc (lambda (asc)
@@ -427,11 +472,11 @@ Attribution: URL http://orgmode.org/manual/System_002dwide-header-arguments.html
           (setf (nth 1 asc) org-sce-dc)))
       org-structure-template-alist)
 
-(when (not (version= (org-version) "8.2.7"))
+(when (not (version= (org-version) "8.2.7a"))
   (display-warning
    'org-mode
    (concat
-    "Insufficient requirements. Expected 8.2.7. Found " (org-version))
+    "Insufficient requirements. Expected 8.2.7a. Found " (org-version))
    :emergency))
 
 (defadvice org-babel-tangle (before org-babel-tangle-before activate)
@@ -506,3 +551,10 @@ Attribution: URL http://orgmode.org/manual/System_002dwide-header-arguments.html
         (--filter (member (car it) allowed)
                   org-babel-common-header-args-w-values)))
   (setq org-babel-common-header-args-w-values new-ls))
+(setq org-footnote-define-inline +1)
+(setq org-footnote-auto-label 'random)
+(setq org-footnote-auto-adjust nil)
+(setq org-footnote-section nil)
+(setq org-catch-invisible-edits 'error)
+(setq org-loop-over-headlines-in-active-region t)
+(add-to-list 'ispell-skip-region-alist '("#\\+begin_src". "#\\+end_src"))
