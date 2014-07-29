@@ -6,14 +6,6 @@
 			     ______________
 
 
-Table of Contents
-_________________
-
-1 Overview
-2 Prepare
-3 Publish
-
-
 1 Overview
 ==========
 
@@ -26,25 +18,30 @@ _________________
   It generates:
   - [[file:.emacs.el]]
   - [[file:.org-mode.emacs.el]]
+  - [[file:.raw-org.emacs.el]]
+  - [[file:raw-org.Cask]]
   - `.org-mode.emacs.el' *must* be used to boostrap this /system/
 
   The purpose of this document is to prepare the system for external
   publishing such that anyone may execute it.
 
 
-2 Prepare
+2 Version numbers
+=================
+
+  Release details:
+  ,----
+  | (message "Emacs: %S\nOrg: %S" (emacs-version) (org-version))
+  `----
+
+
+3 Prepare
 =========
 
   Bootstrap with `.org-mode.emacs.el'.
 
-  Prepare the run:
-  ,----
-  | mv typescript typescript-$(date +%F-%T)
-  | script
-  `----
-
   Remove all generated files: Tangle `.emacs.el' *twice*:
-  - First to create the new artefacts
+  - First to create the new artifacts
   - Second to verify that it may self-build
     - Only a self-building system will ever be committed to the VCS
   ,----
@@ -59,26 +56,25 @@ _________________
   | make publish.txt
   `----
 
-  Release details:
-  ,----
-  | (message "Emacs: %s\nOrg: %S\nCask: %s" (emacs-version) (org-version) (cask-version))
-  `----
-
   Prepare the libraries:
   ,----
   | rm ~/tmp/cask.tgz
   | tar -czf ~/tmp/cask.tgz ~/.emacs.d/.cask/
+  | rm ~/tmp/cask-dist.tgz
+  | tar -czf ~/tmp/cask-dist.tgz ~/.cask
+  | rm ~/tmp/el-get.tgz
+  | tar -czf ~/tmp/el-get.tgz ~/.emacs.d/el-get/
   | rm ~/tmp/ditaa0_9.jar
   | cp ~/java/jar/ditaa0_9.jar ~/tmp
   `----
 
 
-3 Publish
+4 Publish
 =========
 
-  This is manual publishing from my personal, private repo to a public
-  repo. The intent to keep publically accessible, /known good/ versions
-  of the system available.
+  This is manual publishing from my personal, private repository to a
+  public repository. The intent to keep publicly accessible, /known
+  good/ versions of the system available.
 
   Originals:
   ,----
@@ -99,12 +95,13 @@ _________________
   ,----
   | cp .emacs.el ~/git/github-grettke/home
   | cp .org-mode.emacs.el ~/git/github-grettke/home
+  | cp .raw-org.emacs.el ~/git/github-grettke/home
+  | cp raw-org.Cask ~/git/github-grettke/home
   | cp ~/tmp/cask.tgz ~/git/github-grettke/home
-  | cp ~/tmp/ditaa0_9.jar ~/git/github-grettke/home
+  | cp ~/tmp/cask-dist.tgz ~/git/github-grettke/home
+  | cp ~/tmp/el-get.tgz ~/git/github-grettke/home
+  | cp $EELIB/ditaa0_9.jar ~/git/github-grettke/home
   | cp auap.png ~/git/github-grettke/home
-  `----
-
-  Turn the typescript off:
-  ,----
-  | exit
+  | rm -rf ~/git/github-grettke/home/fonts
+  | cp -r fonts ~/git/github-grettke/home
   `----

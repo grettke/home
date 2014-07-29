@@ -4,7 +4,7 @@ $(INIT): TC3F.org
 	caffeinate -s time emacs --batch --no-init-file --load .org-mode.emacs.el --find-file TC3F.org --funcall org-babel-tangle --kill
 
 TC3F.txt: $(INIT)
-	caffeinate -s time emacs --batch --no-init-file --load .org-mode.emacs.el --find-file TC3F.org --funcall org-ascii-export-to-ascii --killo
+	caffeinate -s time emacs --batch --no-init-file --load .org-mode.emacs.el --find-file TC3F.org --funcall org-ascii-export-to-ascii --kill
 
 TC3F.html: $(INIT)
 	caffeinate -s time emacs --batch --no-init-file --load .org-mode.emacs.el --find-file TC3F.org --funcall org-html-export-to-html --kill
