@@ -133,6 +133,8 @@
 
 (depends-on "multiple-cursors")
 
+(depends-on "nyan-mode")
+
 (depends-on "ob-sml")
 
 (depends-on "org-ac")
