@@ -41,10 +41,10 @@
 #+LATEX_HEADER_EXTRA:
 
 * How to design a file conservator (HTDFC)
-  :PROPERTIES:
-  :header-args+: :exports none
-  :header-args+: :tangle no
-  :END:
+
+#+begin_comment
+This section will never be tangled.
+#+end_comment
 
 ** Audience [fn:6873a93e: http://dictionary.reference.com/cite.html?qh=audience&ia=luna]
 
@@ -283,10 +283,10 @@ Where else has this acronym shown up?
 - A spasmogenic fragment :: a peptide [fn:07d2fa50: http://books.google.com/books?id=L4CI-qkhuQ8C]
 
 * On the role of, and the need for, a personal philosophy
-  :PROPERTIES:
-  :header-args+: :exports none
-  :header-args+: :tangle no
-  :END:
+
+#+begin_comment
+This section will never be tangled.
+#+end_comment
 
 ** Audience
 
@@ -764,40 +764,40 @@ Emacs feature /just works/.
 - =M-F=
 
 2. In the process, realized that I didn't consider using upper case letters to
-chord with! One may argue that defeats the purpose. I argue that it makes
-S serve as a quasi =META= key and that is fine because for some reason,
-mentally, it makes more sense, and feels a bit different from a =META= key which
-has a slightly different intent.
+   chord with! One may argue that defeats the purpose. I argue that it makes
+   S serve as a quasi =META= key and that is fine because for some reason,
+   mentally, it makes more sense, and feels a bit different from a =META= key which
+   has a slightly different intent.
 
 3. It might involve re-training the operator, because unlikely things, like
-typing in all caps, can muck with desires for using key-chords like =META=.
+   typing in all caps, can muck with desires for using key-chords like =META=.
 
 4. Chords exactly right next to each other are definitely just nice and pleasant
-to press.
+   to press.
 
 5. The ease of access becomes quite clear. For me it is =C-[123]= and C-90[-] that
-are quite easy to reach. Good to know and note, note sure how though yet.
+   are quite easy to reach. Good to know and note, note sure how though yet.
 
 6. Choosing a place to map from, in terms of the distraction level,  kind of
-an odd experience. I had ideas about how the "disruption level" would be all
-that was needed to figure out where/how to provide a mapping. That was mostly
-true, and is still the case, but I just had a surprise where once I learned
-about how useful ace-jump is /all the time/, I realized that I must somehow have
-a home key chord. Previously, I had determined that there is no point because
-of the assumptions to bother using English language keys. Staring at the
-keyboard though, with this new understanding of the power of this mode, it
-became really simple: =d= and =f= (or =f= and =d=) are rarely if ever used
-together, so clearly that is the right place for a key-chord for ace-jump!
+   an odd experience. I had ideas about how the "disruption level" would be all
+   that was needed to figure out where/how to provide a mapping. That was mostly
+   true, and is still the case, but I just had a surprise where once I learned
+   about how useful ace-jump is /all the time/, I realized that I must somehow have
+   a home key chord. Previously, I had determined that there is no point because
+   of the assumptions to bother using English language keys. Staring at the
+   keyboard though, with this new understanding of the power of this mode, it
+   became really simple: =d= and =f= (or =f= and =d=) are rarely if ever used
+   together, so clearly that is the right place for a key-chord for ace-jump!
 
 7. My ideas, some were good, some were not. Interesting to see how they pan out
-and develop in the log here. It almost does seem like anything *not* involving
-vowels may be a good candidate for a key-chord. I initially just didn't want to
-have to think about it, especially during an active touch-typing
-spoken-language even. Whatever happens, I'm trying to keep an open mind and let
-it develop organically.
+   and develop in the log here. It almost does seem like anything *not* involving
+   vowels may be a good candidate for a key-chord. I initially just didn't want to
+   have to think about it, especially during an active touch-typing
+   spoken-language even. Whatever happens, I'm trying to keep an open mind and let
+   it develop organically.
 
 8. Realized today that since I use =vc-next= and =er/expand-region= *so* much that
-they should be even *closer* to home. Fixed that.
+   they should be even *closer* to home. Fixed that.
 
 9. Looking at the version control mappings to s-d… that was a relatively easy
    key combo, and naturally it ended up with the choices all occurring on the
@@ -821,7 +821,52 @@ they should be even *closer* to home. Fixed that.
     or you are debugging your system, and you can't use your highly tweaked set
     up, and still need to use =emacs=, they knowing most of the default bindings
     really pays off! I always run into this when I want to use the lightweight
-    and minimal system defined in this document for debugging.
+    and minimal system defined in this document for debugging. This has served
+    me well because when I am using IntelliJ or VisualStudio I can /still/ use
+    use Emacs keybindings! The former is superb, the latter is not, though.
+
+14. On OSX, option-command bindings are used for a lot of things by applications.
+    Although it would be nice to use super-meta, it is not worth borking the
+    built in bindings to do so.
+
+15. Using shift for hyper continues to be tantalizing, but then what is the
+    simplest way to handle brackets that I hit a million times? That is a good
+    question and perhaps I will some day have an answer.
+
+16. Recently read this [fn:61198ad1:        http://endlessparentheses.com/the-toggle-map-and-wizardry.html]
+    article. Not
+    having been sure how to manage the growing keybindings, I've been keeping my
+    eye out for a nice approach and I think that this is it. My previous idea was to
+    do a graphical rendering of bindings per mode to make sense of it, but this
+    seems to be a better and simpler approach. It is not urgent, but when the time
+    comes this is the approach that I will try. Here [fn:f20493c8: http://endlessparentheses.com/launcher-keymap-for-standalone-features.html]
+    is another discussion alluding to the same approach. Right now I do the same
+    thing with plain old bindings like =s-u dsr= for "unicode double-stroke R".
+
+17. Lately I've refactored this document a bit to make it easier for me (the human)
+    to manage. Something really basic: tagging =noweb-ref= blocks with a disposable
+    name like =ignore= to make it easy to work with them in their source language
+    without tangling. That change is not exactly a keyboard thing, but it is
+    related. That slowed things down a tiny bit. However, it made things so much
+    more flexible *AND* understandable. I guess this is my experiential proof?
+    The only way I can make sense of the tangled document is becuase of this document.
+    The context, the story, everything, is in here. Without it, the tangled document
+    is nearly useless because no one could ever make sense of it. Making sense of it
+    makes it very easy to change. When you have a map and a context, you can make
+    changes very quickly. This makes it easy to make mistakes, which is a great way
+    to learn. The key-chord map is one example. I erroneously chose =df= for =goto-line=.
+    Actaully, when it chose it, it was perfect! That was before =ess= and typing =df= for
+    datatframe all over in the code. Ouch. Well, life changes, and we adapt. That
+    is what is so cool about this document; it lets you adapt easily! I make changes
+    with no fear because I can make sense of things. I have my notes, my context,
+    my reason, my idea, and a real biggie, results of previous experiements. It is
+    easy to love this approach. Something that came out of playing, or experimentation
+    perhaps sounds better, is seeing that for key chords it is a little easier to know
+    what to do. Eg, I use English, so consonant-vowel combinations are easy to avoid.
+    Once in a while ones like =df= will pop up and I will deal with it. A minor
+    one to avoid perhaps are abbreviations from when you remove vowels, that has not
+    me. Not a big deal, but identifying obvious chords one will never type like
+    =fg= is a nice to do.
 
 ** How to choose a font
 
@@ -1486,7 +1531,7 @@ by my initialization scripts, so I learn towards the more specific versions here
               user-mail-address "gcr@wisdomandwonder.com")
 
 (setq-default eval-expression-print-level nil)
-(setq-default case-fold-search nil)
+(setq-default case-fold-search +1)
 #+end_src
 
 #+RESULTS:
@@ -1505,23 +1550,38 @@ on the path.
 Performance, give Emacs more RAM. 1 kibibyte (KiB) [fn:58d617cb: https://en.wikipedia.org/wiki/Kibibyte]
 is 1024 bytes. 1 mebibyte (MiB) [fn:620a7fd4: https://en.wikipedia.org/wiki/Mebibyte]
 is 1024^2 bytes, aka 1 megabyte.
-- 256 MiB made the garbage collection take forever
-- 128 MiB was intermittently irritating with garbage collection
 - 064 MiB we'll see
+- 128 MiB was intermittently irritating with garbage collection
+  - And yet I come back to this because it seems to be OK
+  - And then it isn't again!
+- 256 MiB made the garbage collection take forever
+- 512 MiB because =ess= was dog slow at times!
+  - But sometimes I needs it
+  - Othertimes it causes 15 seconds hangs while the GC runs
+- 1024 MiB
+  - Just curious
 #+begin_src emacs-lisp
-(setq gc-cons-threshold (* 064 1024 1024))
+(setq gc-cons-threshold (* 128 1024 1024))
 #+end_src
 
-#+RESULTS:
-: 268435456
+When I tangle this file, I run out of stack space. Err, Emacs does I mean.
+Probably a bug that I introduced into the document, but make it clear how much
+recursion may occur here.
+#+begin_src emacs-lisp
+(setq max-specpdl-size 1500)
+#+end_src
 
 Whenever this sytem runs I want error to be handled immediately. Elsewhere I do
 bind a key to disable this. It kind of depends where this should get tangled. In
 theory it should be the first line of the tangled file but I'm not going to
-worry about it until I need to.
+worry about it until I need to. This approach has generally worked out fine,
+or rather had worked out fine. What I found is that not surprisingly errors do
+occur! And then… they are handled! Well, not really a shocker is it? You get
+the debugger starting a *lot* when it isn't really an exceptional situation. As
+such, this needs to be turned off until problem do occur.
 
 #+begin_src emacs-lisp
-(setq debug-on-error t)
+(setq debug-on-error nil)
 #+end_src
 
 Be sure to pay homage to Zippy every once a while by invoking him with a call
@@ -1717,7 +1777,7 @@ Its data file is under version control.
 (defun gcr/warn-keyfreq-file ()
   "Warn of keyfreq misconfiguration."
   (interactive)
-  (unless (f-symlink? gcr/keyfreq-file)
+  (unless (f-exists? gcr/keyfreq-file)
     (warn "Can't seem to find a symlink at: %S. Keyfreq expeced it there, and will continue to function, but your data will probably be lost." gcr/keyfreq-file)))
 (gcr/warn-keyfreq-file)
 (require 'keyfreq)
@@ -1818,6 +1878,9 @@ final newline before saving it.
 (setq require-final-newline t)
 #+end_src
 
+Speaking of line endings just read this [fn:21bec4d5: https://www.reddit.com/r/emacs/comments/2g6huy/how_to_default_to_crlf_endings_for_windowscentric/].
+If I ever want to force line ending type based on file name, then that is how.
+
 For a long time I wanted auto-revert everywhere and for some reason gave up on
 adding it. What the heck? I am human.
 #+begin_src emacs-lisp
@@ -1886,7 +1949,6 @@ it, you will be truly shocked. The author sums it up quite succinctly
   "ace-jump-mode"
   "Emacs quick move minor mode"
   t)
-(define-key global-map (kbd "C-0") 'ace-jump-mode)
 (autoload
   'ace-jump-mode-pop-mark
   "ace-jump-mode"
@@ -1975,6 +2037,58 @@ For some reason, linum relative turns on once loaded. Irritating. Turn it off.
 (linum-relative-toggle)
 #+end_src
 
+Have some fun and keep things light working with nyan cat to show your bufer
+location.
+
+#+begin_src emacs-lisp
+(require 'nyan-mode)
+#+end_src
+
+Make it look like you are typing at light speed. I had to start =calculator-mode=
+before running this in order for it to be happy.
+
+#+begin_src emacs-lisp
+(require 'highlight-tail)
+#+end_src
+
+Take "zoning out" to a whole new level.
+
+#+begin_src emacs-lisp
+(require 'zone)
+#+end_src
+
+Sometimes it is difficult to comprehend tabular data inside of a buffer, so make
+it easier.
+
+#+begin_src emacs-lisp
+(require 'stripe-buffer)
+#+end_src
+
+Dealing with markup that uses tags is pretty easy per-mode as you do it once and
+you are done. In modes liks =org= though you tend to have more evolutionary steps
+in your document so you end up wrapping things after the fact a lot.
+=wrap-region= [fn:fd94462d: https://github.com/rejeep/wrap-region.el] makes this
+easy, fast, and intuitive. Well it lets /you/ do it, which is just as good!
+
+Thoughts:
+- Should mode setting be defined here?
+  - Will try for now
+- Should =wrap-region-remove-wrapper= be specified?
+  - Won't for now can just undo.
+
+#+begin_src emacs-lisp
+(require 'wrap-region)
+(gcr/diminish 'wrap-region-mode)
+
+(wrap-region-add-wrapper "*" "*" nil 'org-mode) ;; bold
+(wrap-region-add-wrapper "/" "/" nil 'org-mode) ;; italic
+(wrap-region-add-wrapper "_" "_" nil 'org-mode) ;; underlined
+(wrap-region-add-wrapper "=" "=" nil 'org-mode) ;; verbatim
+(wrap-region-add-wrapper "~" "~" nil 'org-mode) ;; code
+(wrap-region-add-wrapper "+" "+" nil 'org-mode) ;; strike-through
+;; (wrap-region-add-wrapper "«" "»" "w" 'org-mode) ;; noweb blocks
+#+end_src
+
 **** Line Wrapping [fn:46bfb076: https://www.gnu.org/software/emacs/manual/html_node/emacs/Visual-Line-Mode.html] [fn:210: http://www.emacswiki.org/emacs/VisualLineMode] / Line breaking [fn:0945b707: https://www.gnu.org/software/emacs/manual/html_node/emacs/Auto-Fill.html]
 
 A long time ago I disabled line-wrapping because I kept all of my files less
@@ -2000,6 +2114,7 @@ preset length using Auto fill mode. One might break all lines at 80 characters
 for example. Although that is a nice option, I prefer dealing with it manually
 so I know what is happening in any particular buffer, and visual line mode makes
 that loads easier.
+
 
 *** Discoverability
     :PROPERTIES:
@@ -2041,12 +2156,30 @@ package =move-text= is how [fn:e351214b: http://www.emacswiki.org/emacs/move-tex
 
 *** File-system management
 
-Not quite sure where this should go yet. Finder is [fn:dbe73f8c: https://en.wikipedia.org/wiki/Finder_(software)] is just fine, and
+Not quite sure where this should go yet. Finder is [fn:dbe73f8c: https://en.wikipedia.org/wiki/Finder_(software)] is just fine (Fine-der?), and
 the curiosity is still there for an in-Emacs solution. Speedbar [fn:c05b9cba: http://www.emacswiki.org/emacs/SpeedBar] and
 SrSpeedbar [fn:41a6cbbc: http://www.emacswiki.org/emacs/SrSpeedbar] look nice, as does [fn:8cc3a263: https://github.com/jaypei/emacs-neotree]. The thing is though that
 with stuff like =projectile=, you really don't need to worry about hierarchical
 filesystem navigation anymore. Instead, it is the familiarity that lingers, not
-the need.
+the need. Lately I've been using =finder= a lot to do file-system stuff. Is it
+time to integrate here? Not sure yet. =direx= [fn:85d63d39: https://github.com/m2ym/direx-el]
+also seems nice.
+
+Finally I ran into real scenario. This will sound kind of trivial, but it is
+valuable: I had 5-10 directories that I wanted to work with. I wasn't sure
+which ones I would want to inspect so I had to dig around. I ended up keeping
+3-5 of them open at a time as I was comparing their contents. This really wasn't
+suitable for any combination of any command-line or Emacs tools. It is exactly
+what I would need a GUI to do, so now I am curious about if or how I would do
+this inside of Emacs. Is =dired= an option here? No, not right now. OIC there
+are so many options [fn:4c7d24d1: https://stackoverflow.com/questions/3538064/nerdtree-for-emacs]! What about =eshell=?
+That doesn't really suit the use case, either. Just watched this [fn:a34be4d5: https://www.youtube.com/watch?v=NKtocCAWxiE]
+and it seems like a fine place to start. Just used it for 5 minutes and I can
+already see that it is wonderful for my use case.
+
+#+begin_src emacs-lisp
+(require 'neotree)
+#+end_src
 
 *** Frames [fn:88b06925: https://www.gnu.org/software/emacs/manual/html_node/emacs/Frames.html]
     :PROPERTIES:
@@ -2097,11 +2230,12 @@ values straight out of the theme itself.
 
 The user experience revolving around the keyboard is usually accounted for by the
 features built-in to Emacs. Along came something radical, though, in the form of
-key-chord [fn:da0b6980: http://melpa.milkbox.net/#/key-chord].
+key-chord [fn:da0b6980: http://mela.milkbox.net/#/key-chord].
 
 #+begin_src emacs-lisp
 (require 'key-chord)
 (key-chord-mode 1)
+(setq key-chord-two-keys-delay 0.1)
 ;; if there is magic, then the x goes here →
 #+end_src
 
@@ -2173,8 +2307,12 @@ It is nice to see the column number, if you are counting columns (not calories).
 (column-number-mode 1)
 #+end_src
 
-It is a pain to look at the clock in the GUI bar.
-#+begin_src emacs-lisp
+Humans posess the technology to enable to track time and date in a watchpiece.
+For fear of damaging either the watchpiece or the computer itself, I quite
+wearing watches long ago. That was a mistake. Put on a time piece and turn off
+date and time status on the host OS and inside of Emacs. This source block
+is kept for reference, and excluded from the generated configuration.
+#+begin_src emacs-lisp :noweb-ref ignore
 (setq display-time-format "%R %y-%m-%d")
 (display-time-mode +1)
 #+end_src
@@ -2245,6 +2383,7 @@ is all it takes):
          (not (equal new-command 'diff-hl-mode))
          (not (equal new-command 'my-eval-expression))
          (not (equal old-command 'list-buffers))
+         (not (equal new-command 'gcr/move-line-up))
          )
       (warn "Just stomped the global-map binding for %S, replaced %S with %S"
             key old-command new-command))))
@@ -2303,6 +2442,11 @@ Save 3 bytes:
 (key-chord-define-global "3." 'gcr/insert-ellipsis)
 #+end_src
 
+Indent with spaces for the likely scenario:
+#+begin_src emacs-lisp
+(key-chord-define-global "4 " (lambda () (interactive) (insert "    ")))
+#+end_src
+
 German umlauts for a, o, and u:
 #+begin_src emacs-lisp
 (key-chord-define-global (concat "A" "{") (lambda () (interactive) (insert "ä")))
@@ -2335,20 +2479,24 @@ Using =ace-jump= will introduce a new idea to you of easily jumping around
 within a buffer. From you, from wherever you jump /to/, you need jump /back/.
 Make it really really easy to do so.
 #+begin_src emacs-lisp
-(key-chord-define-global "ji" 'ace-jump-mode-pop-mark)
-#+end_src
-
-ace-window is frequent, is beginning to adhere to a pattern of dual approaches:
-#+begin_src emacs-lisp
-(key-chord-define-global "nm" 'ace-window)
+(key-chord-define-global "m," 'ace-jump-mode-pop-mark)
 #+end_src
 
 Jumping to lines actually happens a lot. When you look at this layout, remember,
 or rather consider, that what you jump to, or navigate to, is layered in the
 sense that the granularity of your actions changes and all actions provided here
-are helpful for those different situations.
+are helpful for those different situations. This used to be =kc-df= but I typed
+=df= for data.frame so I had to change it, as well as the following which used to
+be =cv=. That wasn't good either because it is a painful reach. I need to document
+the lessons learned above.
 #+begin_src emacs-lisp
-(key-chord-define-global "fj" 'goto-line)
+(key-chord-define-global "fg" 'goto-line)
+#+end_src
+
+In the same spirit of poppping the mark with =ace-jump=, follow a similar appraoch
+for =goto-line=.
+#+begin_src emacs-lisp
+(key-chord-define-global "vb" 'pop-to-mark-command)
 #+end_src
 
 Sometimes I want to jump to a line in the current buffer… sort of an ace-jump
@@ -2357,6 +2505,11 @@ but just for a line that I can see. This [fn:d007291a: https://github.com/coldne
 #+begin_src emacs-lisp
 (require 'linum-relative)
 (key-chord-define-global "dk" 'linum-relative-toggle)
+#+end_src
+
+ace-window is frequent, is beginning to adhere to a pattern of dual approaches:
+#+begin_src emacs-lisp
+(key-chord-define-global "nm" 'ace-window)
 #+end_src
 
 Do nearly a =IKJL= style up/down/left/right arrow key, using using chords, saves a
@@ -2415,6 +2568,13 @@ the arrow keys per mode, so use chords instead.
 (key-chord-define-global "hj" 'move-text-down)
 #+end_src
 
+Surprisingly you swap lines enough to justify automating it.
+
+#+begin_src emacs-lisp
+(global-set-key (kbd "s-l i") 'gcr/move-line-up)
+(global-set-key (kbd "s-l k") 'gcr/move-line-down)
+#+end_src
+
 **** SLIGHTLY-DISRUPTIVE
 
 smex integration points:
@@ -2469,7 +2629,7 @@ Anything having to do with version control differences:
 (global-set-key (kbd "s-d u") 'vc-revert)
 #+end_src
 
-Use a nicer =eval-expression= approac.
+Use a nicer =eval-expression= approach.
 #+begin_src emacs-lisp
 (global-set-key (kbd "M-:") 'my-eval-expression)
 #+end_src
@@ -2490,12 +2650,20 @@ List buffers in a more rich way.
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 #+end_src
 
+Make it easy to unter Unicode stuff.
+
+#+begin_src emacs-lisp
+(global-set-key (kbd "s-u dse") (lambda () (interactive) (insert "𝔼")))
+(global-set-key (kbd "s-u dsr") (lambda () (interactive) (insert "ℝ")))
+#+end_src
+
 **** DISRUPTIVE
 
 These do get used a lot believe it or not:
 #+begin_src emacs-lisp
-(global-set-key (kbd "C-7") 'gcr/insert-timestamp)
 (global-set-key (kbd "M-7") 'gcr/insert-datestamp)
+(global-set-key (kbd "s-7") 'gcr/insert-timestamp*)
+(global-set-key (kbd "C-7") 'gcr/insert-timestamp)
 #+end_src
 
 Make auto-complete easily accessible because sometimes other modes bork it just
@@ -2503,6 +2671,10 @@ like yas:
 #+begin_src emacs-lisp
 (global-set-key (kbd "s-<tab>") 'auto-complete)
 #+end_src
+
+I used to use =F5= to run code. Probably because of various editors that I had
+used before. I do want that familiarity, because I use those functions a lot
+for a certain style of developing. I will use =C-F5=.
 
 **** VERY DISRUPTIVE
 
@@ -2528,14 +2700,33 @@ Re-size the current windows [fn:7293bf39: http://www.emacswiki.org/emacs/WindowR
 (global-set-key (kbd "s-<left>") 'shrink-window-horizontally)
 #+end_src
 
+*Always* leave =F5= open. It is discussed above.
+
 Update the world clocks:
 #+begin_src emacs-lisp
-(global-set-key (kbd "<f8>") 'list-world-time)
+(global-set-key (kbd "<f7>") 'list-world-time)
+#+end_src
+
+Check =git= status:
+#+begin_src emacs-lisp
+(global-set-key (kbd "<f8>") 'magit-status)
 #+end_src
 
 Toggle utility buffers
 #+begin_src emacs-lisp
 (global-set-key (kbd "<f9>") 'gcr/util-cycle)
+#+end_src
+
+F10 should be left alone.
+
+Change windows. This exists for when I haven't got my hands at home.
+#+begin_src emacs-lisp
+(global-set-key (kbd "<f11>") 'other-window)
+#+end_src
+
+Start NeoTree:
+#+begin_src emacs-lisp
+(global-set-key (kbd "<f12>") 'neotree-toggle)
 #+end_src
 
 *** Speed
@@ -2585,9 +2776,14 @@ The cursor should not blink. [fn:5873530d: https://www.gnu.org/software/emacs/ma
 
 Show line numbers everywhere. [fn:bab178f9: http://git.savannah.gnu.org/cgit/emacs.git/tree/lisp/linum.el?h=emacs-24]
 This may slow things down somewhere, sometime, and if it does, I will deal with
-it then.
+it then. Well, at least this is how I used to do it. Some modes didn't handle
+things well and for some reason this mode wouldn't turn off. Oh well, I will
+menually enable it for desired modes! OOTB it will dynamically adjust the
+number gutter, and this irritating to have that shift occur. Fix it to 5 numbers,
+and if I start working with files that have 100K+ lines then I will change it.
+Set =linum-format= via customize.
 #+begin_src emacs-lisp
-(global-linum-mode 1)
+(global-linum-mode -1)
 #+end_src
 
 Activate syntax highlighting everywhere. [fn:0dc4ff83: https://www.gnu.org/software/emacs/manual/html_node/emacs/Font-Lock.html]
@@ -2646,6 +2842,11 @@ Emacs! Here [fn:af30569b: https://superuser.com/questions/125569/how-to-fix-emac
 
 Add this [fn:de8dd6b1: https://www.gnu.org/software/emacs/manual/html_node/elisp/Resizing-Windows.html] to the list of things to maintain your sanity… how to re-size
 windows. My bindings are in the key-bindings section.
+*** Window Management
+
+These hasn't exactly been a huge need for this. Recently =popwin= [fn:36388f6a: https://github.com/m2ym/popwin-el]
+got me interested because it handles a little annoyance that we all face.
+Working with ℝ, got me a lot more curious about =emacs-window-manager= [fn:8659dad9: https://github.com/kiwanami/emacs-window-manager].
 
 ** Primary usage
 
@@ -2659,6 +2860,17 @@ too).
     :noweb-ref: custom-variables
     :END:
 
+*This must come before manually set variables*
+
+This approach needs further research as it seems to work but I am not sure what
+kind of trouble I could cause by doing this so I know that it may cause some
+such trouble!
+
+For example, sometimes values I set in here get stomped on. That is probably
+because the call to =custom-set-variables= occurs /after/ the packages are loaded
+specifying them. Right now I am still not totally sure because of
+=eval-after-load= blocks.
+
 #+begin_src emacs-lisp
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -2666,7 +2878,10 @@ too).
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes (quote ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
- '(display-time-world-list (quote (("America/Los_Angeles" "Los_Angeles") ("America/Denver" "Denver") ("America/Chicago" "Chicago") ("America/New_York" "New York") ("Asia/Kolkata" "Kolkata") ("Asia/Kuala_Lumpur" "Kuala Lumpur")))))
+ '(display-time-world-list (quote (("America/Chicago" "Chicago") ("Asia/Kolkata" "Kolkata") ("Asia/Kuala_Lumpur" "Kuala Lumpur"))))
+ '(linum-format "%5d")
+ '(osx-browse-guess-keystrokes (quote ("s-b k")))
+ '(osx-browse-url-keystrokes (quote ("s-b u"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -2827,10 +3042,12 @@ a while but definitely do need.
 (setq-default dired-details-hidden-string "")
 (defun gcr/dired-mode-hook ()
   "Personal dired customizations."
+  (local-set-key "c" 'gcr/dired-copy-filename)
+  (local-set-key "]" 'gcr/dired-copy-path)
   (diff-hl-dired-mode)
   (load "dired-x")
-  (local-set-key "c" 'gcr/dired-copy-filename)
-  (local-set-key "]" 'gcr/dired-copy-path))
+  (turn-on-stripe-buffer-mode)
+  (stripe-listify-buffer))
 (add-hook 'dired-mode-hook 'gcr/dired-mode-hook)
 #+end_src
 
@@ -3083,7 +3300,7 @@ The =aspell= directionary is version controlled.
 (defun gcr/warn-aspell-dict ()
   "Warn of aspell misconfiguration."
   (interactive)
-  (unless (f-symlink? gcr/aspell-dict)
+  (unless (f-exists? gcr/aspell-dict)
     (warn
      "Can't seem to find an aspell dictionary where it was expected at: %S. aspell should continue to function normally; but your personal dictionary will not be used."
      gcr/aspell-dict)))
@@ -3243,7 +3460,7 @@ really, really special.
 
 #+begin_src emacs-lisp
 (defun gcr/css-modehook ()
-  (fci-mode +1)
+  (fci-mode)
   (whitespace-turn-on)
   (rainbow-mode)
   (visual-line-mode)
@@ -3339,7 +3556,7 @@ For a comprehensive overview, read the manual [fn:adfd9a4c: http://ess.r-project
 
 In it:
 - =S= refers to any language in the family.
-  - =R= is what I'm interested in.
+  - ℝ is what I'm interested in.
 - First 2.5 pages do some nice expectation-setting.
 - Generally seems like a highly rich development environment with support for
   editing, debugging, and support with everything that you would expect from
@@ -3350,7 +3567,7 @@ In it:
 - Check that =ess= is installed with a call to =ess-version=.
 
 #+begin_src emacs-lisp
-(defconst gcr/ess-version "14.05")
+(defconst gcr/ess-version "14.08")
 
 (defun gcr/warn-ess-version ()
   "Warn of ess misconfiguration."
@@ -3360,13 +3577,13 @@ In it:
 (gcr/warn-ess-version)
 #+end_src
 
-=R= first notes:
-- =R= will start =R= via =Emacs=
+ℝ first notes:
+- ℝ will start ℝ via =Emacs=
 - Multiple =ESS= processes may run simultaneously, and may be selected by a
   specific language via their buffer name that has a number appended, or may be
   accessed via a menu using =ess-request-a-process=.
 - =ESS= works transparently on remote machines using =TRAMP= to manage a remote
-  =R= instance. An example is provided for Amazon. Means exist for supporting remote
+  ℝ instance. An example is provided for Amazon. Means exist for supporting remote
   graphical displays or redirecting to a file. Excellent support seems to exist
   to quite flexibly support unexpected things like starting an =ESS= supported
   program in a plain old shell and being able to convert it to an =ESS= supported
@@ -3388,7 +3605,7 @@ Various user interaction stuff:
 - Previous command execution, by name, offset, or just the last one, are by =!=
   - This feature is actually quite rich and a real regexen style system.
 
-Always show eldoc for =R= stuff, everywhere it may.
+Always show eldoc for ℝ stuff, everywhere it may.
 #+begin_src emacs-lisp
 (setq ess-eldoc-show-on-symbol t)
 #+end_src
@@ -3446,34 +3663,49 @@ Completion:
 - =M-?=: Show completions available
 - =ess-resynch=: Refreshes the completion cache
 
-Debugging:
-- Full featured debugger
-- =M-C=: Continue
-- =M-N=: Next step
-- =M-U=: Up frame
-- =M-Q=: Quit
+*ess-tracebug* start
 
 #+begin_src emacs-lisp
 (setq ess-use-tracebug t)
 #+end_src
 
-Breakpoints:
-- =b=: BP (repeat to cycle BP type)
-- =B=: Set conditional BP
-- =k=: Kill BP
-- =K=: Kill all BPs
-- =o=: Toggle BP state
-- =l=: Set logger BP
-- =n=: Go-to next BP
-- =p=: Goto previous BP
+For all =ess-tracebug= stuff, the map prefix is =C-c C-t=
 
-Debugging; be sure to read this [fn:119990d8: https://code.google.com/p/ess-tracebug/]:
-- =‘=: Show trace-back
-- =~=: Show callstack
-- =e=: Toggle error action (repeat to cycle)
-- =d=: Flag for debugging
-- =u=: Unflag for debugging
-- =w=: Watch window
+Breakpoints =ess-dev-map=:
+- b =ess-bp-set= :: Set BP (repeat to cycle BP type)
+- B =ess-bp-set-conditional= :: Set conditional BP
+- k =ess-bp-kill= :: Kill BP
+- K =ess-bp-kill-all= :: Kill all BPs
+- o =ess-bp-toggle-state= :: Toggle BP state
+- l =ess-bp-set-logger= :: Set logger BP
+- n =ess-bp-next= :: Goto next BP
+- p =ess-bp-previous= :: Goto previous BP
+
+Note: =C-= prefixed equivalents are also defined
+
+Debugging =ess-dev-map=:
+- ` =ess-show-traceback= (also on C-c ) :: Show traceback
+- ~ =ess-show-call-stack= (also on C-c ~) :: Show callstack
+- e =ess-debug-toggle-error-action= :: Toggle error action (repeat to cycle)
+- d =ess-debug-flag-for-debugging= :: Flag for debugging
+- u =ess-debug-unflag-for-debugging= :: Unflag for debugging
+- w =ess-watch= :: Watch window
+
+Note: =C-= prefixed equivalents are also defined)
+
+Interactive Debugging =ess-debug-minor-mode-map=:
+- M-C =ess-debug-command-continue= :: Continue
+- M-C-C =ess-debug-command-continue-multi= :: Continue multi
+- M-N =ess-debug-command-next= :: Next step
+- M-C-N =ess-debug-command-next-multi= :: Next step multi
+- M-U =ess-debug-command-up= :: Up frame
+- M-Q =ess-debug-command-quit= :: Quit debugging
+
+Navigation to errors (general emacs functionality):
+- =C-x `=, =M-g n :: =next-error=
+- =M-g p= :: =previous-error=
+
+*ess-tracebug* stop
 
 - Be sure to specify this per-project.
 #+begin_src emacs-lisp
@@ -3491,28 +3723,46 @@ Debugging; be sure to read this [fn:119990d8: https://code.google.com/p/ess-trac
 (setq ess-watch-scale-amount -1)
 #+end_src
 
+Data viewing:
+- *Never* rely upon on the REPL for data viewing
+  - Will mix up exploratory code with data
+    - Can't easily distinguish between code and data
+    - Distracting you
+    - Breaking your flow
+- Sometimes
+  - You end up somewhere
+    - And the =ess= buffer cursor is at the top!
+    - No problem, call =ess-switch-to-end-of-ESS=
 - Make it easier to know what object values are.
+  - =ess-describe-object-at-point=
 #+begin_src emacs-lisp
 (setq ess-describe-at-point-method 'tooltip)
 #+end_src
-
+- Visualize just about anything.
+  - =ess-R-object-popup=
+#+begin_src emacs-lisp
+(require 'ess-R-object-popup)
+#+end_src
 - Rdired is another way to work with object
+  - =ess-rdired=
+  - View, delete, plot, and update buffer (ala /revert/) are single key commands
 #+begin_src emacs-lisp
 (autoload 'ess-rdired "ess-rdired")
 #+end_src
-
 - Visualize data frames better.
+  - =ess-R-dv-ctable=
+  - =ess-R-dv-pprint=
 #+begin_src emacs-lisp
 (require 'ess-R-data-view)
 #+end_src
-
-- Visualize just about anything.
+- inlineR
+  - /Not/ a competitor to =org-mode=
+  - Ultra lightweight LP, really
 #+begin_src emacs-lisp
-(require 'ess-R-object-popup)
-(define-key ess-mode-map "\C-c\C-g" 'ess-R-object-popup)
+(require 'inlineR)
 #+end_src
 
-Documentation
+Documentation:
 - Whole section on native documentation; I'll re-visit as needed.
 - Roxygen, too.
 
@@ -3567,11 +3817,16 @@ doesn't exist, then make it.
 (setq ess-source-directory gcr/r-dir)
 #+end_src
 
-Since I'm using =R= for everything, configure /everything/ to be using =R=.
+Since I'm using ℝ for everything, configure /everything/ to be using ℝ.
 #+begin_src emacs-lisp
 (setq inferior-ess-program "R")
 (setq inferior-R-program-name "R")
 (setq ess-local-process-name "R")
+#+end_src
+
+Handle the custom ℝ prompt in =ess=. Don't use custom here.
+#+begin_src emacs-lisp
+(setq inferior-S-prompt "[]a-zA-Z0-9.[]*\\(?:[>+.] \\)*ℝ+> ")
 #+end_src
 
 Always start =ess= within the curent =emacs= frame, it doesn't need to be separate.
@@ -3585,7 +3840,7 @@ Help buffers all belong in the same frame.
 (setq ess-help-own-frame nil)
 #+end_src
 
-When =ess= starts, or when =R= starts, it takes the current directory as its
+When =ess= starts, or when ℝ starts, it takes the current directory as its
 working directory. This is totally fine; so don't ask what the working directory
 should be.
 #+begin_src emacs-lisp
@@ -3606,7 +3861,7 @@ rather than to a new dedicated buffer for them.
 (setq ess-execute-in-process-buffer +1)
 #+end_src
 
-When you cycle between a the =R= buffer and the script, you get to the process
+When you cycle between a the ℝ buffer and the script, you get to the process
 buffer, you will go to the end of the buffer. This setting is specifically to
 handle a buffer that is scrolling when you want to see the last result and will
 scroll back after the fact to see the history.
@@ -3640,12 +3895,12 @@ Try to keep help strings at 10 chars or less.
 (setq ess-eldoc-abbreviation-style 'normal)
 #+end_src
 
-Make it really easy to search the =R= archives for anything.
+Make it really easy to search the ℝ archives for anything.
 #+begin_src emacs-lisp
 (local-set-key (kbd "C-c C-. S") 'ess-rutils-rsitesearch)
 #+end_src
 
-Make it really easy to do common stuff for =R= with good keybindings.
+Make it really easy to do common stuff for ℝ with good keybindings.
 #+begin_src emacs-lisp
 (require 'ess-rutils)
 (setq ess-rutils-keys +1)
@@ -3658,26 +3913,64 @@ a while, and now it doesn't work. This needs some TLC.
 
 (setq r-autoyas-debug t)
 (setq r-autoyas-expand-package-functions-only nil)
-(setq r-autoyas-remove-explicit-assignments +1)
-(setq r-autoyas-number-of-commas-before-return 0)
-(setq r-autoyas-auto-expand-with-paren +1)
+(setq r-autoyas-remove-explicit-assignments nil)
 #+end_src
 
-Personal customizations for this mode.
+These functions are metioned, and I am not sure where or how to use them yet,
+but Vitalie Spinu mentioned them as being useful:
+- =comint-previous-matching-input-from-input=
+- =comint-history-isearch-backward-regexp=
+
+Personal customizations for this mode. For some currently unknown reason,
+=smartparens= only runs when you call =smartparens-strict-mode= and not
+=turn-on-smartparens-strict-mode= like it does everywhere else.
+
+For a while I used =ess-eval-buffer-and-go=, but now I know that it is insanely
+faster to use =ess-eval-buffer= instead. Previously I've read people saying that,
+and it is true.
+
 #+begin_src emacs-lisp
 (defun gcr/ess-mode-hook ()
+  (local-set-key (kbd "s-e") 'ess-switch-to-end-of-ESS)
+  (local-set-key (kbd "s-x") 'r-autoyas-expand)
+  (local-set-key (kbd "s-p") 'ess-R-object-popup)
+  (local-set-key (kbd "s-v o") 'ess-describe-object-at-point)
+  (local-set-key (kbd "s-v d") 'ess-rdired)
+  (local-set-key (kbd "s-v cc") 'ess-R-dv-ctable)
+  (local-set-key (kbd "s-v cp") 'ess-R-dv-pprint)
+  (local-set-key (kbd "C-,") (lambda () (interactive) (insert " <<- ")))
+  (local-set-key (kbd "C-.") (lambda () (interactive) (insert " ->> ")))
+  (local-set-key (kbd "C-8") (lambda () (interactive) (insert " %<>% ")))
+  (local-set-key (kbd "C-9") (lambda () (interactive) (insert " %>% ")))
+  (local-set-key (kbd "C-0") 'ess-eval-buffer)
   (ess-set-style 'RRR 'quiet)
   (turn-on-pretty-mode)
-  (local-set-key (kbd "s-p") 'ess-describe-object-at-point)
   (r-autoyas-ess-activate)
   (visual-line-mode)
-  (turn-on-smartparens-strict-mode)
+  (smartparens-strict-mode)
+  (rainbow-mode)
+  (turn-on-real-auto-save)
+  (gcr/untabify-buffer-hook)
+  (fci-mode)
+  (hs-minor-mode)
+  (linum-mode)
+  (gcr/turn-on-r-hide-show)
   (lambda () (add-hook 'ess-presend-filter-functions
                        (lambda ()
                          (warn
                           "ESS now supports a standard pre-send filter hook. Please update your configuration to use it instead of using advice.")))))
 
 (add-hook 'ess-mode-hook 'gcr/ess-mode-hook)
+
+(defun gcr/turn-on-r-hide-show ()
+  "Attribution: SRC https://github.com/mlf176f2/EmacsMate/blob/master/EmacsMate-ess.org"
+  (when (string= "S" ess-language)
+    (set (make-local-variable 'hs-special-modes-alist) '((ess-mode "{" "}" "#" nil nil)))
+    (hs-minor-mode 1)
+    (when (fboundp 'foldit-mode)
+      (foldit-mode 1))
+    (when (fboundp 'fold-dwim-org/minor-mode)
+      (fold-dwim-org/minor-mode))))
 
 (defun gcr/Rd-mode-hook ()
   (gcr/ess-mode-hook))
@@ -3688,6 +3981,19 @@ Personal customizations for this mode.
   (gcr/ess-mode-hook))
 
 (add-hook 'inferior-ess-mode-hook 'gcr/inferior-ess-mode-hook)
+
+(defun gcr/ess-rdired-mode-hook ()
+  "Personal customizations."
+  (interactive)
+  (turn-on-stripe-buffer-mode)
+  (stripe-listify-buffer))
+
+(add-hook 'ess-rdired-mode-hook 'gcr/ess-rdired-mode-hook)
+#+end_src
+
+Tell ESS how to handle my custom prompt:
+#+begin_src emacs-lisp
+(setq inferior-ess-primary-prompt "ℝ> ")
 #+end_src
 
 This [fn:1ffa40c2: http://www.r-bloggers.com/a-small-customization-of-ess/]
@@ -3701,7 +4007,7 @@ assignment!
 
 *Philosophy*
 
-The current =ESS= maintainers philosophies about how to maintain an =R= code-base
+The current =ESS= maintainers philosophies about how to maintain an ℝ code-base
 make sense to me and are virtually the same as my own. Quite simply, the rule is
 that the code artifacts are the single source of system definition. Consequently,
 the system should be configured in this manner:
@@ -3775,7 +4081,7 @@ persisted and my be stored in your VCS and that things "look are right".
   (gcr/save-all-file-buffers))
 #+end_src
 
-Don't save the workspace when you quit =R= and don't restore *ANYTHING* when you
+Don't save the workspace when you quit ℝ and don't restore *ANYTHING* when you
 start it, either. This adheres to the philosopy that the system is file based.
 Period.
 #+begin_src emacs-lisp
@@ -3817,7 +4123,7 @@ and see how it goes.
 #+end_src
 
 Michael explained how to use a richer =eval-expression=, and then showed how to
-do the same thing in =R=. This is the original post, and it will work once I am
+do the same thing in ℝ. This is the original post, and it will work once I am
 on the next version of =emacs= that has the new advice library. Until then, I
 won't include this.
 
@@ -3829,6 +4135,674 @@ won't include this.
    (funcall f exp))
  '((name . use-my-read--expression)))
 #+end_example
+
+****** Control Files
+     :PROPERTIES:
+     :noweb-ref: ignore-r-config
+     :END:
+
+*.Rprofile*
+#+begin_src R :tangle ~/.Rprofile :noweb tangle
+«rprofile-def»
+.First <- function() {
+    gcr <- new.env()
+    «rfirst-defs»
+    base::attach(gcr, name="gcr", warn.conflicts = FALSE)
+}
+#+end_src
+
+*.Renviron*
+#+begin_src sh :tangle ~/.Renviron :noweb tangle
+«renviron-def»
+#+end_src
+
+******* .Rprofile [fn:89a51cf1: https://stackoverflow.com/questions/1189759/expert-r-users-whats-in-your-rprofile]
+      :PROPERTIES:
+      :noweb-ref: rprofile-def
+      :END:
+
+- When you install packages, R needs to know which repository it should use. If
+  you don't tell it, then it will ask you every time. It is just doing its job.
+  Make it easier for yourself and specify a repo for once and for all.
+  - Via [fn:41269bb7: http://www.r-bloggers.com/installing-r-packages/]
+  - Built-in docs explain that =local= should be used here
+  - This could also be a one-liner: ~options("repos" = c(CRAN = "http://cran.r-project.org/"))~
+#+begin_src R
+local({
+    r = getOption("repos")
+    r["CRAN"] = "http://cran.r-project.org/"
+    options(repos = r)
+})
+#+end_src
+
+- By default, hitting enter in the =browser= will submit a =c= for "continue
+  execution at the next statement"
+  - It is too easy to hit enter when you didn't mean it
+  - It just /feels/ imprecise
+  - Never let this happen, disable that feature
+#+begin_src R
+options(browserNLdisabled = TRUE)
+#+end_src
+
+Show timestamps to 3 sub-seconds:
+#+begin_src R
+options("digits.secs"=3)
+#+end_src
+
+Make the ℝ prompt stand out (be sure to tell ESS how to handle this):
+#+begin_src R
+options(prompt="ℝ> ")
+#+end_src
+
+Do not allow automatic coercion of strings into factors, as you can specify this
+by argument to make it /real/ obvious. Looks like the best way is to leave it
+alone globally and always do it by hand though. hwickam commented that it is
+bad, bad idea to make this option global not because of your code, but because
+of everyone else's that you are using which relies on the option being set to
+=TRUE=.
+#+begin_src R
+options(stringsAsFactors=TRUE)
+#+end_src
+
+This might be /too much/, but always show a call stack when *any* warnings or
+errors occur
+#+begin_src R
+options(showWarnCalls=TRUE)
+options(showErrorCalls=TRUE)
+#+end_src
+
+Be highly conservative about errors and warnings: handle the former immediately
+and cause the latter to be errors. However, only do this after your workspace
+has initialized correctly. Do so too soon and most things won't work because
+this approach is only to handle /my/ issues. Imagine of the whole work just
+handled their own issues! Anway, the safe values are set here, leave them alone.
+Making them more aggressive will break your startup. When you are ready to set
+things to be more aggressive, turn it on yourself
+#+begin_src R
+options(error=NULL)
+options(warn=0)
+#+end_src
+
+Don't print more than 500 lines. If you can grok more than 500 lines then please
+teach me. Be at ease, there is a helper to remove that restriction, just in case.
+#+begin_src R
+options(max.print=500)
+#+end_src
+
+Partial matching is a neat and flexible feature for objects. In theory, it is
+quite powerful and convenient. In practice it seems like a really bad idea to
+me. It is a /personal preference/. It only makes sense from that perspective.
+This could bork 3rd party code.
+#+begin_src R
+options(warnPartialMatchDollar = TRUE)
+#+end_src
+
+Locale:
+- Make sure that the language is set correctly. I couldn't find anything specific
+  about setting it this way other than various posts. In practice you would really
+  put all of this in your system environment configuration, but I'm wanting to be
+  a little more particular here because it affects operations on data structures,
+  in particular sorting.
+- Error messages are mostly useful when they are displayed in English, so make
+  sure that the locale is always English [fn:24499ef7:    http://cran.r-project.org/doc/manuals/r-patched/R-admin.html#Localization-of-messages].
+  "Note that the LANGUAGE environment variable has precedence over ~LC_MESSAGES~ in
+  selecting the language for message translation on most R platforms." [fn:51fe4215: http://stat.ethz.ch/R-manual/R-devel/library/base/html/locales.html]
+- Note:
+  - My previous approach was to define a top level binding for the locale string
+    and pass that reference to bind each of the following settings. That was fine
+    until I wanted to be able to easily clear out all of the top-level bindngs to
+    "reset" it with a =rm(ls())= kind of thing. For that reason, I just use the
+    manifest strings here.
+#+begin_src R
+Sys.setenv(LANG = "en_US.UTF-8")
+Sys.setlocale("LC_COLLATE", "en_US.UTF-8")
+Sys.setlocale("LC_MESSAGES", "en_US.UTF-8")
+#+end_src
+
+******** Packages
+
+Design-by-contract  [fn:bc0c6d68: http://cran.r-project.org/web/packages/assertthat/index.html
+] is a great, great thing. Make it much easier with valuable
+functionsand useful messages!
+
+Cheatsheet:
+- Always use ~assert_that~
+- Use
+  - ℝ built ins to check tests
+  - Additionally via =assertthat=:
+    - =is.flag=
+    - =is.string=
+    - =has_name=
+    - =has_attr=
+    - =is.count=
+    - =are_equal=
+    - =not_empty=
+    - =noNA=
+    - =is.dir=
+    - =is.writeable= and =is.readable=
+    - =has_extension=
+
+#+begin_src R
+library(assertthat)
+#+end_src
+
+Design-by-contract and unit-tests [fn:d61c81a6: http://cran.r-project.org/web/packages/testthat/index.html]
+go hand-in-hand.
+
+Expectations:
+- =equals() :=: uses =all.equal()= to check for equality with numerical tolerance
+  - Shorthand: =expect_equal(x, y)=
+- =is_identical_to()= :: uses =identical()= to check for exact equality
+  - Shorthand: =expect_identical(x, y)=
+- =is_equivalent_to()= :: is a more relaxed version of =equals()= that ignores attributes
+  - Shorthand: =expect_equivalent(x, y)=
+- =is_a()= :: checks that an object =inherit()='s from a specified class
+  - Shorthand: =expect_is(x, y)=
+- =matches()= :: matches a character vector against a regular expression.
+  - The optional all argument controls where all elements or just one element
+    need to match.
+  - Shorthand: =expect_matches(x, y)=
+- =prints_text()= :: matches the printed output from an expression against a
+  regular expression
+  - Shorthand: =expect_output(x, y)=
+- =shows_message()= :: checks that an expression shows a message
+  - Shorthand: =expect_message(x, y)=
+- =gives_warning()= :: expects that you get a warning
+  - Shorthand: =expect_warning(x, y)=
+- =throws_error()= :: verifies that the expression throws an error.
+  - You can also supply a regular expression which is applied to the text of the
+    error
+  - Shorthand: =expect_error(x, y)=
+- =is_true()= :: is a useful catchall if none of the other expectations do what
+  you want - it checks that an expression is true
+  - =is_false()= is the complement of =is_true()=
+  - Shorthand: =expect_true(x)=
+  - Shorthand: =expect_false(x)=
+
+- Notes
+  - "Each test is run in its own environment so it is self-contained."
+    - Plain old code so you can modify the global environment FYI
+
+#+begin_src R
+library(testthat)
+#+end_src
+
+Make it really easy to work with strings [fn:bb2c9d86: http://cran.r-project.org/web/packages/stringr/index.html]. That is indeed a good goal, and
+the reason that I installed this initially was because =testthat= mentions that
+it is used.
+#+begin_src R
+library(stringr)
+#+end_src
+
+How you extract data from a dataframe is flexible and everyone can and may do it
+differently. One option available is to use =SQL= [fn:2e49b888: http://cran.r-project.org/web/packages/sqldf/index.html], so make it available.
+
+Comments taken from [fn:c116c9a5: http://randyzwitch.com/sqldf-package-r/]
+- "This [using SQL] is a skill that every analyst should possess"
+- "Being able to write SQL will save you time and provide you with a way of
+  getting repeatable results so that you don't have to focus on doing the
+  calculations all the time and worrying about errors in Excel"
+- "[instead] You can focus on the task of actually analyzing your data"
+
+Notes from the user manual [fn:0ef50a78: http://cran.r-project.org/web/packages/sqldf/index.html]
+- Interesting package info
+  - "Title Perform SQL Selects on R Data Frames"
+  - "Author G. Grothendieck <ggrothendieck@gmail.com>"
+  - "Description Description: Manipulate R data frames using SQL."
+  - "Depends R (>= 2.14.0), gsubfn (>= 0.6), proto, RSQLite (>= 0.8-0),RSQLite.extfuns"
+- Google group mentioned [fn:0bf2d03a: https://groups.google.com/forum/#!forum/sqldf], joined it
+- Official site mentioned and it has good docs
+- Seems to uses SQLLite
+- =read.csv.sql=
+  - "Read a file into R filtering it with an sql statement. Only the filtered
+    portion is processed by R so that files larger than R can otherwise handle
+    can be accommodated."
+  - Parms
+    - Handles =http= and =ftp= =URLs=
+    - =filter=
+      - "If specified, this should be a shell/batch command that the input file is
+        piped through. For read.csv2.sql it is by default the following on
+        non-Windows systems: tr , .. This translates all commas in the file to
+        dots."
+        - Why is that specific example mentioned?
+    - =field.types=
+      - State the SQLite types for the column names
+      - Rarely needed
+    - =dbname=
+      - "As in =sqldf= except that the default is =tempfile()=. Specifying =NULL= will
+        put the database in memory which may improve speed but will limit the size
+        of the database by the available memory."
+  - Details
+    - "Reads the indicated file into an sql database creating the database if it
+      does not already exist. Then it applies the sql statement returning the
+      result as a data frame. If the database did not exist prior to this
+      statement it is removed."
+    - "Note that it uses facilities of SQLite to read the file which are
+      intended for speed and therefore not as flexible as in R. For example, it
+      does not recognize quoted fields as special but will regard the quotes as
+      part of the field. See the sqldf help for more information."
+    - "=read.csv2.sql= is like =read.csv.sql= except the default sep is ";" and the
+      default filter translates all commas in the file to decimal points (i.e.
+      to dots)."
+  - Value
+    - "If the sql statement is a select statement then a data frame is returned."
+- =sqldf=
+  - Description :: SQL select on data frames
+  - Arguments
+    - =stringsAsFactors does what you think
+    - =row.names= could be useful
+    - =envir= could make it safer
+    - =method= determines how to type the data from the database into a dataframe
+      - Looks like a *powerhouse* feature
+      - Could greatly simplify data brokering
+    - =file.format=
+      - =eol= handling mentioned across platforms
+      - Ran into this with the built-in reader
+    - =dbname=
+      - SQLite creates an in-memory database!
+  - Details
+    - The typical action of sqldf is to
+    - create a database :: in memory
+    - read in the data frames and files :: used in the select statement. This is
+      done by scanning the select statement to see which words in the select
+      statement are of class "data.frame" or "file" in the parent frame, or the
+      specified environment if envir is used, and for each object found by
+      reading it into the database if it is a data frame. Note that this
+      heuristic usually reads in the wanted data frames and files but on
+      occasion may harmlessly reads in extra ones too.
+    - run the select statement :: getting the result as a data frame
+    - assign the classes :: of the returned data frame’s columns if
+      method = "auto". This is done by checking all the column names in the
+      read-in data frames and if any are the same as a column output from the
+      data base then that column is coerced to the class of the column whose
+      name matched. If the class of the column is "factor" or "ordered" or if
+      the column is not matched then the column is returned as is. If
+      method = "auto.factor" then processing is similar except that "factor"
+      and "ordered" classes and their levels will be assigned as well. The
+      "auto.factor" heuristic is less reliable than the "auto" heuristic. If
+      method = "raw" then the classes are returned as is from the database.
+    - cleanup :: If the database was created by sqldf then it is deleted;
+      otherwise, all tables that were created are dropped in order to leave the
+      database in the same state that it was before. The database connection is
+      terminated.
+    - Warning :: Although sqldf is usually used with on-the-fly databases which
+      it automatically sets up and destroys if you wish to use it with existing
+      databases be sure to back up your database prior to using it since
+      incorrect operation could destroy the entire database.
+  - Value
+    - The result of the specified select statement is output as a data frame.
+    - If a vector of sql statements is given as x then the result of the last
+      one is returned.
+    - If the x and connection arguments are missing then it returns a new
+      connection and also places this connection in the option sqldf.connection.
+      - Great to know that the connection is cached!
+  - Notes
+    - Big FYI: Commas in columns will be parsed as column separators!
+      - Recommends using =read.table= if this matter
+  - Examples
+    - They all demonstrate how to do it in R and then again with SQL
+    - Super helpful
+    - You seem to be able to do everything that you would expect possible
+  - Thoughts
+    - Need to grok both R and SQL to use this safely
+    - Using temp tables is kind of huge
+    - Via [fn:55ef7537: https://stackoverflow.com/questions/19019883/how-to-handle-column-names-not-supported-by-sqldf-in-r]
+      - Use =_= instead lf =.= in column names from a R call
+        - Where is this in the documentation?
+
+Notes from the official site [fn:078aba0c: https://code.google.com/p/sqldf/]
+- Opening
+  - How it works
+    - The user simply specifies an SQL statement
+    - in R using data frame names in place of table names
+    - and a database with appropriate table layouts/schema is automatically
+      created,
+    - the data frames are automatically loaded into the database,
+    - the specified SQL statement is performed,
+    - the result is read back into R
+    - and the database is deleted all automatically behind the scenes making the
+      database's existence transparent to the user who only specifies the SQL
+      statement.
+  - Supports
+    - SQLite
+    - H2
+    - PostgreSQL
+    - MySQL
+  - The FAQ mostly talks about SQLite
+- Overview
+  - with sqldf the user is freed from having to do the following, all of which
+    are automatically done:
+    - database setup
+    - writing the create table statement which defines each table
+    - importing and exporting to and from the database
+    - coercing of the returned columns to the appropriate class in common cases
+  - It an be used for
+    - learning R if you know SQL
+    - Doing it faster than R
+    - Load portions of a really large file
+- Troubleshooting
+  - Set the driver expicitly
+  - "error messages regarding a data frame that has a dot in its name. The dot
+    is an SQL operator. Either quote the name appropriately or change the name
+    of the data frame to one without a dot."
+- FAQ
+  - Column class conversion touched upon
+  - Dots in names
+    - Dots are SQL operators so can't use them
+      - See =?SQL92Keywords=
+    - For columns
+      - Either use underscore
+      - Or simply remove them
+    - For tables
+      - Double quote the name
+  - H2 supports date types, which seems quite helpful
+  - Name a column ending with two underscores and a type and the library will
+    convert the type to R correctly
+    - Mentioned in the docs
+  - SQL is case *insensitive*
+    - Don't rely on casing to differentiate column names
+  - We may examine the in-memory database table structure
+  - Be quite careful about CSV data that contains commas again as this lib
+    won't handle it
+  - Good examples of cleaning data gettig int into a R friendly format
+  - Be sure to specify numeric values as integers or doubles so you get expected
+    results from division
+- Examples
+  - Example 1. Ordering and Limiting
+  - Example 2. Averaging and Grouping
+  - Example 3. Nested Select
+  - Example 4. Join
+  - Example 5. Insert Variables
+    - Hugely convenient
+  - Example 6. File Input
+  - Example 7. Nested Select
+  - Example 8. Specifying File Format
+  - Example 9. Working with Databases
+  - Example 10. Persistent Connections
+  - Example 11. Between and Alternatives
+  - Example 12. Combine two files in permanent database
+  - Example 13. read.csv.sql and read.csv2.sql
+    - Uses SQLite's import facility to create an in-memory database
+    - Then it reads the results of the query into R
+    - The import does not involve R so it can handle larger files than R can
+      assuming that the query results in a size that does fit
+  - Example 14. Use of spatialite library functions
+  - Example 15. Use of RSQLite.extfuns library functions
+  - Example 16. Moving Average
+
+
+SQLite, SQL As Understood By SQLite:
+- [[https://www.sqlite.org/lang_corefunc.html][Core Functions]]
+- [[https://www.sqlite.org/lang_aggfunc.html][Aggregate Functions]]
+- [[https://www.sqlite.org/lang_datefunc.html][Date And Time Functions]]
+- These previous are all provided by [[http://cran.r-project.org/web/packages/RSQLite.extfuns/index.html][RSQLite.extfuns]]
+
+#+begin_src R
+library(sqldf)
+#+end_src
+
+"Functions and datasets to support Venables and Ripley, 'Modern Applied
+Statistics with S' (4th edition, 2002)." Also, =sqldf= recommended it be
+installed, so it is the right time. [fn:4d284c54: http://cran.r-project.org/web/packages/MASS/index.html]
+
+#+begin_src R
+library(MASS)
+#+end_src
+
+Make it easy to work with JSON [37138455: http://cran.r-project.org/web/packages/jsonlite/index.html].
+Reading the vignette's, it does a lot more, for example =rbind.pages=.
+
+#+begin_src R
+library(jsonlite)
+#+end_src
+
+=data.table= [fn:de30b846: http://cran.r-project.org/web/packages/data.table/index.html ]
+is quite nice.
+
+#+begin_src R
+library(data.table)
+#+end_src
+
+Read and write Excel files [fn:ed7756d2: http://cran.r-project.org/web/packages/xlsx/index.html].
+
+#+begin_src R
+library(xlsx)
+#+end_src
+
+Make ℝ truly enterprise [fn:bf8a1f82: http://cran.r-project.org/web/packages/XML/index.html].
+
+#+begin_src R
+library(XML)
+#+end_src
+
+This is a add from the /most understated package definition/ of the year
+department. =magrittr= [fn:73ee53da: http://cran.r-project.org/web/packages/magrittr/index.html]
+is, much like every Scheme library ever, deceptively simple in its power and
+ease of use that it provides.
+
+#+begin_src R :noweb-ref ignore
+devtools::install_github("smbache/magrittr")
+#+end_src
+
+#+begin_src R
+library(magrittr)
+#+end_src
+
+=devtools=: Tools to make developing ℝ code easier
+
+#+begin_quote
+[[http://cran.r-project.org/web/packages/devtools/index.html][Collection of package development tools]]
+#+end_quote
+
+That is a bit too terse. Intro to the README follows
+
+#+begin_quote
+The aim of devtools is to make your life as a package developer easier by providing R functions that simplify many common tasks. R packages are actually really simple, and with the right tools it should be easier to use the package structure than not. Package development in R can feel intimidating, but devtools does every thing it can to make it as welcoming as possible. devtools comes with a small guarantee: if because of a bug in devtools a member of R-core gets angry with you, I will send you a handwritten apology note. Just forward me the email and your address, and I'll get a card in the mail.
+#+end_quote
+
+Excellent.
+
+[[http://cran.r-project.org/web/packages/devtools/README.html][Readme]]. [[http://cran.r-project.org/web/packages/devtools/devtools.pdf][Manual]]. [[https://github.com/hadley/devtools][Github]].
+
+At the very least, just /know of/ this package, as you will be installing it if
+you want to us =tidyr=.
+
+#+begin_src R :noweb-ref ignore
+install.packages("devtools")
+devtools::install_github("devtools")
+#+end_src
+
+#+begin_src R
+library(devtools)
+#+end_src
+
+=reshape2=: Flexibly reshape data: a reboot of the =reshape= package
+
+#+begin_quote
+Reshape lets you flexibly restructure and aggregate data using just two functions: melt and cast.
+#+end_quote
+
+[[http://cran.r-project.org/web/packages/reshape2/index.html][CRAN]]. [[http://cran.r-project.org/web/packages/reshape2/reshape2.pdf][Manual]]. [[https://github.com/hadley/reshape/blob/master/README.md][Github]].
+
+This seems to be a defacto standard.
+
+#+begin_src R
+library(reshape2)
+#+end_src
+
+=tidyr=: Easily tidy data with spread and gather functions for ℝ
+
+#+begin_quote
+[[http://cran.r-project.org/web/packages/tidyr/index.html][tidyr]] is an evolution of reshape2. It's design specifically for data tidying (not general reshaping or aggregating) and works well with dplyr data pipelines.
+#+end_quote
+
+[[http://cran.r-project.org/web/packages/tidyr/README.html][Readme]]. [[http://cran.r-project.org/web/packages/tidyr/tidyr.pdf][Manual]]. [[https://github.com/hadley/tidyr][Github]].
+
+Not on CRAN yet so install via
+
+#+begin_src R :noweb-ref ignore
+devtools::install_github("hadley/tidyr")
+#+end_src
+
+#+begin_src R
+library(tidyr)
+#+end_src
+
+lubridate: Make dealing with dates a little easier in ℝ
+
+#+begin_quote
+[[http://cran.r-project.org/web/packages/lubridate/index.html][Lubridate]] makes it easier to work with dates and times by providing functions to identify and parse date-time data, extract and modify components of a date-time (years, months, days, hours, minutes, and seconds), perform accurate math on date-times, handle time zones and Daylight Savings Time. Lubridate has a consistent, memorable syntax, that makes working with dates fun instead of frustrating.
+#+end_quote
+
+[[http://cran.r-project.org/web/packages/lubridate/lubridate.pdf][Manual]]. [[http://cran.r-project.org/web/packages/lubridate/vignettes/lubridate.html][Vignette]].
+
+#+begin_src R
+library(lubridate)
+#+end_src
+
+Perhaps in some /time/ there will be a unified approach to time-management among
+all programming languages.
+
+plyr: Tools for splitting, applying and combining data in R
+
+#+begin_quote
+[[http://cran.r-project.org/web/packages/plyr/index.html][plyr]] is a set of tools that solves a common set of problems: you need to break a big problem down into manageable pieces, operate on each pieces and then put all the pieces back together. For example, you might want to fit a model to each spatial location or time point in your study, summarise data by panels or collapse high-dimensional arrays to simpler summary statistics. The development of plyr has been generously supported by BD (Becton Dickinson).
+#+end_quote
+
+[[http://cran.r-project.org/web/packages/plyr/README.html][Readme]]. [[http://cran.r-project.org/web/packages/plyr/plyr.pdf][Manual]]. [[http://plyr.had.co.nz/][Home page]]. [[https://github.com/hadley/plyr][Github]].
+
+#+begin_src R
+library(plyr)
+#+end_src
+
+dplyr: dplyr: a grammar of data manipulation in R
+
+#+begin_quote
+[[http://cran.r-project.org/web/packages/dplyr/index.html][A fast, consistent tool]] for working with data frame like objects, both in memory and out of memory.
+#+end_quote
+
+[[http://cran.r-project.org/web/packages/dplyr/README.html][Readme]]. [[http://cran.r-project.org/web/packages/dplyr/dplyr.pdf][Manual]]. [[http://cran.r-project.org/web/packages/dplyr/vignettes/introduction.html][Introduction to dplyr]].
+
+#+begin_src R
+library(dplyr)
+#+end_src
+
+******* .First
+      :PROPERTIES:
+      :noweb-ref: rfirst-defs
+      :END:
+
+Reading:
+- [[http://stat.ethz.ch/R-manual/R-devel/library/base/html/Startup.html][Startup]] :: mandatory reading, the definitive source
+- [[http://cran.r-project.org/doc/contrib/Lemon-kickstart/kr_first.html][Kickstarting R]] :: I just like this tutorial
+
+- =attach= is a powerfuly convenient function. Sure, it can make you and your
+  program go bonkers, but you know, it is worth it for the convenience. Joking
+  aside, it has its place, so it should not go away completely. However, it ought
+  not be used much, and if you do need to use it, the it should be really really
+  obvious.
+  - Eg: [fn:7ce54638: http://www.r-bloggers.com/to-attach-or-not-attach-that-is-the-question/]
+#+begin_src R
+gcr$attach.unsafe <- attach
+gcr$attach <- function(...) {
+    warning("NEVER USE ATTACH! Use `unsafe.attach` if you must.")
+    attach.unsafe(...)
+}
+#+end_src
+
+- =library= reports issues immediately, and by design, =require= does not… remind
+  the useR that they /may/ want the former not the latter
+  - Via [fn:84031d95: http://www.r-bloggers.com/library-vs-require-in-r/]
+  - Just like everything else here, this is a /personal preference/ thing!
+#+begin_src R
+gcr$require <- function(...) {
+    warning("Are you sure you wanted `require` instead of `library`?")
+    base::require(...)
+}
+#+end_src
+
+Sometimes you only want to list everything *but* functions [fn:7b11c35d: https://stackoverflow.com/questions/13094324/hiding-function-names-from-ls-results-to-find-a-variable-name-more-quickly]:
+#+begin_src R
+gcr$lsnofun <- function(name = parent.frame()) {
+    obj <- ls(name = name)
+    obj[!sapply(obj, function(x) is.function(get(x)))]
+}
+#+end_src
+
+Make it really simple to specify how to handle errors in a given session:
+#+begin_src R
+gcr$recoveronerror <- function() {
+    options(error=recover)
+}
+
+gcr$recoveronerroroff <- function() {
+    options(error=NULL)
+}
+#+end_src
+
+Make it really simple to specify how to handle warnings in a given session:
+#+begin_src R
+gcr$erroronwarn <- function() {
+    options(warn=2)
+}
+
+gcr$erroronwarnoff <- function() {
+    options(warn=0)
+}
+#+end_src
+
+=sqldf= should always use =SQLite=.
+
+#+begin_src R
+options(sqldf.driver = "SQLite")
+#+end_src
+
+Save your fingers from having to type =head= the next =n= thousand times [fn:f9fcc455: https://stackoverflow.com/questions/13024167/how-to-make-head-be-applied-automatically-to-output] because I can't. =ess-rdired= and friends use the dataframe print function,
+so I didn't make dataframes print using it.
+#+begin_src R
+gcr$printdf <- function(df) {
+    if (nrow(df) > 10) {
+        print(head(df, 5))
+        cat("---\n")
+        print(tail(df, 5))
+    } else {
+        print(df)
+    }
+}
+#+end_src
+
+Sometimes you want to see all of the data in a dataframe, and sometimes you
+don't. Make it really easy to change whenever you feel like it.
+
+#+begin_src R
+gcr$printlen <- function(len=500) {
+    options("max.print" = len)
+}
+#+end_src
+
+When you've got =n=-thousand rows of data, make it easier to get a sample from it,
+just make it specific and keep it simple.
+
+#+begin_src R
+gcr$hundred <- function(df, idx=0) {
+    df[idx:(idx+100),]
+}
+#+end_src
+
+******* .Renviron
+      :PROPERTIES:
+      :noweb-ref: renviron-def
+      :END:
+
+Install all packages to my home directory [fn:daab690d: http://www.r-bloggers.com/installing-r-packages/]
+- Call =.libPaths()= to verify
+- The directory must exist otherwise ℝ will ignore it
+  - Solution:
+    - Manual for now
+    - Unsure of best way to generalize it
+#+begin_src sh
+R_LIBS=~/.Rpackages
+#+end_src
 
 ***** Eshell [fn:063471c9: https://www.gnu.org/software/emacs/manual/html_mono/eshell.html] [fn:46b52b8f: http://www.masteringemacs.org/articles/2010/12/13/complete-guide-mastering-eshell/] [fn:ed7a113f: http://www.khngai.com/emacs/eshell.php]
 
@@ -3854,11 +4828,11 @@ about any commands that need to run using a terminal emulator, like anything usi
 curses by adding it to to =eshell-visual-commands=.
 
 ****** Control Files
-    :PROPERTIES:
-    :noweb-ref: control-files-decision
-    :END:
+     :PROPERTIES:
+     :noweb-ref: ignore-eshells-config
+     :END:
 
-#+begin_src sh :tangle eshell/alias :noweb tangle :comments no
+#+begin_src sh :tangle eshell/alias :noweb tangle
 alias clear recenter 0
 alias d 'dired $1'
 alias g git $*
@@ -3932,7 +4906,7 @@ The =eshell= configuration is a version controlled directory
 #+begin_src emacs-lisp
 (defun gcr/graphviz-dot-mode-hook ()
   "Personal mode bindings for Graphviz mode."
-  (fci-mode +1)
+  (fci-mode)
   (rainbow-mode)
   (visual-line-mode)
   (turn-on-real-auto-save))
@@ -4003,6 +4977,8 @@ is a *must-read* article.
 Joseph G. Gay explained that what makes IELM so powerful is that you may execute
 commands /within/ the scope of a different buffer. Using =ielm-change-working-buffer=
 changes the current working buffer to something else.
+
+That character is "MATHEMATICAL DOUBLE-STRUCK CAPITAL E".
 
 #+begin_src emacs-lisp
 (defun gcr/ielm-mode-hook ()
@@ -4320,7 +5296,7 @@ work, here is an example. It says:
 - Every symlink is a file
 - Every file is not a symlink
 
-#+begin_src emacs-lisp :tangle no :exports both :results output
+#+begin_src emacs-lisp :tangle no
 (setq a-tmp-file (make-temp-file "~/"))
 (setq a-tmp-link (concat a-tmp-file "-LINK"))
 (make-symbolic-link a-tmp-file a-tmp-link 'overwrite)
@@ -4376,6 +5352,12 @@ metaweblog is necessary for org2blog, too:
 (require 'metaweblog)
 #+end_src
 
+- Various
+  - =uuid=
+    - Make it easy to get some. Somes you really need them!
+#+begin_src emacs-lisp
+(require 'uuid)
+#+end_src
 ********* Built-in
 
 pcase [fn:e76be200: http://www.emacswiki.org/emacs/PatternMatching] provides pattern-matching macros. This is very nice whether
@@ -4416,7 +5398,8 @@ the check simpler.
   (turn-on-real-auto-save)
   (fci-mode)
   (visual-line-mode)
-  (gcr/untabify-buffer-hook))
+  (gcr/untabify-buffer-hook)
+  (linum-mode))
 
 (add-hook 'js-mode-hook 'gcr/js-mode-hook)
 
@@ -4477,6 +5460,7 @@ Well, that is me, so I am going to install it too.
     (add-hook h 'gcr/untabify-buffer-hook)
     (add-hook h 'fci-mode)
     (add-hook h 'hs-minor-mode)
+    (add-hook h 'linum-mode)
     (add-hook h (function (lambda ()
                             (add-hook 'local-write-file-hooks
                                       'check-parens))))))
@@ -4486,7 +5470,7 @@ Well, that is me, so I am going to install it too.
 
 #+begin_src emacs-lisp
 (defun gcr/make-modehook ()
-  (fci-mode +1)
+  (fci-mode)
   (whitespace-turn-on)
   (rainbow-mode)
   (visual-line-mode)
@@ -4523,12 +5507,37 @@ nice to have normal Markdown available easily here.
 
 Until today I never would having about using Emacs to play multimedia files [fn:dc9bef3b: https://www.gnu.org/software/emms/].
 
+***** Occur
+
+Make it really easy to read search results!
+
+#+begin_src emacs-lisp
+(defun gcr/occur-mode-hook ()
+  "Personal customizations."
+  (interactive)
+  (turn-on-stripe-buffer-mode)
+  (stripe-listify-buffer))
+
+(add-hook 'occur-mode-hook 'gcr/occur-mode-hook)
+#+end_src
+
 ***** Pandoc [fn:d8e34067: http://johnmacfarlane.net/pandoc/]
 
 Heard good things about =pandoc-mode= [fn:0cacccd8: https://github.com/joostkremers/pandoc-mode] and I am really looking forward to
 finding where dharma leads me with this. The mode documentation is here [fn:592907bc: https://joostkremers.github.io/pandoc-mode/].
 
-***** Prog
+***** Presentations
+
+Before now I would create presentation in either
+- Powerpoint [fn:9c6cd5fb: https://en.wikipedia.org/wiki/Ms_powerpoint]
+- Beamer [fn:530d6432: https://en.wikipedia.org/wiki/Beamer_(LaTeX)]
+- Slideshow [fn:c110948a: http://pkgs.racket-lang.org/#(!main-distribution)(!main-tests)(slideshow)]
+
+I will still continue to use them as they are fine tools. =org= seems to have
+nice tools for presentations, too, and I would like to explore them in the
+future.
+
+Eric added =epresent= [fn:f5183c88: https://github.com/eschulte/epresent], too.
 
 ***** Ruby [fn:e9aab149: https://www.ruby-lang.org/en/]
 
@@ -4538,11 +5547,13 @@ eventually want to end up in =prog-mode=, but I'm still not sure what really
 uses that and how I may being re-factoring.
 #+begin_src emacs-lisp
 (defun gcr/ruby-mode-hook ()
-  (fci-mode +1)
+  (fci-mode)
   (rainbow-mode)
   (gcr/untabify-buffer-hook)
   (turn-on-real-auto-save)
   (visual-line-mode)
+  (fci-mode)
+  (turn-on-smartparens-strict-mode)
   (local-set-key (kbd "RET") 'newline-and-indent))
 
 (add-hook 'ruby-mode-hook 'gcr/ruby-mode-hook)
@@ -4575,7 +5586,9 @@ explore =ac-geiser= [fn:6d6fbd53: https://github.com/xiaohanyu/ac-geiser].
 (add-to-list 'auto-mode-alist '("\\.sps\\'" . scheme-mode))
 #+end_src
 
-***** Shell
+***** Sh(hell)
+
+"Major mode for editing shell scripts."
 
 #+begin_src emacs-lisp
 (defun gcr/sh-mode-hook ()
@@ -4587,13 +5600,34 @@ explore =ac-geiser= [fn:6d6fbd53: https://github.com/xiaohanyu/ac-geiser].
   (turn-on-real-auto-save)
   (gcr/untabify-buffer-hook)
   (gcr/disable-tabs)
-  (fci-mode +1)
+  (fci-mode)
   (whitespace-turn-on)
   (visual-line-mode)
   (hs-minor-mode)
   (local-set-key (kbd "RET") 'newline-and-indent))
 
 (add-hook 'sh-mode-hook 'gcr/sh-mode-hook)
+#+end_src
+
+***** Shell
+
+"Major mode for interacting with an inferior shell."
+
+#+begin_src emacs-lisp
+(defun gcr/shell-mode-hook ()
+  "Personalizations."
+  (interactive)
+  (rainbow-mode)
+  (turn-on-smartparens-strict-mode)
+  (turn-on-pretty-mode)
+  (gcr/disable-tabs)
+  (fci-mode)
+  (whitespace-turn-on)
+  (visual-line-mode)
+  (hs-minor-mode)
+  (local-set-key (kbd "RET") 'newline-and-indent))
+
+(add-hook 'shell-mode-hook 'gcr/shell-mode-hook)
 #+end_src
 
 ***** Standard ML (SML) [fn:eb5c01ac: https://en.wikipedia.org/wiki/Standard_ML]
@@ -4660,6 +5694,63 @@ What a great goal!
 
 #+begin_src emacs-lisp
 (require 'sqlup-mode)
+#+end_src
+
+There is a =sql-mode= [fn:e151d946: http://www.emacswiki.org/emacs/SqlMode]
+of course, and surely I will need to set it up one day.
+
+***** Table
+
+Tables don't sound that exciting, but try running the world without a tabular
+data representation! Not so easy huh?
+
+SAKURAI Masashi has made it easy for us in Emacs with =ctable=.
+
+#+begin_src emacs-lisp
+(require 'ctable)
+
+(defun gcr/ctbl:table-mode-hook ()
+  "Personal customization"
+  (interactive))
+
+(add-hook 'ctbl:table-mode-hook 'gcr/ctbl:table-mode-hook)
+#+end_src
+
+***** Tag
+
+Blogs use tags to add metadata to posts. The idea is not unique, but it is used
+specifically in blogs. This document specified information to help to post to
+a blog, but it doesn't work right now. Even if it did, I would still want some
+way to manage tag data. Right now, all I know is that I've got the need and I'm
+tired of doing it manually. The work done here is a first-attempt to manage all
+of my tags, and I look forward to the ideal solution, and also the process, and
+so it begins.
+
+The Milwaukee Data Science meetup uses the following tags that were quite
+specifically chosen given the goals of the group and limitations in the tags and
+number of them that we may use. I will probably use the same tags for blog posts,
+too, as some focus must be maintained.
+
+#+begin_src emacs-lisp
+(setq
+ gcr/tags/milwaukee-data-science
+ '(
+   "Algorithmic Trading"
+   "Big Data"
+   "Business Intelligence"
+   "Data Analysis and Modeling"
+   "Data Mining"
+   "Data Science"
+   "Data Visualization"
+   "Financial Engineering"
+   "Machine Learning"
+   "Mathematical Modelling"
+   "Predictive Analytics"
+   "Quantitative Analysis"
+   "Quantitative Finance"
+   "Risk Management"
+   "Statistical Computing"
+   ))
 #+end_src
 
 ***** TeX [fn:5bb50e18: https://en.wikipedia.org/wiki/TeX] / LaTeX [fn:a13f106f: [[https://en.wikipedia.org/wiki/LaTeX]]] / ConTeXt [fn:8a78f8ab: https://en.wikipedia.org/wiki/ConTeXt]
@@ -4816,7 +5907,7 @@ configuration.
   "Personal mode bindings for log-edit-mode."
   (gcr/untabify-buffer-hook)
   (gcr/disable-tabs)
-  (fci-mode +1))
+  (fci-mode))
 
 (add-hook 'log-edit-mode-hook 'gcr/log-edit-mode-hook)
 
@@ -4955,7 +6046,7 @@ org-mode provides a setup [fn:69c0caad: http://orgmode.org/worg/org-contrib/babe
 a JRE and that was about it. artist-mode is automatically loaded for the source
 block. The example below; thank you [fn:c8388777: http://www.craiglarman.com/wiki/index.php?title=Books_by_Craig_Larman] Craig Larman
 
-#+begin_src ditaa :file auap.png :tangle no :exports both
+#+begin_src ditaa :file auap.png :tangle no
 
 
 
@@ -5013,7 +6104,6 @@ The =ditaa= library file is not version controlled.
 (add-to-list 'auto-mode-alist '("\\.art" . artist-mode))
 (add-to-list 'auto-mode-alist '("\\.asc" . artist-mode))
 #+end_src
-
 ***** Org
     :PROPERTIES:
     :noweb-ref: modes-application-org-mode-module-decision
@@ -5057,6 +6147,36 @@ preference to myself namely that source blocks should be a muted Gray in
 the document because it shouldn't draw much attention, but in the editor of
 course you get the highlighting that you want. That is really my personal
 preference, nonetheless, =org-src-fontify-natively= is still always an option.
+Over the past six months I think, this approach has worked out well. Nonetheless
+I got curious about how things /might/ be with coloring turned on. Generally, it
+looks fine. Strangely though, even with the =solarized= these it is kind of
+distracting. Beyond sharing that observation, I won't quantify it any more than
+that. The biggest thing for me is that I only want to edit source blocks in
+their "real" mode because:
+- The real mode is present and as such
+- All mode specific bindings are present
+- Worth mentioning twice because if I don't have helpers on then I will not
+  match brackets manually!
+  - I've broken code so many times making "quick fixes" and breaking the bracket
+    matching it is exhausting
+- Sending code to REPLs
+- May not sound like much, but those three things are very, very huge in my
+  work-flow
+
+The good news is that for doing code reviews and stuff, I can always turn on
+that fontification.
+
+On a somewhat similar thread, =(setq org-src-tab-acts-natively t)= would make it
+easier to edit source blocks outside of the vehicle offered by =org-edit-src-code=.
+Since my intent is never to edit blocks outside for their proper mode though, I
+will not enable that.
+
+#+begin_src emacs-lisp
+(setq org-edit-src-code nil)
+#+end_src
+
+This approach of mine, I think I touch upon it elsewehre… at some point I would
+like to refactor this whole document.
 
 This [fn:d58f4050: http://home.fnal.gov/~neilsen/notebook/orgExamples/org-examples.html] article is really fascinating in that crams a ton of information
 into a tiny space. It also is kind of fun to read because it simultaneously
@@ -5073,6 +6193,9 @@ info style view is nice once you read the directions. The folding interface
 is also interesting; I tried out all 3 generation options but didn't find
 anything that I specifically liked. Perhaps it is a familiarity or comfort
 level with GNU styled docs or the key-bindings.
+
+Don't use =org= for time-tracking, but if I ever do then [fn:0276223e: https://github.com/koddo/org-clock-statusbar-app]
+this is nice to know of.
 
 ****** Configuration
 
@@ -5095,6 +6218,24 @@ things in the require statements for =org= are that:
 (require 'htmlize)
 #+end_src
 
+=htmlize= should eventually be moved out of this =org= block into its own re-usab.e
+section. It does need confguring both for =org= and also for general use. I like
+to be able to copy-and-paste its generated HTML into other documents, and =css= is
+the easiest way to achieve it. At some future date, it would be nice to developer
+a proper style sheet to handle any situation. The problem is that right now I don't
+have enough situations to based a design upon, just the desire to do so.
+My preference for styling HTML documents has been the same as all printable documents:
+black and white. When you do a =htmlize= export in batch-mode, there is no bufer
+style information to be exported, so you get nice black-and-white code formatting. This
+is an acceptable approach, but I am getting close to setting up a style to product just
+what I want for HTML export. It is close enough to almost require investment to address
+it.
+
+#+begin_src emacs-lisp
+(setq htmlize-output-type 'inline-css)
+(setq org-html-htmlize-output-type htmlize-output-type)
+#+end_src
+
 =org-show= need special handling, see the install for details.
 #+begin_src emacs-lisp
 (let ((pkg 'org-show))
@@ -5112,7 +6253,7 @@ Building =org= documents is intimately tied to:
 - Check the former
 - Perhaps someday the latter should be checked?
 #+begin_src emacs-lisp
-(defconst gcr/org-version "8.2.7a")
+(defconst gcr/org-version "8.2.7c")
 
 (defun gcr/warn-org-version ()
   "Warn of org misconfiguration."
@@ -5315,7 +6456,7 @@ that it is the ideal approach because it does /not/ interfere with export.
 
 #+begin_src emacs-lisp
 (defun gcr/org-babel-after-execute-hook ()
-  "Personal settings for the `'org-babel-after-execute-hook'."
+  "Personal settings for the `org-babel-after-execute-hook'."
   (interactive)
   (org-display-inline-images nil t))
 
@@ -5398,13 +6539,6 @@ not to be stupid [fn:028fcfca: http://kitchingroup.cheme.cmu.edu/blog/2014/01/26
  '("el" "#+begin_src emacs-lisp\n?\n#+end_src" "<src lang=\"emacs-lisp\">\n?\n</src>"))
 #+end_src
 
-It looks like =R= is going to be another one.
-#+begin_src emacs-lisp
-(add-to-list
- 'org-structure-template-alist
- '("r" "#+begin_src R\n?\n#+end_src" "<src lang=\"R\"></src>"))
-#+end_src
-
 OOTB the templates are all upper case. Case shouldn't matter inside of =org=,
 but on my system it breaks =org=. This needs to be investigated, and until then
 I will just downcase all of the templates.
@@ -5414,6 +6548,14 @@ I will just downcase all of the templates.
         (let ((org-sce-dc (downcase (nth 1 asc))))
           (setf (nth 1 asc) org-sce-dc)))
       org-structure-template-alist)
+#+end_src
+
+It looks like ℝ is going to be another one, but don't process it to downcase it…
+order matters here.
+#+begin_src emacs-lisp
+(add-to-list
+ 'org-structure-template-alist
+ '("r" "#+begin_src R\n?\n#+end_src" "<src lang=\"R\"></src>"))
 #+end_src
 
 Sometimes tangling and exporting takes a long time and I would like to see some
@@ -5668,8 +6810,20 @@ with that. Also, I had customized the links, and did that incorrectly, so I
 removed those, too. When Eric said that one part of it wasn't implemented, I
 didn't to dig into what was working anymore than I had already because it has
 already been many hours invested.
+
+Now I've got weeks invested and I'm shocked to find that using links in the
+tangled file is worse then useless, it is actually harmful. It just doesn't
+help, atleast in the sytems that I am tangling. As such I am no longer using
+it.
 #+begin_src emacs-lisp
-(gcr/set-org-system-header-arg :comments "link")
+(gcr/set-org-system-header-arg :comments "no")
+#+end_src
+
+For that matter, set up the way that I deal with nearly every =org= file ever:
+
+#+begin_src emacs-lisp
+(gcr/set-org-system-header-arg :results "output")
+(gcr/set-org-system-header-arg :exports "both")
 #+end_src
 
 Probably someone will show be a better way to do repeated string creation :).
@@ -5677,6 +6831,7 @@ Probably someone will show be a better way to do repeated string creation :).
 Then I read this [fn:16e26884: http://comments.gmane.org/gmane.emacs.orgmode/32814].
 *WOW*. That is worth another millions bucks for Eric's prolific contribution to
 humanity with org-babel.
+
 ******* ispell
 
 Doing literate programming a *lot*… it is a hassle to spell-check source blocks,
@@ -5771,7 +6926,7 @@ operations.
   (local-set-key (kbd "C-2") 'org-edit-special)
   (local-set-key (kbd "s-h") 'org-babel-check-src-block)
   (local-set-key (kbd "s-j") 'org-babel-demarcate-block)
-  (local-set-key (kbd "s-i") 'org-babel-insert-header-arg)
+  (local-set-key (kbd "s-a i") 'org-babel-insert-header-arg)
   (local-set-key (kbd "s-k") 'org-babel-previous-src-block)
   (local-set-key (kbd "s-l") 'org-babel-next-src-block)
   (local-set-key (kbd "s-;") 'org-babel-view-src-block-info)
@@ -5779,7 +6934,11 @@ operations.
   (local-set-key (kbd "s-b c") 'org-babel-switch-to-session-with-code)
   (local-set-key (kbd "s-x") 'org-babel-do-key-sequence-in-edit-buffer)
   (local-set-key (kbd "s-t") 'org-babel-tangle)
+  (local-set-key (kbd "s-w") 'org-babel-execute-buffer)
   (local-set-key (kbd "s-e") 'org-babel-execute-maybe)
+  (local-set-key (kbd "s-i d") 'org-display-inline-images)
+  (local-set-key (kbd "s-i r") 'org-remove-inline-images)
+  (turn-on-real-auto-save)
   (when (and (fboundp 'guide-key-mode) guide-key-mode)
     (guide-key/add-local-guide-key-sequence "C-c")
     (guide-key/add-local-guide-key-sequence "C-c C-x")
@@ -5787,7 +6946,10 @@ operations.
   (org2blog/wp-mode)
   (gcr/diminish 'org2blog/wp-mode)
   (fci-mode)
-  (gcr/untabify-buffer-hook))
+  (gcr/untabify-buffer-hook)
+  (turn-on-stripe-table-mode)
+  (linum-mode)
+  (wrap-region-mode t))
 
 (add-hook 'org-mode-hook 'gcr/org-mode-hook)
 #+end_src
@@ -5797,21 +6959,11 @@ easy to exit. This is consistent with the approach of "same to exit as enter".
 
 #+begin_src emacs-lisp
 (defun gcr/org-src-mode-hook ()
-  (local-set-key (kbd "C-2") 'org-edit-src-exit))
+  (local-set-key (kbd "C-2") 'org-edit-src-exit)
+  (visual-line-mode))
 
 (add-hook 'org-src-mode-hook 'gcr/org-src-mode-hook)
 #+end_src
-
-***** Presentations
-
-Before now I would create presentation in either
-- Powerpoint [fn:9c6cd5fb: https://en.wikipedia.org/wiki/Ms_powerpoint]
-- Beamer [fn:530d6432: https://en.wikipedia.org/wiki/Beamer_(LaTeX)]
-- Slideshow [fn:c110948a: http://pkgs.racket-lang.org/#(!main-distribution)(!main-tests)(slideshow)]
-
-I will still continue to use them as they are fine tools. =org= seems to have
-nice tools for presentations, too, and I would like to explore them in the
-future.
 
 * Assembly
 
@@ -5920,7 +7072,7 @@ el-get seems to make it easier, at least when you want to know such details.
 Not sure what the future will hold for me and el-get, but it is really nice so
 far.
 
-#+begin_src emacs-lisp :tangle Cask
+#+begin_src emacs-lisp :tangle ~/.emacs.d/Cask
 (source org)
 
 (depends-on "org-plus-contrib")
@@ -5958,6 +7110,8 @@ far.
 (depends-on "boxquote")
 
 (depends-on "clips-mode")
+
+(depends-on "ctable")
 
 (depends-on "dash")
 
@@ -6019,6 +7173,8 @@ far.
 
 (depends-on "hideshow-org")
 
+(depends-on "highlight-tail")
+
 (depends-on "htmlize")
 
 (depends-on "ibuffer-vc")
@@ -6032,6 +7188,8 @@ far.
 (depends-on "imenu-anywhere")
 
 (depends-on "imenu+")
+
+(depends-on "inlineR")
 
 (depends-on "json-reformat")
 
@@ -6052,6 +7210,10 @@ far.
 (depends-on "move-text")
 
 (depends-on "multiple-cursors")
+
+(depends-on "neotree")
+
+(depends-on "nyan-mode")
 
 (depends-on "ob-sml")
 
@@ -6089,7 +7251,11 @@ far.
 
 (depends-on "sqlup-mode")
 
+(depends-on "stripe-buffer")
+
 (depends-on "sublimity")
+
+(depends-on "uuid")
 
 (depends-on "undo-tree")
 
@@ -6102,6 +7268,8 @@ far.
 (depends-on "web-mode")
 
 (depends-on "world-time-mode")
+
+(depends-on "wrap-region")
 
 (depends-on "xml-rpc")
 
@@ -6246,7 +7414,23 @@ your life and bought you a kitten? You will.
 (add-to-list 'gcr/el-get-packages 'youwill)
 #+end_src
 
-=org-show= [fn:5de243c0: https://github.com/jkitchin/jmax/blob/master/org-show.org]
+A swimming-pool screensaver.
+
+#+begin_src emacs-lisp
+(add-to-list
+ 'el-get-sources
+ '(:name swimmers
+          :type http
+          :url "http://www.cb1.com/~john/computing/emacs/lisp/games/swimmers.el"
+          :features swimmers
+          :autoloads nil
+          :website "http://www.cb1.com/~john/"
+          :description "Draw a swimming-pool screensaver"))
+(add-to-list 'gcr/el-get-packages 'swimmers)
+#+end_src
+
+=org-show= [fn:5de243c0: https://github.com/jk
+itchin/jmax/blob/master/org-show.org]
 looks like the prefect presentation tool for me. jkitchin is just… he is one a
 sweet wavelength. This presentation tool makes it really, really easy to present
 in a very /emacsy/ way. It is worth discussing a bit why I got this module in this
@@ -6344,7 +7528,6 @@ Two systems will be configured here:
 #+begin_src emacs-lisp
 «runtime-check»
 «general-stuff-block»
-«custom-variables»
 «utility-block»
 «cask-block»
 «el-get-block»
@@ -6357,6 +7540,7 @@ Two systems will be configured here:
 
 #+begin_src emacs-lisp :tangle .org-mode.emacs.el :noweb tangle
 «base-configuration»
+«custom-variables»
 #+end_src
 
 *** Fully Loaded System
@@ -6364,7 +7548,6 @@ Two systems will be configured here:
 Convert decisions into a runnable system.
 #+begin_src emacs-lisp :tangle .emacs.el :noweb tangle
 «base-configuration»
-«font-block»
 «uxo-windows-decision»
 (gcr/on-gui
  «uxo-frames-decision»)
@@ -6378,7 +7561,12 @@ Convert decisions into a runnable system.
 «modes-application-monolith-decision»
 «communications-decision»
 «postfix-block»
+«custom-variables»
+«font-block»
 #+end_src
+
+Order does matter here, the =«custom-variables»= specifies that the custom theme
+may be loaded so the =«font-block»= has to come after it.
 
 ** Font block
 
@@ -6425,6 +7613,11 @@ Convert decisions into a runnable system.
   "Produces and inserts a full ISO 8601 format timestamp."
   (interactive)
   (insert (format-time-string "%Y-%m-%dT%T%z")))
+
+(defun gcr/insert-timestamp* ()
+  "Produces and inserts a near-full ISO 8601 format timestamp."
+  (interactive)
+  (insert (format-time-string "%Y-%m-%dT%T")))
 
 (defun gcr/insert-datestamp ()
   "Produces and inserts a partial ISO 8601 format timestamp."
@@ -6801,6 +7994,28 @@ Attribution: URL `http://www.masteringemacs.org/articles/2010/11/29/evaluating-e
                      ac-source-words-in-same-mode-buffers))
   (add-to-list 'ac-modes 'inferior-emacs-lisp-mode)
   (auto-complete-mode 1))
+
+(defun gcr/move-line-up ()
+  "Move the current line up one.
+
+Attribution: URL `https://github.com/hrs/dotfiles/blob/master/emacs.d/lisp/utils.el'"
+  (interactive)
+  (transpose-lines 1)
+  (forward-line -2))
+
+(defun gcr/move-line-down ()
+  "Move the current line down one.
+
+Attribution: URL `https://github.com/hrs/dotfiles/blob/master/emacs.d/lisp/utils.el'"
+  (interactive)
+  (forward-line 1)
+  (transpose-lines 1)
+  (forward-line -1))
+
+(defun gcr/uuid-string ()
+  "Insert a string form of a UUID."
+  (interactive)
+  (insert (uuid-to-stringy (uuid-create))))
 #+end_src
 
 ** Helper scripts
@@ -6809,11 +8024,15 @@ Attribution: URL `http://www.masteringemacs.org/articles/2010/11/29/evaluating-e
 I would like to handle multiple accounts since I use multiple accounts on the
 same machine, but until then, I will be fine just backing them up at least.
 
-#+begin_src sh :tangle bin/cpkf :tangle-mode (identity #o755) :noweb tangle :comments no
+#+begin_src sh :tangle bin/cpkf :tangle-mode (identity #o755) :noweb tangle
 sudo cp /Users/sl/.emacs.keyfreq ../.emacs.sl.keyfreq
 #+end_src
 
 * Usage
+
+#+begin_comment
+This section will never be tangled.
+#+end_comment
 
 There are a couple of ways to use this system:
 - Scavenge :: take the parts you need

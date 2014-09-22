@@ -1,6 +1,4 @@
 
-;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Fully%20Loaded%20System][Fully\ Loaded\ System:1]]
-
 (defun gcr/warn-emacs-version ()
   "Warn of Emacs inadequacy."
   (interactive)
@@ -15,26 +13,19 @@
               user-mail-address "gcr@wisdomandwonder.com")
 
 (setq-default eval-expression-print-level nil)
-(setq-default case-fold-search nil)
-(setq gc-cons-threshold (* 064 1024 1024))
-(setq debug-on-error t)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes (quote ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
- '(display-time-world-list (quote (("America/Los_Angeles" "Los_Angeles") ("America/Denver" "Denver") ("America/Chicago" "Chicago") ("America/New_York" "New York") ("Asia/Kolkata" "Kolkata") ("Asia/Kuala_Lumpur" "Kuala Lumpur")))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+(setq-default case-fold-search +1)
+(setq gc-cons-threshold (* 128 1024 1024))
+(setq max-specpdl-size 1500)
+(setq debug-on-error nil)
 (defun gcr/insert-timestamp ()
   "Produces and inserts a full ISO 8601 format timestamp."
   (interactive)
   (insert (format-time-string "%Y-%m-%dT%T%z")))
+
+(defun gcr/insert-timestamp* ()
+  "Produces and inserts a near-full ISO 8601 format timestamp."
+  (interactive)
+  (insert (format-time-string "%Y-%m-%dT%T")))
 
 (defun gcr/insert-datestamp ()
   "Produces and inserts a partial ISO 8601 format timestamp."
@@ -411,6 +402,28 @@ Attribution: URL `http://www.masteringemacs.org/articles/2010/11/29/evaluating-e
                      ac-source-words-in-same-mode-buffers))
   (add-to-list 'ac-modes 'inferior-emacs-lisp-mode)
   (auto-complete-mode 1))
+
+(defun gcr/move-line-up ()
+  "Move the current line up one.
+
+Attribution: URL `https://github.com/hrs/dotfiles/blob/master/emacs.d/lisp/utils.el'"
+  (interactive)
+  (transpose-lines 1)
+  (forward-line -2))
+
+(defun gcr/move-line-down ()
+  "Move the current line down one.
+
+Attribution: URL `https://github.com/hrs/dotfiles/blob/master/emacs.d/lisp/utils.el'"
+  (interactive)
+  (forward-line 1)
+  (transpose-lines 1)
+  (forward-line -1))
+
+(defun gcr/uuid-string ()
+  "Insert a string form of a UUID."
+  (interactive)
+  (insert (uuid-to-stringy (uuid-create))))
 (defconst gcr/cask-runtime "~/.cask/cask.el")
 (defconst gcr/cask-config "~/.emacs.d/Cask")
 (defun gcr/warn-cask-runtime ()
@@ -491,6 +504,16 @@ Attribution: URL `http://www.masteringemacs.org/articles/2010/11/29/evaluating-e
 (add-to-list 'gcr/el-get-packages 'youwill)
 (add-to-list
  'el-get-sources
+ '(:name swimmers
+          :type http
+          :url "http://www.cb1.com/~john/computing/emacs/lisp/games/swimmers.el"
+          :features swimmers
+          :autoloads nil
+          :website "http://www.cb1.com/~john/"
+          :description "Draw a swimming-pool screensaver"))
+(add-to-list 'gcr/el-get-packages 'swimmers)
+(add-to-list
+ 'el-get-sources
  '(:name org-show
           :type http
           :url "https://raw.githubusercontent.com/jkitchin/jmax/master/org-show.org"
@@ -529,11 +552,13 @@ Attribution: URL `http://www.masteringemacs.org/articles/2010/11/29/evaluating-e
          (not (equal new-command 'diff-hl-mode))
          (not (equal new-command 'my-eval-expression))
          (not (equal old-command 'list-buffers))
+         (not (equal new-command 'gcr/move-line-up))
          )
       (warn "Just stomped the global-map binding for %S, replaced %S with %S"
             key old-command new-command))))
 (require 'key-chord)
 (key-chord-mode 1)
+(setq key-chord-two-keys-delay 0.1)
 ;; if there is magic, then the x goes here →
 (gcr/on-osx
  (setq mac-control-modifier 'control)
@@ -547,6 +572,7 @@ Attribution: URL `http://www.masteringemacs.org/articles/2010/11/29/evaluating-e
 (put 'downcase-region 'disabled nil)
 (setq echo-keystrokes 0.02)
 (key-chord-define-global "3." 'gcr/insert-ellipsis)
+(key-chord-define-global "4 " (lambda () (interactive) (insert "    ")))
 (key-chord-define-global (concat "A" "{") (lambda () (interactive) (insert "ä")))
 (key-chord-define-global (concat "A" "}") (lambda () (interactive) (insert "Ä")))
 (key-chord-define-global (concat "O" "{") (lambda () (interactive) (insert "ö")))
@@ -558,11 +584,12 @@ Attribution: URL `http://www.masteringemacs.org/articles/2010/11/29/evaluating-e
 (key-chord-define-global "<<" (lambda () (interactive) (insert "«")))
 (key-chord-define-global ">>" (lambda () (interactive) (insert "»")))
 (key-chord-define-global "jk" 'ace-jump-mode)
-(key-chord-define-global "ji" 'ace-jump-mode-pop-mark)
-(key-chord-define-global "nm" 'ace-window)
-(key-chord-define-global "fj" 'goto-line)
+(key-chord-define-global "m," 'ace-jump-mode-pop-mark)
+(key-chord-define-global "fg" 'goto-line)
+(key-chord-define-global "vb" 'pop-to-mark-command)
 (require 'linum-relative)
 (key-chord-define-global "dk" 'linum-relative-toggle)
+(key-chord-define-global "nm" 'ace-window)
 (key-chord-define-global "JK" (lambda () (interactive) (other-window 1)))
 (key-chord-define-global "KL" (lambda () (interactive) (next-buffer)))
 (key-chord-define-global "L:" (lambda () (interactive) (previous-buffer)))
@@ -576,6 +603,8 @@ Attribution: URL `http://www.masteringemacs.org/articles/2010/11/29/evaluating-e
 (global-set-key (kbd "M-8") 'mc/mark-previous-like-this)
 (key-chord-define-global "yu" 'move-text-up)
 (key-chord-define-global "hj" 'move-text-down)
+(global-set-key (kbd "s-l i") 'gcr/move-line-up)
+(global-set-key (kbd "s-l k") 'gcr/move-line-down)
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
@@ -592,8 +621,11 @@ Attribution: URL `http://www.masteringemacs.org/articles/2010/11/29/evaluating-e
 (global-set-key (kbd "s-f") 'projectile-find-file)
 (global-set-key (kbd "C-4") 'ido-switch-buffer)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
-(global-set-key (kbd "C-7") 'gcr/insert-timestamp)
+(global-set-key (kbd "s-u dse") (lambda () (interactive) (insert "𝔼")))
+(global-set-key (kbd "s-u dsr") (lambda () (interactive) (insert "ℝ")))
 (global-set-key (kbd "M-7") 'gcr/insert-datestamp)
+(global-set-key (kbd "s-7") 'gcr/insert-timestamp*)
+(global-set-key (kbd "C-7") 'gcr/insert-timestamp)
 (global-set-key (kbd "s-<tab>") 'auto-complete)
 (gcr/on-gui
  (global-set-key (kbd "s-<f7>") 'gcr/text-scale-increase)
@@ -605,8 +637,11 @@ Attribution: URL `http://www.masteringemacs.org/articles/2010/11/29/evaluating-e
 (global-set-key (kbd "s-<down>") 'shrink-window)
 (global-set-key (kbd "s-<right>") 'enlarge-window-horizontally)
 (global-set-key (kbd "s-<left>") 'shrink-window-horizontally)
-(global-set-key (kbd "<f8>") 'list-world-time)
+(global-set-key (kbd "<f7>") 'list-world-time)
+(global-set-key (kbd "<f8>") 'magit-status)
 (global-set-key (kbd "<f9>") 'gcr/util-cycle)
+(global-set-key (kbd "<f11>") 'other-window)
+(global-set-key (kbd "<f12>") 'neotree-toggle)
 (defconst gcr/ditaa-jar (concat (getenv "EELIB") "/ditaa0_9.jar"))
 (defun gcr/warn-ditaa-jar ()
   "Warn of ditaa misconfiguration."
@@ -620,11 +655,14 @@ Attribution: URL `http://www.masteringemacs.org/articles/2010/11/29/evaluating-e
 (add-to-list 'auto-mode-alist '("\\.asc" . artist-mode))
 (add-to-list 'auto-mode-alist '("\\.art" . artist-mode))
 (add-to-list 'auto-mode-alist '("\\.asc" . artist-mode))
+(setq org-edit-src-code nil)
 (setq org-list-allow-alphabetical +1)
 (require 'org)
 (require 'ox-beamer)
 (require 'ox-md)
 (require 'htmlize)
+(setq htmlize-output-type 'inline-css)
+(setq org-html-htmlize-output-type htmlize-output-type)
 (let ((pkg 'org-show))
   (if (not (el-get-package-is-installed pkg))
       (warn "You wanted %S to be installed, but it isnt. Fix this." pkg)
@@ -632,7 +670,7 @@ Attribution: URL `http://www.masteringemacs.org/articles/2010/11/29/evaluating-e
       (if (not (f-exists? fil))
           (warn "You wanted %S to exist, but it doesn't. Fix this." fil)
         (load fil)))))
-(defconst gcr/org-version "8.2.7a")
+(defconst gcr/org-version "8.2.7c")
 
 (defun gcr/warn-org-version ()
   "Warn of org misconfiguration."
@@ -672,7 +710,7 @@ Attribution: URL `http://www.masteringemacs.org/articles/2010/11/29/evaluating-e
 (setq org-image-actual-width t)
 (setq org-hide-emphasis-markers +1)
 (defun gcr/org-babel-after-execute-hook ()
-  "Personal settings for the `'org-babel-after-execute-hook'."
+  "Personal settings for the `org-babel-after-execute-hook'."
   (interactive)
   (org-display-inline-images nil t))
 
@@ -706,13 +744,13 @@ Attribution: URL `http://www.masteringemacs.org/articles/2010/11/29/evaluating-e
 (add-to-list
  'org-structure-template-alist
  '("el" "#+begin_src emacs-lisp\n?\n#+end_src" "<src lang=\"emacs-lisp\">\n?\n</src>"))
-(add-to-list
- 'org-structure-template-alist
- '("r" "#+begin_src R\n?\n#+end_src" "<src lang=\"R\"></src>"))
 (mapc (lambda (asc)
         (let ((org-sce-dc (downcase (nth 1 asc))))
           (setf (nth 1 asc) org-sce-dc)))
       org-structure-template-alist)
+(add-to-list
+ 'org-structure-template-alist
+ '("r" "#+begin_src R\n?\n#+end_src" "<src lang=\"R\"></src>"))
 (defadvice org-babel-tangle (before org-babel-tangle-before activate)
   (gcr/save-all-file-buffers)
   (message (concat "org-babel-tangle BEFORE: <"
@@ -788,7 +826,9 @@ Attribution: URL `http://www.masteringemacs.org/articles/2010/11/29/evaluating-e
 (setq org-babel-no-eval-on-ctrl-c-ctrl-c +1)
 (setq org-babel-noweb-wrap-start "«")
 (setq org-babel-noweb-wrap-end "»")
-(gcr/set-org-system-header-arg :comments "link")
+(gcr/set-org-system-header-arg :comments "no")
+(gcr/set-org-system-header-arg :results "output")
+(gcr/set-org-system-header-arg :exports "both")
 (add-to-list 'ispell-skip-region-alist '("^#\\+begin_src ". "#\\+end_src$"))
 (add-to-list 'ispell-skip-region-alist '("^#\\+BEGIN_SRC ". "#\\+END_SRC$"))
 (add-to-list 'ispell-skip-region-alist '("^#\\+begin_example ". "#\\+end_example$"))
@@ -832,7 +872,7 @@ Attribution: URL `http://www.masteringemacs.org/articles/2010/11/29/evaluating-e
   (local-set-key (kbd "C-2") 'org-edit-special)
   (local-set-key (kbd "s-h") 'org-babel-check-src-block)
   (local-set-key (kbd "s-j") 'org-babel-demarcate-block)
-  (local-set-key (kbd "s-i") 'org-babel-insert-header-arg)
+  (local-set-key (kbd "s-a i") 'org-babel-insert-header-arg)
   (local-set-key (kbd "s-k") 'org-babel-previous-src-block)
   (local-set-key (kbd "s-l") 'org-babel-next-src-block)
   (local-set-key (kbd "s-;") 'org-babel-view-src-block-info)
@@ -840,7 +880,11 @@ Attribution: URL `http://www.masteringemacs.org/articles/2010/11/29/evaluating-e
   (local-set-key (kbd "s-b c") 'org-babel-switch-to-session-with-code)
   (local-set-key (kbd "s-x") 'org-babel-do-key-sequence-in-edit-buffer)
   (local-set-key (kbd "s-t") 'org-babel-tangle)
+  (local-set-key (kbd "s-w") 'org-babel-execute-buffer)
   (local-set-key (kbd "s-e") 'org-babel-execute-maybe)
+  (local-set-key (kbd "s-i d") 'org-display-inline-images)
+  (local-set-key (kbd "s-i r") 'org-remove-inline-images)
+  (turn-on-real-auto-save)
   (when (and (fboundp 'guide-key-mode) guide-key-mode)
     (guide-key/add-local-guide-key-sequence "C-c")
     (guide-key/add-local-guide-key-sequence "C-c C-x")
@@ -848,76 +892,35 @@ Attribution: URL `http://www.masteringemacs.org/articles/2010/11/29/evaluating-e
   (org2blog/wp-mode)
   (gcr/diminish 'org2blog/wp-mode)
   (fci-mode)
-  (gcr/untabify-buffer-hook))
+  (gcr/untabify-buffer-hook)
+  (turn-on-stripe-table-mode)
+  (linum-mode)
+  (wrap-region-mode t))
 
 (add-hook 'org-mode-hook 'gcr/org-mode-hook)
 (defun gcr/org-src-mode-hook ()
-  (local-set-key (kbd "C-2") 'org-edit-src-exit))
+  (local-set-key (kbd "C-2") 'org-edit-src-exit)
+  (visual-line-mode))
 
 (add-hook 'org-src-mode-hook 'gcr/org-src-mode-hook)
 (defconst gcr/keyfreq-file "~/.emacs.keyfreq")
 (defun gcr/warn-keyfreq-file ()
   "Warn of keyfreq misconfiguration."
   (interactive)
-  (unless (f-symlink? gcr/keyfreq-file)
+  (unless (f-exists? gcr/keyfreq-file)
     (warn "Can't seem to find a symlink at: %S. Keyfreq expeced it there, and will continue to function, but your data will probably be lost." gcr/keyfreq-file)))
 (gcr/warn-keyfreq-file)
 (require 'keyfreq)
 (setq keyfreq-file gcr/keyfreq-file)
 (keyfreq-mode 1)
 (keyfreq-autosave-mode 1)
-(gcr/on-gui
-  (defconst gcr/font-base "DejaVu Sans Mono" "The preferred font name.")
-  (require 'unicode-fonts)
-  (unicode-fonts-setup)
-  (defvar gcr/font-size 10 "The preferred font size.")
-  (gcr/on-osx (setq gcr/font-size 17))
-  (setq solarized-distinct-fringe-background +1)
-  (setq solarized-high-contrast-mode-line +1)
-  (setq solarized-use-less-bold +1)
-  (setq solarized-use-more-italic nil)
-  (setq solarized-emphasize-indicators nil)
-  (load-theme 'solarized-dark)
-  (require 'pretty-mode)
-  (setq make-pointer-invisible +1)
-  (defun gcr/font-ok-p ()
-    "Is the configured font valid?"
-    (interactive)
-    (member gcr/font-base (font-family-list)))
-  (defun gcr/font-name ()
-    "Compute the font name and size string."
-    (interactive)
-    (let* ((size (number-to-string gcr/font-size))
-           (name (concat gcr/font-base "-" size)))
-      name))
-  (defun gcr/update-font ()
-    "Updates the current font given configuration values."
-    (interactive)
-    (if (gcr/font-ok-p)
-        (progn
-          (message "Setting font to: %s" (gcr/font-name))
-          (set-default-font (gcr/font-name)))
-      (message (concat "Your preferred font is not available: " gcr/font-base))))
-  (defun gcr/text-scale-increase ()
-    "Increase font size"
-    (interactive)
-    (setq gcr/font-size (+ gcr/font-size 1))
-    (gcr/update-font))
-  (defun gcr/text-scale-decrease ()
-    "Reduce font size."
-    (interactive)
-    (when (> gcr/font-size 1)
-      (setq gcr/font-size (- gcr/font-size 1))
-      (gcr/update-font)))
-
-  (gcr/update-font))
 (menu-bar-mode +1)
 (setq-default fill-column 80)
 (blink-cursor-mode 0)
 (gcr/on-gui
  (setq-default cursor-type 'box))
 (setq x-stretch-cursor 1)
-(global-linum-mode 1)
+(global-linum-mode -1)
 (global-font-lock-mode 1)
 (setq blink-matching-paren nil)
 (show-paren-mode +1)
@@ -994,7 +997,6 @@ Attribution: URL `http://www.masteringemacs.org/articles/2010/11/29/evaluating-e
   "ace-jump-mode"
   "Emacs quick move minor mode"
   t)
-(define-key global-map (kbd "C-0") 'ace-jump-mode)
 (autoload
   'ace-jump-mode-pop-mark
   "ace-jump-mode"
@@ -1013,13 +1015,25 @@ Attribution: URL `http://www.masteringemacs.org/articles/2010/11/29/evaluating-e
 (require 'ibuffer)
 (require 'smooth-scrolling)
 (linum-relative-toggle)
+(require 'nyan-mode)
+(require 'highlight-tail)
+(require 'zone)
+(require 'stripe-buffer)
+(require 'wrap-region)
+(gcr/diminish 'wrap-region-mode)
+
+(wrap-region-add-wrapper "*" "*" nil 'org-mode) ;; bold
+(wrap-region-add-wrapper "/" "/" nil 'org-mode) ;; italic
+(wrap-region-add-wrapper "_" "_" nil 'org-mode) ;; underlined
+(wrap-region-add-wrapper "=" "=" nil 'org-mode) ;; verbatim
+(wrap-region-add-wrapper "~" "~" nil 'org-mode) ;; code
+(wrap-region-add-wrapper "+" "+" nil 'org-mode) ;; strike-through
+;; (wrap-region-add-wrapper "" "w" 'org-mode) ;; noweb blocks
 (global-visual-line-mode 1)
 (gcr/diminish 'visual-line-mode)
 (gcr/diminish 'global-visual-line-mode)
 (size-indication-mode)
 (column-number-mode 1)
-(setq display-time-format "%R %y-%m-%d")
-(display-time-mode +1)
 (require 'diminish)
 (defadvice kill-line (around kill-line-remove-newline activate)
   (let ((kill-whole-line t))
@@ -1070,10 +1084,12 @@ Attribution: URL `http://www.masteringemacs.org/articles/2010/11/29/evaluating-e
 (setq-default dired-details-hidden-string "")
 (defun gcr/dired-mode-hook ()
   "Personal dired customizations."
+  (local-set-key "c" 'gcr/dired-copy-filename)
+  (local-set-key "]" 'gcr/dired-copy-path)
   (diff-hl-dired-mode)
   (load "dired-x")
-  (local-set-key "c" 'gcr/dired-copy-filename)
-  (local-set-key "]" 'gcr/dired-copy-path))
+  (turn-on-stripe-buffer-mode)
+  (stripe-listify-buffer))
 (add-hook 'dired-mode-hook 'gcr/dired-mode-hook)
 (require 'find-dired)
 (setq find-ls-option '("-print0 | xargs -0 ls -ld" . "-ld"))
@@ -1128,7 +1144,7 @@ Attribution: URL `http://www.masteringemacs.org/articles/2010/11/29/evaluating-e
 (defun gcr/warn-aspell-dict ()
   "Warn of aspell misconfiguration."
   (interactive)
-  (unless (f-symlink? gcr/aspell-dict)
+  (unless (f-exists? gcr/aspell-dict)
     (warn
      "Can't seem to find an aspell dictionary where it was expected at: %S. aspell should continue to function normally; but your personal dictionary will not be used."
      gcr/aspell-dict)))
@@ -1212,7 +1228,7 @@ Attribution: URL `http://www.masteringemacs.org/articles/2010/11/29/evaluating-e
 (setq comint-move-point-for-output t)
 (setq comint-prompt-read-only t)
 (defun gcr/css-modehook ()
-  (fci-mode +1)
+  (fci-mode)
   (whitespace-turn-on)
   (rainbow-mode)
   (visual-line-mode)
@@ -1249,7 +1265,7 @@ Attribution: URL `http://www.masteringemacs.org/articles/2010/11/29/evaluating-e
 
 (setq initial-scratch-message nil)
 (require 'ess-site)
-(defconst gcr/ess-version "14.05")
+(defconst gcr/ess-version "14.08")
 
 (defun gcr/warn-ess-version ()
   "Warn of ess misconfiguration."
@@ -1264,10 +1280,10 @@ Attribution: URL `http://www.masteringemacs.org/articles/2010/11/29/evaluating-e
 (define-key compilation-minor-mode-map [(?p)] 'previous-error-no-select)
 (setq ess-watch-scale-amount -1)
 (setq ess-describe-at-point-method 'tooltip)
+(require 'ess-R-object-popup)
 (autoload 'ess-rdired "ess-rdired")
 (require 'ess-R-data-view)
-(require 'ess-R-object-popup)
-(define-key ess-mode-map "\C-c\C-g" 'ess-R-object-popup)
+(require 'inlineR)
 (setq gcr/r-dir "~/.R/")
 (defun gcr/make-warn-R-dir ()
   "Handle of R directory misconfiguration."
@@ -1282,6 +1298,7 @@ Attribution: URL `http://www.masteringemacs.org/articles/2010/11/29/evaluating-e
 (setq inferior-ess-program "R")
 (setq inferior-R-program-name "R")
 (setq ess-local-process-name "R")
+(setq inferior-S-prompt "[]a-zA-Z0-9.[]*\\(?:[>+.] \\)*ℝ+> ")
 (setq inferior-ess-same-window t)
 (setq inferior-ess-own-frame nil)
 (setq ess-help-own-frame nil)
@@ -1305,22 +1322,48 @@ Attribution: URL `http://www.masteringemacs.org/articles/2010/11/29/evaluating-e
 
 (setq r-autoyas-debug t)
 (setq r-autoyas-expand-package-functions-only nil)
-(setq r-autoyas-remove-explicit-assignments +1)
-(setq r-autoyas-number-of-commas-before-return 0)
-(setq r-autoyas-auto-expand-with-paren +1)
+(setq r-autoyas-remove-explicit-assignments nil)
 (defun gcr/ess-mode-hook ()
+  (local-set-key (kbd "s-e") 'ess-switch-to-end-of-ESS)
+  (local-set-key (kbd "s-x") 'r-autoyas-expand)
+  (local-set-key (kbd "s-p") 'ess-R-object-popup)
+  (local-set-key (kbd "s-v o") 'ess-describe-object-at-point)
+  (local-set-key (kbd "s-v d") 'ess-rdired)
+  (local-set-key (kbd "s-v cc") 'ess-R-dv-ctable)
+  (local-set-key (kbd "s-v cp") 'ess-R-dv-pprint)
+  (local-set-key (kbd "C-,") (lambda () (interactive) (insert " <<- ")))
+  (local-set-key (kbd "C-.") (lambda () (interactive) (insert " ->> ")))
+  (local-set-key (kbd "C-8") (lambda () (interactive) (insert " %<>% ")))
+  (local-set-key (kbd "C-9") (lambda () (interactive) (insert " %>% ")))
+  (local-set-key (kbd "C-0") 'ess-eval-buffer)
   (ess-set-style 'RRR 'quiet)
   (turn-on-pretty-mode)
-  (local-set-key (kbd "s-p") 'ess-describe-object-at-point)
   (r-autoyas-ess-activate)
   (visual-line-mode)
-  (turn-on-smartparens-strict-mode)
+  (smartparens-strict-mode)
+  (rainbow-mode)
+  (turn-on-real-auto-save)
+  (gcr/untabify-buffer-hook)
+  (fci-mode)
+  (hs-minor-mode)
+  (linum-mode)
+  (gcr/turn-on-r-hide-show)
   (lambda () (add-hook 'ess-presend-filter-functions
                        (lambda ()
                          (warn
                           "ESS now supports a standard pre-send filter hook. Please update your configuration to use it instead of using advice.")))))
 
 (add-hook 'ess-mode-hook 'gcr/ess-mode-hook)
+
+(defun gcr/turn-on-r-hide-show ()
+  "Attribution: SRC https://github.com/mlf176f2/EmacsMate/blob/master/EmacsMate-ess.org"
+  (when (string= "S" ess-language)
+    (set (make-local-variable 'hs-special-modes-alist) '((ess-mode "{" "}" "#" nil nil)))
+    (hs-minor-mode 1)
+    (when (fboundp 'foldit-mode)
+      (foldit-mode 1))
+    (when (fboundp 'fold-dwim-org/minor-mode)
+      (fold-dwim-org/minor-mode))))
 
 (defun gcr/Rd-mode-hook ()
   (gcr/ess-mode-hook))
@@ -1331,6 +1374,15 @@ Attribution: URL `http://www.masteringemacs.org/articles/2010/11/29/evaluating-e
   (gcr/ess-mode-hook))
 
 (add-hook 'inferior-ess-mode-hook 'gcr/inferior-ess-mode-hook)
+
+(defun gcr/ess-rdired-mode-hook ()
+  "Personal customizations."
+  (interactive)
+  (turn-on-stripe-buffer-mode)
+  (stripe-listify-buffer))
+
+(add-hook 'ess-rdired-mode-hook 'gcr/ess-rdired-mode-hook)
+(setq inferior-ess-primary-prompt "ℝ> ")
 (setq ess-keep-dump-files +1)
 (setq ess-delete-dump-files nil)
 (setq ess-mode-silently-save +1)
@@ -1371,7 +1423,7 @@ Attribution: URL `http://www.masteringemacs.org/articles/2010/11/29/evaluating-e
 (setq ess-eval-visibly 'nowait)
 (defun gcr/graphviz-dot-mode-hook ()
   "Personal mode bindings for Graphviz mode."
-  (fci-mode +1)
+  (fci-mode)
   (rainbow-mode)
   (visual-line-mode)
   (turn-on-real-auto-save))
@@ -1434,7 +1486,8 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
   (turn-on-real-auto-save)
   (fci-mode)
   (visual-line-mode)
-  (gcr/untabify-buffer-hook))
+  (gcr/untabify-buffer-hook)
+  (linum-mode))
 
 (add-hook 'js-mode-hook 'gcr/js-mode-hook)
 
@@ -1469,11 +1522,12 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
     (add-hook h 'gcr/untabify-buffer-hook)
     (add-hook h 'fci-mode)
     (add-hook h 'hs-minor-mode)
+    (add-hook h 'linum-mode)
     (add-hook h (function (lambda ()
                             (add-hook 'local-write-file-hooks
                                       'check-parens))))))
 (defun gcr/make-modehook ()
-  (fci-mode +1)
+  (fci-mode)
   (whitespace-turn-on)
   (rainbow-mode)
   (visual-line-mode)
@@ -1492,12 +1546,21 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
   (interactive))
 
 (add-hook 'markdown-mode-hook 'gcr/markdown-mode-hook)
+(defun gcr/occur-mode-hook ()
+  "Personal customizations."
+  (interactive)
+  (turn-on-stripe-buffer-mode)
+  (stripe-listify-buffer))
+
+(add-hook 'occur-mode-hook 'gcr/occur-mode-hook)
 (defun gcr/ruby-mode-hook ()
-  (fci-mode +1)
+  (fci-mode)
   (rainbow-mode)
   (gcr/untabify-buffer-hook)
   (turn-on-real-auto-save)
   (visual-line-mode)
+  (fci-mode)
+  (turn-on-smartparens-strict-mode)
   (local-set-key (kbd "RET") 'newline-and-indent))
 
 (add-hook 'ruby-mode-hook 'gcr/ruby-mode-hook)
@@ -1530,13 +1593,27 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
   (turn-on-real-auto-save)
   (gcr/untabify-buffer-hook)
   (gcr/disable-tabs)
-  (fci-mode +1)
+  (fci-mode)
   (whitespace-turn-on)
   (visual-line-mode)
   (hs-minor-mode)
   (local-set-key (kbd "RET") 'newline-and-indent))
 
 (add-hook 'sh-mode-hook 'gcr/sh-mode-hook)
+(defun gcr/shell-mode-hook ()
+  "Personalizations."
+  (interactive)
+  (rainbow-mode)
+  (turn-on-smartparens-strict-mode)
+  (turn-on-pretty-mode)
+  (gcr/disable-tabs)
+  (fci-mode)
+  (whitespace-turn-on)
+  (visual-line-mode)
+  (hs-minor-mode)
+  (local-set-key (kbd "RET") 'newline-and-indent))
+
+(add-hook 'shell-mode-hook 'gcr/shell-mode-hook)
 (require 'sml-mode)
 (defun gcr/sml-mode-hook ()
   "Personal settings."
@@ -1560,6 +1637,32 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
 (defadvice sml-prog-proc-load-file (before beforesml-prog-proc-load-file activate)
   (gcr/save-all-file-buffers))
 (require 'sqlup-mode)
+(require 'ctable)
+
+(defun gcr/ctbl:table-mode-hook ()
+  "Personal customization"
+  (interactive))
+
+(add-hook 'ctbl:table-mode-hook 'gcr/ctbl:table-mode-hook)
+(setq
+ gcr/tags/milwaukee-data-science
+ '(
+   "Algorithmic Trading"
+   "Big Data"
+   "Business Intelligence"
+   "Data Analysis and Modeling"
+   "Data Mining"
+   "Data Science"
+   "Data Visualization"
+   "Financial Engineering"
+   "Machine Learning"
+   "Mathematical Modelling"
+   "Predictive Analytics"
+   "Quantitative Analysis"
+   "Quantitative Finance"
+   "Risk Management"
+   "Statistical Computing"
+   ))
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
 (defun gcr/TeX-mode-hook ()
@@ -1605,7 +1708,7 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
   "Personal mode bindings for log-edit-mode."
   (gcr/untabify-buffer-hook)
   (gcr/disable-tabs)
-  (fci-mode +1))
+  (fci-mode))
 
 (add-hook 'log-edit-mode-hook 'gcr/log-edit-mode-hook)
 
@@ -1794,7 +1897,68 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
 (print (f-symlink? a-tmp-link))
 (require 'xml-rpc)
 (require 'metaweblog)
+(require 'uuid)
 (require 'figlet)
 (add-to-list 'figlet-fonts-dir-candidates "/usr/local/bin/")
 
-;; Fully\ Loaded\ System:1 ends here
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes (quote ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
+ '(display-time-world-list (quote (("America/Chicago" "Chicago") ("Asia/Kolkata" "Kolkata") ("Asia/Kuala_Lumpur" "Kuala Lumpur"))))
+ '(linum-format "%5d")
+ '(osx-browse-guess-keystrokes (quote ("s-b k")))
+ '(osx-browse-url-keystrokes (quote ("s-b u"))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+(gcr/on-gui
+  (defconst gcr/font-base "DejaVu Sans Mono" "The preferred font name.")
+  (require 'unicode-fonts)
+  (unicode-fonts-setup)
+  (defvar gcr/font-size 10 "The preferred font size.")
+  (gcr/on-osx (setq gcr/font-size 17))
+  (setq solarized-distinct-fringe-background +1)
+  (setq solarized-high-contrast-mode-line +1)
+  (setq solarized-use-less-bold +1)
+  (setq solarized-use-more-italic nil)
+  (setq solarized-emphasize-indicators nil)
+  (load-theme 'solarized-dark)
+  (require 'pretty-mode)
+  (setq make-pointer-invisible +1)
+  (defun gcr/font-ok-p ()
+    "Is the configured font valid?"
+    (interactive)
+    (member gcr/font-base (font-family-list)))
+  (defun gcr/font-name ()
+    "Compute the font name and size string."
+    (interactive)
+    (let* ((size (number-to-string gcr/font-size))
+           (name (concat gcr/font-base "-" size)))
+      name))
+  (defun gcr/update-font ()
+    "Updates the current font given configuration values."
+    (interactive)
+    (if (gcr/font-ok-p)
+        (progn
+          (message "Setting font to: %s" (gcr/font-name))
+          (set-default-font (gcr/font-name)))
+      (message (concat "Your preferred font is not available: " gcr/font-base))))
+  (defun gcr/text-scale-increase ()
+    "Increase font size"
+    (interactive)
+    (setq gcr/font-size (+ gcr/font-size 1))
+    (gcr/update-font))
+  (defun gcr/text-scale-decrease ()
+    "Reduce font size."
+    (interactive)
+    (when (> gcr/font-size 1)
+      (setq gcr/font-size (- gcr/font-size 1))
+      (gcr/update-font)))
+
+  (gcr/update-font))

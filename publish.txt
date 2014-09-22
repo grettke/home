@@ -6,7 +6,13 @@
 			     ______________
 
 
-1 Overview
+1 First
+=======
+
+  *Tangle this file*
+
+
+2 Overview
 ==========
 
   This *system* is defined by:
@@ -26,7 +32,7 @@
   publishing such that anyone may execute it.
 
 
-2 Version numbers
+3 Version numbers
 =================
 
   Release details:
@@ -34,8 +40,14 @@
   | (message "Emacs: %S\nOrg: %S" (emacs-version) (org-version))
   `----
 
+  ,----
+  | Emacs: "GNU Emacs 24.3.1 (x86_64-apple-darwin13.2.0, Carbon Version 1.6.0 AppKit 1265.2)
+  |  of 2014-07-03 on orion"
+  | Org: "8.2.7a"
+  `----
 
-3 Prepare
+
+4 Prepare
 =========
 
   Bootstrap with `.org-mode.emacs.el'.
@@ -65,23 +77,24 @@
   | rm ~/tmp/el-get.tgz
   | tar -czf ~/tmp/el-get.tgz ~/.emacs.d/el-get/
   | rm ~/tmp/ditaa0_9.jar
-  | cp ~/java/jar/ditaa0_9.jar ~/tmp
   `----
 
 
-4 Publish
+5 Publish
 =========
 
   This is manual publishing from my personal, private repository to a
   public repository. The intent to keep publicly accessible, /known
   good/ versions of the system available.
 
-  Originals:
+  *Originals:
   ,----
   | cp TC3F.org ~/git/github-grettke/home
   | cp Makefile ~/git/github-grettke/home
-  | cp Cask ~/git/github-grettke/home
+  | cp ~/.emacs.d/Cask ~/git/github-grettke/home
   | cp publish.txt ~/git/github-grettke/home
+  | cp ~/.Rprofile ~/git/github-grettke/home
+  | cp ~/.Renviron ~/git/github-grettke/home
   `----
 
   Weaved:

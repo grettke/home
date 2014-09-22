@@ -1,6 +1,4 @@
 
-;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Provisioning%20/%20Cask%20%5Bfn:0d825bc1:%20%5B%5BCask%5D%5Bhttps://github.com/cask/cask%5D%5D%5D%20/%20egl-get%20%5Bfn:9be5a727:%20https://github.com/dimitri/el-get%5D][Provisioning\ /\ Cask\ \ \[fn:0d825bc1:\ \[\[Cask\]\[https://github\.com/cask/cask\]\]\]\ /\ egl-get\ \[fn:9be5a727:\ https://github\.com/dimitri/el-get\]:1]]
-
 (source org)
 
 (depends-on "org-plus-contrib")
@@ -38,6 +36,8 @@
 (depends-on "boxquote")
 
 (depends-on "clips-mode")
+
+(depends-on "ctable")
 
 (depends-on "dash")
 
@@ -99,6 +99,8 @@
 
 (depends-on "hideshow-org")
 
+(depends-on "highlight-tail")
+
 (depends-on "htmlize")
 
 (depends-on "ibuffer-vc")
@@ -112,6 +114,8 @@
 (depends-on "imenu-anywhere")
 
 (depends-on "imenu+")
+
+(depends-on "inlineR")
 
 (depends-on "json-reformat")
 
@@ -132,6 +136,8 @@
 (depends-on "move-text")
 
 (depends-on "multiple-cursors")
+
+(depends-on "neotree")
 
 (depends-on "nyan-mode")
 
@@ -171,7 +177,11 @@
 
 (depends-on "sqlup-mode")
 
+(depends-on "stripe-buffer")
+
 (depends-on "sublimity")
+
+(depends-on "uuid")
 
 (depends-on "undo-tree")
 
@@ -185,6 +195,8 @@
 
 (depends-on "world-time-mode")
 
+(depends-on "wrap-region")
+
 (depends-on "xml-rpc")
 
 (depends-on "yasnippet")
@@ -192,5 +204,3 @@
 ;; Local Variables:
 ;; mode: emacs-lisp
 ;; End:
-
-;; Provisioning\ /\ Cask\ \ \[fn:0d825bc1:\ \[\[Cask\]\[https://github\.com/cask/cask\]\]\]\ /\ egl-get\ \[fn:9be5a727:\ https://github\.com/dimitri/el-get\]:1 ends here
