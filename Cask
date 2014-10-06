@@ -151,6 +151,10 @@
 
 (depends-on "pandoc-mode")
 
+(depends-on "plantuml-mode")
+
+(depends-on "polymode")
+
 (depends-on "popup")
 
 (depends-on "pos-tip")

@@ -6,13 +6,23 @@
 			     ______________
 
 
-1 First
+
+
+
+1 WARNING
+=========
+
+  On OSX, running this program under `script' destroys the directory
+  path and nothing works.
+
+
+2 First
 =======
 
   *Tangle this file*
 
 
-2 Overview
+3 Overview
 ==========
 
   This *system* is defined by:
@@ -32,7 +42,7 @@
   publishing such that anyone may execute it.
 
 
-3 Version numbers
+4 Version numbers
 =================
 
   Release details:
@@ -47,7 +57,7 @@
   `----
 
 
-4 Prepare
+5 Prepare
 =========
 
   Bootstrap with `.org-mode.emacs.el'.
@@ -76,18 +86,17 @@
   | tar -czf ~/tmp/cask-dist.tgz ~/.cask
   | rm ~/tmp/el-get.tgz
   | tar -czf ~/tmp/el-get.tgz ~/.emacs.d/el-get/
-  | rm ~/tmp/ditaa0_9.jar
   `----
 
 
-5 Publish
+6 Publish
 =========
 
   This is manual publishing from my personal, private repository to a
   public repository. The intent to keep publicly accessible, /known
   good/ versions of the system available.
 
-  *Originals:
+  *Originals*
   ,----
   | cp TC3F.org ~/git/github-grettke/home
   | cp Makefile ~/git/github-grettke/home
@@ -97,14 +106,14 @@
   | cp ~/.Renviron ~/git/github-grettke/home
   `----
 
-  Weaved:
+  *Weaved*
   ,----
   | cp TC3F.txt ~/git/github-grettke/home
   | cp TC3F.html ~/git/github-grettke/home
   | cp TC3F.pdf ~/git/github-grettke/home
   `----
 
-  Collected:
+  *Collected:*
   ,----
   | cp .emacs.el ~/git/github-grettke/home
   | cp .org-mode.emacs.el ~/git/github-grettke/home
@@ -114,7 +123,14 @@
   | cp ~/tmp/cask-dist.tgz ~/git/github-grettke/home
   | cp ~/tmp/el-get.tgz ~/git/github-grettke/home
   | cp $EELIB/ditaa0_9.jar ~/git/github-grettke/home
-  | cp auap.png ~/git/github-grettke/home
+  | cp $EELIB/plantuml.8008.jar ~/git/github-grettke/home
+  | cp *.png ~/git/github-grettke/home
   | rm -rf ~/git/github-grettke/home/fonts
   | cp -r fonts ~/git/github-grettke/home
   `----
+
+
+7 Commit
+========
+
+  Use the hash from the source in my private repository.

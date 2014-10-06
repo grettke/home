@@ -82,15 +82,22 @@
   (interactive)
   (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
 
+(defvar gcr/delete-trailing-whitespace-p t
+  "Should trailing whitespace be removed?")
+
 (defun gcr/delete-trailing-whitespace ()
-  "Apply delete-trailing-whitespace to everything but the current line."
+  "Delete trailing whitespace for everything but the current line.
+
+If `gcr/delete-trailing-whitespace-p' is non-nil, then delete the whitespace.
+This is useful for fringe cases where trailing whitespace is important."
   (interactive)
-  (let ((first-part-start (point-min))
-        (first-part-end (point-at-bol))
-        (second-part-start (point-at-eol))
-        (second-part-end (point-max)))
-    (delete-trailing-whitespace first-part-start first-part-end)
-    (delete-trailing-whitespace second-part-start second-part-end)))
+  (when gcr/delete-trailing-whitespace-p
+    (let ((first-part-start (point-min))
+          (first-part-end (point-at-bol))
+          (second-part-start (point-at-eol))
+          (second-part-end (point-max)))
+      (delete-trailing-whitespace first-part-start first-part-end)
+      (delete-trailing-whitespace second-part-start second-part-end))))
 
 (defun gcr/newline ()
   "Locally binds newline."
@@ -239,7 +246,7 @@ Attribution: URL `http://emacsredux.com/blog/2013/03/26/smarter-open-line/'"
       (goto-char (point-min))
       (funcall fun))))
 
-(defun gcr/set-org-system-header-arg (property value)
+(defun gcr/set-org-babel-default-header-args (property value)
   "Easily set system header arguments in org mode.
 
 PROPERTY is the system-wide value that you would like to modify.
@@ -250,6 +257,20 @@ Attribution: URL `http://orgmode.org/manual/System_002dwide-header-arguments.htm
   (setq org-babel-default-header-args
         (cons (cons property value)
               (assq-delete-all property org-babel-default-header-args))))
+
+(defun gcr/set-org-babel-default-inline-header-args (property value)
+  "See `gcr/set-org-babel-default-header-args'; same but for inline header args."
+  (setq org-babel-default-inline-header-args
+        (cons (cons property value)
+              (assq-delete-all property org-babel-default-inline-header-args))))
+
+(defun gcr/set-org-babel-default-header-args:R (property value)
+  "See `gcr/set-org-babel-default-header-args'; same but for R.
+
+This is a copy and paste. Additional languages would warrant a refactor."
+  (setq org-babel-default-header-args:R
+        (cons (cons property value)
+              (assq-delete-all property org-babel-default-header-args:R))))
 
 (defun gcr/insert-ellipsis ()
   "Insert an ellipsis into the current buffer."
@@ -424,6 +445,21 @@ Attribution: URL `https://github.com/hrs/dotfiles/blob/master/emacs.d/lisp/utils
   "Insert a string form of a UUID."
   (interactive)
   (insert (uuid-to-stringy (uuid-create))))
+(defun endless/indent-defun ()
+  "Indent current defun.
+
+Attribution: URL `http://endlessparentheses.com/permanent-auto-indentation.html'"
+  (interactive)
+  (let ((l (save-excursion (beginning-of-defun 1) (point)))
+        (r (save-excursion (end-of-defun 1) (point))))
+    (indent-region l r)))
+
+(defun endless/activate-aggressive-indent ()
+  "Locally add `endless/indent-defun' to `post-command-hook'.
+
+Attribution: URL `http://endlessparentheses.com/permanent-auto-indentation.html'"
+  (add-hook 'post-command-hook
+            #'endless/indent-defun nil 'local))
 (defconst gcr/cask-runtime "~/.cask/cask.el")
 (defconst gcr/cask-config "~/.emacs.d/Cask")
 (defun gcr/warn-cask-runtime ()
@@ -559,7 +595,6 @@ Attribution: URL `https://github.com/hrs/dotfiles/blob/master/emacs.d/lisp/utils
 (require 'key-chord)
 (key-chord-mode 1)
 (setq key-chord-two-keys-delay 0.1)
-;; if there is magic, then the x goes here →
 (gcr/on-osx
  (setq mac-control-modifier 'control)
  (setq mac-command-modifier 'meta)
@@ -579,8 +614,8 @@ Attribution: URL `https://github.com/hrs/dotfiles/blob/master/emacs.d/lisp/utils
 (key-chord-define-global (concat "O" "}") (lambda () (interactive) (insert "Ö")))
 (key-chord-define-global (concat "U" "{") (lambda () (interactive) (insert "ü")))
 (key-chord-define-global (concat "U" "}") (lambda () (interactive) (insert "Ü")))
-(key-chord-define-global (concat "<" "_") (lambda () (interactive) (insert "←")))
-(key-chord-define-global (concat "_" ">") (lambda () (interactive) (insert "→")))
+(global-set-key (kbd "C-,") (lambda () (interactive) (insert "←")))
+(global-set-key (kbd "C-.") (lambda () (interactive) (insert "→")))
 (key-chord-define-global "<<" (lambda () (interactive) (insert "«")))
 (key-chord-define-global ">>" (lambda () (interactive) (insert "»")))
 (key-chord-define-global "jk" 'ace-jump-mode)
@@ -622,6 +657,7 @@ Attribution: URL `https://github.com/hrs/dotfiles/blob/master/emacs.d/lisp/utils
 (global-set-key (kbd "C-4") 'ido-switch-buffer)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "s-u dse") (lambda () (interactive) (insert "𝔼")))
+;; if there is magic, then the x goes here →
 (global-set-key (kbd "s-u dsr") (lambda () (interactive) (insert "ℝ")))
 (global-set-key (kbd "M-7") 'gcr/insert-datestamp)
 (global-set-key (kbd "s-7") 'gcr/insert-timestamp*)
@@ -655,6 +691,35 @@ Attribution: URL `https://github.com/hrs/dotfiles/blob/master/emacs.d/lisp/utils
 (add-to-list 'auto-mode-alist '("\\.asc" . artist-mode))
 (add-to-list 'auto-mode-alist '("\\.art" . artist-mode))
 (add-to-list 'auto-mode-alist '("\\.asc" . artist-mode))
+(defconst gcr/plantuml-jar (concat (expand-file-name (getenv "EELIB")) "/plantuml.8008.jar"))
+(defun gcr/warn-plantuml-jar ()
+  "Warn of plantuml misconfiguration."
+  (interactive)
+  (unless (f-exists? gcr/plantuml-jar)
+    (warn
+     "Can't seem to find a plantuml jar where it was expected at: %S. Plantuml will not function without it. Download a copy here: http://plantuml.sourceforge.net/"
+     gcr/plantuml-jar)))
+(gcr/warn-plantuml-jar)
+(setq plantuml-jar-path gcr/plantuml-jar)
+(require 'plantuml-mode)
+(eval-after-load "ob-plantuml"
+  (setq org-plantuml-jar-path gcr/plantuml-jar))
+(defun gcr/plantuml-mode-hook ()
+  "Personal settings."
+  (interactive)
+  (turn-on-pretty-mode)
+  (rainbow-mode)
+  (turn-on-smartparens-strict-mode)
+  (local-set-key (kbd "RET") 'newline-and-indent)
+  (turn-on-real-auto-save)
+  (gcr/untabify-buffer-hook)
+  (gcr/disable-tabs)
+  (fci-mode)
+  (hs-minor-mode)
+  (linum-mode)
+  (wrap-region-mode t)
+  (turn-on-stripe-table-mode))
+(add-hook 'plantuml-mode-hook 'gcr/plantuml-mode-hook)
 (setq org-edit-src-code nil)
 (setq org-list-allow-alphabetical +1)
 (require 'org)
@@ -670,7 +735,7 @@ Attribution: URL `https://github.com/hrs/dotfiles/blob/master/emacs.d/lisp/utils
       (if (not (f-exists? fil))
           (warn "You wanted %S to exist, but it doesn't. Fix this." fil)
         (load fil)))))
-(defconst gcr/org-version "8.2.7c")
+(defconst gcr/org-version "8.2.8")
 
 (defun gcr/warn-org-version ()
   "Warn of org misconfiguration."
@@ -735,7 +800,6 @@ Attribution: URL `https://github.com/hrs/dotfiles/blob/master/emacs.d/lisp/utils
    (scheme . t)
    (sh . t)
    (sml . t)))
-(setq org-confirm-babel-evaluate nil)
 (setq org-babel-use-quick-and-dirty-noweb-expansion nil)
 (setq org-src-fontify-natively nil)
 (setq org-src-preserve-indentation +1)
@@ -751,6 +815,9 @@ Attribution: URL `https://github.com/hrs/dotfiles/blob/master/emacs.d/lisp/utils
 (add-to-list
  'org-structure-template-alist
  '("r" "#+begin_src R\n?\n#+end_src" "<src lang=\"R\"></src>"))
+(add-to-list
+ 'org-structure-template-alist
+ '("p" "#+begin_src plantuml\n?\n#+end_src" "<src lang=\"plantuml\"></src>"))
 (defadvice org-babel-tangle (before org-babel-tangle-before activate)
   (gcr/save-all-file-buffers)
   (message (concat "org-babel-tangle BEFORE: <"
@@ -818,7 +885,6 @@ Attribution: URL `https://github.com/hrs/dotfiles/blob/master/emacs.d/lisp/utils
         (--filter (member (car it) allowed)
                   org-babel-common-header-args-w-values)))
   (setq org-babel-common-header-args-w-values new-ls))
-(setq org-export-babel-evaluate 'inline-only)
 (setq org-babel-min-lines-for-block-output 0)
 (setq org-edit-src-auto-save-idle-delay 1)
 (setq org-src-window-setup 'current-window)
@@ -826,9 +892,33 @@ Attribution: URL `https://github.com/hrs/dotfiles/blob/master/emacs.d/lisp/utils
 (setq org-babel-no-eval-on-ctrl-c-ctrl-c +1)
 (setq org-babel-noweb-wrap-start "«")
 (setq org-babel-noweb-wrap-end "»")
-(gcr/set-org-system-header-arg :comments "no")
-(gcr/set-org-system-header-arg :results "output")
-(gcr/set-org-system-header-arg :exports "both")
+(defun gcr/org-edit-src-code-plus-name ()
+  "Edit the well-described source code block.
+
+Attribution: URL `https://lists.gnu.org/archive/html/emacs-orgmode/2014-09/msg00778.html'"
+  (interactive)
+  (let* ((eop  (org-element-at-point))
+         (name (or (org-element-property :name (org-element-context eop))
+                  "ॐ"))
+         (lang (org-element-property :language eop))
+         (buff-name (concat "*Org Src " name "[" lang "]*")))
+    (org-edit-src-code nil nil buff-name)))
+(defadvice vc-next-action (before vc-next-action-in-org-src-block last activate)
+  "If in org source block, exit it."
+  (when (condition-case nil
+            (org-src-in-org-buffer)
+          (error nil))
+    (org-edit-src-exit)))
+(gcr/set-org-babel-default-header-args :comments "no")
+(gcr/set-org-babel-default-header-args :results "output replace")
+(gcr/set-org-babel-default-header-args :exports "both")
+(gcr/set-org-babel-default-header-args :noweb "no-export")
+(setq org-confirm-babel-evaluate nil)
+(gcr/set-org-babel-default-header-args :eval "always")
+(setq org-export-babel-evaluate 'inline-only)
+(gcr/set-org-babel-default-inline-header-args :eval "always")
+(gcr/set-org-babel-default-inline-header-args :results "value replace")
+(gcr/set-org-babel-default-header-args:R :session "*R*")
 (add-to-list 'ispell-skip-region-alist '("^#\\+begin_src ". "#\\+end_src$"))
 (add-to-list 'ispell-skip-region-alist '("^#\\+BEGIN_SRC ". "#\\+END_SRC$"))
 (add-to-list 'ispell-skip-region-alist '("^#\\+begin_example ". "#\\+end_example$"))
@@ -866,24 +956,27 @@ Attribution: URL `https://github.com/hrs/dotfiles/blob/master/emacs.d/lisp/utils
         "STARTUP"
         "TITLE")
     (gcr/ispell-a2isra (gcr/ispell-org-header-lines-regexp it))))
+(define-key org-mode-map (kbd "C-,") (lambda () (interactive) (insert " \\larr ")))
 (defun gcr/org-mode-hook ()
   (local-set-key (kbd "C-1") 'org-narrow-to-subtree)
   (local-set-key (kbd "M-1") 'widen)
-  (local-set-key (kbd "C-2") 'org-edit-special)
+  (local-set-key (kbd "C-2") 'gcr/org-edit-src-code-plus-name)
   (local-set-key (kbd "s-h") 'org-babel-check-src-block)
-  (local-set-key (kbd "s-j") 'org-babel-demarcate-block)
   (local-set-key (kbd "s-a i") 'org-babel-insert-header-arg)
-  (local-set-key (kbd "s-k") 'org-babel-previous-src-block)
-  (local-set-key (kbd "s-l") 'org-babel-next-src-block)
+  (local-set-key (kbd "s-j") 'org-babel-previous-src-block)
+  (local-set-key (kbd "s-k") 'org-babel-next-src-block)
+  (local-set-key (kbd "s-l") 'org-babel-demarcate-block)
   (local-set-key (kbd "s-;") 'org-babel-view-src-block-info)
   (local-set-key (kbd "s-b s") 'org-babel-switch-to-session)
   (local-set-key (kbd "s-b c") 'org-babel-switch-to-session-with-code)
-  (local-set-key (kbd "s-x") 'org-babel-do-key-sequence-in-edit-buffer)
-  (local-set-key (kbd "s-t") 'org-babel-tangle)
-  (local-set-key (kbd "s-w") 'org-babel-execute-buffer)
   (local-set-key (kbd "s-e") 'org-babel-execute-maybe)
+  (local-set-key (kbd "s-t") 'org-babel-tangle)
+  (local-set-key (kbd "s-x") 'org-babel-do-key-sequence-in-edit-buffer)
+  (local-set-key (kbd "s-w w") 'org-export-dispatch)
+  (local-set-key (kbd "s-<f5>") 'org-babel-execute-buffer)
   (local-set-key (kbd "s-i d") 'org-display-inline-images)
   (local-set-key (kbd "s-i r") 'org-remove-inline-images)
+  (local-set-key (kbd "C-.") (lambda () (interactive) (insert " \\rarr ")))
   (turn-on-real-auto-save)
   (when (and (fboundp 'guide-key-mode) guide-key-mode)
     (guide-key/add-local-guide-key-sequence "C-c")
@@ -1259,13 +1352,14 @@ Attribution: URL `https://github.com/hrs/dotfiles/blob/master/emacs.d/lisp/utils
   (gcr/elisp-mode-local-bindings)
   (lexbind-mode)
   (turn-on-eldoc-mode)
-  (gcr/diminish 'eldoc-mode))
+  (gcr/diminish 'eldoc-mode)
+  (endless/activate-aggressive-indent))
 
 (add-hook 'emacs-lisp-mode-hook 'gcr/emacs-lisp-mode-hook)
 
 (setq initial-scratch-message nil)
 (require 'ess-site)
-(defconst gcr/ess-version "14.08")
+(defconst gcr/ess-version "14.09")
 
 (defun gcr/warn-ess-version ()
   "Warn of ess misconfiguration."
@@ -1299,7 +1393,7 @@ Attribution: URL `https://github.com/hrs/dotfiles/blob/master/emacs.d/lisp/utils
 (setq inferior-R-program-name "R")
 (setq ess-local-process-name "R")
 (setq inferior-S-prompt "[]a-zA-Z0-9.[]*\\(?:[>+.] \\)*ℝ+> ")
-(setq inferior-ess-same-window t)
+(setq inferior-ess-same-window nil)
 (setq inferior-ess-own-frame nil)
 (setq ess-help-own-frame nil)
 (setq ess-ask-for-ess-directory nil)
@@ -1323,6 +1417,7 @@ Attribution: URL `https://github.com/hrs/dotfiles/blob/master/emacs.d/lisp/utils
 (setq r-autoyas-debug t)
 (setq r-autoyas-expand-package-functions-only nil)
 (setq r-autoyas-remove-explicit-assignments nil)
+(setq ess-ac-R-argument-suffix "=")
 (defun gcr/ess-mode-hook ()
   (local-set-key (kbd "s-e") 'ess-switch-to-end-of-ESS)
   (local-set-key (kbd "s-x") 'r-autoyas-expand)
@@ -1331,8 +1426,12 @@ Attribution: URL `https://github.com/hrs/dotfiles/blob/master/emacs.d/lisp/utils
   (local-set-key (kbd "s-v d") 'ess-rdired)
   (local-set-key (kbd "s-v cc") 'ess-R-dv-ctable)
   (local-set-key (kbd "s-v cp") 'ess-R-dv-pprint)
-  (local-set-key (kbd "C-,") (lambda () (interactive) (insert " <<- ")))
-  (local-set-key (kbd "C-.") (lambda () (interactive) (insert " ->> ")))
+  (setq ess-S-assign-key (kbd "C-,"))
+  (ess-toggle-S-assign-key t)
+  (ess-toggle-underscore nil)
+  (local-set-key (kbd "C-.") (lambda () (interactive) (insert " -> ")))
+  (local-set-key (kbd "C-M-,") (lambda () (interactive) (insert " <<- ")))
+  (local-set-key (kbd "C-M-.") (lambda () (interactive) (insert " ->> ")))
   (local-set-key (kbd "C-8") (lambda () (interactive) (insert " %<>% ")))
   (local-set-key (kbd "C-9") (lambda () (interactive) (insert " %>% ")))
   (local-set-key (kbd "C-0") 'ess-eval-buffer)
@@ -1348,10 +1447,11 @@ Attribution: URL `https://github.com/hrs/dotfiles/blob/master/emacs.d/lisp/utils
   (hs-minor-mode)
   (linum-mode)
   (gcr/turn-on-r-hide-show)
+  (endless/activate-aggressive-indent)
   (lambda () (add-hook 'ess-presend-filter-functions
-                       (lambda ()
-                         (warn
-                          "ESS now supports a standard pre-send filter hook. Please update your configuration to use it instead of using advice.")))))
+                  (lambda ()
+                    (warn
+                     "ESS now supports a standard pre-send filter hook. Please update your configuration to use it instead of using advice.")))))
 
 (add-hook 'ess-mode-hook 'gcr/ess-mode-hook)
 
@@ -1530,7 +1630,6 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
   (fci-mode)
   (whitespace-turn-on)
   (rainbow-mode)
-  (visual-line-mode)
   (turn-on-real-auto-save)
   (visual-line-mode)
   (local-set-key (kbd "RET") 'newline-and-indent))
@@ -1539,11 +1638,17 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
 (autoload 'markdown-mode "markdown-mode"
   "Major mode for editing Markdown files" +1)
 
-(add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
+(add-to-list 'auto-mode-alist '("\.markdown'" . gfm-mode))
+(add-to-list 'auto-mode-alist '("\.md'" . gfm-mode))
 
 (defun gcr/markdown-mode-hook ()
   "Markdown mode customizations."
-  (interactive))
+  (interactive)
+  (fci-mode)
+  (rainbow-mode)
+  (visual-line-mode)
+  (turn-on-real-auto-save)
+  (local-set-key (kbd "RET") 'newline-and-indent))
 
 (add-hook 'markdown-mode-hook 'gcr/markdown-mode-hook)
 (defun gcr/occur-mode-hook ()
@@ -1553,6 +1658,20 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
   (stripe-listify-buffer))
 
 (add-hook 'occur-mode-hook 'gcr/occur-mode-hook)
+(require 'poly-R)
+(require 'poly-markdown)
+(add-to-list 'auto-mode-alist '("\\.Rmd" . poly-markdown+r-mode))
+(define-key polymode-mode-map (kbd "s-e E") 'polymode-set-exporter)
+(define-key polymode-mode-map (kbd "s-e e") 'polymode-weave)
+(define-key polymode-mode-map (kbd "s-w s") 'polymode-set-weaver)
+(define-key polymode-mode-map (kbd "s-w w") 'polymode-weave)
+(define-key polymode-mode-map (kbd "s-w p") 'polymode-show-process-buffer)
+(define-key polymode-mode-map (kbd "s-j") 'polymode-previous-chunk)
+(define-key polymode-mode-map (kbd "s-k") 'polymode-next-chunk)
+(define-key polymode-mode-map (kbd "s-o k") 'polymode-kill-chunk)
+(define-key polymode-mode-map (kbd "s-o i") 'polymode-insert-new-chunk)
+(define-key polymode-mode-map (kbd "s-o m") 'polymode-mark-or-extend-chunk)
+(define-key polymode-mode-map (kbd "s-o t") 'polymode-toggle-chunk-narrowing)
 (defun gcr/ruby-mode-hook ()
   (fci-mode)
   (rainbow-mode)

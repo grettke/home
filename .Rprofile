@@ -33,6 +33,9 @@ library(tidyr)
 library(lubridate)
 library(plyr)
 library(dplyr)
+library(testit)
+library(knitr)
+library(fortunes)
 .First <- function() {
     gcr <- new.env()
     gcr$attach.unsafe <- attach
@@ -80,3 +83,4 @@ library(dplyr)
     }
     base::attach(gcr, name="gcr", warn.conflicts = FALSE)
 }
+fortune()

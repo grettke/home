@@ -1,4 +1,4 @@
- # -- Default template
+# -- Default template
 #+TITLE: The care and conservation of computer files (TC3F)
 #+DATE: <2014-02-24 MON>
 #+AUTHOR: Grant Rettke
@@ -1863,6 +1863,10 @@ of the worlds symbols, it comes close. [fn:01abb328: https://www.gnu.org/softwar
 
 #+end_src
 
+The value =default-process-coding-system= seems to be set automatically, and it is
+worth noting here that two things need to be set namely buffer coding and
+process coding and that both seem to be set [fn:96d1a4e4: http://permalink.gmane.org/gmane.emacs.ess.general/8332].
+
 Emacs has a powerful buffer tracking change system. Unfortunately, I don't
 understand any of it. Undo should "just work".
 #+begin_src emacs-lisp
@@ -2236,7 +2240,6 @@ key-chord [fn:da0b6980: http://mela.milkbox.net/#/key-chord].
 (require 'key-chord)
 (key-chord-mode 1)
 (setq key-chord-two-keys-delay 0.1)
-;; if there is magic, then the x goes here →
 #+end_src
 
 Just remember that if you are in another place via Emacs, like via Eshell for
@@ -2459,8 +2462,8 @@ German umlauts for a, o, and u:
 
 Arrows, so many:
 #+begin_src emacs-lisp
-(key-chord-define-global (concat "<" "_") (lambda () (interactive) (insert "←")))
-(key-chord-define-global (concat "_" ">") (lambda () (interactive) (insert "→")))
+(global-set-key (kbd "C-,") (lambda () (interactive) (insert "←")))
+(global-set-key (kbd "C-.") (lambda () (interactive) (insert "→")))
 #+end_src
 
 Nice for UML, and French?
@@ -2575,6 +2578,8 @@ Surprisingly you swap lines enough to justify automating it.
 (global-set-key (kbd "s-l k") 'gcr/move-line-down)
 #+end_src
 
+
+
 **** SLIGHTLY-DISRUPTIVE
 
 smex integration points:
@@ -2654,6 +2659,7 @@ Make it easy to unter Unicode stuff.
 
 #+begin_src emacs-lisp
 (global-set-key (kbd "s-u dse") (lambda () (interactive) (insert "𝔼")))
+;; if there is magic, then the x goes here →
 (global-set-key (kbd "s-u dsr") (lambda () (interactive) (insert "ℝ")))
 #+end_src
 
@@ -3513,7 +3519,8 @@ that, =pp-eval-expression= is even better. Michael Heerdegen shared his solution
   (gcr/elisp-mode-local-bindings)
   (lexbind-mode)
   (turn-on-eldoc-mode)
-  (gcr/diminish 'eldoc-mode))
+  (gcr/diminish 'eldoc-mode)
+  (endless/activate-aggressive-indent))
 
 (add-hook 'emacs-lisp-mode-hook 'gcr/emacs-lisp-mode-hook)
 
@@ -3567,7 +3574,7 @@ In it:
 - Check that =ess= is installed with a call to =ess-version=.
 
 #+begin_src emacs-lisp
-(defconst gcr/ess-version "14.08")
+(defconst gcr/ess-version "14.09")
 
 (defun gcr/warn-ess-version ()
   "Warn of ess misconfiguration."
@@ -3831,7 +3838,7 @@ Handle the custom ℝ prompt in =ess=. Don't use custom here.
 
 Always start =ess= within the curent =emacs= frame, it doesn't need to be separate.
 #+begin_src emacs-lisp
-(setq inferior-ess-same-window t)
+(setq inferior-ess-same-window nil)
 (setq inferior-ess-own-frame nil)
 #+end_src
 
@@ -3929,6 +3936,15 @@ For a while I used =ess-eval-buffer-and-go=, but now I know that it is insanely
 faster to use =ess-eval-buffer= instead. Previously I've read people saying that,
 and it is true.
 
+Save two spaces showing function information in the mini-buffer.
+#+begin_src emacs-lisp
+(setq ess-ac-R-argument-suffix "=")
+#+end_src
+
+When I started to standardize arrows across modes, I recalled teh =ess=
+documentation and was also reminded [fn:645cef99: http://www.r-bloggers.com/a-small-customization-of-ess/]
+here how easy it is to customize it.
+
 #+begin_src emacs-lisp
 (defun gcr/ess-mode-hook ()
   (local-set-key (kbd "s-e") 'ess-switch-to-end-of-ESS)
@@ -3938,8 +3954,12 @@ and it is true.
   (local-set-key (kbd "s-v d") 'ess-rdired)
   (local-set-key (kbd "s-v cc") 'ess-R-dv-ctable)
   (local-set-key (kbd "s-v cp") 'ess-R-dv-pprint)
-  (local-set-key (kbd "C-,") (lambda () (interactive) (insert " <<- ")))
-  (local-set-key (kbd "C-.") (lambda () (interactive) (insert " ->> ")))
+  (setq ess-S-assign-key (kbd "C-,"))
+  (ess-toggle-S-assign-key t)
+  (ess-toggle-underscore nil)
+  (local-set-key (kbd "C-.") (lambda () (interactive) (insert " -> ")))
+  (local-set-key (kbd "C-M-,") (lambda () (interactive) (insert " <<- ")))
+  (local-set-key (kbd "C-M-.") (lambda () (interactive) (insert " ->> ")))
   (local-set-key (kbd "C-8") (lambda () (interactive) (insert " %<>% ")))
   (local-set-key (kbd "C-9") (lambda () (interactive) (insert " %>% ")))
   (local-set-key (kbd "C-0") 'ess-eval-buffer)
@@ -3955,10 +3975,11 @@ and it is true.
   (hs-minor-mode)
   (linum-mode)
   (gcr/turn-on-r-hide-show)
+  (endless/activate-aggressive-indent)
   (lambda () (add-hook 'ess-presend-filter-functions
-                       (lambda ()
-                         (warn
-                          "ESS now supports a standard pre-send filter hook. Please update your configuration to use it instead of using advice.")))))
+                  (lambda ()
+                    (warn
+                     "ESS now supports a standard pre-send filter hook. Please update your configuration to use it instead of using advice.")))))
 
 (add-hook 'ess-mode-hook 'gcr/ess-mode-hook)
 
@@ -4142,17 +4163,18 @@ won't include this.
      :END:
 
 *.Rprofile*
-#+begin_src R :tangle ~/.Rprofile :noweb tangle
+#+begin_src R :tangle ~/.Rprofile
 «rprofile-def»
 .First <- function() {
     gcr <- new.env()
     «rfirst-defs»
     base::attach(gcr, name="gcr", warn.conflicts = FALSE)
 }
+fortune()
 #+end_src
 
 *.Renviron*
-#+begin_src sh :tangle ~/.Renviron :noweb tangle
+#+begin_src sh :tangle ~/.Renviron
 «renviron-def»
 #+end_src
 
@@ -4261,6 +4283,8 @@ Sys.setlocale("LC_MESSAGES", "en_US.UTF-8")
 
 ******** Packages
 
+********* assertthat
+
 Design-by-contract  [fn:bc0c6d68: http://cran.r-project.org/web/packages/assertthat/index.html
 ] is a great, great thing. Make it much easier with valuable
 functionsand useful messages!
@@ -4285,6 +4309,8 @@ Cheatsheet:
 #+begin_src R
 library(assertthat)
 #+end_src
+
+********* testthat
 
 Design-by-contract and unit-tests [fn:d61c81a6: http://cran.r-project.org/web/packages/testthat/index.html]
 go hand-in-hand.
@@ -4327,12 +4353,16 @@ Expectations:
 library(testthat)
 #+end_src
 
+********* stringr
+
 Make it really easy to work with strings [fn:bb2c9d86: http://cran.r-project.org/web/packages/stringr/index.html]. That is indeed a good goal, and
 the reason that I installed this initially was because =testthat= mentions that
 it is used.
 #+begin_src R
 library(stringr)
 #+end_src
+
+********* sqldf
 
 How you extract data from a dataframe is flexible and everyone can and may do it
 differently. One option available is to use =SQL= [fn:2e49b888: http://cran.r-project.org/web/packages/sqldf/index.html], so make it available.
@@ -4530,7 +4560,6 @@ Notes from the official site [fn:078aba0c: https://code.google.com/p/sqldf/]
   - Example 15. Use of RSQLite.extfuns library functions
   - Example 16. Moving Average
 
-
 SQLite, SQL As Understood By SQLite:
 - [[https://www.sqlite.org/lang_corefunc.html][Core Functions]]
 - [[https://www.sqlite.org/lang_aggfunc.html][Aggregate Functions]]
@@ -4541,6 +4570,8 @@ SQLite, SQL As Understood By SQLite:
 library(sqldf)
 #+end_src
 
+********* MASS
+
 "Functions and datasets to support Venables and Ripley, 'Modern Applied
 Statistics with S' (4th edition, 2002)." Also, =sqldf= recommended it be
 installed, so it is the right time. [fn:4d284c54: http://cran.r-project.org/web/packages/MASS/index.html]
@@ -4549,12 +4580,16 @@ installed, so it is the right time. [fn:4d284c54: http://cran.r-project.org/web/
 library(MASS)
 #+end_src
 
+********* jsonlite
+
 Make it easy to work with JSON [37138455: http://cran.r-project.org/web/packages/jsonlite/index.html].
 Reading the vignette's, it does a lot more, for example =rbind.pages=.
 
 #+begin_src R
 library(jsonlite)
 #+end_src
+
+********* data.table
 
 =data.table= [fn:de30b846: http://cran.r-project.org/web/packages/data.table/index.html ]
 is quite nice.
@@ -4563,17 +4598,23 @@ is quite nice.
 library(data.table)
 #+end_src
 
+********* xlsx
+
 Read and write Excel files [fn:ed7756d2: http://cran.r-project.org/web/packages/xlsx/index.html].
 
 #+begin_src R
 library(xlsx)
 #+end_src
 
+********* XML
+
 Make ℝ truly enterprise [fn:bf8a1f82: http://cran.r-project.org/web/packages/XML/index.html].
 
 #+begin_src R
 library(XML)
 #+end_src
+
+********* magrittr
 
 This is a add from the /most understated package definition/ of the year
 department. =magrittr= [fn:73ee53da: http://cran.r-project.org/web/packages/magrittr/index.html]
@@ -4587,6 +4628,8 @@ devtools::install_github("smbache/magrittr")
 #+begin_src R
 library(magrittr)
 #+end_src
+
+********* devtools
 
 =devtools=: Tools to make developing ℝ code easier
 
@@ -4616,6 +4659,8 @@ devtools::install_github("devtools")
 library(devtools)
 #+end_src
 
+********* reshape2
+
 =reshape2=: Flexibly reshape data: a reboot of the =reshape= package
 
 #+begin_quote
@@ -4629,6 +4674,8 @@ This seems to be a defacto standard.
 #+begin_src R
 library(reshape2)
 #+end_src
+
+********* tidyr
 
 =tidyr=: Easily tidy data with spread and gather functions for ℝ
 
@@ -4648,6 +4695,8 @@ devtools::install_github("hadley/tidyr")
 library(tidyr)
 #+end_src
 
+********* lubridate
+
 lubridate: Make dealing with dates a little easier in ℝ
 
 #+begin_quote
@@ -4663,6 +4712,8 @@ library(lubridate)
 Perhaps in some /time/ there will be a unified approach to time-management among
 all programming languages.
 
+********* plyr
+
 plyr: Tools for splitting, applying and combining data in R
 
 #+begin_quote
@@ -4675,7 +4726,9 @@ plyr: Tools for splitting, applying and combining data in R
 library(plyr)
 #+end_src
 
-dplyr: dplyr: a grammar of data manipulation in R
+********* dplyr
+
+dplyr: a grammar of data manipulation in R
 
 #+begin_quote
 [[http://cran.r-project.org/web/packages/dplyr/index.html][A fast, consistent tool]] for working with data frame like objects, both in memory and out of memory.
@@ -4685,6 +4738,66 @@ dplyr: dplyr: a grammar of data manipulation in R
 
 #+begin_src R
 library(dplyr)
+#+end_src
+
+********* testit
+
+testit: A simple package for testing R packages
+
+[[https://github.com/yihui/testit][GitHub]]. [[http://cran.rstudio.com/web/packages/testit/index.html][CRAN]]. [[http://cran.rstudio.com/web/packages/testit/testit.pdf][Manual]].
+
+Gives you =assert= and =test_pkg=. Save characters.
+
+#+begin_src R
+library(testit)
+#+end_src
+
+********* knitr
+
+knitr: A general-purpose package for dynamic report generation in R
+
+Read the [[http://yihui.name/knitr/][home page]]. It has great resources.
+
+Watched [[https://www.screenr.com/qcv8][the video]]. Very nice to see; comfortable and familiar. Need to set up
+RStudio for it. Clearly a critical tool. Cites Knuth.
+
+Features are amazingly understated. If you've worked with all of these tools,
+you will appreciate the importance of the author's effort!
+
+=Objects=, =Options=, =Hooks=, and =Patterns= … what is this, Emacs?
+
+There are demo [[http://yihui.name/knitr/demos][links]]. There is a [[https://github.com/yihui/knitr-examples][project for examples]]. This [[http://yihui.name/knitr/demo/showcase/][showcase]] has links
+to websites, book reviews, solutions, R packages, courses, workshops and
+presentations, books, papers and reports, wrappers, and blog posts on =knitr=.
+
+[[https://github.com/yihui/knitr][Here]] is the GitHub project. Read the motivations and see the hours and days and
+weeks that you have had spared! Uses =testit=, so read up on that and added it.
+
+Read the [[https://github.com/yihui/knitr/blob/master/FAQ.md][Frequently Asked Questions]]. Joined the [[https://groups.google.com/forum/#!forum/knitr][mailing list]]. =ess= supports it.
+Sure that I can configure the custom prompt. Great =README=.
+
+[[http://cran.r-project.org/web/packages/knitr/index.html][CRAN]] as expected. Much better summary eg HTML, Makrdown, reStructuredText, and
+AsciiDoc are mentioned. Curious about the cacheing, and how I would do it in
+=org=. Custom code to run before and after a hunk are another thoughtful touch one
+would expect coming from =org=. Also support Python and shell. The LaTeX and LyX
+support is also pretty neat. Same [[http://cran.r-project.org/web/packages/knitr/README.html][READM]]E. [[http://cran.r-project.org/web/packages/knitr/knitr.pdf][Reference]].
+
+Somehow missed the [[http://cran.r-project.org/web/packages/knitr/vignettes/knitr-refcard.pdf][reference card]] initially.
+
+[[http://yihui.name/knitr/demo/vignette/][How to build package vignettes with knitr]].
+
+#+begin_src R
+library(knitr)
+#+end_src
+
+********* fortunes
+
+R Fortunes.
+
+[[http://cran.r-project.org/web/packages/fortunes/index.html][CRAN]].
+
+#+begin_src R
+library(fortunes)
 #+end_src
 
 ******* .First
@@ -4804,6 +4917,13 @@ Install all packages to my home directory [fn:daab690d: http://www.r-bloggers.co
 R_LIBS=~/.Rpackages
 #+end_src
 
+For the time being, GUI work will only be performed on OSX so utilize OSX's
+renderer [91578029: http://emacs.1067599.n5.nabble.com/unable-to-start-device-X11-td330804.html].
+
+#+begin_src R
+R_INTERACTIVE_DEVICE=quartz
+#+end_src
+
 ***** Eshell [fn:063471c9: https://www.gnu.org/software/emacs/manual/html_mono/eshell.html] [fn:46b52b8f: http://www.masteringemacs.org/articles/2010/12/13/complete-guide-mastering-eshell/] [fn:ed7a113f: http://www.khngai.com/emacs/eshell.php]
 
 If you've never learned bash or Korn or c-shell, then you are missing out on
@@ -4832,7 +4952,7 @@ curses by adding it to to =eshell-visual-commands=.
      :noweb-ref: ignore-eshells-config
      :END:
 
-#+begin_src sh :tangle eshell/alias :noweb tangle
+#+begin_src sh :tangle eshell/alias
 alias clear recenter 0
 alias d 'dired $1'
 alias g git $*
@@ -5473,7 +5593,6 @@ Well, that is me, so I am going to install it too.
   (fci-mode)
   (whitespace-turn-on)
   (rainbow-mode)
-  (visual-line-mode)
   (turn-on-real-auto-save)
   (visual-line-mode)
   (local-set-key (kbd "RET") 'newline-and-indent))
@@ -5488,17 +5607,24 @@ Markdown usage will be mostly limited to working with files on Github so I
 turned on Github Flavored Markdown [fn:0b358cc2: https://help.github.com/articles/github-flavored-markdown] mode for README.md
 files that are likely to appear on Github. That is fine and it doesn't interfere
 with normal Markdown and also I'm getting more interested in Pandoc so it is
-nice to have normal Markdown available easily here.
+nice to have normal Markdown available easily here. GFM seems is in the release
+now.
 
 #+begin_src emacs-lisp
 (autoload 'markdown-mode "markdown-mode"
   "Major mode for editing Markdown files" +1)
 
-(add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
+(add-to-list 'auto-mode-alist '("\.markdown'" . gfm-mode))
+(add-to-list 'auto-mode-alist '("\.md'" . gfm-mode))
 
 (defun gcr/markdown-mode-hook ()
   "Markdown mode customizations."
-  (interactive))
+  (interactive)
+  (fci-mode)
+  (rainbow-mode)
+  (visual-line-mode)
+  (turn-on-real-auto-save)
+  (local-set-key (kbd "RET") 'newline-and-indent))
 
 (add-hook 'markdown-mode-hook 'gcr/markdown-mode-hook)
 #+end_src
@@ -5525,6 +5651,109 @@ Make it really easy to read search results!
 
 Heard good things about =pandoc-mode= [fn:0cacccd8: https://github.com/joostkremers/pandoc-mode] and I am really looking forward to
 finding where dharma leads me with this. The mode documentation is here [fn:592907bc: https://joostkremers.github.io/pandoc-mode/].
+
+***** Polymode [fn:918c4a07: https://github.com/vitoshka/polymode]
+
+#+begin_quote
+Object oriented framework for multiple emacs modes based on indirect buffers
+#+end_quote
+
+The status quo for LP with ℝ is =knitr= and my goal is to get first-class support
+here. Started by reading the home page, I started
+initial setup and a TODO. The literature on the page is seemingly directed more
+at someone developing new modes. That seems pretty useful from any perspetive,
+and I am going to include important points following.
+
+#+begin_quote
+it is worth emphasizing the distinctions between chunks and chunkmodes. Chunks are fragments of text and there might be multiple chunks of the same type in the buffer. In contrast, there is only one chunkmode of some specific type and multiple chunks of this type "share" this chunkmode
+#+end_quote
+
+and also
+
+#+begin_quote
+things like =poly-XXX-mode-map= and =poly-XXX-mode-hook= work just as expected
+#+end_quote
+
+Perhaps a path do understanding the nature of the mode is in "Defining New
+Polymodes"
+
+#+begin_quote
+In order to define a new polymode =poly-cool-mode= you first have to define or clone a chunkmode object to represent the hostmode, and one or more chunkmodes to represent innermodes. Then define the polymode object =pm-poly/cool= pointing to previously defined host and inner chunkmodes.
+#+end_quote
+
+The example given is of a latex and noweb system:
+- Define a host mode of a =pm-bchunkmode= for =latex= which is capable of containing embedded languages
+- Define a =pm-hbtchunkmode= for =noweb= inner language
+  - Defines regexen for identifying a block of this type ala noweb syntax
+- Define a =pm-polymode-one= using bo them
+
+Another example is given showing how you can re-use a host mode. Say you wanted
+a mode for noweb that could contain chunks of ℝ instead of latex. You can clone
+the noweb inner-mode definition and then define a new plymode. The vagueness
+here is intentional because I didn't try it myself. Although I didn't dig deep
+at all into the details, it is clearly a rich and powerful library. At the very
+least, it is nice documentation to be read. The next ste is to set it up.
+
+The functionality that I'm primarily interested in seems to be here [fn:aee1cbde: https://github.com/vitoshka/polymode/blob/master/modes/poly-R.el].
+Skimming it a few things jump out:
+- There is a base language definition
+- Therer are *many* host modes for seemingly every markup out there
+  - Noweb, Markdown, Rapport, Yaml, HTML, Knitr, Brew, RC++, C++R, R-Help,
+    Rd, R shell, ESS combinations
+
+It is not obvious to me how to set it up. This [fn:3dc322e2: http://blog.revolutionanalytics.com/2014/03/emacs-ess-and-r-for-zombies.html]
+seems to indicate that one should do as I have done, read the home page, and
+then go online for tips. Now, I have. This [fn:d1979851: http://johnstantongeddes.org/open%20science/2014/03/26/Rmd-polymode.html] post
+was very helpful. A little unsure where to go from here, this https://stat.ethz.ch/pipermail/ess-help/2014-May/009926.html post indicates
+that there are, just as the code said, 4 weaves that may be important:
+- knitR
+- knitR-ESS
+- Sweave
+- Sweave-ESS
+
+Opened up a .Rmd document. Called =polymode-weave= and chose =knitR-ESS=. It
+generated the corrent =.md= file.
+
+Opened up a ℝ help buffer and the Examples section was formatted correctly.
+
+Later I saw that I should have also read:
+- [fn:ea37e53b: http://comments.gmane.org/gmane.emacs.ess.general/6994]
+  - Release post
+  - Good discussion, provides both context and ideas
+- [fn:3133d97b: http://thread.gmane.org/gmane.emacs.ess.general/8155]
+  - Read this back then and it only makes sense now after reading the documentation
+  - Very thoughtful and flexible and good
+  - Other potentially interesting discussions
+
+Load and specify file auto modes:
+#+begin_src emacs-lisp
+(require 'poly-R)
+(require 'poly-markdown)
+(add-to-list 'auto-mode-alist '("\\.Rmd" . poly-markdown+r-mode))
+#+end_src
+
+Specify some keymaps that are nearly what I have for =org= for the same tasks:
+#+begin_src emacs-lisp
+(define-key polymode-mode-map (kbd "s-e E") 'polymode-set-exporter)
+(define-key polymode-mode-map (kbd "s-e e") 'polymode-weave)
+(define-key polymode-mode-map (kbd "s-w s") 'polymode-set-weaver)
+(define-key polymode-mode-map (kbd "s-w w") 'polymode-weave)
+(define-key polymode-mode-map (kbd "s-w p") 'polymode-show-process-buffer)
+(define-key polymode-mode-map (kbd "s-j") 'polymode-previous-chunk)
+(define-key polymode-mode-map (kbd "s-k") 'polymode-next-chunk)
+(define-key polymode-mode-map (kbd "s-o k") 'polymode-kill-chunk)
+(define-key polymode-mode-map (kbd "s-o i") 'polymode-insert-new-chunk)
+(define-key polymode-mode-map (kbd "s-o m") 'polymode-mark-or-extend-chunk)
+(define-key polymode-mode-map (kbd "s-o t") 'polymode-toggle-chunk-narrowing)
+#+end_src
+
+****** poly-markdown+r-mode
+
+Make it easy to remember that I use this.
+
+****** poly-ess-help+r-mode
+
+Make it easy to remember that I use this.
 
 ***** Presentations
 
@@ -6046,7 +6275,7 @@ org-mode provides a setup [fn:69c0caad: http://orgmode.org/worg/org-contrib/babe
 a JRE and that was about it. artist-mode is automatically loaded for the source
 block. The example below; thank you [fn:c8388777: http://www.craiglarman.com/wiki/index.php?title=Books_by_Craig_Larman] Craig Larman
 
-#+begin_src ditaa :file auap.png :tangle no
+#+begin_src ditaa :file auap.png :noweb-ref ignore
 
 
 
@@ -6084,6 +6313,8 @@ they may fit in =org=.
     :noweb-ref: diagramming-decision
     :END:
 
+******* ditaa
+
 The =ditaa= library file is not version controlled.
 
 #+begin_src emacs-lisp
@@ -6104,6 +6335,206 @@ The =ditaa= library file is not version controlled.
 (add-to-list 'auto-mode-alist '("\\.art" . artist-mode))
 (add-to-list 'auto-mode-alist '("\\.asc" . artist-mode))
 #+end_src
+
+******* plantuml
+
+=plantuml= needs a full directory path. It is easier to address it here.
+#+begin_src emacs-lisp
+(defconst gcr/plantuml-jar (concat (expand-file-name (getenv "EELIB")) "/plantuml.8008.jar"))
+#+end_src
+
+The rest of the configuration is vanilla.
+#+begin_src emacs-lisp
+(defun gcr/warn-plantuml-jar ()
+  "Warn of plantuml misconfiguration."
+  (interactive)
+  (unless (f-exists? gcr/plantuml-jar)
+    (warn
+     "Can't seem to find a plantuml jar where it was expected at: %S. Plantuml will not function without it. Download a copy here: http://plantuml.sourceforge.net/"
+     gcr/plantuml-jar)))
+(gcr/warn-plantuml-jar)
+(setq plantuml-jar-path gcr/plantuml-jar)
+(require 'plantuml-mode)
+(eval-after-load "ob-plantuml"
+  (setq org-plantuml-jar-path gcr/plantuml-jar))
+(defun gcr/plantuml-mode-hook ()
+  "Personal settings."
+  (interactive)
+  (turn-on-pretty-mode)
+  (rainbow-mode)
+  (turn-on-smartparens-strict-mode)
+  (local-set-key (kbd "RET") 'newline-and-indent)
+  (turn-on-real-auto-save)
+  (gcr/untabify-buffer-hook)
+  (gcr/disable-tabs)
+  (fci-mode)
+  (hs-minor-mode)
+  (linum-mode)
+  (wrap-region-mode t)
+  (turn-on-stripe-table-mode))
+(add-hook 'plantuml-mode-hook 'gcr/plantuml-mode-hook)
+#+end_src
+
+Just read the user manual:
+
+Note to self, for any image generation keep in mind how this
+
+#+begin_example
+(org-display-inline-images nil t)
+#+end_example
+
+is being used. =org= has hook for post rendering so Emacs is always up to date.
+In this mode I have no such solution, so I will probably forget while inside.
+
+- Sequence diagrams
+  - Very feature rich
+  - Images immediately convey a lot of information about the tool here
+  - Chose a simple example, no all encompassing
+    - Tested, worked
+
+#+begin_src plantuml :file pumlsd.png :noweb-ref ignore :exports results
+Alice -> Bob: Authentication Request
+Bob --> Alice: Authentication Response
+
+Alice -> Bob: Another authentication Request
+Alice <-- Bob: another authentication Response
+#+end_src
+
+#+NAME:
+[[file:pumlsd.png]]
+
+- Use case diagrams
+  - Actor variable aliasing, very thoughtful
+  - Tested, worked
+
+#+begin_src plantuml :file pumlucd.png :noweb-ref ignore :exports results
+left to right direction
+skinparam packageStyle rect
+actor customer
+actor clerk
+rectangle checkout {
+customer -- (checkout)
+(checkout) .> (payment) : include (help) .> (checkout) : extends (checkout) -- clerk
+}
+#+end_src
+
+#+NAME:
+[[file:pumlucd.png]]
+
+- Class diagram
+  - Value this greatly for all sorts of ideas not just classes
+  - =hode=, =show=, and =include= are mentioned
+    - Could be a great reuse mechanism combined with noweb and tangling
+  - Spotted characters might be useful to indicating other things
+    - Example is data which is clearly a first-class citizen
+  - Six package visualization types
+  - Packaging vs. namespaceing is nice
+  - Good support for splitting large images among output pages
+  - Tested, works, added TODO for =org-display-images-call= after generation
+
+#+begin_src plantuml :file pumlcd.png :noweb-ref ignore :exports results
+title This is not a sailboat
+scale 200 width
+Sailboat "1" *-- "1..3" Mast
+Sailboat "1" *-- "1..3" Hull
+#+end_src
+
+#+NAME:
+[[file:pumlcd.png]]
+
+- Activity diagrams
+  - May indicate top to bottom flow using =top=
+  - May label arrows
+  - May force arrow direction
+  - Sweet if/else structure for branching
+  - Partition construct looks very useful
+  - New syntax [fn:e81de35c: http://plantuml.sourceforge.net/activity2.html]
+    seems good and there are more examples
+  - Next chapter covers the new syntax, so using that
+  - Tested, works
+
+#+begin_src plantuml :file pumlad.png :noweb-ref ignore :exports results
+start
+partition Initialization {
+    :read config file;
+    :init internal variable;
+}
+partition Running {
+    :wait for user interaction;
+    :print information;
+}
+
+stop
+#+end_src
+
+#+NAME:
+[[file:pumlad.png]]
+
+- Component diagrams
+  - Might be good to use the names to define all of the diagram entity types
+  - Need to find out what is "modern" UML, or at least, modern for me
+  - Might be a nice summary tool
+  - Tested, works
+
+#+begin_src plantuml :file pumlcd.png :noweb-ref ignore :exports results
+[First component]
+[Another component]
+() "First Interface"
+() "Another interface" as Interf2
+DataAccess - [First Component]
+[First Component] ..> HTTP : use
+#+end_src
+
+#+NAME:
+[[file:pumlcd.png]]
+
+- State diagrams
+  - Such a sweet tool
+  - Works OK
+
+#+begin_src plantuml :file pumlsd.png :noweb-ref ignore :exports results
+[*] --> State1
+State1 --> [*]
+State1 : this is a string State1 : this is another string
+#+end_src
+
+#+NAME:
+[[file:pumlsd.png]]
+
+- Object diagrams
+  - How different from class?
+  - Works, all stuff is there but I didn't bring it
+
+#+begin_src plantuml :file pumlod.png :noweb-ref ignore :exports results
+object Object01
+object Object02
+Object01 <|-- Object02
+#+end_src
+
+#+NAME:
+[[file:pumlod.png]]
+
+- Commands
+  - Header and footer values
+  - Zoom level
+  - Creole markup for most text elements
+  - Lists, and sub-lists
+  - Horizontal lines, will appears in most containers
+  - Headings
+  - Plain old HTML
+  - Tables, LaTeX style
+  - OpenIconic icons [fn:2f694b60: https://useiconic.com/open] anywhere
+
+- For fonts and colors
+  - You can change just about everything
+  - You may nest definitions, nice
+  - =monochrome true= option
+    - Nice if you are printing
+    - Or just don't want any colors anyway
+
+- Internationalization
+  - Full Unicode character support
+
 ***** Org
     :PROPERTIES:
     :noweb-ref: modes-application-org-mode-module-decision
@@ -6253,7 +6684,7 @@ Building =org= documents is intimately tied to:
 - Check the former
 - Perhaps someday the latter should be checked?
 #+begin_src emacs-lisp
-(defconst gcr/org-version "8.2.7c")
+(defconst gcr/org-version "8.2.8")
 
 (defun gcr/warn-org-version ()
   "Warn of org misconfiguration."
@@ -6492,11 +6923,6 @@ Tell =org= that it may evaluate all of the listed languages.
    (sml . t)))
 #+end_src
 
-Always allow code evaluation, never ask the user to be sure.
-#+begin_src emacs-lisp
-(setq org-confirm-babel-evaluate nil)
-#+end_src
-
 There is a way to disable property inheritance that speeds up tangling a lot.
 The problem is that you lose property inheritance which is unacceptable. Never,
 never allow that.
@@ -6556,6 +6982,9 @@ order matters here.
 (add-to-list
  'org-structure-template-alist
  '("r" "#+begin_src R\n?\n#+end_src" "<src lang=\"R\"></src>"))
+(add-to-list
+ 'org-structure-template-alist
+ '("p" "#+begin_src plantuml\n?\n#+end_src" "<src lang=\"plantuml\"></src>"))
 #+end_src
 
 Sometimes tangling and exporting takes a long time and I would like to see some
@@ -6657,31 +7086,6 @@ be allowed, and everything else will be removed.:
   (setq org-babel-common-header-args-w-values new-ls))
 #+end_src
 
-Thoughts:
-- org lets you evaluate all of your code blocks on export. Initially this is a
-  really great feature because if you are cranking out documents quickly and not
-  keeping them around then lets you to that… well quickly. The trouble comes when
-  don't want to evaluate source blocks on export. Not to say that you never need
-  that, it is just that by leaving it set to =true= you end up breaking stuff when
-  it wasn't your intent to do so. It is easier to make the default *not to evaluate*
-  upon export and when you want just to, make sure what you had wanted evaluated is
-  done so beforehand.
-- It is explained how you may disable evaluation during export. The example
-  discusses security/safety, but it is better to consider it from the perspective
-  of how you want to manage your =org= workflow. For example, do you want to rely
-  on export actions to create your final product? For me, that is a bad idea. Do
-  processing in one place, and exporting in another to clearly separate the
-  concerns.
-- There still needs to be room for a dynamic markup. For example the person who
-  weaved the file should be recorded in the document so inlude that in export.
-  For that reason, rather than leaving export evaluation totally disabled, allow
-  it for =inline= code blocks. This is kind of revealing that this feature is
-  really important, and I'm not sure of another way to include it in such a
-  pleasant manner if it were not used with this approach.
-#+begin_src emacs-lisp
-(setq org-export-babel-evaluate 'inline-only)
-#+end_src
-
 When source blocks are evaluated, their results get stored in a result area,
 typically for display. If the results are small, they are displayed with colons
 instead of an =example= block. My preference is to *always* place them in an
@@ -6718,7 +7122,7 @@ changed it.
 
 When you evaluate code its results are inserted into a =RESULTS= block by
 default. The documentation indicates though that you may instead use a name
-if the source block has a name, or a cache-id. In ither case, both seem to be
+if the source block has a name, or a cache-id. In either case, both seem to be
 better options for traceibility.
 
 #+begin_src emacs-lisp
@@ -6748,10 +7152,59 @@ supports Unicode just fine though, tell =org= to use the real symbol.
 (setq org-babel-noweb-wrap-end "»")
 #+end_src
 
-******** Traceability
+My preference is to rely upon heading property inheritance to define source block
+names. That way, you can just do your work knowing "where" you are working and
+keep it simple by not having to name everything. That was just fine until I
+wrote a document where I needed to name each source block.
+
+It gets easy to forget the source block’s name. Not the end of the world, but very nice to know.
+
+#+begin_src emacs-lisp
+(defun gcr/org-edit-src-code-plus-name ()
+  "Edit the well-described source code block.
+
+Attribution: URL `https://lists.gnu.org/archive/html/emacs-orgmode/2014-09/msg00778.html'"
+  (interactive)
+  (let* ((eop  (org-element-at-point))
+         (name (or (org-element-property :name (org-element-context eop))
+                  "ॐ"))
+         (lang (org-element-property :language eop))
+         (buff-name (concat "*Org Src " name "[" lang "]*")))
+    (org-edit-src-code nil nil buff-name)))
+#+end_src
+
+It would be nice to be able to use =vc-next-action= when editing source blocks in
+the source block edit buffer. Those buffers are new buffers that get the
+contents of the source block copied into them, the mode gets loaded, and
+additional hooks for this special org mode source editing are run. When editing
+is complete, the contents of that buffer are copied back into the source block,
+the original contents are removed, and the new ones are inserted. I wasn't sure
+how to proceed with this and asked the list. Aaron Ecay explained how to simply
+close the buffer first. That is a nice approach because everything will be as
+close to normal operational procedures as possible. Jonathan Leech-Pepin showed
+how to get a handle on the source buffer, and execute some code in the context
+of /that/ buffer. In this case it would mean executing the commit action inside of
+the backing buffer. Both are great options, and I am having trouble with both of
+them. The former is great because it is exactly how you would do it now. The
+latter is great because you would *not* be interrupted with the source block
+buffer being closed. At this point, I've only got the former working so that is
+where I will start.
+
+#+begin_src emacs-lisp
+(defadvice vc-next-action (before vc-next-action-in-org-src-block last activate)
+  "If in org source block, exit it."
+  (when (condition-case nil
+            (org-src-in-org-buffer)
+          (error nil))
+    (org-edit-src-exit)))
+#+end_src
+
+******** Core Babel Configuration
+
+********* Comments [fn:1e1a7e1f: http://orgmode.org/manual/comments.html#comments]
 
 There is always a question of how to instill traceability in your artifacts. org
-provides =:comments= [fn:00f33c83: http://orgmode.org/manual/comments.html#comments] for that. Tangling with that value set to =link=,
+provides =:comments= for that. Tangling with that value set to =link=,
 for example, would add a prefix and postfix comment to the tangled file with the
 name of the header from which the generated file was tangled. When I tangle the
 .emacs.el, then it puts something like this for that:
@@ -6816,17 +7269,266 @@ tangled file is worse then useless, it is actually harmful. It just doesn't
 help, atleast in the sytems that I am tangling. As such I am no longer using
 it.
 #+begin_src emacs-lisp
-(gcr/set-org-system-header-arg :comments "no")
+(gcr/set-org-babel-default-header-args :comments "no")
 #+end_src
 
-For that matter, set up the way that I deal with nearly every =org= file ever:
+********* Results [fn:1625d11f: http://orgmode.org/manual/results.html#results]
+
+Always display results like you would seem them in a REPL.
+#+begin_src emacs-lisp
+(gcr/set-org-babel-default-header-args :results "output replace")
+#+end_src
+
+********* Exports [fn:7dad95aa: http://orgmode.org/manual/exports.html#exports]
+
+Export both code blocks and results in exports.
+#+begin_src emacs-lisp
+(gcr/set-org-babel-default-header-args :exports "both")
+#+end_src
+
+********* Noweb [fn:3da67e2d: http://orgmode.org/manual/noweb.html#noweb]
+
+Expand noweb references before the block is tangled or evaluated, but
+exported. This embraces the notion that you are telling the right thing to the
+computer and the right thing to the human. This is the only proper setting to
+do so.
 
 #+begin_src emacs-lisp
-(gcr/set-org-system-header-arg :results "output")
-(gcr/set-org-system-header-arg :exports "both")
+(gcr/set-org-babel-default-header-args :noweb "no-export")
 #+end_src
 
-Probably someone will show be a better way to do repeated string creation :).
+********* Eval [fn:f6ab36a6: http://orgmode.org/manual/eval.html#eval]
+
+This is probably the single most important configuration parameter for your
+document's source blocks. Initially, that value is obscured by the need to
+configure the rich variety of other options though, and this parameter is often
+visited during the second eighty percent of your investment in =org-babel= when
+you are "in the thick" of it.
+
+Still trying to make sense of it all myself, I am adhering to a lightweight
+user-story driven configuration of this feature, as I believe that it is the
+only way that it will make sense to me. The key goal here for me is to:
+
+- Define typical usage scenarios
+- Identify key traits
+- Realize those traits in my workflow
+
+********** Story A: Messages
+
+20% of my time spent composing email or mailing list messages. Those messages
+may be composed of plain text with some nice markup. They also might have
+references and citations. The big value comes with superb code block definition
+and execution facilities. Those messages are short-lived; they are never stored
+in =git= and unlikely to even end up on the file-system.
+
+My work-flow here is:
+- Compose the =org= document
+- Prepare necessary buffers for code evaluation, or not, intentionally
+- Execute (weave) source blocks and store the results within the document
+- Export to the destination format
+
+********** Story B: Notes
+
+40% of my time is spent taking notes. It is so delightful to do so here. A lot
+of those notes are for programming languages so the workflow is nearly identical
+to =A=. The actions for navigating among source blocks is used all
+of the time to quickly navigate the document's source code, reflecting more
+thoughtfulness while working with the document. There is more concern here,
+because the document is stored in =git= and long-lived, it will be published
+many times. An important approach here is that I like to make a clear and
+concise distinction of the responsibilities of tangling and exporting because I
+don't like surprises. I want to know how source blocks results were generated,
+and when, as well as details about the export itself. This is a scope
+restriction that opens up space to make better sense of the workflow of the
+document itself. At its simplest, I just want to see a date-time showing when
+the document was published for example.
+
+My workflow here is:
+- Compose the =org= document
+- Prepare necessary buffers for code evaluation, or not, intentionally
+- Execute (weave) source blocks and store the results within the document
+- Export to the destination format
+  - Evaluate in-line source code relevant to that particular exportation
+
+********** Story C: Documents
+
+40% of my time is spent managing documents. In my case, it is this document.
+There are others, but they are minute in comparison. This is the storehouse,
+proving ground, and production deployment environment for every though, idea,
+dream, and goal that I can come up with in regards to TC3F. It shares the same
+traits as =A= and =B=, and adds many more.
+
+The first addition is the utilization of =no-web= to tangle source code and also
+tangle executable source code. The document evolution has relied heavily upon
+this feature. It has allow amazing flexibility. It is so critical that it must
+always be available.
+
+The second addition is a different scope of concern. My desire to make the
+tangling and exportation of this document is to have it more controlled. Unsure,
+I waver between restricting evaluation of code blocks by default and enabling
+over the entire document and simply allowing it globally. I don't like
+accidentally evaluating source blocks and getting their results, but I suppose
+that I may rely upon my commits to reveal my error. I suppose that my big
+takeaway here is that I want it simple, and want to be able to lock things down
+if necessary.
+
+********** Study
+
+Studying the scenarios, the desires seem clear. There is a combination of
+agility and scope that ought to make productivity go up. The essence may be
+better expressed in terms of responsibilities based upon my preferences
+expressed above:
+
+- A document is responsible for
+  - Defining source blocks
+  - Configuring their execution environments
+  - Displaying their results
+- Execution of this document is responsible for
+  - Evaluating source blocks
+  - Collecting results of evaluation
+- Tangling is responsible for combining source blocks
+  - In this file
+    - For output blocks
+    - For inclusion in source definitions used in function calls
+  - In a new file
+- Exporting is responsible for
+  - Converting this document to a new presentation format
+  - Only in-line source blocks may be evaluated during exploration
+    - Be explicit about the difference eg
+      - Execution results as stored in the document
+      - Exportation results are stored in the export document
+      - Key difference for people to make sense of things
+
+********** Preface to Tooling
+
+The next task is to convert the studies desired into a configuration to realize
+them. At first blush the configuration options will seem confusing. The best
+approach is to "play" with the configurations to learn and finalize your
+approach. That is how I ended up with this configuration. All of the
+configuration it based upon that combination of need and desire and how the
+system itself works. At best, it will only make sense in this context. Over
+time, it will make more sense. That period of evolution and growth is reflected
+in the =org= documentation itself for example when you read about =ditaa= in regards
+to exporting [fn:14fb5203: http://orgmode.org/manual/Exporting-code-blocks.html].
+The more familiar and comfortable with =org= one becomes, the more sense mentions
+such as that make.
+
+********** A More Concise Goal (Making Sense of Things)
+
+This facilitate my personal model for =LP= with org for evaluation modes. There
+are only two of them, =A= and =B=.
+
+Mode =A= allow execution to occur where the results are likely to be captured
+within the document. The single responsibility of that mode is to perform and
+capture the entirety of the computation. That really sums it up. All computation
+is done here because it is time and context sensitive. The document in that form
+will serve as a snapshot in time. If you run ℝ code then capture the results and
+plots and also the version of itself and the packages used. If you have
+versioned links for your data set, then report it here. Think of future users
+of your research as archeologists trying to piece together what you did; you
+should make their job really easy. This is a self contained computational unit,
+and its results, too. Include everything that matters for your computation.
+Consider Vagrant [fn:28698f18: http://www.vagrantup.com/] regardless of how much
+slower it may run on a virtual. How you defined this document and computed it
+and captured the results are all *one* thing that needs to both be considered and
+captured in its entirety.
+
+Mode =B= is a little simpler. All of the hard work has been done. Everything just
+mentioned has been done. This is purely responsible for publishing. Perhaps you
+want to submit it to a journal, that is publishing. Perhaps you want to post it
+on a blog, that is publishing. Publishing has different concerns. You want to
+know about the environment used to perform the publishing, like the tools and
+the time. Perhaps you want to more about the computer is was published on. All
+of those aspects unique to that even of publishing should be included during
+export. The operator really needs to get on-board with the idea of computational
+artifacts vs reporting artifacts. For example if you execute mode =A= then you
+need to store all of its generated artifacts. That includes data, but also
+graphics that you reference in the document itself. Hopefully you are
+questioning my claim here. You should! You area asking "Why should I when if I
+can reproduce the results?!". Great question. The answer only makes sense
+according to the philosophy I am embracing. Mode =A= defines both the computational
+unit and its constituent output. That is a single /thing/, a single /thing document/.
+Now that I am writing this, I am having questions about my claim here, and I will
+explore them as my understanding is bettered. For now, I am sticking with this
+because for example I know that I can use PNG anywhere. Well, questions arise
+because I am unsure how I would publishing to the web without re-generating SVG
+output vs PNG for web vs PS for LaTeX. Definitely something I will need to
+explore and for now I am sticking with the plan. Just had lunch and reflected
+upon the fact that there is clearly distinction between the results of your
+computation and how you wish to present them, and when. My feeling is that my
+approach is acceptable in that the computation and generation of summary
+results is definitely a separate goal from providing it in a particular
+publishing format and surely more experience needs to be accumulated here.
+Perhaps the simplest thing to do for greater flexibility is to:
+- In =A=
+  - Perform the computation
+  - Capture the results of the computation
+  - Produces images and so forth
+- In =B=
+  - Convert to a new format
+  - Perhaps utilize the results of computation to present differently
+
+The key questions are:
+- May you?
+  - Yes you may
+- Should you?
+  - Perhaps
+  - It seems easier to separate concerns into computation and presentation
+
+That is why evaluation is available on export, to capture aspects unique of
+export itself, and *not* of the computation. To realize this, the operator must be
+very thoughtful and aware of the execution model of the document. As it stands,
+you may separate the time of execution of code blocks and also their results.
+This is a subtle yet hugely important idea. You may utilize this feature and
+idea anyway you please, but I will use it a certain way. All computational
+evaluation and results storage will occur for source blocks in =A=. That is the
+goal. However, we do not want that to occur for in-line source blocks in mode =A=.
+That is possible and doable. This will make it easy for the operator of the d
+document to *see* the difference between code is for =A= versus =B= because the latter
+will never have its results stored within the source document.
+
+A strict separation between the =A= and =B=, roughly computation and export, must be maintained. It is the only way to make sense of how to use =org= as a tool here.
+One mode is responsible for computation, and the other is responsible for
+reporting. All of the following configuration is performed in order to realize
+this goal of A:computation vs B:publishing (exporting).
+
+********** Putting the Pieces Together
+
+Make it crystal clear that if the operator wants to evaluate source blocks then
+she may do so. It is a fundamental right of every =org= mode user and the default
+configuration shall allow it. If she wants restrictions, then they may easily be
+added to the document itself.
+
+#+begin_src emacs-lisp
+(setq org-confirm-babel-evaluate nil)
+(gcr/set-org-babel-default-header-args :eval "always")
+#+end_src
+
+Separate evaluation into two distinct phases or modes that of =A= for computation
+and =B= for presentation/publishing/exportation (still unsure of the best name
+given the existing terms both inside and outside of =org=).
+
+During exportation, only evaluate inline source blocks.
+
+#+begin_src emacs-lisp
+(setq org-export-babel-evaluate 'inline-only)
+#+end_src
+
+During exportation, evaluate the blocks and replace the source blocks with the
+resulting value. This gives you exactly what you would expect; the documents
+look like plain old documents because they are exactly that.
+
+#+begin_src emacs-lisp
+(gcr/set-org-babel-default-inline-header-args :eval "always")
+(gcr/set-org-babel-default-inline-header-args :results "value replace")
+#+end_src
+
+********* ℝ Specific
+
+Always use the current ℝ session for evaluation.
+#+begin_src emacs-lisp
+(gcr/set-org-babel-default-header-args:R :session "*R*")
+#+end_src
 
 Then I read this [fn:16e26884: http://comments.gmane.org/gmane.emacs.orgmode/32814].
 *WOW*. That is worth another millions bucks for Eric's prolific contribution to
@@ -6919,25 +7621,35 @@ words and I may ispell them manually when desired:
 Configure =org= mode hooks to make it easy to do the most commonly performed
 operations.
 
+Bit of a mystery that I couldn't =local-set-key= with one particular binding.
+Found a way that /does/ work with the help of Jorge and Teika. I'm OK with it
+remaining a mystery for now.
+
+#+begin_src emacs-lisp
+(define-key org-mode-map (kbd "C-,") (lambda () (interactive) (insert " \\larr ")))
+#+end_src
+
 #+begin_src emacs-lisp
 (defun gcr/org-mode-hook ()
   (local-set-key (kbd "C-1") 'org-narrow-to-subtree)
   (local-set-key (kbd "M-1") 'widen)
-  (local-set-key (kbd "C-2") 'org-edit-special)
+  (local-set-key (kbd "C-2") 'gcr/org-edit-src-code-plus-name)
   (local-set-key (kbd "s-h") 'org-babel-check-src-block)
-  (local-set-key (kbd "s-j") 'org-babel-demarcate-block)
   (local-set-key (kbd "s-a i") 'org-babel-insert-header-arg)
-  (local-set-key (kbd "s-k") 'org-babel-previous-src-block)
-  (local-set-key (kbd "s-l") 'org-babel-next-src-block)
+  (local-set-key (kbd "s-j") 'org-babel-previous-src-block)
+  (local-set-key (kbd "s-k") 'org-babel-next-src-block)
+  (local-set-key (kbd "s-l") 'org-babel-demarcate-block)
   (local-set-key (kbd "s-;") 'org-babel-view-src-block-info)
   (local-set-key (kbd "s-b s") 'org-babel-switch-to-session)
   (local-set-key (kbd "s-b c") 'org-babel-switch-to-session-with-code)
-  (local-set-key (kbd "s-x") 'org-babel-do-key-sequence-in-edit-buffer)
-  (local-set-key (kbd "s-t") 'org-babel-tangle)
-  (local-set-key (kbd "s-w") 'org-babel-execute-buffer)
   (local-set-key (kbd "s-e") 'org-babel-execute-maybe)
+  (local-set-key (kbd "s-t") 'org-babel-tangle)
+  (local-set-key (kbd "s-x") 'org-babel-do-key-sequence-in-edit-buffer)
+  (local-set-key (kbd "s-w w") 'org-export-dispatch)
+  (local-set-key (kbd "s-<f5>") 'org-babel-execute-buffer)
   (local-set-key (kbd "s-i d") 'org-display-inline-images)
   (local-set-key (kbd "s-i r") 'org-remove-inline-images)
+  (local-set-key (kbd "C-.") (lambda () (interactive) (insert " \\rarr ")))
   (turn-on-real-auto-save)
   (when (and (fboundp 'guide-key-mode) guide-key-mode)
     (guide-key/add-local-guide-key-sequence "C-c")
@@ -7225,6 +7937,10 @@ far.
 
 (depends-on "pandoc-mode")
 
+(depends-on "plantuml-mode")
+
+(depends-on "polymode")
+
 (depends-on "popup")
 
 (depends-on "pos-tip")
@@ -7466,6 +8182,11 @@ you still should always, always have it /on hand/.
 (add-to-list 'gcr/el-get-packages 'sicp)
 #+end_src
 
+=emacs-pde= [fn:f3e803df: https://github.com/wenbinye/emacs-pde] provides a Perl
+style regex builder to supplement the built-in [fn:f2270e49: https://www.gnu.org/software/emacs/manual/html_node/elisp/Syntax-of-Regexps.html].
+
+
+
 As el-get to make sure that those desired packages are installed. At the moment
 there are none beyond the custom recipes.
 
@@ -7538,7 +8259,7 @@ Two systems will be configured here:
 «uxo-analytics-decision»
 #+end_src
 
-#+begin_src emacs-lisp :tangle .org-mode.emacs.el :noweb tangle
+#+begin_src emacs-lisp :tangle .org-mode.emacs.el
 «base-configuration»
 «custom-variables»
 #+end_src
@@ -7546,7 +8267,7 @@ Two systems will be configured here:
 *** Fully Loaded System
 
 Convert decisions into a runnable system.
-#+begin_src emacs-lisp :tangle .emacs.el :noweb tangle
+#+begin_src emacs-lisp :tangle .emacs.el
 «base-configuration»
 «uxo-windows-decision»
 (gcr/on-gui
@@ -7607,8 +8328,11 @@ may be loaded so the =«font-block»= has to come after it.
 #+end_src
 
 ** Utility functions
+   :PROPERTIES:
+   :noweb-ref: utility-block
+   :END:
 
-#+begin_src emacs-lisp :noweb-ref utility-block
+#+begin_src emacs-lisp
 (defun gcr/insert-timestamp ()
   "Produces and inserts a full ISO 8601 format timestamp."
   (interactive)
@@ -7674,15 +8398,22 @@ may be loaded so the =«font-block»= has to come after it.
   (interactive)
   (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
 
+(defvar gcr/delete-trailing-whitespace-p t
+  "Should trailing whitespace be removed?")
+
 (defun gcr/delete-trailing-whitespace ()
-  "Apply delete-trailing-whitespace to everything but the current line."
+  "Delete trailing whitespace for everything but the current line.
+
+If `gcr/delete-trailing-whitespace-p' is non-nil, then delete the whitespace.
+This is useful for fringe cases where trailing whitespace is important."
   (interactive)
-  (let ((first-part-start (point-min))
-        (first-part-end (point-at-bol))
-        (second-part-start (point-at-eol))
-        (second-part-end (point-max)))
-    (delete-trailing-whitespace first-part-start first-part-end)
-    (delete-trailing-whitespace second-part-start second-part-end)))
+  (when gcr/delete-trailing-whitespace-p
+    (let ((first-part-start (point-min))
+          (first-part-end (point-at-bol))
+          (second-part-start (point-at-eol))
+          (second-part-end (point-max)))
+      (delete-trailing-whitespace first-part-start first-part-end)
+      (delete-trailing-whitespace second-part-start second-part-end))))
 
 (defun gcr/newline ()
   "Locally binds newline."
@@ -7831,7 +8562,7 @@ Attribution: URL `http://emacsredux.com/blog/2013/03/26/smarter-open-line/'"
       (goto-char (point-min))
       (funcall fun))))
 
-(defun gcr/set-org-system-header-arg (property value)
+(defun gcr/set-org-babel-default-header-args (property value)
   "Easily set system header arguments in org mode.
 
 PROPERTY is the system-wide value that you would like to modify.
@@ -7842,6 +8573,20 @@ Attribution: URL `http://orgmode.org/manual/System_002dwide-header-arguments.htm
   (setq org-babel-default-header-args
         (cons (cons property value)
               (assq-delete-all property org-babel-default-header-args))))
+
+(defun gcr/set-org-babel-default-inline-header-args (property value)
+  "See `gcr/set-org-babel-default-header-args'; same but for inline header args."
+  (setq org-babel-default-inline-header-args
+        (cons (cons property value)
+              (assq-delete-all property org-babel-default-inline-header-args))))
+
+(defun gcr/set-org-babel-default-header-args:R (property value)
+  "See `gcr/set-org-babel-default-header-args'; same but for R.
+
+This is a copy and paste. Additional languages would warrant a refactor."
+  (setq org-babel-default-header-args:R
+        (cons (cons property value)
+              (assq-delete-all property org-babel-default-header-args:R))))
 
 (defun gcr/insert-ellipsis ()
   "Insert an ellipsis into the current buffer."
@@ -8018,18 +8763,63 @@ Attribution: URL `https://github.com/hrs/dotfiles/blob/master/emacs.d/lisp/utils
   (insert (uuid-to-stringy (uuid-create))))
 #+end_src
 
+This [fn:d95e8aea: http://endlessparentheses.com/permanent-auto-indentation.html]
+post suggest that wanting to "never have unindented code again" is "aggressive".
+Well, perhaps that is a bit strong? However, it is certainly interesting and
+perhaps even controversial. Nobody wants to be locked down in their editor with
+their code. Perhaps the bondage and discipline language user would disagree? I
+don't mind, in regards to editors and code at least! Using this approach doesn't
+prevent you from doing anything in particular other than poorly indenting code.
+This will be a fun experiment and I will start out with emacs-lisp and ℝ to see
+how it goes.
+
+#+begin_src emacs-lisp
+(defun endless/indent-defun ()
+  "Indent current defun.
+
+Attribution: URL `http://endlessparentheses.com/permanent-auto-indentation.html'"
+  (interactive)
+  (let ((l (save-excursion (beginning-of-defun 1) (point)))
+        (r (save-excursion (end-of-defun 1) (point))))
+    (indent-region l r)))
+
+(defun endless/activate-aggressive-indent ()
+  "Locally add `endless/indent-defun' to `post-command-hook'.
+
+Attribution: URL `http://endlessparentheses.com/permanent-auto-indentation.html'"
+  (add-hook 'post-command-hook
+            #'endless/indent-defun nil 'local))
+#+end_src
+
 ** Helper scripts
 
 =keyfreq= is so focused and good, and it is built for one user. At some point
 I would like to handle multiple accounts since I use multiple accounts on the
 same machine, but until then, I will be fine just backing them up at least.
 
-#+begin_src sh :tangle bin/cpkf :tangle-mode (identity #o755) :noweb tangle
+#+begin_src sh :tangle bin/cpkf :tangle-mode (identity #o755)
 sudo cp /Users/sl/.emacs.keyfreq ../.emacs.sl.keyfreq
 #+end_src
 
 * Usage
 
+** Develop
+
+For some reason I keep forgetting about being strict about the workflow of this
+document. I keep telling myself that little changes are no big deal. Well,
+usually they aren't! Except when they are. Since I don't have CI set up on this,
+it is up to me to play by the rules. Here are some decent rules:
+
+- Identify change
+- Make change in existing .emacs.el
+- Test change
+- Tangle using that change
+- Test it again or not
+- Tangle it again with the new file
+
+Anything else will surely result in trouble.
+
+** Deploy
 #+begin_comment
 This section will never be tangled.
 #+end_comment
@@ -8060,7 +8850,7 @@ automated. At its simplest it looks like this:
 # Do something like this:
 # export SRCDIR=/path/to/git/checkout
 mkdir ~/eelib
-export EELIB=~/eelib
+export EELIB=/home/gcr/eelib
 ln -s $SRCDIR/.emacs.el ~/.emacs.el
 ln -s $SRCDIR/Cask ~/.emacs.d/Cask
 ln -s $SRCDIR/ditaa0_9.jar $EELIB/ditaa0_9.jar
