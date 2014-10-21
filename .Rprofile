@@ -36,6 +36,7 @@ library(dplyr)
 library(testit)
 library(knitr)
 library(fortunes)
+library(ggplot2)
 .First <- function() {
     gcr <- new.env()
     gcr$attach.unsafe <- attach
@@ -81,6 +82,6 @@ library(fortunes)
     gcr$hundred <- function(df, idx=0) {
         df[idx:(idx+100),]
     }
-    base::attach(gcr, name="gcr", warn.conflicts = FALSE)
+    base::attach(gcr, name="gcr", warn.conflicts=FALSE)
 }
 fortune()

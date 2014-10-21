@@ -2966,6 +2966,12 @@ and also update the year, and that is pretty nice. It would be nice to have
 something like this [fn:d8940b7a: https://www.gnu.org/software/emacs/manual/html_node/elisp/Library-Headers.html] created, though. Even an OSS license chooser
 would be nice [fn:c7c0ee54: http://choosealicense.com/], but I haven't found a nice option yet.
 
+**** Pretty printing
+
+This [fn:c2458ee6: https://github.com/steckerhalter/ipretty] library =ipretty= got
+me interested in pretty-printing. Of course, I had forgotten that
+=pp-eval-expression= is available and that it is already part of the distribution.
+
 **** Expression Management [fn:60c9aa87: https://github.com/Fuco1/smartparens]
 
 There are a lot of nice options [fn:f3efaa48: http://www.emacswiki.org/emacs/ParEdit] [fn:65635705: http://www.emacswiki.org/emacs/ElectricPair] [fn:3407e119: https://github.com/rejeep/wrap-region.el] [fn:143: https://code.google.com/p/emacs-textmate/] [fn:2c32e1ab: https://github.com/capitaomorte/autopair]. For the
@@ -4168,7 +4174,7 @@ won't include this.
 .First <- function() {
     gcr <- new.env()
     «rfirst-defs»
-    base::attach(gcr, name="gcr", warn.conflicts = FALSE)
+    base::attach(gcr, name="gcr", warn.conflicts=FALSE)
 }
 fortune()
 #+end_src
@@ -4800,6 +4806,27 @@ R Fortunes.
 library(fortunes)
 #+end_src
 
+********* ggplot2
+
+- [[http://cran.r-project.org/web/packages/ggplot2/index.html][CRAN]]
+  - [[http://cran.r-project.org/web/packages/ggplot2/ggplot2.pdf][reference]]
+- [[https://github.com/hadley/ggplot2][Github]]
+  - [[https://github.com/hadley/ggplot2/wiki][wiki]]
+    - Lots of great resources
+      - Whyu use it, how to support it, improvide i
+      - Publications using it, around the web
+      - FAQ, roadmap
+    - Case studies
+    - Tips and tricks
+    - Enhancements
+- [[https://groups.google.com/forum/#!forum/ggplot2][Mail list]]
+- [[http://ggplot2.org/][Homepage]]
+  - [[http://docs.ggplot2.org/current/][Documentation]]
+
+#+begin_src R
+library(ggplot2)
+#+end_src
+
 ******* .First
       :PROPERTIES:
       :noweb-ref: rfirst-defs
@@ -4920,8 +4947,12 @@ R_LIBS=~/.Rpackages
 For the time being, GUI work will only be performed on OSX so utilize OSX's
 renderer [91578029: http://emacs.1067599.n5.nabble.com/unable-to-start-device-X11-td330804.html].
 
+That worked fine until I actuarlly starting using that graphics device!
+
+Then even though I was on OSX I *had* to switch to =X11=.
+
 #+begin_src R
-R_INTERACTIVE_DEVICE=quartz
+R_INTERACTIVE_DEVICE=x11
 #+end_src
 
 ***** Eshell [fn:063471c9: https://www.gnu.org/software/emacs/manual/html_mono/eshell.html] [fn:46b52b8f: http://www.masteringemacs.org/articles/2010/12/13/complete-guide-mastering-eshell/] [fn:ed7a113f: http://www.khngai.com/emacs/eshell.php]
@@ -6476,7 +6507,7 @@ stop
   - Might be a nice summary tool
   - Tested, works
 
-#+begin_src plantuml :file pumlcd.png :noweb-ref ignore :exports results
+#+begin_src plantuml :file pumlcod.png :noweb-ref ignore :exports results
 [First component]
 [Another component]
 () "First Interface"
@@ -7199,6 +7230,16 @@ where I will start.
     (org-edit-src-exit)))
 #+end_src
 
+Not sure where to note this, but I do need to do it somewhere:
+
+#+begin_quote
+- babel, document my two modes of use as eval everything and store the results,
+  replacing them, which is good for documents that use that data, and then the
+  style I just did for homework which did ":results output silent" when the
+  intent was more very close to coding, and ultimately using the code to deliver
+  the consumable product
+#+end_quote
+
 ******** Core Babel Configuration
 
 ********* Comments [fn:1e1a7e1f: http://orgmode.org/manual/comments.html#comments]
@@ -7312,6 +7353,11 @@ only way that it will make sense to me. The key goal here for me is to:
 - Define typical usage scenarios
 - Identify key traits
 - Realize those traits in my workflow
+
+The current configuration is more like:
+- Default allows for super fast code execution messages storing the results
+- Any form of reproducibl research including for example a tiny, tiny bit of
+  code necessary to get a =knitr= like setup =:header-args: :results output silent=
 
 ********** Story A: Messages
 
