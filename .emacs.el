@@ -1,4 +1,8 @@
 
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Fully%20Loaded%20System][Fully\ Loaded\ System:1]]
+
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Org%20Only%20System][base-configuration]]
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Run-time][nil]]
 (defun gcr/warn-emacs-version ()
   "Warn of Emacs inadequacy."
   (interactive)
@@ -9,14 +13,24 @@
           (number-to-string emacs-major-version)
           (number-to-string emacs-minor-version))))
 (gcr/warn-emacs-version)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*General%20stuff%20%5Bfn:5fa1ff0b:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/General-Variables.html%5D%20%5Bfn:13c610e7:%20https://www.gnu.org/software/emacs/manual/html_node/elisp/User-Identification.html%5D%20%5Bfn:2e194253:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Init-Examples.html%5D%20%5Bfn:374f40df:%20http://nic.ferrier.me.uk/blog/2012_07/tips-and-tricks-for-emacslisp%5D][nil]]
 (setq-default user-full-name "Grant Rettke"
               user-mail-address "gcr@wisdomandwonder.com")
 
 (setq-default eval-expression-print-level nil)
 (setq-default case-fold-search +1)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*General%20stuff%20%5Bfn:5fa1ff0b:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/General-Variables.html%5D%20%5Bfn:13c610e7:%20https://www.gnu.org/software/emacs/manual/html_node/elisp/User-Identification.html%5D%20%5Bfn:2e194253:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Init-Examples.html%5D%20%5Bfn:374f40df:%20http://nic.ferrier.me.uk/blog/2012_07/tips-and-tricks-for-emacslisp%5D][nil]]
 (setq gc-cons-threshold (* 128 1024 1024))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*General%20stuff%20%5Bfn:5fa1ff0b:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/General-Variables.html%5D%20%5Bfn:13c610e7:%20https://www.gnu.org/software/emacs/manual/html_node/elisp/User-Identification.html%5D%20%5Bfn:2e194253:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Init-Examples.html%5D%20%5Bfn:374f40df:%20http://nic.ferrier.me.uk/blog/2012_07/tips-and-tricks-for-emacslisp%5D][nil]]
 (setq max-specpdl-size 1500)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*General%20stuff%20%5Bfn:5fa1ff0b:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/General-Variables.html%5D%20%5Bfn:13c610e7:%20https://www.gnu.org/software/emacs/manual/html_node/elisp/User-Identification.html%5D%20%5Bfn:2e194253:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Init-Examples.html%5D%20%5Bfn:374f40df:%20http://nic.ferrier.me.uk/blog/2012_07/tips-and-tricks-for-emacslisp%5D][nil]]
 (setq debug-on-error nil)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Utility%20functions][nil]]
 (defun gcr/insert-timestamp ()
   "Produces and inserts a full ISO 8601 format timestamp."
   (interactive)
@@ -445,21 +459,23 @@ Attribution: URL `https://github.com/hrs/dotfiles/blob/master/emacs.d/lisp/utils
   "Insert a string form of a UUID."
   (interactive)
   (insert (uuid-to-stringy (uuid-create))))
-(defun endless/indent-defun ()
-  "Indent current defun.
 
-Attribution: URL `http://endlessparentheses.com/permanent-auto-indentation.html'"
+(defun yf/org-electric-dollar nil
+  "When called once, insert \\(\\) and leave point in between.
+  When called twice, replace the previously inserted \\(\\) by one $.
+
+from Nicolas Richard <theonewiththeevillook@yahoo.fr>
+Date: Fri, 8 Mar 2013 16:23:02 +0100
+Message-ID: <87vc913oh5.fsf@yahoo.fr>"
   (interactive)
-  (let ((l (save-excursion (beginning-of-defun 1) (point)))
-        (r (save-excursion (end-of-defun 1) (point))))
-    (indent-region l r)))
-
-(defun endless/activate-aggressive-indent ()
-  "Locally add `endless/indent-defun' to `post-command-hook'.
-
-Attribution: URL `http://endlessparentheses.com/permanent-auto-indentation.html'"
-  (add-hook 'post-command-hook
-            #'endless/indent-defun nil 'local))
+  (if (and (looking-at "\\\\)") (looking-back "\\\\("))
+      (progn (delete-char 2)
+             (delete-char -2)
+             (insert "$"))
+    (insert "\\(\\)")
+    (backward-char 2)))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Provisioning%20/%20Cask%20%5Bfn:0d825bc1:%20%5B%5BCask%5D%5Bhttps://github.com/cask/cask%5D%5D%5D%20/%20egl-get%20%5Bfn:9be5a727:%20https://github.com/dimitri/el-get%5D][nil]]
 (defconst gcr/cask-runtime "~/.cask/cask.el")
 (defconst gcr/cask-config "~/.emacs.d/Cask")
 (defun gcr/warn-cask-runtime ()
@@ -476,8 +492,12 @@ Attribution: URL `http://endlessparentheses.com/permanent-auto-indentation.html'
 (gcr/warn-cask-runtime)
 (require 'cask gcr/cask-runtime)
 (defconst gcr/cask-bundle (cask-initialize))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*el-get%20packages][nil]]
 (require 'el-get)
 (setq gcr/el-get-packages nil)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*el-get%20packages][nil]]
 (add-to-list
  'el-get-sources
  '(:name emacs-name
@@ -488,6 +508,8 @@ Attribution: URL `http://endlessparentheses.com/permanent-auto-indentation.html'
           :website "http://www.splode.com/"
           :description "emacs acronym expansions"))
 (add-to-list 'gcr/el-get-packages 'emacs-name)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*el-get%20packages][nil]]
 (add-to-list
  'el-get-sources
  '(:name flame
@@ -498,6 +520,8 @@ Attribution: URL `http://endlessparentheses.com/permanent-auto-indentation.html'
           :website "http://www.splode.com/"
           :description "automatic generation of flamage, as if we needed more"))
 (add-to-list 'gcr/el-get-packages 'flame)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*el-get%20packages][nil]]
 (add-to-list
  'el-get-sources
  '(:name horoscope
@@ -508,6 +532,8 @@ Attribution: URL `http://endlessparentheses.com/permanent-auto-indentation.html'
           :website "http://www.splode.com/"
           :description "generate horoscopes"))
 (add-to-list 'gcr/el-get-packages 'horoscope)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*el-get%20packages][nil]]
 (add-to-list
  'el-get-sources
  '(:name kibologize
@@ -518,6 +544,8 @@ Attribution: URL `http://endlessparentheses.com/permanent-auto-indentation.html'
           :website "http://www.splode.com/"
           :description "generate ravings about kibology, in the style of kibo"))
 (add-to-list 'gcr/el-get-packages 'kibologize)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*el-get%20packages][nil]]
 (add-to-list
  'el-get-sources
  '(:name shop
@@ -528,6 +556,8 @@ Attribution: URL `http://endlessparentheses.com/permanent-auto-indentation.html'
           :website "http://www.splode.com/"
           :description "generate random shopping lists"))
 (add-to-list 'gcr/el-get-packages 'shop)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*el-get%20packages][nil]]
 (add-to-list
  'el-get-sources
  '(:name youwill
@@ -538,6 +568,8 @@ Attribution: URL `http://endlessparentheses.com/permanent-auto-indentation.html'
           :website "http://www.splode.com/"
           :description "generate meaningless marketing hype"))
 (add-to-list 'gcr/el-get-packages 'youwill)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*el-get%20packages][nil]]
 (add-to-list
  'el-get-sources
  '(:name swimmers
@@ -548,6 +580,8 @@ Attribution: URL `http://endlessparentheses.com/permanent-auto-indentation.html'
           :website "http://www.cb1.com/~john/"
           :description "Draw a swimming-pool screensaver"))
 (add-to-list 'gcr/el-get-packages 'swimmers)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*el-get%20packages][nil]]
 (add-to-list
  'el-get-sources
  '(:name org-show
@@ -556,18 +590,27 @@ Attribution: URL `http://endlessparentheses.com/permanent-auto-indentation.html'
           :website "https://github.com/jkitchin/jmax/blob/master/org-show.org"
           :description "simple presentations in org-mode"))
 (add-to-list 'gcr/el-get-packages 'org-show)
-(add-to-list 'gcr/el-get-packages 'sicp)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*el-get%20packages][nil]]
 (el-get 'sync gcr/el-get-packages)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Environment][nil]]
 (require 'exec-path-from-shell)
 (gcr/on-osx (exec-path-from-shell-initialize))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Environment][nil]]
 (require 'alert)
 (setq alert-fade-time 10)
 (gcr/on-gui
  (gcr/on-osx
    (setq alert-default-style 'growl)))
 (setq alert-reveal-idle-time 120)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Environment][nil]]
 (gcr/on-windows
  (setq shell-file-name "cmdproxy.exe"))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Operation,%20Keybindings,%20and%20Keymaps%20%5Bfn:256:%20https://www.gnu.org/software/emacs/manual/html_node/elisp/Keymaps.html#Keymaps%5D][nil]]
 (defadvice global-set-key (before check-keymapping activate)
   (let* ((key (ad-get-arg 0))
          (new-command (ad-get-arg 1))
@@ -592,9 +635,15 @@ Attribution: URL `http://endlessparentheses.com/permanent-auto-indentation.html'
          )
       (warn "Just stomped the global-map binding for %S, replaced %S with %S"
             key old-command new-command))))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Operation,%20Keybindings,%20and%20Keymaps%20%5Bfn:256:%20https://www.gnu.org/software/emacs/manual/html_node/elisp/Keymaps.html#Keymaps%5D][nil]]
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Keyboard][nil]]
 (require 'key-chord)
 (key-chord-mode 1)
 (setq key-chord-two-keys-delay 0.1)
+;; nil ends here
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Operation,%20Keybindings,%20and%20Keymaps%20%5Bfn:256:%20https://www.gnu.org/software/emacs/manual/html_node/elisp/Keymaps.html#Keymaps%5D][nil]]
 (gcr/on-osx
  (setq mac-control-modifier 'control)
  (setq mac-command-modifier 'meta)
@@ -603,81 +652,171 @@ Attribution: URL `http://endlessparentheses.com/permanent-auto-indentation.html'
 (gcr/on-windows
  (setq w32-lwindow-modifier 'super)
  (setq w32-rwindow-modifier 'super))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Operation,%20Keybindings,%20and%20Keymaps%20%5Bfn:256:%20https://www.gnu.org/software/emacs/manual/html_node/elisp/Keymaps.html#Keymaps%5D][nil]]
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Operation,%20Keybindings,%20and%20Keymaps%20%5Bfn:256:%20https://www.gnu.org/software/emacs/manual/html_node/elisp/Keymaps.html#Keymaps%5D][nil]]
 (setq echo-keystrokes 0.02)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*NON-DISRUPTIVE][nil]]
 (key-chord-define-global "3." 'gcr/insert-ellipsis)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*NON-DISRUPTIVE][nil]]
 (key-chord-define-global "4 " (lambda () (interactive) (insert "    ")))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*NON-DISRUPTIVE][nil]]
 (key-chord-define-global (concat "A" "{") (lambda () (interactive) (insert "ä")))
 (key-chord-define-global (concat "A" "}") (lambda () (interactive) (insert "Ä")))
 (key-chord-define-global (concat "O" "{") (lambda () (interactive) (insert "ö")))
 (key-chord-define-global (concat "O" "}") (lambda () (interactive) (insert "Ö")))
 (key-chord-define-global (concat "U" "{") (lambda () (interactive) (insert "ü")))
 (key-chord-define-global (concat "U" "}") (lambda () (interactive) (insert "Ü")))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*NON-DISRUPTIVE][nil]]
 (global-set-key (kbd "C-,") (lambda () (interactive) (insert "←")))
 (global-set-key (kbd "C-.") (lambda () (interactive) (insert "→")))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*NON-DISRUPTIVE][nil]]
 (key-chord-define-global "<<" (lambda () (interactive) (insert "«")))
 (key-chord-define-global ">>" (lambda () (interactive) (insert "»")))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*NON-DISRUPTIVE][nil]]
 (key-chord-define-global "jk" 'ace-jump-mode)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*NON-DISRUPTIVE][nil]]
 (key-chord-define-global "m," 'ace-jump-mode-pop-mark)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*NON-DISRUPTIVE][nil]]
 (key-chord-define-global "fg" 'goto-line)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*NON-DISRUPTIVE][nil]]
 (key-chord-define-global "vb" 'pop-to-mark-command)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*NON-DISRUPTIVE][nil]]
 (require 'linum-relative)
 (key-chord-define-global "dk" 'linum-relative-toggle)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*NON-DISRUPTIVE][nil]]
 (key-chord-define-global "nm" 'ace-window)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*NON-DISRUPTIVE][nil]]
 (key-chord-define-global "JK" (lambda () (interactive) (other-window 1)))
 (key-chord-define-global "KL" (lambda () (interactive) (next-buffer)))
 (key-chord-define-global "L:" (lambda () (interactive) (previous-buffer)))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*NON-DISRUPTIVE][nil]]
 (key-chord-define-global "ws" 'google-this-mode-submap)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*NON-DISRUPTIVE][nil]]
 (global-set-key (kbd "C-a") 'beginning-of-line-dwim)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*NON-DISRUPTIVE][nil]]
 (global-set-key (kbd "C-;") 'vc-next-action)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*NON-DISRUPTIVE][nil]]
 (global-set-key (kbd "C-'") 'er/expand-region)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*NON-DISRUPTIVE][nil]]
 (global-set-key (kbd "M-9") 'mc/edit-lines)
 (global-set-key (kbd "M-0") 'mc/mark-next-like-this)
 (global-set-key (kbd "M--") 'mc/mark-all-like-this)
 (global-set-key (kbd "M-8") 'mc/mark-previous-like-this)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*NON-DISRUPTIVE][nil]]
 (key-chord-define-global "yu" 'move-text-up)
 (key-chord-define-global "hj" 'move-text-down)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*NON-DISRUPTIVE][nil]]
 (global-set-key (kbd "s-l i") 'gcr/move-line-up)
 (global-set-key (kbd "s-l k") 'gcr/move-line-down)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*SLIGHTLY-DISRUPTIVE][nil]]
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*SLIGHTLY-DISRUPTIVE][nil]]
 (global-set-key (kbd "s-p") 'gcr/describe-thing-in-popup)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*SLIGHTLY-DISRUPTIVE][nil]]
 (global-set-key (kbd "C--") 'ace-window)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*SLIGHTLY-DISRUPTIVE][nil]]
 (global-set-key (kbd "C-3") 'auto-complete)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*SLIGHTLY-DISRUPTIVE][nil]]
 (global-set-key (kbd "M-3") 'hs-toggle-hiding)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*SLIGHTLY-DISRUPTIVE][nil]]
 (global-set-key (kbd "C-5") 'gcr/comment-or-uncomment)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*SLIGHTLY-DISRUPTIVE][nil]]
 (global-set-key (kbd "M-<return>") 'gcr/lazy-new-open-line)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*SLIGHTLY-DISRUPTIVE][nil]]
 (global-set-key (kbd "s-d h") 'diff-hl-mode)
 (global-set-key (kbd "s-d l") 'vc-diff)
 (global-set-key (kbd "s-d u") 'vc-revert)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*SLIGHTLY-DISRUPTIVE][nil]]
 (global-set-key (kbd "M-:") 'my-eval-expression)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*SLIGHTLY-DISRUPTIVE][nil]]
 (global-set-key (kbd "s-f") 'projectile-find-file)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*SLIGHTLY-DISRUPTIVE][nil]]
 (global-set-key (kbd "C-4") 'ido-switch-buffer)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*SLIGHTLY-DISRUPTIVE][nil]]
 (global-set-key (kbd "C-x C-b") 'ibuffer)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*SLIGHTLY-DISRUPTIVE][nil]]
 (global-set-key (kbd "s-u dse") (lambda () (interactive) (insert "𝔼")))
 ;; if there is magic, then the x goes here →
 (global-set-key (kbd "s-u dsr") (lambda () (interactive) (insert "ℝ")))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*DISRUPTIVE][nil]]
 (global-set-key (kbd "M-7") 'gcr/insert-datestamp)
 (global-set-key (kbd "s-7") 'gcr/insert-timestamp*)
 (global-set-key (kbd "C-7") 'gcr/insert-timestamp)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*DISRUPTIVE][nil]]
 (global-set-key (kbd "s-<tab>") 'auto-complete)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*VERY%20DISRUPTIVE][nil]]
 (gcr/on-gui
  (global-set-key (kbd "s-<f7>") 'gcr/text-scale-increase)
  (global-set-key (kbd "M-<f7>") 'gcr/text-scale-decrease))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*VERY%20DISRUPTIVE][nil]]
 (global-set-key (kbd "C-<f2>") 'emacs-index-search)
 (global-set-key (kbd "S-<f2>") 'elisp-index-search)
 (global-set-key (kbd "C-<f3>") 'imenu-anywhere)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*VERY%20DISRUPTIVE][nil]]
 (global-set-key (kbd "s-<up>") 'enlarge-window)
 (global-set-key (kbd "s-<down>") 'shrink-window)
 (global-set-key (kbd "s-<right>") 'enlarge-window-horizontally)
 (global-set-key (kbd "s-<left>") 'shrink-window-horizontally)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*VERY%20DISRUPTIVE][nil]]
 (global-set-key (kbd "<f7>") 'list-world-time)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*VERY%20DISRUPTIVE][nil]]
 (global-set-key (kbd "<f8>") 'magit-status)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*VERY%20DISRUPTIVE][nil]]
 (global-set-key (kbd "<f9>") 'gcr/util-cycle)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*VERY%20DISRUPTIVE][nil]]
 (global-set-key (kbd "<f11>") 'other-window)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*VERY%20DISRUPTIVE][nil]]
 (global-set-key (kbd "<f12>") 'neotree-toggle)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*ditaa][nil]]
 (defconst gcr/ditaa-jar (concat (getenv "EELIB") "/ditaa0_9.jar"))
 (defun gcr/warn-ditaa-jar ()
   "Warn of ditaa misconfiguration."
@@ -688,10 +827,16 @@ Attribution: URL `http://endlessparentheses.com/permanent-auto-indentation.html'
      gcr/ditaa-jar)))
 (gcr/warn-ditaa-jar)
 (setq org-ditaa-jar-path gcr/ditaa-jar)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*ditaa][nil]]
 (add-to-list 'auto-mode-alist '("\\.asc" . artist-mode))
 (add-to-list 'auto-mode-alist '("\\.art" . artist-mode))
 (add-to-list 'auto-mode-alist '("\\.asc" . artist-mode))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*plantuml][nil]]
 (defconst gcr/plantuml-jar (concat (expand-file-name (getenv "EELIB")) "/plantuml.8008.jar"))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*plantuml][nil]]
 (defun gcr/warn-plantuml-jar ()
   "Warn of plantuml misconfiguration."
   (interactive)
@@ -720,646 +865,12 @@ Attribution: URL `http://endlessparentheses.com/permanent-auto-indentation.html'
   (wrap-region-mode t)
   (turn-on-stripe-table-mode))
 (add-hook 'plantuml-mode-hook 'gcr/plantuml-mode-hook)
-(setq org-edit-src-code nil)
-(setq org-list-allow-alphabetical +1)
-(require 'org)
-(require 'ox-beamer)
-(require 'ox-md)
-(require 'htmlize)
-(setq htmlize-output-type 'inline-css)
-(setq org-html-htmlize-output-type htmlize-output-type)
-(let ((pkg 'org-show))
-  (if (not (el-get-package-is-installed pkg))
-      (warn "You wanted %S to be installed, but it isnt. Fix this." pkg)
-    (let ((fil (concat (el-get-package-directory pkg) "org-show.el")))
-      (if (not (f-exists? fil))
-          (warn "You wanted %S to exist, but it doesn't. Fix this." fil)
-        (load fil)))))
-(defconst gcr/org-version "8.2.8")
-
-(defun gcr/warn-org-version ()
-  "Warn of org misconfiguration."
-  (interactive)
-  (when (not (version= (org-version) gcr/org-version))
-    (warn "Insufficient org-mode requirements. Expected %S. Found: %S " gcr/org-version (org-version))))
-(gcr/warn-org-version)
-(setq org-export-coding-system 'utf-8)
-(setq org-export-preserve-breaks nil)
-(require 'org2blog-autoloads)
-(setq org-todo-keywords
-      '((sequence "TODO" "IN-PROGRESS" "WAITING" "REVIEW" "DONE")))
-(setq org-startup-with-inline-images (display-graphic-p))
-(setq org-export-copy-to-kill-ring nil)
-(setq org-completion-use-ido +1)
-(setq org-use-speed-commands +1)
-(setq org-confirm-shell-link-function 'y-or-n-p)
-(setq org-confirm-elisp-link-function 'y-or-n-p)
-(setq org-enforce-todo-dependencies +1)
-(gcr/on-gui
- (require 'org-mouse))
-(setq org-pretty-entities +1)
-(setq org-ellipsis "…")
-(setq org-hide-leading-stars +1)
-(setq org-fontify-emphasized-text +1)
-(setq org-highlight-latex-and-related '(latex script entities))
-(require 'org-ac)
-(org-ac/config-default)
-(setq org-footnote-define-inline +1)
-(setq org-footnote-auto-label 'random)
-(setq org-footnote-auto-adjust nil)
-(setq org-footnote-section nil)
-(setq org-catch-invisible-edits 'error)
-(setq org-loop-over-headlines-in-active-region t)
-(setq org-export-with-toc nil)
-(setq org-startup-folded "nofold")
-(setq org-image-actual-width t)
-(setq org-hide-emphasis-markers +1)
-(defun gcr/org-babel-after-execute-hook ()
-  "Personal settings for the `org-babel-after-execute-hook'."
-  (interactive)
-  (org-display-inline-images nil t))
-
-(add-hook 'org-babel-after-execute-hook 'gcr/org-babel-after-execute-hook)
-(require 'ob-sml nil 'noerror)
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((calc . t)
-   (css . t)
-   (dot . t)
-   (ditaa . t)
-   (emacs-lisp . t)
-   (js . t)
-   (latex . t)
-   (lilypond . t)
-   (makefile . t)
-   (org . t)
-   (perl . t)
-   (python . t)
-   (plantuml . t)
-   (R . t)
-   (scheme . t)
-   (sh . t)
-   (sml . t)))
-(setq org-babel-use-quick-and-dirty-noweb-expansion nil)
-(setq org-src-fontify-natively nil)
-(setq org-src-preserve-indentation +1)
-(setq org-src-strip-leading-and-trailing-blank-lines nil)
-(setq org-edit-src-content-indentation 0)
-(add-to-list
- 'org-structure-template-alist
- '("el" "#+begin_src emacs-lisp\n?\n#+end_src" "<src lang=\"emacs-lisp\">\n?\n</src>"))
-(mapc (lambda (asc)
-        (let ((org-sce-dc (downcase (nth 1 asc))))
-          (setf (nth 1 asc) org-sce-dc)))
-      org-structure-template-alist)
-(add-to-list
- 'org-structure-template-alist
- '("r" "#+begin_src R\n?\n#+end_src" "<src lang=\"R\"></src>"))
-(add-to-list
- 'org-structure-template-alist
- '("p" "#+begin_src plantuml\n?\n#+end_src" "<src lang=\"plantuml\"></src>"))
-(defadvice org-babel-tangle (before org-babel-tangle-before activate)
-  (gcr/save-all-file-buffers)
-  (message (concat "org-babel-tangle BEFORE: <"
-                   (format-time-string "%Y-%m-%dT%T%z")
-                   ">")))
-
-(defadvice org-babel-tangle (after org-babel-tangle-after activate)
-  (message (concat "org-babel-tangle AFTER: <"
-                   (format-time-string "%Y-%m-%dT%T%z")
-                   ">"))
-  (alert "Your tangling is complete." :title "org-mode"))
-
-(defadvice org-ascii-export-as-ascii (before org-ascii-export-as-ascii-before activate)
-  (gcr/save-all-file-buffers))
-
-(defadvice org-html-export-to-html (before before-org-html-export-to-html activate)
-  (gcr/save-all-file-buffers)
-  (message (concat "org-html-export-to-html BEFORE: <"
-                   (format-time-string "%Y-%m-%dT%T%z")
-                   ">")))
-
-(defadvice org-html-export-to-html (after after-org-html-export-to-html activate)
-  (message (concat "org-html-export-to-html AFTER: <"
-                   (format-time-string "%Y-%m-%dT%T%z")
-                   ">")))
-(defun sacha/org-html-checkbox (checkbox)
-  "Format CHECKBOX into HTML. http://sachachua.com/blog/2014/03/emacs-tweaks-export-org-checkboxes-using-utf-8-symbols/?shareadraft=baba27119_533313c944f64"
-  (case checkbox (on "<span class=\"check\">&#x2611;</span>") ; checkbox (checked)
-        (off "<span class=\"checkbox\">&#x2610;</span>")
-        (trans "<code>[-]</code>")
-        (t "")))
-
-(defadvice org-html-checkbox (around sacha activate)
-  (setq ad-return-value (sacha/org-html-checkbox (ad-get-arg 0))))
-
-(defun gcr/warn-org-html-checkbox-type ()
-  "Report new feature availability."
-  (interactive)
-  (when (boundp 'org-html-checkbox-type)
-    (warn "Org mode now supports HTML export to unicode checkboxes. Please update your configuration to use the variable 'org-html-checkbox-type'.")))
-(gcr/warn-org-html-checkbox-type)
-
-(defadvice org-latex-export-to-pdf (before org-latex-export-to-pdf-before activate)
-  (gcr/save-all-file-buffers))
-(setq org2blog/wp-blog-alist
-      '(("wisdomandwonder"
-         :url "http://www.wisdomandwonder.com/wordpress/xmlrpc.php"
-         :username "admin"
-         :default-title "Title goes here"
-         :default-categories ("Article")
-         :tags-as-categories nil
-         :confirm t
-         :show 'show
-         :keep-new-lines nil
-         :wp-latex t
-         :wp-code nil
-         :track-posts (list "~/wnw.org2blog.org" "Posts"))))
-(let* ((allowed '(exports
-                  file
-                  noweb
-                  noweb-ref
-                  session
-                  tangle))
-       (new-ls
-        (--filter (member (car it) allowed)
-                  org-babel-common-header-args-w-values)))
-  (setq org-babel-common-header-args-w-values new-ls))
-(setq org-babel-min-lines-for-block-output 0)
-(setq org-edit-src-auto-save-idle-delay 1)
-(setq org-src-window-setup 'current-window)
-(setq org-babel-results-keyword "NAME")
-(setq org-babel-no-eval-on-ctrl-c-ctrl-c +1)
-(setq org-babel-noweb-wrap-start "«")
-(setq org-babel-noweb-wrap-end "»")
-(defun gcr/org-edit-src-code-plus-name ()
-  "Edit the well-described source code block.
-
-Attribution: URL `https://lists.gnu.org/archive/html/emacs-orgmode/2014-09/msg00778.html'"
-  (interactive)
-  (let* ((eop  (org-element-at-point))
-         (name (or (org-element-property :name (org-element-context eop))
-                  "ॐ"))
-         (lang (org-element-property :language eop))
-         (buff-name (concat "*Org Src " name "[" lang "]*")))
-    (org-edit-src-code nil nil buff-name)))
-(defadvice vc-next-action (before vc-next-action-in-org-src-block last activate)
-  "If in org source block, exit it."
-  (when (condition-case nil
-            (org-src-in-org-buffer)
-          (error nil))
-    (org-edit-src-exit)))
-(gcr/set-org-babel-default-header-args :comments "no")
-(gcr/set-org-babel-default-header-args :results "output replace")
-(gcr/set-org-babel-default-header-args :exports "both")
-(gcr/set-org-babel-default-header-args :noweb "no-export")
-(setq org-confirm-babel-evaluate nil)
-(gcr/set-org-babel-default-header-args :eval "always")
-(setq org-export-babel-evaluate 'inline-only)
-(gcr/set-org-babel-default-inline-header-args :eval "always")
-(gcr/set-org-babel-default-inline-header-args :results "value replace")
-(gcr/set-org-babel-default-header-args:R :session "*R*")
-(add-to-list 'ispell-skip-region-alist '("^#\\+begin_src ". "#\\+end_src$"))
-(add-to-list 'ispell-skip-region-alist '("^#\\+BEGIN_SRC ". "#\\+END_SRC$"))
-(add-to-list 'ispell-skip-region-alist '("^#\\+begin_example ". "#\\+end_example$"))
-(add-to-list 'ispell-skip-region-alist '("^#\\+BEGIN_EXAMPLE ". "#\\+END_EXAMPLE$"))
-(add-to-list 'ispell-skip-region-alist '("\:PROPERTIES\:$" . "\:END\:$"))
-(add-to-list 'ispell-skip-region-alist '("\\[fn:.+:" . "\\]"))
-(add-to-list 'ispell-skip-region-alist '("^http" . "\\]"))
-(add-to-list 'ispell-skip-region-alist '("=.*" . ".*="))
-(add-to-list 'ispell-skip-region-alist '("- \\*.+" . ".*\\*: "))
-(let (void)
-  (--each
-      '("ATTR_LATEX"
-        "AUTHOR"
-        "CREATOR"
-        "DATE"
-        "DESCRIPTION"
-        "EMAIL"
-        "EXCLUDE_TAGS"
-        "HTML_CONTAINER"
-        "HTML_DOCTYPE"
-        "HTML_HEAD"
-        "HTML_HEAD_EXTRA"
-        "HTML_LINK_HOME"
-        "HTML_LINK_UP"
-        "HTML_MATHJAX"
-        "INFOJS_OPT"
-        "KEYWORDS"
-        "LANGUAGE"
-        "LATEX_CLASS"
-        "LATEX_CLASS_OPTIONS"
-        "LATEX_HEADER"
-        "LATEX_HEADER_EXTRA"
-        "OPTIONS"
-        "SELECT_TAGS"
-        "STARTUP"
-        "TITLE")
-    (gcr/ispell-a2isra (gcr/ispell-org-header-lines-regexp it))))
-(define-key org-mode-map (kbd "C-,") (lambda () (interactive) (insert " \\larr ")))
-(defun gcr/org-mode-hook ()
-  (local-set-key (kbd "C-1") 'org-narrow-to-subtree)
-  (local-set-key (kbd "M-1") 'widen)
-  (local-set-key (kbd "C-2") 'gcr/org-edit-src-code-plus-name)
-  (local-set-key (kbd "s-h") 'org-babel-check-src-block)
-  (local-set-key (kbd "s-a i") 'org-babel-insert-header-arg)
-  (local-set-key (kbd "s-j") 'org-babel-previous-src-block)
-  (local-set-key (kbd "s-k") 'org-babel-next-src-block)
-  (local-set-key (kbd "s-l") 'org-babel-demarcate-block)
-  (local-set-key (kbd "s-;") 'org-babel-view-src-block-info)
-  (local-set-key (kbd "s-b s") 'org-babel-switch-to-session)
-  (local-set-key (kbd "s-b c") 'org-babel-switch-to-session-with-code)
-  (local-set-key (kbd "s-e") 'org-babel-execute-maybe)
-  (local-set-key (kbd "s-t") 'org-babel-tangle)
-  (local-set-key (kbd "s-x") 'org-babel-do-key-sequence-in-edit-buffer)
-  (local-set-key (kbd "s-w w") 'org-export-dispatch)
-  (local-set-key (kbd "s-<f5>") 'org-babel-execute-buffer)
-  (local-set-key (kbd "s-i d") 'org-display-inline-images)
-  (local-set-key (kbd "s-i r") 'org-remove-inline-images)
-  (local-set-key (kbd "C-.") (lambda () (interactive) (insert " \\rarr ")))
-  (turn-on-real-auto-save)
-  (when (and (fboundp 'guide-key-mode) guide-key-mode)
-    (guide-key/add-local-guide-key-sequence "C-c")
-    (guide-key/add-local-guide-key-sequence "C-c C-x")
-    (guide-key/add-local-highlight-command-regexp "org-"))
-  (org2blog/wp-mode)
-  (gcr/diminish 'org2blog/wp-mode)
-  (fci-mode)
-  (gcr/untabify-buffer-hook)
-  (turn-on-stripe-table-mode)
-  (linum-mode)
-  (wrap-region-mode t))
-
-(add-hook 'org-mode-hook 'gcr/org-mode-hook)
-(defun gcr/org-src-mode-hook ()
-  (local-set-key (kbd "C-2") 'org-edit-src-exit)
-  (visual-line-mode))
-
-(add-hook 'org-src-mode-hook 'gcr/org-src-mode-hook)
-(defconst gcr/keyfreq-file "~/.emacs.keyfreq")
-(defun gcr/warn-keyfreq-file ()
-  "Warn of keyfreq misconfiguration."
-  (interactive)
-  (unless (f-exists? gcr/keyfreq-file)
-    (warn "Can't seem to find a symlink at: %S. Keyfreq expeced it there, and will continue to function, but your data will probably be lost." gcr/keyfreq-file)))
-(gcr/warn-keyfreq-file)
-(require 'keyfreq)
-(setq keyfreq-file gcr/keyfreq-file)
-(keyfreq-mode 1)
-(keyfreq-autosave-mode 1)
-(menu-bar-mode +1)
-(setq-default fill-column 80)
-(blink-cursor-mode 0)
-(gcr/on-gui
- (setq-default cursor-type 'box))
-(setq x-stretch-cursor 1)
-(global-linum-mode -1)
-(global-font-lock-mode 1)
-(setq blink-matching-paren nil)
-(show-paren-mode +1)
-(setq show-paren-delay 0)
-(setq show-paren-style 'expression)
-(setq ring-bell-function 'ignore)
-(setq visible-bell +1)
-(winner-mode +1)
-(setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
-(gcr/on-osx
- (defadvice yes-or-no-p (around prevent-dialog activate)
-   "Prevent yes-or-no-p from activating a dialog"
-   (let ((use-dialog-box nil))
-     ad-do-it))
-
- (defadvice y-or-n-p (around prevent-dialog-yorn activate)
-   "Prevent y-or-n-p from activating a dialog"
-   (let ((use-dialog-box nil))
-     ad-do-it)))
-(gcr/on-gui
- (setq frame-title-format '("the ultimate…"))
- (scroll-bar-mode -1)
- (tool-bar-mode 0)
- (setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
- (setq mouse-wheel-progressive-speed nil)
- (setq mouse-wheel-follow-mouse +1)
- (require 'pos-tip)
- (setq pos-tip-foreground-color "#073642")
- (setq pos-tip-background-color "#839496")
- (gcr/on-windows
-  (pos-tip-w32-max-width-height)))
-(desktop-save-mode 1)
-(setq desktop-restore-eager 10)
-(require 'real-auto-save)
-(setq real-auto-save-interval 15)
-(require 'uniquify)
-(setq uniquify-buffer-name-style 'forward)
-(add-to-list 'load-path "/usr/share/emacs/site-lisp/ccrypt")
-(require 'ps-ccrypt "ps-ccrypt.el")
-(setq backup-inhibited 1)
-(setq auto-save-default nil)
-(add-hook 'write-file-hooks
-          (lambda ()
-            (gcr/delete-trailing-whitespace)))
-(prefer-coding-system 'utf-8)
-(gcr/on-gui
- (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
- (gcr/on-windows
-  (set-clipboard-coding-system 'utf-16le-dos)))
-
-(require 'undo-tree)
-(global-undo-tree-mode 1)
-(gcr/diminish 'undo-tree-mode)
-(setq require-final-newline t)
-(global-auto-revert-mode 1)
-(autoload
-  'ace-jump-mode
-  "ace-jump-mode"
-  "Emacs quick move minor mode"
-  t)
-(require 'sublimity)
-(require 'sublimity-scroll)
-(require 'sublimity-map)
-(require 'sublimity-attractive)
-(sublimity-map-set-delay nil)
-(let ((text-buffer (get-buffer-create "*text*")))
-  (with-current-buffer text-buffer
-    (text-mode)
-    (insert "Shall we play a game?")
-    (beginning-of-line)))
-
-(autoload
-  'ace-jump-mode
-  "ace-jump-mode"
-  "Emacs quick move minor mode"
-  t)
-(autoload
-  'ace-jump-mode-pop-mark
-  "ace-jump-mode"
-  "Ace jump back:-)"
-  t)
-(eval-after-load "ace-jump-mode"
-  '(ace-jump-mode-enable-mark-sync))
-(define-key global-map (kbd "C-x SPC") 'ace-jump-mode-pop-mark)
-(setq isearch-lax-whitespace +1)
-(setq isearch-regexp-lax-whitespace +1)
-(require 'boxquote)
-(setq track-eol +1)
-(setq line-move-visual nil)
-(global-set-key [?\C-x ?t] 'anchored-transpose)
-(autoload 'anchored-transpose "anchored-transpose" nil t)
-(require 'ibuffer)
-(require 'smooth-scrolling)
-(linum-relative-toggle)
-(require 'nyan-mode)
-(require 'highlight-tail)
-(require 'zone)
-(require 'stripe-buffer)
-(require 'wrap-region)
-(gcr/diminish 'wrap-region-mode)
-
-(wrap-region-add-wrapper "*" "*" nil 'org-mode) ;; bold
-(wrap-region-add-wrapper "/" "/" nil 'org-mode) ;; italic
-(wrap-region-add-wrapper "_" "_" nil 'org-mode) ;; underlined
-(wrap-region-add-wrapper "=" "=" nil 'org-mode) ;; verbatim
-(wrap-region-add-wrapper "~" "~" nil 'org-mode) ;; code
-(wrap-region-add-wrapper "+" "+" nil 'org-mode) ;; strike-through
-;; (wrap-region-add-wrapper "" "w" 'org-mode) ;; noweb blocks
-(global-visual-line-mode 1)
-(gcr/diminish 'visual-line-mode)
-(gcr/diminish 'global-visual-line-mode)
-(size-indication-mode)
-(column-number-mode 1)
-(require 'diminish)
-(defadvice kill-line (around kill-line-remove-newline activate)
-  (let ((kill-whole-line t))
-    ad-do-it))
-(delete-selection-mode 1)
-(fset 'yes-or-no-p 'y-or-n-p)
-(setq resize-mini-windows +1)
-(setq max-mini-window-height 0.33)
-(setq enable-recursive-minibuffers t)
-(minibuffer-depth-indicate-mode 1)
-(defun gcr/minibuffer-setup-hook ()
-  "Personal setup."
-  (local-set-key "ESC y" 'gcr/paste-from-x-clipboard))
-
-(add-hook 'minibuffer-setup-hook 'gcr/minibuffer-setup-hook)
-(require 'guide-key)
-(setq guide-key/guide-key-sequence '("C-x r" "C-x 4"))
-(guide-key-mode 1)
-(gcr/diminish 'guide-key-mode)
-(require 'move-text)
-(setq hs-hide-comments-when-hiding-all +1)
-(setq hs-isearch-open +1)
-(defun display-code-line-counts (ov)
-  "Displaying overlay content in echo area or tooltip"
-  (when (eq 'code (overlay-get ov 'hs))
-    (overlay-put ov 'help-echo
-                 (buffer-substring (overlay-start ov)
-                                   (overlay-end ov)))))
-
-(setq hs-set-up-overlay 'display-code-line-counts)
-(defadvice goto-line (after expand-after-goto-line activate compile)
-  "How do I get it to expand upon a goto-line? hideshow-expand affected block when using goto-line in a collapsed buffer."
-  (save-excursion
-    (hs-show-block)))
-(require 'rainbow-mode)
-(condition-case nil
-    (gcr/diminish 'rainbow-mode)
-  (error nil))
-(require 'smex)
-(smex-initialize)
-(require 'smartparens-config)
-(show-smartparens-global-mode +1)
-(gcr/diminish 'smartparens-mode)
-(setq sp-show-pair-from-inside nil)
-(setq dired-listing-switches "-alh")
-(setq dired-recursive-deletes  +1)
-(require 'dired-details+)
-(setq-default dired-details-hidden-string "")
-(defun gcr/dired-mode-hook ()
-  "Personal dired customizations."
-  (local-set-key "c" 'gcr/dired-copy-filename)
-  (local-set-key "]" 'gcr/dired-copy-path)
-  (diff-hl-dired-mode)
-  (load "dired-x")
-  (turn-on-stripe-buffer-mode)
-  (stripe-listify-buffer))
-(add-hook 'dired-mode-hook 'gcr/dired-mode-hook)
-(require 'find-dired)
-(setq find-ls-option '("-print0 | xargs -0 ls -ld" . "-ld"))
-(require 'wdired)
-(setq wdired-allow-to-change-permissions t)
-(setq wdired-allow-to-redirect-links t)
-(setq wdired-use-interactive-rename +1)
-(setq wdired-confirm-overwrite +1)
-(setq wdired-use-dired-vertical-movement 'sometimes)
-(require 'dired-imenu)
-(require 'fuzzy)
-(require 'auto-complete)
-(require 'auto-complete-config)
-(setq ac-quick-help-prefer-pos-tip nil)
-(ac-config-default)
-(setq ac-auto-start nil)
-(ac-set-trigger-key "TAB")
-(gcr/diminish 'auto-complete-mode)
-(projectile-global-mode 1)
-(gcr/diminish 'projectile-mode)
-(require 'multiple-cursors)
-(setq tramp-default-user "gcr")
-(setq tramp-default-method "ssh")
-(defconst gcr/savehist-file-store "~/.emacs.d/savehist")
-(defun gcr/warn-savehist-file-store ()
-  "Warn of savehist misconfiguration."
-  (interactive)
-  (unless (gcr/file-exists-not-symlink gcr/savehist-file-store)
-    (warn "Can't seem to find a savehist store file where it was expected at: %S. Savehist should continue to function normally; but your history may be lost."
-          gcr/savehist-file-store)))
-(gcr/warn-savehist-file-store)
-(savehist-mode +1)
-(setq savehist-save-minibuffer-history +1)
-(setq savehist-additional-variables
-      '(kill-ring
-        search-ring
-        regexp-search-ring))
-(require 'ido)
-(require 'flx-ido)
-(ido-mode 1)
-(require 'ido-hacks nil +1)
-(require 'ido-ubiquitous)
-(ido-ubiquitous-mode +1)
-(setq ido-create-new-buffer 'always)
-(flx-ido-mode +1)
-(setq ido-use-faces nil)
-(require 'ido-vertical-mode)
-(ido-vertical-mode +1)
-(setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right)
-(require 'expand-region)
-(defconst gcr/aspell-dict "~/.aspell.en.pws")
-(defun gcr/warn-aspell-dict ()
-  "Warn of aspell misconfiguration."
-  (interactive)
-  (unless (f-exists? gcr/aspell-dict)
-    (warn
-     "Can't seem to find an aspell dictionary where it was expected at: %S. aspell should continue to function normally; but your personal dictionary will not be used."
-     gcr/aspell-dict)))
-(gcr/warn-aspell-dict)
-(require 'flycheck)
-(add-hook 'after-init-hook #'global-flycheck-mode)
-(gcr/diminish 'flycheck-mode)
-(require 'yasnippet)
-(defconst gcr/yas-snippet-dir (concat (cask-dependency-path gcr/cask-bundle 'yasnippet)
-                               "/snippets"))
-(defun gcr/warn-yas-snippet-dir ()
-  "Warn of Yas misconfiguration."
-  (interactive)
-  (unless (f-directory? gcr/yas-snippet-dir)
-    (warn
-     "Can't seem to find the Yas snippet dir where it was expected at: %S. Yas should continue function but without its standard snippets loaded."
-     gcr/yas-snippet-dir)))
-(gcr/warn-yas-snippet-dir)
-(yas-load-directory gcr/yas-snippet-dir)
-(yas-global-mode 1)
-(gcr/diminish 'yas-minor-mode)
-(defun gcr/yas-minor-mode-hook ()
-  "Personal customizations."
-  (define-key yas-minor-mode-map (kbd "<tab>") nil)
-  (define-key yas-minor-mode-map (kbd "TAB") nil)
-  (define-key yas-minor-mode-map (kbd "s-4") 'yas-expand))
-
-(add-hook 'yas-minor-mode-hook 'gcr/yas-minor-mode-hook)
-(require 'whitespace)
-(setq whitespace-style '(trailing lines tab-mark))
-(setq whitespace-line-column 80)
-(global-whitespace-mode 1)
-(gcr/diminish 'global-whitespace-mode)
-(gcr/diminish 'whitespace-mode)
-(setq eshell-prefer-lisp-functions nil
-      eshell-cmpl-cycle-completions nil
-      eshell-save-history-on-exit t
-      eshell-cmpl-dir-ignore "\\`\\(\\.\\.?\\|CVS\\|\\.svn\\|\\.git\\)/\\'")
-
-(eval-after-load 'esh-opt
-  '(progn
-     (require 'em-cmpl)
-     (require 'em-prompt)
-     (require 'em-term)
-     (setenv "PAGER" "cat")
-     (add-hook 'eshell-mode-hook
-               (lambda ()
-                 (message "Protovision… I have you now.")
-                 (setq pcomplete-cycle-completions nil)))
-     (add-to-list 'eshell-visual-commands "ssh")
-     (add-to-list 'eshell-visual-commands "tail")
-     (add-to-list 'eshell-command-completions-alist
-                  '("tar" "\\(\\.tar|\\.tgz\\|\\.tar\\.gz\\)\\'"))))
-(defconst gcr/eshell-dir "~/.emacs.d/eshell")
-(defun gcr/warn-eshell-dir ()
-  "Warn of eshell misconfiguration."
-  (interactive)
-  (unless (and (f-symlink? gcr/eshell-dir)
-             (f-directory? gcr/eshell-dir))
-    (warn
-     "Could not find the eshell directory at: %S. Eshell will continue to function albeit without your customizations."
-     gcr/eshell-dir)))
-(gcr/warn-eshell-dir)
-(setq eshell-prompt-regexp "^.+@.+:.+> ")
-(setq eshell-prompt-function
-      (lambda ()
-        (concat
-         (user-login-name)
-         "@"
-         (system-name)
-         ":"
-         (eshell/pwd)
-         "> ")))
-(require 'fancy-narrow)
-(require 'auto-complete-chunk)
-(require 'clips-mode)
-(setq comint-scroll-to-bottom-on-input 'this)
-(setq comint-scroll-to-bottom-on-output 'others)
-(setq comint-show-maximum-output t)
-(setq comint-scroll-show-maximum-output t)
-(setq comint-move-point-for-output t)
-(setq comint-prompt-read-only t)
-(defun gcr/css-modehook ()
-  (fci-mode)
-  (whitespace-turn-on)
-  (rainbow-mode)
-  (visual-line-mode)
-  (gcr/untabify-buffer-hook)
-  (turn-on-real-auto-save)
-  (local-set-key (kbd "RET") 'newline-and-indent))
-
-(add-hook 'css-mode-hook 'gcr/css-modehook)
-(defun gcr/elisp-eval-buffer ()
-  "Intelligently evaluate an Elisp buffer."
-  (interactive)
-  (gcr/save-all-file-buffers)
-  (eval-buffer))
-
-(defun gcr/elisp-mode-local-bindings ()
-  "Helpful behavior for Elisp buffers."
-  (local-set-key (kbd "s-l eb") 'gcr/elisp-eval-buffer)
-  (local-set-key (kbd "s-l ep") 'eval-print-last-sexp)
-  (local-set-key (kbd "s-l td") 'toggle-debug-on-error)
-  (local-set-key (kbd "s-l mef") 'macroexpand)
-  (local-set-key (kbd "s-l mea") 'macroexpand-all)
-  (local-set-key (kbd "s-p") 'gcr/describe-thing-in-popup)
-  (local-set-key (kbd "M-:") 'my-eval-expression))
-
-(require 'lexbind-mode)
-
-(defun gcr/emacs-lisp-mode-hook ()
-  (gcr/elisp-mode-local-bindings)
-  (lexbind-mode)
-  (turn-on-eldoc-mode)
-  (gcr/diminish 'eldoc-mode)
-  (endless/activate-aggressive-indent))
-
-(add-hook 'emacs-lisp-mode-hook 'gcr/emacs-lisp-mode-hook)
-
-(setq initial-scratch-message nil)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Emacs%20Speaks%20Statistics%20(ESS)%20%5Bfn:3bba0c0c:%20http://ess.r-project.org/%5D%20%5Bfn:25441790:%20https://en.wikipedia.org/wiki/Emacs_Speaks_Statistics%5D%20%5Bfn:a2ae633d:%20http://www.emacswiki.org/emacs/EmacsSpeaksStatistics%5D%20%5Bfn:b28cb112:%20http://blog.revolutionanalytics.com/2011/08/ess.html%5D%20%5Bfn:353ffc35:%20http://blog.revolutionanalytics.com/2014/03/emacs-ess-and-r-for-zombies.html%5D%20%5Bfn:3b20a6da:%20https://rstudio-pubs-static.s3.amazonaws.com/2246_6f220d4de90c4cfda4109e62455bc70f.html%5D][nil]]
 (require 'ess-site)
-(defconst gcr/ess-version "14.09")
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Emacs%20Speaks%20Statistics%20(ESS)%20%5Bfn:3bba0c0c:%20http://ess.r-project.org/%5D%20%5Bfn:25441790:%20https://en.wikipedia.org/wiki/Emacs_Speaks_Statistics%5D%20%5Bfn:a2ae633d:%20http://www.emacswiki.org/emacs/EmacsSpeaksStatistics%5D%20%5Bfn:b28cb112:%20http://blog.revolutionanalytics.com/2011/08/ess.html%5D%20%5Bfn:353ffc35:%20http://blog.revolutionanalytics.com/2014/03/emacs-ess-and-r-for-zombies.html%5D%20%5Bfn:3b20a6da:%20https://rstudio-pubs-static.s3.amazonaws.com/2246_6f220d4de90c4cfda4109e62455bc70f.html%5D][nil]]
+(defconst gcr/ess-version "14.1x")
 
 (defun gcr/warn-ess-version ()
   "Warn of ess misconfiguration."
@@ -1367,17 +878,39 @@ Attribution: URL `https://lists.gnu.org/archive/html/emacs-orgmode/2014-09/msg00
   (when (not (version= ess-version gcr/ess-version))
     (warn "Insufficient ess-mode requirements. Expected %S. Found: %S " gcr/ess-version ess-version)))
 (gcr/warn-ess-version)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Emacs%20Speaks%20Statistics%20(ESS)%20%5Bfn:3bba0c0c:%20http://ess.r-project.org/%5D%20%5Bfn:25441790:%20https://en.wikipedia.org/wiki/Emacs_Speaks_Statistics%5D%20%5Bfn:a2ae633d:%20http://www.emacswiki.org/emacs/EmacsSpeaksStatistics%5D%20%5Bfn:b28cb112:%20http://blog.revolutionanalytics.com/2011/08/ess.html%5D%20%5Bfn:353ffc35:%20http://blog.revolutionanalytics.com/2014/03/emacs-ess-and-r-for-zombies.html%5D%20%5Bfn:3b20a6da:%20https://rstudio-pubs-static.s3.amazonaws.com/2246_6f220d4de90c4cfda4109e62455bc70f.html%5D][nil]]
 (setq ess-eldoc-show-on-symbol t)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Emacs%20Speaks%20Statistics%20(ESS)%20%5Bfn:3bba0c0c:%20http://ess.r-project.org/%5D%20%5Bfn:25441790:%20https://en.wikipedia.org/wiki/Emacs_Speaks_Statistics%5D%20%5Bfn:a2ae633d:%20http://www.emacswiki.org/emacs/EmacsSpeaksStatistics%5D%20%5Bfn:b28cb112:%20http://blog.revolutionanalytics.com/2011/08/ess.html%5D%20%5Bfn:353ffc35:%20http://blog.revolutionanalytics.com/2014/03/emacs-ess-and-r-for-zombies.html%5D%20%5Bfn:3b20a6da:%20https://rstudio-pubs-static.s3.amazonaws.com/2246_6f220d4de90c4cfda4109e62455bc70f.html%5D][nil]]
 (setq ess-use-tracebug t)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Emacs%20Speaks%20Statistics%20(ESS)%20%5Bfn:3bba0c0c:%20http://ess.r-project.org/%5D%20%5Bfn:25441790:%20https://en.wikipedia.org/wiki/Emacs_Speaks_Statistics%5D%20%5Bfn:a2ae633d:%20http://www.emacswiki.org/emacs/EmacsSpeaksStatistics%5D%20%5Bfn:b28cb112:%20http://blog.revolutionanalytics.com/2011/08/ess.html%5D%20%5Bfn:353ffc35:%20http://blog.revolutionanalytics.com/2014/03/emacs-ess-and-r-for-zombies.html%5D%20%5Bfn:3b20a6da:%20https://rstudio-pubs-static.s3.amazonaws.com/2246_6f220d4de90c4cfda4109e62455bc70f.html%5D][nil]]
 (setq ess-tracebug-search-path '())
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Emacs%20Speaks%20Statistics%20(ESS)%20%5Bfn:3bba0c0c:%20http://ess.r-project.org/%5D%20%5Bfn:25441790:%20https://en.wikipedia.org/wiki/Emacs_Speaks_Statistics%5D%20%5Bfn:a2ae633d:%20http://www.emacswiki.org/emacs/EmacsSpeaksStatistics%5D%20%5Bfn:b28cb112:%20http://blog.revolutionanalytics.com/2011/08/ess.html%5D%20%5Bfn:353ffc35:%20http://blog.revolutionanalytics.com/2014/03/emacs-ess-and-r-for-zombies.html%5D%20%5Bfn:3b20a6da:%20https://rstudio-pubs-static.s3.amazonaws.com/2246_6f220d4de90c4cfda4109e62455bc70f.html%5D][nil]]
 (define-key compilation-minor-mode-map [(?n)] 'next-error-no-select)
 (define-key compilation-minor-mode-map [(?p)] 'previous-error-no-select)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Emacs%20Speaks%20Statistics%20(ESS)%20%5Bfn:3bba0c0c:%20http://ess.r-project.org/%5D%20%5Bfn:25441790:%20https://en.wikipedia.org/wiki/Emacs_Speaks_Statistics%5D%20%5Bfn:a2ae633d:%20http://www.emacswiki.org/emacs/EmacsSpeaksStatistics%5D%20%5Bfn:b28cb112:%20http://blog.revolutionanalytics.com/2011/08/ess.html%5D%20%5Bfn:353ffc35:%20http://blog.revolutionanalytics.com/2014/03/emacs-ess-and-r-for-zombies.html%5D%20%5Bfn:3b20a6da:%20https://rstudio-pubs-static.s3.amazonaws.com/2246_6f220d4de90c4cfda4109e62455bc70f.html%5D][nil]]
 (setq ess-watch-scale-amount -1)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Emacs%20Speaks%20Statistics%20(ESS)%20%5Bfn:3bba0c0c:%20http://ess.r-project.org/%5D%20%5Bfn:25441790:%20https://en.wikipedia.org/wiki/Emacs_Speaks_Statistics%5D%20%5Bfn:a2ae633d:%20http://www.emacswiki.org/emacs/EmacsSpeaksStatistics%5D%20%5Bfn:b28cb112:%20http://blog.revolutionanalytics.com/2011/08/ess.html%5D%20%5Bfn:353ffc35:%20http://blog.revolutionanalytics.com/2014/03/emacs-ess-and-r-for-zombies.html%5D%20%5Bfn:3b20a6da:%20https://rstudio-pubs-static.s3.amazonaws.com/2246_6f220d4de90c4cfda4109e62455bc70f.html%5D][nil]]
 (setq ess-describe-at-point-method 'tooltip)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Emacs%20Speaks%20Statistics%20(ESS)%20%5Bfn:3bba0c0c:%20http://ess.r-project.org/%5D%20%5Bfn:25441790:%20https://en.wikipedia.org/wiki/Emacs_Speaks_Statistics%5D%20%5Bfn:a2ae633d:%20http://www.emacswiki.org/emacs/EmacsSpeaksStatistics%5D%20%5Bfn:b28cb112:%20http://blog.revolutionanalytics.com/2011/08/ess.html%5D%20%5Bfn:353ffc35:%20http://blog.revolutionanalytics.com/2014/03/emacs-ess-and-r-for-zombies.html%5D%20%5Bfn:3b20a6da:%20https://rstudio-pubs-static.s3.amazonaws.com/2246_6f220d4de90c4cfda4109e62455bc70f.html%5D][nil]]
 (require 'ess-R-object-popup)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Emacs%20Speaks%20Statistics%20(ESS)%20%5Bfn:3bba0c0c:%20http://ess.r-project.org/%5D%20%5Bfn:25441790:%20https://en.wikipedia.org/wiki/Emacs_Speaks_Statistics%5D%20%5Bfn:a2ae633d:%20http://www.emacswiki.org/emacs/EmacsSpeaksStatistics%5D%20%5Bfn:b28cb112:%20http://blog.revolutionanalytics.com/2011/08/ess.html%5D%20%5Bfn:353ffc35:%20http://blog.revolutionanalytics.com/2014/03/emacs-ess-and-r-for-zombies.html%5D%20%5Bfn:3b20a6da:%20https://rstudio-pubs-static.s3.amazonaws.com/2246_6f220d4de90c4cfda4109e62455bc70f.html%5D][nil]]
 (autoload 'ess-rdired "ess-rdired")
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Emacs%20Speaks%20Statistics%20(ESS)%20%5Bfn:3bba0c0c:%20http://ess.r-project.org/%5D%20%5Bfn:25441790:%20https://en.wikipedia.org/wiki/Emacs_Speaks_Statistics%5D%20%5Bfn:a2ae633d:%20http://www.emacswiki.org/emacs/EmacsSpeaksStatistics%5D%20%5Bfn:b28cb112:%20http://blog.revolutionanalytics.com/2011/08/ess.html%5D%20%5Bfn:353ffc35:%20http://blog.revolutionanalytics.com/2014/03/emacs-ess-and-r-for-zombies.html%5D%20%5Bfn:3b20a6da:%20https://rstudio-pubs-static.s3.amazonaws.com/2246_6f220d4de90c4cfda4109e62455bc70f.html%5D][nil]]
 (require 'ess-R-data-view)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Emacs%20Speaks%20Statistics%20(ESS)%20%5Bfn:3bba0c0c:%20http://ess.r-project.org/%5D%20%5Bfn:25441790:%20https://en.wikipedia.org/wiki/Emacs_Speaks_Statistics%5D%20%5Bfn:a2ae633d:%20http://www.emacswiki.org/emacs/EmacsSpeaksStatistics%5D%20%5Bfn:b28cb112:%20http://blog.revolutionanalytics.com/2011/08/ess.html%5D%20%5Bfn:353ffc35:%20http://blog.revolutionanalytics.com/2014/03/emacs-ess-and-r-for-zombies.html%5D%20%5Bfn:3b20a6da:%20https://rstudio-pubs-static.s3.amazonaws.com/2246_6f220d4de90c4cfda4109e62455bc70f.html%5D][nil]]
 (require 'inlineR)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Emacs%20Speaks%20Statistics%20(ESS)%20%5Bfn:3bba0c0c:%20http://ess.r-project.org/%5D%20%5Bfn:25441790:%20https://en.wikipedia.org/wiki/Emacs_Speaks_Statistics%5D%20%5Bfn:a2ae633d:%20http://www.emacswiki.org/emacs/EmacsSpeaksStatistics%5D%20%5Bfn:b28cb112:%20http://blog.revolutionanalytics.com/2011/08/ess.html%5D%20%5Bfn:353ffc35:%20http://blog.revolutionanalytics.com/2014/03/emacs-ess-and-r-for-zombies.html%5D%20%5Bfn:3b20a6da:%20https://rstudio-pubs-static.s3.amazonaws.com/2246_6f220d4de90c4cfda4109e62455bc70f.html%5D][nil]]
 (setq gcr/r-dir "~/.R/")
 (defun gcr/make-warn-R-dir ()
   "Handle of R directory misconfiguration."
@@ -1389,35 +922,69 @@ Attribution: URL `https://lists.gnu.org/archive/html/emacs-orgmode/2014-09/msg00
 (gcr/make-warn-R-dir)
 (setq ess-history-directory gcr/r-dir)
 (setq ess-source-directory gcr/r-dir)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Emacs%20Speaks%20Statistics%20(ESS)%20%5Bfn:3bba0c0c:%20http://ess.r-project.org/%5D%20%5Bfn:25441790:%20https://en.wikipedia.org/wiki/Emacs_Speaks_Statistics%5D%20%5Bfn:a2ae633d:%20http://www.emacswiki.org/emacs/EmacsSpeaksStatistics%5D%20%5Bfn:b28cb112:%20http://blog.revolutionanalytics.com/2011/08/ess.html%5D%20%5Bfn:353ffc35:%20http://blog.revolutionanalytics.com/2014/03/emacs-ess-and-r-for-zombies.html%5D%20%5Bfn:3b20a6da:%20https://rstudio-pubs-static.s3.amazonaws.com/2246_6f220d4de90c4cfda4109e62455bc70f.html%5D][nil]]
 (setq inferior-ess-program "R")
 (setq inferior-R-program-name "R")
 (setq ess-local-process-name "R")
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Emacs%20Speaks%20Statistics%20(ESS)%20%5Bfn:3bba0c0c:%20http://ess.r-project.org/%5D%20%5Bfn:25441790:%20https://en.wikipedia.org/wiki/Emacs_Speaks_Statistics%5D%20%5Bfn:a2ae633d:%20http://www.emacswiki.org/emacs/EmacsSpeaksStatistics%5D%20%5Bfn:b28cb112:%20http://blog.revolutionanalytics.com/2011/08/ess.html%5D%20%5Bfn:353ffc35:%20http://blog.revolutionanalytics.com/2014/03/emacs-ess-and-r-for-zombies.html%5D%20%5Bfn:3b20a6da:%20https://rstudio-pubs-static.s3.amazonaws.com/2246_6f220d4de90c4cfda4109e62455bc70f.html%5D][nil]]
 (setq inferior-S-prompt "[]a-zA-Z0-9.[]*\\(?:[>+.] \\)*ℝ+> ")
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Emacs%20Speaks%20Statistics%20(ESS)%20%5Bfn:3bba0c0c:%20http://ess.r-project.org/%5D%20%5Bfn:25441790:%20https://en.wikipedia.org/wiki/Emacs_Speaks_Statistics%5D%20%5Bfn:a2ae633d:%20http://www.emacswiki.org/emacs/EmacsSpeaksStatistics%5D%20%5Bfn:b28cb112:%20http://blog.revolutionanalytics.com/2011/08/ess.html%5D%20%5Bfn:353ffc35:%20http://blog.revolutionanalytics.com/2014/03/emacs-ess-and-r-for-zombies.html%5D%20%5Bfn:3b20a6da:%20https://rstudio-pubs-static.s3.amazonaws.com/2246_6f220d4de90c4cfda4109e62455bc70f.html%5D][nil]]
 (setq inferior-ess-same-window nil)
 (setq inferior-ess-own-frame nil)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Emacs%20Speaks%20Statistics%20(ESS)%20%5Bfn:3bba0c0c:%20http://ess.r-project.org/%5D%20%5Bfn:25441790:%20https://en.wikipedia.org/wiki/Emacs_Speaks_Statistics%5D%20%5Bfn:a2ae633d:%20http://www.emacswiki.org/emacs/EmacsSpeaksStatistics%5D%20%5Bfn:b28cb112:%20http://blog.revolutionanalytics.com/2011/08/ess.html%5D%20%5Bfn:353ffc35:%20http://blog.revolutionanalytics.com/2014/03/emacs-ess-and-r-for-zombies.html%5D%20%5Bfn:3b20a6da:%20https://rstudio-pubs-static.s3.amazonaws.com/2246_6f220d4de90c4cfda4109e62455bc70f.html%5D][nil]]
 (setq ess-help-own-frame nil)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Emacs%20Speaks%20Statistics%20(ESS)%20%5Bfn:3bba0c0c:%20http://ess.r-project.org/%5D%20%5Bfn:25441790:%20https://en.wikipedia.org/wiki/Emacs_Speaks_Statistics%5D%20%5Bfn:a2ae633d:%20http://www.emacswiki.org/emacs/EmacsSpeaksStatistics%5D%20%5Bfn:b28cb112:%20http://blog.revolutionanalytics.com/2011/08/ess.html%5D%20%5Bfn:353ffc35:%20http://blog.revolutionanalytics.com/2014/03/emacs-ess-and-r-for-zombies.html%5D%20%5Bfn:3b20a6da:%20https://rstudio-pubs-static.s3.amazonaws.com/2246_6f220d4de90c4cfda4109e62455bc70f.html%5D][nil]]
 (setq ess-ask-for-ess-directory nil)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Emacs%20Speaks%20Statistics%20(ESS)%20%5Bfn:3bba0c0c:%20http://ess.r-project.org/%5D%20%5Bfn:25441790:%20https://en.wikipedia.org/wiki/Emacs_Speaks_Statistics%5D%20%5Bfn:a2ae633d:%20http://www.emacswiki.org/emacs/EmacsSpeaksStatistics%5D%20%5Bfn:b28cb112:%20http://blog.revolutionanalytics.com/2011/08/ess.html%5D%20%5Bfn:353ffc35:%20http://blog.revolutionanalytics.com/2014/03/emacs-ess-and-r-for-zombies.html%5D%20%5Bfn:3b20a6da:%20https://rstudio-pubs-static.s3.amazonaws.com/2246_6f220d4de90c4cfda4109e62455bc70f.html%5D][nil]]
 (setq inferior-ess-exit-command "q('no')
 ")
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Emacs%20Speaks%20Statistics%20(ESS)%20%5Bfn:3bba0c0c:%20http://ess.r-project.org/%5D%20%5Bfn:25441790:%20https://en.wikipedia.org/wiki/Emacs_Speaks_Statistics%5D%20%5Bfn:a2ae633d:%20http://www.emacswiki.org/emacs/EmacsSpeaksStatistics%5D%20%5Bfn:b28cb112:%20http://blog.revolutionanalytics.com/2011/08/ess.html%5D%20%5Bfn:353ffc35:%20http://blog.revolutionanalytics.com/2014/03/emacs-ess-and-r-for-zombies.html%5D%20%5Bfn:3b20a6da:%20https://rstudio-pubs-static.s3.amazonaws.com/2246_6f220d4de90c4cfda4109e62455bc70f.html%5D][nil]]
 (setq ess-execute-in-process-buffer +1)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Emacs%20Speaks%20Statistics%20(ESS)%20%5Bfn:3bba0c0c:%20http://ess.r-project.org/%5D%20%5Bfn:25441790:%20https://en.wikipedia.org/wiki/Emacs_Speaks_Statistics%5D%20%5Bfn:a2ae633d:%20http://www.emacswiki.org/emacs/EmacsSpeaksStatistics%5D%20%5Bfn:b28cb112:%20http://blog.revolutionanalytics.com/2011/08/ess.html%5D%20%5Bfn:353ffc35:%20http://blog.revolutionanalytics.com/2014/03/emacs-ess-and-r-for-zombies.html%5D%20%5Bfn:3b20a6da:%20https://rstudio-pubs-static.s3.amazonaws.com/2246_6f220d4de90c4cfda4109e62455bc70f.html%5D][nil]]
 (setq ess-switch-to-end-of-proc-buffer t)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Emacs%20Speaks%20Statistics%20(ESS)%20%5Bfn:3bba0c0c:%20http://ess.r-project.org/%5D%20%5Bfn:25441790:%20https://en.wikipedia.org/wiki/Emacs_Speaks_Statistics%5D%20%5Bfn:a2ae633d:%20http://www.emacswiki.org/emacs/EmacsSpeaksStatistics%5D%20%5Bfn:b28cb112:%20http://blog.revolutionanalytics.com/2011/08/ess.html%5D%20%5Bfn:353ffc35:%20http://blog.revolutionanalytics.com/2014/03/emacs-ess-and-r-for-zombies.html%5D%20%5Bfn:3b20a6da:%20https://rstudio-pubs-static.s3.amazonaws.com/2246_6f220d4de90c4cfda4109e62455bc70f.html%5D][nil]]
 (setq ess-tab-complete-in-script +1)
 (setq ess-first-tab-never-complete 'symbol-or-paren-or-punct)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Emacs%20Speaks%20Statistics%20(ESS)%20%5Bfn:3bba0c0c:%20http://ess.r-project.org/%5D%20%5Bfn:25441790:%20https://en.wikipedia.org/wiki/Emacs_Speaks_Statistics%5D%20%5Bfn:a2ae633d:%20http://www.emacswiki.org/emacs/EmacsSpeaksStatistics%5D%20%5Bfn:b28cb112:%20http://blog.revolutionanalytics.com/2011/08/ess.html%5D%20%5Bfn:353ffc35:%20http://blog.revolutionanalytics.com/2014/03/emacs-ess-and-r-for-zombies.html%5D%20%5Bfn:3b20a6da:%20https://rstudio-pubs-static.s3.amazonaws.com/2246_6f220d4de90c4cfda4109e62455bc70f.html%5D][nil]]
 (setq ess-use-ido t)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Emacs%20Speaks%20Statistics%20(ESS)%20%5Bfn:3bba0c0c:%20http://ess.r-project.org/%5D%20%5Bfn:25441790:%20https://en.wikipedia.org/wiki/Emacs_Speaks_Statistics%5D%20%5Bfn:a2ae633d:%20http://www.emacswiki.org/emacs/EmacsSpeaksStatistics%5D%20%5Bfn:b28cb112:%20http://blog.revolutionanalytics.com/2011/08/ess.html%5D%20%5Bfn:353ffc35:%20http://blog.revolutionanalytics.com/2014/03/emacs-ess-and-r-for-zombies.html%5D%20%5Bfn:3b20a6da:%20https://rstudio-pubs-static.s3.amazonaws.com/2246_6f220d4de90c4cfda4109e62455bc70f.html%5D][nil]]
 (add-to-list 'auto-mode-alist '("\\.rd\\'" . Rd-mode))
 (add-to-list 'auto-mode-alist '("\\.Rmd$" . r-mode))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Emacs%20Speaks%20Statistics%20(ESS)%20%5Bfn:3bba0c0c:%20http://ess.r-project.org/%5D%20%5Bfn:25441790:%20https://en.wikipedia.org/wiki/Emacs_Speaks_Statistics%5D%20%5Bfn:a2ae633d:%20http://www.emacswiki.org/emacs/EmacsSpeaksStatistics%5D%20%5Bfn:b28cb112:%20http://blog.revolutionanalytics.com/2011/08/ess.html%5D%20%5Bfn:353ffc35:%20http://blog.revolutionanalytics.com/2014/03/emacs-ess-and-r-for-zombies.html%5D%20%5Bfn:3b20a6da:%20https://rstudio-pubs-static.s3.amazonaws.com/2246_6f220d4de90c4cfda4109e62455bc70f.html%5D][nil]]
 (setq ess-use-eldoc t)
 (setq ess-eldoc-show-on-symbol t)
 (setq ess-eldoc-abbreviation-style 'normal)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Emacs%20Speaks%20Statistics%20(ESS)%20%5Bfn:3bba0c0c:%20http://ess.r-project.org/%5D%20%5Bfn:25441790:%20https://en.wikipedia.org/wiki/Emacs_Speaks_Statistics%5D%20%5Bfn:a2ae633d:%20http://www.emacswiki.org/emacs/EmacsSpeaksStatistics%5D%20%5Bfn:b28cb112:%20http://blog.revolutionanalytics.com/2011/08/ess.html%5D%20%5Bfn:353ffc35:%20http://blog.revolutionanalytics.com/2014/03/emacs-ess-and-r-for-zombies.html%5D%20%5Bfn:3b20a6da:%20https://rstudio-pubs-static.s3.amazonaws.com/2246_6f220d4de90c4cfda4109e62455bc70f.html%5D][nil]]
 (local-set-key (kbd "C-c C-. S") 'ess-rutils-rsitesearch)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Emacs%20Speaks%20Statistics%20(ESS)%20%5Bfn:3bba0c0c:%20http://ess.r-project.org/%5D%20%5Bfn:25441790:%20https://en.wikipedia.org/wiki/Emacs_Speaks_Statistics%5D%20%5Bfn:a2ae633d:%20http://www.emacswiki.org/emacs/EmacsSpeaksStatistics%5D%20%5Bfn:b28cb112:%20http://blog.revolutionanalytics.com/2011/08/ess.html%5D%20%5Bfn:353ffc35:%20http://blog.revolutionanalytics.com/2014/03/emacs-ess-and-r-for-zombies.html%5D%20%5Bfn:3b20a6da:%20https://rstudio-pubs-static.s3.amazonaws.com/2246_6f220d4de90c4cfda4109e62455bc70f.html%5D][nil]]
 (require 'ess-rutils)
 (setq ess-rutils-keys +1)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Emacs%20Speaks%20Statistics%20(ESS)%20%5Bfn:3bba0c0c:%20http://ess.r-project.org/%5D%20%5Bfn:25441790:%20https://en.wikipedia.org/wiki/Emacs_Speaks_Statistics%5D%20%5Bfn:a2ae633d:%20http://www.emacswiki.org/emacs/EmacsSpeaksStatistics%5D%20%5Bfn:b28cb112:%20http://blog.revolutionanalytics.com/2011/08/ess.html%5D%20%5Bfn:353ffc35:%20http://blog.revolutionanalytics.com/2014/03/emacs-ess-and-r-for-zombies.html%5D%20%5Bfn:3b20a6da:%20https://rstudio-pubs-static.s3.amazonaws.com/2246_6f220d4de90c4cfda4109e62455bc70f.html%5D][nil]]
 (require 'r-autoyas)
 
 (setq r-autoyas-debug t)
 (setq r-autoyas-expand-package-functions-only nil)
 (setq r-autoyas-remove-explicit-assignments nil)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Emacs%20Speaks%20Statistics%20(ESS)%20%5Bfn:3bba0c0c:%20http://ess.r-project.org/%5D%20%5Bfn:25441790:%20https://en.wikipedia.org/wiki/Emacs_Speaks_Statistics%5D%20%5Bfn:a2ae633d:%20http://www.emacswiki.org/emacs/EmacsSpeaksStatistics%5D%20%5Bfn:b28cb112:%20http://blog.revolutionanalytics.com/2011/08/ess.html%5D%20%5Bfn:353ffc35:%20http://blog.revolutionanalytics.com/2014/03/emacs-ess-and-r-for-zombies.html%5D%20%5Bfn:3b20a6da:%20https://rstudio-pubs-static.s3.amazonaws.com/2246_6f220d4de90c4cfda4109e62455bc70f.html%5D][nil]]
 (setq ess-ac-R-argument-suffix "=")
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Emacs%20Speaks%20Statistics%20(ESS)%20%5Bfn:3bba0c0c:%20http://ess.r-project.org/%5D%20%5Bfn:25441790:%20https://en.wikipedia.org/wiki/Emacs_Speaks_Statistics%5D%20%5Bfn:a2ae633d:%20http://www.emacswiki.org/emacs/EmacsSpeaksStatistics%5D%20%5Bfn:b28cb112:%20http://blog.revolutionanalytics.com/2011/08/ess.html%5D%20%5Bfn:353ffc35:%20http://blog.revolutionanalytics.com/2014/03/emacs-ess-and-r-for-zombies.html%5D%20%5Bfn:3b20a6da:%20https://rstudio-pubs-static.s3.amazonaws.com/2246_6f220d4de90c4cfda4109e62455bc70f.html%5D][nil]]
 (defun gcr/ess-mode-hook ()
   (local-set-key (kbd "s-e") 'ess-switch-to-end-of-ESS)
   (local-set-key (kbd "s-x") 'r-autoyas-expand)
@@ -1447,7 +1014,7 @@ Attribution: URL `https://lists.gnu.org/archive/html/emacs-orgmode/2014-09/msg00
   (hs-minor-mode)
   (linum-mode)
   (gcr/turn-on-r-hide-show)
-  (endless/activate-aggressive-indent)
+  (aggressive-indent-mode)
   (lambda () (add-hook 'ess-presend-filter-functions
                   (lambda ()
                     (warn
@@ -1482,10 +1049,20 @@ Attribution: URL `https://lists.gnu.org/archive/html/emacs-orgmode/2014-09/msg00
   (stripe-listify-buffer))
 
 (add-hook 'ess-rdired-mode-hook 'gcr/ess-rdired-mode-hook)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Emacs%20Speaks%20Statistics%20(ESS)%20%5Bfn:3bba0c0c:%20http://ess.r-project.org/%5D%20%5Bfn:25441790:%20https://en.wikipedia.org/wiki/Emacs_Speaks_Statistics%5D%20%5Bfn:a2ae633d:%20http://www.emacswiki.org/emacs/EmacsSpeaksStatistics%5D%20%5Bfn:b28cb112:%20http://blog.revolutionanalytics.com/2011/08/ess.html%5D%20%5Bfn:353ffc35:%20http://blog.revolutionanalytics.com/2014/03/emacs-ess-and-r-for-zombies.html%5D%20%5Bfn:3b20a6da:%20https://rstudio-pubs-static.s3.amazonaws.com/2246_6f220d4de90c4cfda4109e62455bc70f.html%5D][nil]]
 (setq inferior-ess-primary-prompt "ℝ> ")
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Emacs%20Speaks%20Statistics%20(ESS)%20%5Bfn:3bba0c0c:%20http://ess.r-project.org/%5D%20%5Bfn:25441790:%20https://en.wikipedia.org/wiki/Emacs_Speaks_Statistics%5D%20%5Bfn:a2ae633d:%20http://www.emacswiki.org/emacs/EmacsSpeaksStatistics%5D%20%5Bfn:b28cb112:%20http://blog.revolutionanalytics.com/2011/08/ess.html%5D%20%5Bfn:353ffc35:%20http://blog.revolutionanalytics.com/2014/03/emacs-ess-and-r-for-zombies.html%5D%20%5Bfn:3b20a6da:%20https://rstudio-pubs-static.s3.amazonaws.com/2246_6f220d4de90c4cfda4109e62455bc70f.html%5D][nil]]
 (setq ess-keep-dump-files +1)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Emacs%20Speaks%20Statistics%20(ESS)%20%5Bfn:3bba0c0c:%20http://ess.r-project.org/%5D%20%5Bfn:25441790:%20https://en.wikipedia.org/wiki/Emacs_Speaks_Statistics%5D%20%5Bfn:a2ae633d:%20http://www.emacswiki.org/emacs/EmacsSpeaksStatistics%5D%20%5Bfn:b28cb112:%20http://blog.revolutionanalytics.com/2011/08/ess.html%5D%20%5Bfn:353ffc35:%20http://blog.revolutionanalytics.com/2014/03/emacs-ess-and-r-for-zombies.html%5D%20%5Bfn:3b20a6da:%20https://rstudio-pubs-static.s3.amazonaws.com/2246_6f220d4de90c4cfda4109e62455bc70f.html%5D][nil]]
 (setq ess-delete-dump-files nil)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Emacs%20Speaks%20Statistics%20(ESS)%20%5Bfn:3bba0c0c:%20http://ess.r-project.org/%5D%20%5Bfn:25441790:%20https://en.wikipedia.org/wiki/Emacs_Speaks_Statistics%5D%20%5Bfn:a2ae633d:%20http://www.emacswiki.org/emacs/EmacsSpeaksStatistics%5D%20%5Bfn:b28cb112:%20http://blog.revolutionanalytics.com/2011/08/ess.html%5D%20%5Bfn:353ffc35:%20http://blog.revolutionanalytics.com/2014/03/emacs-ess-and-r-for-zombies.html%5D%20%5Bfn:3b20a6da:%20https://rstudio-pubs-static.s3.amazonaws.com/2246_6f220d4de90c4cfda4109e62455bc70f.html%5D][nil]]
 (setq ess-mode-silently-save +1)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Emacs%20Speaks%20Statistics%20(ESS)%20%5Bfn:3bba0c0c:%20http://ess.r-project.org/%5D%20%5Bfn:25441790:%20https://en.wikipedia.org/wiki/Emacs_Speaks_Statistics%5D%20%5Bfn:a2ae633d:%20http://www.emacswiki.org/emacs/EmacsSpeaksStatistics%5D%20%5Bfn:b28cb112:%20http://blog.revolutionanalytics.com/2011/08/ess.html%5D%20%5Bfn:353ffc35:%20http://blog.revolutionanalytics.com/2014/03/emacs-ess-and-r-for-zombies.html%5D%20%5Bfn:3b20a6da:%20https://rstudio-pubs-static.s3.amazonaws.com/2246_6f220d4de90c4cfda4109e62455bc70f.html%5D][nil]]
 (defadvice ess-eval-region-or-line-and-step (before before-ess-eval-region-or-line-and-step activate)
   (gcr/save-all-file-buffers))
 
@@ -1518,9 +1095,995 @@ Attribution: URL `https://lists.gnu.org/archive/html/emacs-orgmode/2014-09/msg00
 
 (defadvice ess-eval-buffer-and-go (before before-ess-eval-buffer-and-go activate)
   (gcr/save-all-file-buffers))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Emacs%20Speaks%20Statistics%20(ESS)%20%5Bfn:3bba0c0c:%20http://ess.r-project.org/%5D%20%5Bfn:25441790:%20https://en.wikipedia.org/wiki/Emacs_Speaks_Statistics%5D%20%5Bfn:a2ae633d:%20http://www.emacswiki.org/emacs/EmacsSpeaksStatistics%5D%20%5Bfn:b28cb112:%20http://blog.revolutionanalytics.com/2011/08/ess.html%5D%20%5Bfn:353ffc35:%20http://blog.revolutionanalytics.com/2014/03/emacs-ess-and-r-for-zombies.html%5D%20%5Bfn:3b20a6da:%20https://rstudio-pubs-static.s3.amazonaws.com/2246_6f220d4de90c4cfda4109e62455bc70f.html%5D][nil]]
 (setq inferior-R-args "--no-save --no-restore")
-(sp-local-pair 'ess-mode "{" nil :post-handlers '((gcr/indent-curly-block "RET")))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Emacs%20Speaks%20Statistics%20(ESS)%20%5Bfn:3bba0c0c:%20http://ess.r-project.org/%5D%20%5Bfn:25441790:%20https://en.wikipedia.org/wiki/Emacs_Speaks_Statistics%5D%20%5Bfn:a2ae633d:%20http://www.emacswiki.org/emacs/EmacsSpeaksStatistics%5D%20%5Bfn:b28cb112:%20http://blog.revolutionanalytics.com/2011/08/ess.html%5D%20%5Bfn:353ffc35:%20http://blog.revolutionanalytics.com/2014/03/emacs-ess-and-r-for-zombies.html%5D%20%5Bfn:3b20a6da:%20https://rstudio-pubs-static.s3.amazonaws.com/2246_6f220d4de90c4cfda4109e62455bc70f.html%5D][nil]]
+;;(sp-local-pair 'ess-mode "{" nil :post-handlers '((gcr/indent-curly-block "RET")))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Emacs%20Speaks%20Statistics%20(ESS)%20%5Bfn:3bba0c0c:%20http://ess.r-project.org/%5D%20%5Bfn:25441790:%20https://en.wikipedia.org/wiki/Emacs_Speaks_Statistics%5D%20%5Bfn:a2ae633d:%20http://www.emacswiki.org/emacs/EmacsSpeaksStatistics%5D%20%5Bfn:b28cb112:%20http://blog.revolutionanalytics.com/2011/08/ess.html%5D%20%5Bfn:353ffc35:%20http://blog.revolutionanalytics.com/2014/03/emacs-ess-and-r-for-zombies.html%5D%20%5Bfn:3b20a6da:%20https://rstudio-pubs-static.s3.amazonaws.com/2246_6f220d4de90c4cfda4109e62455bc70f.html%5D][nil]]
 (setq ess-eval-visibly 'nowait)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Discussion][nil]]
+(setq org-edit-src-code nil)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Configuration][nil]]
+(setq org-list-allow-alphabetical +1)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Org][nil]]
+(require 'org)
+(require 'ox-beamer)
+(require 'ox-md)
+(require 'htmlize)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Org][nil]]
+(setq htmlize-output-type 'inline-css)
+(setq org-html-htmlize-output-type htmlize-output-type)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Org][nil]]
+(let ((pkg 'org-show))
+  (gcr/on-gui
+   (if (not (el-get-package-is-installed pkg))
+       (warn "You wanted %S to be installed, but it isnt. Fix this." pkg)
+     (let ((fil (concat (el-get-package-directory pkg) "org-show.el")))
+       (if (not (f-exists? fil))
+           (warn "You wanted %S to exist, but it doesn't. Fix this." fil)
+         (load fil)))))
+  (gcr/not-on-gui (warn "You wanted %S to be loaded, but it won't be… it doesn't work without a GUI for some reason." pkg)))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Org][nil]]
+(defconst gcr/org-version "8.2.10")
+
+(defun gcr/warn-org-version ()
+  "Warn of org misconfiguration."
+  (interactive)
+  (when (not (version= (org-version) gcr/org-version))
+    (warn "Insufficient org-mode requirements. Expected %S. Found: %S " gcr/org-version (org-version))))
+(gcr/warn-org-version)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Org][nil]]
+(setq org-export-coding-system 'utf-8)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Org][nil]]
+(setq org-export-preserve-breaks nil)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Org][nil]]
+(require 'org2blog-autoloads)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Org][nil]]
+(setq org-todo-keywords
+      '((sequence "TODO" "IN-PROGRESS" "WAITING" "REVIEW" "DONE")))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Org][nil]]
+(setq org-startup-with-inline-images (display-graphic-p))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Org][nil]]
+(setq org-export-copy-to-kill-ring nil)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Org][nil]]
+(setq org-completion-use-ido +1)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Org][nil]]
+(setq org-use-speed-commands +1)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Org][nil]]
+(setq org-confirm-shell-link-function 'y-or-n-p)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Org][nil]]
+(setq org-confirm-elisp-link-function 'y-or-n-p)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Org][nil]]
+(setq org-enforce-todo-dependencies +1)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Org][nil]]
+(gcr/on-gui
+ (require 'org-mouse))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Org][nil]]
+(setq org-pretty-entities +1)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Org][nil]]
+(setq org-ellipsis "…")
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Org][nil]]
+(setq org-hide-leading-stars +1)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Org][nil]]
+(setq org-fontify-emphasized-text +1)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Org][nil]]
+(setq org-highlight-latex-and-related '(latex script entities))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Org][nil]]
+(require 'org-ac)
+(org-ac/config-default)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Org][nil]]
+(setq org-footnote-define-inline +1)
+(setq org-footnote-auto-label 'random)
+(setq org-footnote-auto-adjust nil)
+(setq org-footnote-section nil)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Org][nil]]
+(setq org-catch-invisible-edits 'error)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Org][nil]]
+(setq org-loop-over-headlines-in-active-region t)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Org][nil]]
+(setq org-export-with-toc nil)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Org][nil]]
+(setq org-startup-folded "nofold")
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Org][nil]]
+(setq org-image-actual-width t)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Org][nil]]
+(setq org-hide-emphasis-markers +1)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Babel][nil]]
+(defun gcr/org-babel-after-execute-hook ()
+  "Personal settings for the `org-babel-after-execute-hook'."
+  (interactive)
+  (org-display-inline-images nil t))
+
+(add-hook 'org-babel-after-execute-hook 'gcr/org-babel-after-execute-hook)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Babel][nil]]
+(require 'ob-sml nil 'noerror)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Babel][nil]]
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((calc . t)
+   (css . t)
+   (dot . t)
+   (ditaa . t)
+   (emacs-lisp . t)
+   (js . t)
+   (latex . t)
+   (lilypond . t)
+   (makefile . t)
+   (org . t)
+   (perl . t)
+   (python . t)
+   (plantuml . t)
+   (R . t)
+   (scheme . t)
+   (sh . t)
+   (sml . t)))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Babel][nil]]
+(setq org-babel-use-quick-and-dirty-noweb-expansion nil)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Babel][nil]]
+(setq org-src-fontify-natively nil)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Babel][nil]]
+(setq org-src-preserve-indentation +1)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Babel][nil]]
+(setq org-src-strip-leading-and-trailing-blank-lines nil)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Babel][nil]]
+(setq org-edit-src-content-indentation 0)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Babel][nil]]
+(add-to-list
+ 'org-structure-template-alist
+ '("el" "#+begin_src emacs-lisp\n?\n#+end_src" "<src lang=\"emacs-lisp\">\n?\n</src>"))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Babel][nil]]
+(mapc (lambda (asc)
+        (let ((org-sce-dc (downcase (nth 1 asc))))
+          (setf (nth 1 asc) org-sce-dc)))
+      org-structure-template-alist)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Babel][nil]]
+(add-to-list
+ 'org-structure-template-alist
+ '("r" "#+begin_src R\n?\n#+end_src" "<src lang=\"R\"></src>"))
+(add-to-list
+ 'org-structure-template-alist
+ '("p" "#+begin_src plantuml\n?\n#+end_src" "<src lang=\"plantuml\"></src>"))
+(add-to-list
+ 'org-structure-template-alist
+ '("sh" "#+begin_src sh\n?\n#+end_src" "<src lang=\"sh\"></src>"))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Babel][nil]]
+(defadvice org-babel-tangle (before org-babel-tangle-before activate)
+  (gcr/save-all-file-buffers)
+  (message (concat "org-babel-tangle BEFORE: <"
+                   (format-time-string "%Y-%m-%dT%T%z")
+                   ">")))
+
+(defadvice org-babel-tangle (after org-babel-tangle-after activate)
+  (message (concat "org-babel-tangle AFTER: <"
+                   (format-time-string "%Y-%m-%dT%T%z")
+                   ">"))
+  (alert "Your tangling is complete." :title "org-mode"))
+
+(defadvice org-ascii-export-as-ascii (before org-ascii-export-as-ascii-before activate)
+  (gcr/save-all-file-buffers))
+
+(defadvice org-html-export-to-html (before before-org-html-export-to-html activate)
+  (gcr/save-all-file-buffers)
+  (message (concat "org-html-export-to-html BEFORE: <"
+                   (format-time-string "%Y-%m-%dT%T%z")
+                   ">")))
+
+(defadvice org-html-export-to-html (after after-org-html-export-to-html activate)
+  (message (concat "org-html-export-to-html AFTER: <"
+                   (format-time-string "%Y-%m-%dT%T%z")
+                   ">")))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Babel][nil]]
+(defun sacha/org-html-checkbox (checkbox)
+  "Format CHECKBOX into HTML. http://sachachua.com/blog/2014/03/emacs-tweaks-export-org-checkboxes-using-utf-8-symbols/?shareadraft=baba27119_533313c944f64"
+  (case checkbox (on "<span class=\"check\">&#x2611;</span>") ; checkbox (checked)
+        (off "<span class=\"checkbox\">&#x2610;</span>")
+        (trans "<code>[-]</code>")
+        (t "")))
+
+(defadvice org-html-checkbox (around sacha activate)
+  (setq ad-return-value (sacha/org-html-checkbox (ad-get-arg 0))))
+
+(defun gcr/warn-org-html-checkbox-type ()
+  "Report new feature availability."
+  (interactive)
+  (when (boundp 'org-html-checkbox-type)
+    (warn "Org mode now supports HTML export to unicode checkboxes. Please update your configuration to use the variable 'org-html-checkbox-type'.")))
+(gcr/warn-org-html-checkbox-type)
+
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Babel][nil]]
+(defadvice org-latex-export-to-pdf (before org-latex-export-to-pdf-before activate)
+  (gcr/save-all-file-buffers))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Babel][nil]]
+(setq org2blog/wp-blog-alist
+      '(("wisdomandwonder"
+         :url "http://www.wisdomandwonder.com/wordpress/xmlrpc.php"
+         :username "admin"
+         :default-title "Title goes here"
+         :default-categories ("Article")
+         :tags-as-categories nil
+         :confirm t
+         :show 'show
+         :keep-new-lines nil
+         :wp-latex t
+         :wp-code nil
+         :track-posts (list "~/wnw.org2blog.org" "Posts"))))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Babel][nil]]
+(let* ((allowed '(exports
+                  file
+                  noweb
+                  noweb-ref
+                  session
+                  tangle))
+       (new-ls
+        (--filter (member (car it) allowed)
+                  org-babel-common-header-args-w-values)))
+  (setq org-babel-common-header-args-w-values new-ls))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Babel][nil]]
+(setq org-babel-min-lines-for-block-output 0)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Babel][nil]]
+(setq org-edit-src-auto-save-idle-delay 1)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Babel][nil]]
+(setq org-src-window-setup 'current-window)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Babel][nil]]
+(setq org-babel-results-keyword "NAME")
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Babel][nil]]
+(setq org-babel-no-eval-on-ctrl-c-ctrl-c +1)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Babel][nil]]
+(setq org-babel-noweb-wrap-start "«")
+(setq org-babel-noweb-wrap-end "»")
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Babel][nil]]
+(defun gcr/org-edit-src-code-plus-name ()
+  "Edit the well-described source code block.
+
+Attribution: URL `https://lists.gnu.org/archive/html/emacs-orgmode/2014-09/msg00778.html'"
+  (interactive)
+  (let* ((eop  (org-element-at-point))
+         (name (or (org-element-property :name (org-element-context eop))
+                  "ॐ"))
+         (lang (org-element-property :language eop))
+         (buff-name (concat "*Org Src " name "[" lang "]*")))
+    (org-edit-src-code nil nil buff-name)))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Babel][nil]]
+(defadvice vc-next-action (before vc-next-action-in-org-src-block last activate)
+  "If in org source block, exit it."
+  (when (condition-case nil
+            (org-src-in-org-buffer)
+          (error nil))
+    (org-edit-src-exit)))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Comments%20%5Bfn:1e1a7e1f:%20http://orgmode.org/manual/comments.html#comments%5D][nil]]
+(gcr/set-org-babel-default-header-args :comments "noweb")
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Results%20%5Bfn:1625d11f:%20http://orgmode.org/manual/results.html#results%5D][nil]]
+(gcr/set-org-babel-default-header-args :results "output replace")
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Exports%20%5Bfn:7dad95aa:%20http://orgmode.org/manual/exports.html#exports%5D][nil]]
+(gcr/set-org-babel-default-header-args :exports "both")
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Noweb%20%5Bfn:3da67e2d:%20http://orgmode.org/manual/noweb.html#noweb%5D][nil]]
+(gcr/set-org-babel-default-header-args :noweb "no-export")
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Padline%20%5Bfn:508104fc:%20http://orgmode.org/manual/padline.html%5D][nil]]
+(gcr/set-org-babel-default-header-args :padline "yes")
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Putting%20the%20Pieces%20Together][nil]]
+(setq org-confirm-babel-evaluate nil)
+(gcr/set-org-babel-default-header-args :eval "always")
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Putting%20the%20Pieces%20Together][nil]]
+(setq org-export-babel-evaluate 'inline-only)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Putting%20the%20Pieces%20Together][nil]]
+(gcr/set-org-babel-default-inline-header-args :eval "always")
+(gcr/set-org-babel-default-inline-header-args :results "value replace")
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*%E2%84%9D%20Specific][nil]]
+(gcr/set-org-babel-default-header-args:R :session "*R*")
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*ispell][nil]]
+(add-to-list 'ispell-skip-region-alist '("^#\\+begin_src ". "#\\+end_src$"))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*ispell][nil]]
+(add-to-list 'ispell-skip-region-alist '("^#\\+BEGIN_SRC ". "#\\+END_SRC$"))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*ispell][nil]]
+(add-to-list 'ispell-skip-region-alist '("^#\\+begin_example ". "#\\+end_example$"))
+(add-to-list 'ispell-skip-region-alist '("^#\\+BEGIN_EXAMPLE ". "#\\+END_EXAMPLE$"))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*ispell][nil]]
+(add-to-list 'ispell-skip-region-alist '("\:PROPERTIES\:$" . "\:END\:$"))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*ispell][nil]]
+(add-to-list 'ispell-skip-region-alist '("\\[fn:.+:" . "\\]"))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*ispell][nil]]
+(add-to-list 'ispell-skip-region-alist '("^http" . "\\]"))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*ispell][nil]]
+(add-to-list 'ispell-skip-region-alist '("=.*" . ".*="))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*ispell][nil]]
+(add-to-list 'ispell-skip-region-alist '("- \\*.+" . ".*\\*: "))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*ispell][nil]]
+(let (void)
+  (--each
+      '("ATTR_LATEX"
+        "AUTHOR"
+        "CREATOR"
+        "DATE"
+        "DESCRIPTION"
+        "EMAIL"
+        "EXCLUDE_TAGS"
+        "HTML_CONTAINER"
+        "HTML_DOCTYPE"
+        "HTML_HEAD"
+        "HTML_HEAD_EXTRA"
+        "HTML_LINK_HOME"
+        "HTML_LINK_UP"
+        "HTML_MATHJAX"
+        "INFOJS_OPT"
+        "KEYWORDS"
+        "LANGUAGE"
+        "LATEX_CLASS"
+        "LATEX_CLASS_OPTIONS"
+        "LATEX_HEADER"
+        "LATEX_HEADER_EXTRA"
+        "OPTIONS"
+        "SELECT_TAGS"
+        "STARTUP"
+        "TITLE")
+    (gcr/ispell-a2isra (gcr/ispell-org-header-lines-regexp it))))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Hooks][nil]]
+(define-key org-mode-map (kbd "C-,") (lambda () (interactive) (insert " \\larr ")))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Hooks][nil]]
+(defun gcr/org-mode-hook ()
+  (local-set-key (kbd "C-1") 'org-narrow-to-subtree)
+  (local-set-key (kbd "M-1") 'widen)
+  (local-set-key (kbd "C-2") 'gcr/org-edit-src-code-plus-name)
+  (local-set-key (kbd "s-h") 'org-babel-check-src-block)
+  (local-set-key (kbd "s-a i") 'org-babel-insert-header-arg)
+  (local-set-key (kbd "s-j") 'org-babel-previous-src-block)
+  (local-set-key (kbd "s-k") 'org-babel-next-src-block)
+  (local-set-key (kbd "s-l") 'org-babel-demarcate-block)
+  (local-set-key (kbd "s-;") 'org-babel-view-src-block-info)
+  (local-set-key (kbd "s-b s") 'org-babel-switch-to-session)
+  (local-set-key (kbd "s-b c") 'org-babel-switch-to-session-with-code)
+  (local-set-key (kbd "s-o") 'org-babel-execute-maybe)
+  (local-set-key (kbd "s-t") 'org-babel-tangle)
+  (local-set-key (kbd "s-x") 'org-babel-do-key-sequence-in-edit-buffer)
+  (local-set-key (kbd "s-w w") 'org-export-dispatch)
+  (local-set-key (kbd "s-<f5>") 'org-babel-execute-buffer)
+  (local-set-key (kbd "s-i d") 'org-display-inline-images)
+  (local-set-key (kbd "s-i r") 'org-remove-inline-images)
+  (local-set-key (kbd "C-.") (lambda () (interactive) (insert " \\rarr ")))
+  (local-set-key (kbd "$") 'yf/org-electric-dollar)
+  (turn-on-real-auto-save)
+  (when (and (fboundp 'guide-key-mode) guide-key-mode)
+    (guide-key/add-local-guide-key-sequence "C-c")
+    (guide-key/add-local-guide-key-sequence "C-c C-x")
+    (guide-key/add-local-highlight-command-regexp "org-"))
+  (org2blog/wp-mode)
+  (gcr/diminish 'org2blog/wp-mode)
+  (fci-mode)
+  (gcr/untabify-buffer-hook)
+  (turn-on-stripe-table-mode)
+  (linum-mode)
+  (wrap-region-mode t))
+
+(add-hook 'org-mode-hook 'gcr/org-mode-hook)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Hooks][nil]]
+(defun gcr/org-src-mode-hook ()
+  (local-set-key (kbd "C-2") 'org-edit-src-exit)
+  (visual-line-mode))
+
+(add-hook 'org-src-mode-hook 'gcr/org-src-mode-hook)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Analytics][nil]]
+(defconst gcr/keyfreq-file "~/.emacs.keyfreq")
+(defun gcr/warn-keyfreq-file ()
+  "Warn of keyfreq misconfiguration."
+  (interactive)
+  (unless (f-exists? gcr/keyfreq-file)
+    (warn "Can't seem to find a symlink at: %S. Keyfreq expeced it there, and will continue to function, but your data will probably be lost." gcr/keyfreq-file)))
+(gcr/warn-keyfreq-file)
+(require 'keyfreq)
+(setq keyfreq-file gcr/keyfreq-file)
+(keyfreq-mode 1)
+(keyfreq-autosave-mode 1)
+;; nil ends here
+;; base-configuration ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Windows%20%5Bfn:3f67f4f3:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Windows.html%5D][nil]]
+(menu-bar-mode +1)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Windows%20%5Bfn:3f67f4f3:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Windows.html%5D][nil]]
+(setq-default fill-column 80)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Windows%20%5Bfn:3f67f4f3:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Windows.html%5D][nil]]
+(blink-cursor-mode 0)
+(gcr/on-gui
+ (setq-default cursor-type 'box))
+(setq x-stretch-cursor 1)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Windows%20%5Bfn:3f67f4f3:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Windows.html%5D][nil]]
+(global-linum-mode -1)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Windows%20%5Bfn:3f67f4f3:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Windows.html%5D][nil]]
+(global-font-lock-mode 1)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Windows%20%5Bfn:3f67f4f3:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Windows.html%5D][nil]]
+(setq blink-matching-paren nil)
+(show-paren-mode +1)
+(setq show-paren-delay 0)
+(setq show-paren-style 'expression)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Windows%20%5Bfn:3f67f4f3:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Windows.html%5D][nil]]
+(setq ring-bell-function 'ignore)
+(setq visible-bell +1)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Windows%20%5Bfn:3f67f4f3:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Windows.html%5D][nil]]
+(winner-mode +1)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Windows%20%5Bfn:3f67f4f3:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Windows.html%5D][nil]]
+(setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Windows%20%5Bfn:3f67f4f3:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Windows.html%5D][nil]]
+(gcr/on-osx
+ (defadvice yes-or-no-p (around prevent-dialog activate)
+   "Prevent yes-or-no-p from activating a dialog"
+   (let ((use-dialog-box nil))
+     ad-do-it))
+
+ (defadvice y-or-n-p (around prevent-dialog-yorn activate)
+   "Prevent y-or-n-p from activating a dialog"
+   (let ((use-dialog-box nil))
+     ad-do-it)))
+;; nil ends here
+(gcr/on-gui
+ ;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Frames%20%5Bfn:88b06925:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Frames.html%5D][nil]]
+ (setq frame-title-format '("the ultimate…"))
+ ;; nil ends here
+ ;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Frames%20%5Bfn:88b06925:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Frames.html%5D][nil]]
+ (scroll-bar-mode -1)
+ ;; nil ends here
+ ;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Frames%20%5Bfn:88b06925:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Frames.html%5D][nil]]
+ (tool-bar-mode 0)
+ ;; nil ends here
+ ;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Frames%20%5Bfn:88b06925:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Frames.html%5D][nil]]
+ (setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
+ (setq mouse-wheel-progressive-speed nil)
+ (setq mouse-wheel-follow-mouse +1)
+ ;; nil ends here
+ ;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Frames%20%5Bfn:88b06925:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Frames.html%5D][nil]]
+ (require 'pos-tip)
+ (setq pos-tip-foreground-color "#073642")
+ (setq pos-tip-background-color "#839496")
+ (gcr/on-windows
+  (pos-tip-w32-max-width-height))
+ ;; nil ends here
+)
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Buffers%20%5Bfn:595a3296:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Buffers.html#Buffers%5D][nil]]
+(desktop-save-mode 1)
+(setq desktop-restore-eager 10)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Buffers%20%5Bfn:595a3296:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Buffers.html#Buffers%5D][nil]]
+(require 'real-auto-save)
+(setq real-auto-save-interval 15)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Buffers%20%5Bfn:595a3296:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Buffers.html#Buffers%5D][nil]]
+(require 'uniquify)
+(setq uniquify-buffer-name-style 'forward)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Buffers%20%5Bfn:595a3296:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Buffers.html#Buffers%5D][nil]]
+(add-to-list 'load-path "/usr/share/emacs/site-lisp/ccrypt")
+(require 'ps-ccrypt "ps-ccrypt.el")
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Buffers%20%5Bfn:595a3296:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Buffers.html#Buffers%5D][nil]]
+(setq backup-inhibited 1)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Buffers%20%5Bfn:595a3296:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Buffers.html#Buffers%5D][nil]]
+(setq auto-save-default nil)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Buffers%20%5Bfn:595a3296:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Buffers.html#Buffers%5D][nil]]
+(add-hook 'write-file-hooks
+          (lambda ()
+            (gcr/delete-trailing-whitespace)))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Buffers%20%5Bfn:595a3296:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Buffers.html#Buffers%5D][nil]]
+(prefer-coding-system 'utf-8)
+(gcr/on-gui
+ (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
+ (gcr/on-windows
+  (set-clipboard-coding-system 'utf-16le-dos)))
+
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Buffers%20%5Bfn:595a3296:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Buffers.html#Buffers%5D][nil]]
+(require 'undo-tree)
+(global-undo-tree-mode 1)
+(gcr/diminish 'undo-tree-mode)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Buffers%20%5Bfn:595a3296:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Buffers.html#Buffers%5D][nil]]
+(setq require-final-newline t)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Buffers%20%5Bfn:595a3296:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Buffers.html#Buffers%5D][nil]]
+(global-auto-revert-mode 1)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Buffers%20%5Bfn:595a3296:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Buffers.html#Buffers%5D][nil]]
+(autoload
+  'ace-jump-mode
+  "ace-jump-mode"
+  "Emacs quick move minor mode"
+  t)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Buffers%20%5Bfn:595a3296:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Buffers.html#Buffers%5D][nil]]
+(require 'sublimity)
+(require 'sublimity-scroll)
+(require 'sublimity-map)
+(require 'sublimity-attractive)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Buffers%20%5Bfn:595a3296:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Buffers.html#Buffers%5D][nil]]
+(sublimity-map-set-delay nil)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Buffers%20%5Bfn:595a3296:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Buffers.html#Buffers%5D][nil]]
+(let ((text-buffer (get-buffer-create "*text*")))
+  (with-current-buffer text-buffer
+    (text-mode)
+    (insert "Shall we play a game?")
+    (beginning-of-line)))
+
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Buffers%20%5Bfn:595a3296:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Buffers.html#Buffers%5D][nil]]
+(autoload
+  'ace-jump-mode
+  "ace-jump-mode"
+  "Emacs quick move minor mode"
+  t)
+(autoload
+  'ace-jump-mode-pop-mark
+  "ace-jump-mode"
+  "Ace jump back:-)"
+  t)
+(eval-after-load "ace-jump-mode"
+  '(ace-jump-mode-enable-mark-sync))
+(define-key global-map (kbd "C-x SPC") 'ace-jump-mode-pop-mark)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Buffers%20%5Bfn:595a3296:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Buffers.html#Buffers%5D][nil]]
+(setq isearch-lax-whitespace +1)
+(setq isearch-regexp-lax-whitespace +1)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Buffers%20%5Bfn:595a3296:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Buffers.html#Buffers%5D][nil]]
+(require 'boxquote)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Buffers%20%5Bfn:595a3296:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Buffers.html#Buffers%5D][nil]]
+(setq track-eol +1)
+(setq line-move-visual nil)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Buffers%20%5Bfn:595a3296:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Buffers.html#Buffers%5D][nil]]
+(global-set-key [?\C-x ?t] 'anchored-transpose)
+(autoload 'anchored-transpose "anchored-transpose" nil t)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Buffers%20%5Bfn:595a3296:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Buffers.html#Buffers%5D][nil]]
+(require 'ibuffer)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Buffers%20%5Bfn:595a3296:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Buffers.html#Buffers%5D][nil]]
+(require 'smooth-scrolling)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Buffers%20%5Bfn:595a3296:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Buffers.html#Buffers%5D][nil]]
+(linum-relative-toggle)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Buffers%20%5Bfn:595a3296:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Buffers.html#Buffers%5D][nil]]
+(require 'nyan-mode)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Buffers%20%5Bfn:595a3296:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Buffers.html#Buffers%5D][nil]]
+(require 'highlight-tail)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Buffers%20%5Bfn:595a3296:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Buffers.html#Buffers%5D][nil]]
+(require 'zone)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Buffers%20%5Bfn:595a3296:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Buffers.html#Buffers%5D][nil]]
+(require 'stripe-buffer)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Buffers%20%5Bfn:595a3296:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Buffers.html#Buffers%5D][nil]]
+(require 'wrap-region)
+(gcr/diminish 'wrap-region-mode)
+
+(wrap-region-add-wrapper "*" "*" nil 'org-mode) ;; bold
+(wrap-region-add-wrapper "/" "/" nil 'org-mode) ;; italic
+(wrap-region-add-wrapper "_" "_" nil 'org-mode) ;; underlined
+(wrap-region-add-wrapper "=" "=" nil 'org-mode) ;; verbatim
+(wrap-region-add-wrapper "~" "~" nil 'org-mode) ;; code
+(wrap-region-add-wrapper "+" "+" nil 'org-mode) ;; strike-through
+;; (wrap-region-add-wrapper "" "w" 'org-mode) ;; noweb blocks
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Buffers%20%5Bfn:595a3296:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Buffers.html#Buffers%5D][nil]]
+(require 'fixmee)
+(global-fixmee-mode 1)
+(gcr/diminish 'fixmee-mode)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Line%20Wrapping%20%5Bfn:46bfb076:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Visual-Line-Mode.html%5D%20%5Bfn:210:%20http://www.emacswiki.org/emacs/VisualLineMode%5D%20/%20Line%20breaking%20%5Bfn:0945b707:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Auto-Fill.html%5D][nil]]
+(global-visual-line-mode 1)
+(gcr/diminish 'visual-line-mode)
+(gcr/diminish 'global-visual-line-mode)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Modeline%20%5Bfn:57e91167:%20https://www.gnu.org/software/emacs/manual/html_node/elisp/Mode-Line-Format.html%5D][nil]]
+(size-indication-mode)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Modeline%20%5Bfn:57e91167:%20https://www.gnu.org/software/emacs/manual/html_node/elisp/Mode-Line-Format.html%5D][nil]]
+(column-number-mode 1)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Modeline%20%5Bfn:57e91167:%20https://www.gnu.org/software/emacs/manual/html_node/elisp/Mode-Line-Format.html%5D][nil]]
+(require 'diminish)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Modeline%20%5Bfn:57e91167:%20https://www.gnu.org/software/emacs/manual/html_node/elisp/Mode-Line-Format.html%5D][nil]]
+(defadvice kill-line (around kill-line-remove-newline activate)
+  (let ((kill-whole-line t))
+    ad-do-it))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Mark%20and%20Region%20%5Bfn:d05c6bc3:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Mark.html#Mark%5D][nil]]
+(delete-selection-mode 1)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Minibuffer%20%5Bfn:55105827:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Minibuffer.html%5D][nil]]
+(fset 'yes-or-no-p 'y-or-n-p)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Minibuffer%20%5Bfn:55105827:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Minibuffer.html%5D][nil]]
+(setq resize-mini-windows +1)
+(setq max-mini-window-height 0.33)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Minibuffer%20%5Bfn:55105827:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Minibuffer.html%5D][nil]]
+(setq enable-recursive-minibuffers t)
+(minibuffer-depth-indicate-mode 1)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Minibuffer%20%5Bfn:55105827:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Minibuffer.html%5D][nil]]
+(defun gcr/minibuffer-setup-hook ()
+  "Personal setup."
+  (local-set-key "ESC y" 'gcr/paste-from-x-clipboard))
+
+(add-hook 'minibuffer-setup-hook 'gcr/minibuffer-setup-hook)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Discoverability][nil]]
+(require 'guide-key)
+(setq guide-key/guide-key-sequence '("C-x r" "C-x 4"))
+(guide-key-mode 1)
+(gcr/diminish 'guide-key-mode)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Discoverability][nil]]
+(require 'move-text)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Code%20folding%20%5Bfn:76ed1f1f:%20http://www.emacswiki.org/emacs/HideShow%5D%20%5Bfn:90bfa78a:%20http://gnufool.blogspot.com/2009/03/make-hideshow-behave-more-like-org-mode.html%5D][nil]]
+(setq hs-hide-comments-when-hiding-all +1)
+(setq hs-isearch-open +1)
+(defun display-code-line-counts (ov)
+  "Displaying overlay content in echo area or tooltip"
+  (when (eq 'code (overlay-get ov 'hs))
+    (overlay-put ov 'help-echo
+                 (buffer-substring (overlay-start ov)
+                                   (overlay-end ov)))))
+
+(setq hs-set-up-overlay 'display-code-line-counts)
+(defadvice goto-line (after expand-after-goto-line activate compile)
+  "How do I get it to expand upon a goto-line? hideshow-expand affected block when using goto-line in a collapsed buffer."
+  (save-excursion
+    (hs-show-block)))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Color%20visualizing%20%5Bfn:adb70244:%20http://elpa.gnu.org/packages/rainbow-mode.html%5D][nil]]
+(require 'rainbow-mode)
+(condition-case nil
+    (gcr/diminish 'rainbow-mode)
+  (error nil))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Command%20execution%20helper%20%5Bfn:e2221a4d:%20https://github.com/nonsequitur/smex/%5D][nil]]
+(require 'smex)
+(smex-initialize)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Expression%20Management%20%5Bfn:60c9aa87:%20https://github.com/Fuco1/smartparens%5D][nil]]
+(require 'smartparens-config)
+(show-smartparens-global-mode +1)
+(gcr/diminish 'smartparens-mode)
+(setq sp-show-pair-from-inside nil)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*File-system/directory%20management%20%5Bfn:b2f9070d:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Dired.html%5D][nil]]
+(setq dired-listing-switches "-alh")
+(setq dired-recursive-deletes  +1)
+(require 'dired-details+)
+(setq-default dired-details-hidden-string "")
+(defun gcr/dired-mode-hook ()
+  "Personal dired customizations."
+  (local-set-key "c" 'gcr/dired-copy-filename)
+  (local-set-key "]" 'gcr/dired-copy-path)
+  (diff-hl-dired-mode)
+  (load "dired-x")
+  (turn-on-stripe-buffer-mode)
+  (stripe-listify-buffer))
+(add-hook 'dired-mode-hook 'gcr/dired-mode-hook)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*File-system/directory%20management%20%5Bfn:b2f9070d:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Dired.html%5D][nil]]
+(require 'find-dired)
+(setq find-ls-option '("-print0 | xargs -0 ls -ld" . "-ld"))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*File-system/directory%20management%20%5Bfn:b2f9070d:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Dired.html%5D][nil]]
+(require 'wdired)
+(setq wdired-allow-to-change-permissions t)
+(setq wdired-allow-to-redirect-links t)
+(setq wdired-use-interactive-rename +1)
+(setq wdired-confirm-overwrite +1)
+(setq wdired-use-dired-vertical-movement 'sometimes)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*File-system/directory%20management%20%5Bfn:b2f9070d:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Dired.html%5D][nil]]
+(require 'dired-imenu)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Intellisense%20(Auto%20Completion)%20%5Bfn:a5ec7f2e:%20http://cx4a.org/software/auto-complete/%5D][nil]]
+(require 'fuzzy)
+(require 'auto-complete)
+(require 'auto-complete-config)
+(setq ac-quick-help-prefer-pos-tip nil)
+(ac-config-default)
+(setq ac-auto-start nil)
+(ac-set-trigger-key "TAB")
+(gcr/diminish 'auto-complete-mode)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Project%20management%20%5Bfn:7a558748:%20http://batsov.com/projectile/%5D][nil]]
+(projectile-global-mode 1)
+(gcr/diminish 'projectile-mode)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Rectangle%20/%20Cursors%20%5Bfn:8d7c694f:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Rectangles.html%5D%20%5Bfn:178:%20https://github.com/magnars/multiple-cursors.el%5D][nil]]
+(require 'multiple-cursors)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Remote%20file%20access%20%5Bfn:4997f5f8:%20https://www.gnu.org/software/tramp/%5D][nil]]
+(setq tramp-default-user "gcr")
+(setq tramp-default-method "ssh")
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Save%20history%20of%20all%20things%20%5Bfn:43a849e2:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Saving-Emacs-Sessions.html%5D%20%5Bfn:ac19c66e:%20http://fly.srk.fer.hr/~hniksic/emacs/savehist.el%5D%20%5Bfn:c39d161c:%20https://stackoverflow.com/questions/1229142/how-can-i-save-my-mini-buffer-history-in-emacs%5D][nil]]
+(defconst gcr/savehist-file-store "~/.emacs.d/savehist")
+(defun gcr/warn-savehist-file-store ()
+  "Warn of savehist misconfiguration."
+  (interactive)
+  (unless (gcr/file-exists-not-symlink gcr/savehist-file-store)
+    (warn "Can't seem to find a savehist store file where it was expected at: %S. Savehist should continue to function normally; but your history may be lost."
+          gcr/savehist-file-store)))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Save%20history%20of%20all%20things%20%5Bfn:43a849e2:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Saving-Emacs-Sessions.html%5D%20%5Bfn:ac19c66e:%20http://fly.srk.fer.hr/~hniksic/emacs/savehist.el%5D%20%5Bfn:c39d161c:%20https://stackoverflow.com/questions/1229142/how-can-i-save-my-mini-buffer-history-in-emacs%5D][nil]]
+(gcr/warn-savehist-file-store)
+(savehist-mode +1)
+(setq savehist-save-minibuffer-history +1)
+(setq savehist-additional-variables
+      '(kill-ring
+        search-ring
+        regexp-search-ring))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Searching%20/%20Finding%20%5Bfn:350ccf16:%20http://repo.or.cz/w/emacs.git/blob_plain/HEAD:/lisp/ido.el%5D%20%5Bfn:137:%20https://github.com/lewang/flx%5D][nil]]
+(require 'ido)
+(require 'flx-ido)
+(ido-mode 1)
+(require 'ido-hacks nil +1)
+(require 'ido-ubiquitous)
+(ido-ubiquitous-mode +1)
+(setq ido-create-new-buffer 'always)
+(flx-ido-mode +1)
+(setq ido-use-faces nil)
+(require 'ido-vertical-mode)
+(ido-vertical-mode +1)
+(setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Selection%20style%20%5Bfn:29f58393:%20https://github.com/magnars/expand-region.el%5D][nil]]
+(require 'expand-region)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Spell-checking%20%5Bfn:4fc20d0a:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Spelling.html%5D%20%5Bfn:b6f544fd:%20http://www.emacswiki.org/emacs/InteractiveSpell%5D%20%5Bfn:e620b160:%20http://blog.binchen.org/posts/what-s-the-best-spell-check-set-up-in-emacs.html%5D%20%5Bfn:8ce1e37a:%20http://melpa.milkbox.net/#/ac-ispell%5D][nil]]
+(defconst gcr/aspell-dict "~/.aspell.en.pws")
+(defun gcr/warn-aspell-dict ()
+  "Warn of aspell misconfiguration."
+  (interactive)
+  (unless (f-exists? gcr/aspell-dict)
+    (warn
+     "Can't seem to find an aspell dictionary where it was expected at: %S. aspell should continue to function normally; but your personal dictionary will not be used."
+     gcr/aspell-dict)))
+(gcr/warn-aspell-dict)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Syntax%20checking][nil]]
+(require 'flycheck)
+(add-hook 'after-init-hook #'global-flycheck-mode)
+(gcr/diminish 'flycheck-mode)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Templating%20%5Bfn:c3b8f741:%20https://github.com/capitaomorte/yasnippet%5D][nil]]
+(require 'yasnippet)
+(defconst gcr/yas-snippet-dir (concat (cask-dependency-path gcr/cask-bundle 'yasnippet)
+                               "/snippets"))
+(defun gcr/warn-yas-snippet-dir ()
+  "Warn of Yas misconfiguration."
+  (interactive)
+  (unless (f-directory? gcr/yas-snippet-dir)
+    (warn
+     "Can't seem to find the Yas snippet dir where it was expected at: %S. Yas should continue function but without its standard snippets loaded."
+     gcr/yas-snippet-dir)))
+(gcr/warn-yas-snippet-dir)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Templating%20%5Bfn:c3b8f741:%20https://github.com/capitaomorte/yasnippet%5D][nil]]
+(yas-load-directory gcr/yas-snippet-dir)
+(yas-global-mode 1)
+(gcr/diminish 'yas-minor-mode)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Templating%20%5Bfn:c3b8f741:%20https://github.com/capitaomorte/yasnippet%5D][nil]]
+(defun gcr/yas-minor-mode-hook ()
+  "Personal customizations."
+  (define-key yas-minor-mode-map (kbd "<tab>") nil)
+  (define-key yas-minor-mode-map (kbd "TAB") nil)
+  (define-key yas-minor-mode-map (kbd "s-4") 'yas-expand))
+
+(add-hook 'yas-minor-mode-hook 'gcr/yas-minor-mode-hook)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*White-space%20management%20%5Bfn:1283938f:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Useless-Whitespace.html%5D][nil]]
+(require 'whitespace)
+(setq whitespace-style '(trailing lines tab-mark))
+(setq whitespace-line-column 80)
+(global-whitespace-mode 1)
+(gcr/diminish 'global-whitespace-mode)
+(gcr/diminish 'whitespace-mode)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Configuration%20%5Bfn:d8a83c3d:%20http://eschulte.github.io/emacs-starter-kit/starter-kit-eshell.html%5D%20%5Bfn:78c95d3e:%20https://github.com/bbatsov/emacs-dev-kit/blob/master/eshell-config.el%5D][nil]]
+(setq eshell-prefer-lisp-functions nil
+      eshell-cmpl-cycle-completions nil
+      eshell-save-history-on-exit t
+      eshell-cmpl-dir-ignore "\\`\\(\\.\\.?\\|CVS\\|\\.svn\\|\\.git\\)/\\'")
+
+(eval-after-load 'esh-opt
+  '(progn
+     (require 'em-cmpl)
+     (require 'em-prompt)
+     (require 'em-term)
+     (setenv "PAGER" "cat")
+     (add-hook 'eshell-mode-hook
+               (lambda ()
+                 (message "Protovision… I have you now.")
+                 (setq pcomplete-cycle-completions nil)))
+     (add-to-list 'eshell-visual-commands "ssh")
+     (add-to-list 'eshell-visual-commands "tail")
+     (add-to-list 'eshell-command-completions-alist
+                  '("tar" "\\(\\.tar|\\.tgz\\|\\.tar\\.gz\\)\\'"))))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Configuration%20%5Bfn:d8a83c3d:%20http://eschulte.github.io/emacs-starter-kit/starter-kit-eshell.html%5D%20%5Bfn:78c95d3e:%20https://github.com/bbatsov/emacs-dev-kit/blob/master/eshell-config.el%5D][nil]]
+(defconst gcr/eshell-dir "~/.emacs.d/eshell")
+(defun gcr/warn-eshell-dir ()
+  "Warn of eshell misconfiguration."
+  (interactive)
+  (unless (and (f-symlink? gcr/eshell-dir)
+             (f-directory? gcr/eshell-dir))
+    (warn
+     "Could not find the eshell directory at: %S. Eshell will continue to function albeit without your customizations."
+     gcr/eshell-dir)))
+(gcr/warn-eshell-dir)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Configuration%20%5Bfn:d8a83c3d:%20http://eschulte.github.io/emacs-starter-kit/starter-kit-eshell.html%5D%20%5Bfn:78c95d3e:%20https://github.com/bbatsov/emacs-dev-kit/blob/master/eshell-config.el%5D][nil]]
+(setq eshell-prompt-regexp "^.+@.+:.+> ")
+(setq eshell-prompt-function
+      (lambda ()
+        (concat
+         (user-login-name)
+         "@"
+         (system-name)
+         ":"
+         (eshell/pwd)
+         "> ")))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*!%20All][nil]]
+(require 'fancy-narrow)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*!%20All][nil]]
+(require 'auto-complete-chunk)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*C%20Language%20Integrated%20Production%20System%20(CLIPS)%20%5Bfn:d383cc00:%20http://clipsrules.sourceforge.net/%5D][nil]]
+(require 'clips-mode)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Comint][nil]]
+(setq comint-scroll-to-bottom-on-input 'this)
+(setq comint-scroll-to-bottom-on-output 'others)
+(setq comint-show-maximum-output t)
+(setq comint-scroll-show-maximum-output t)
+(setq comint-move-point-for-output t)
+(setq comint-prompt-read-only t)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*CSS][nil]]
+(defun gcr/css-modehook ()
+  (fci-mode)
+  (whitespace-turn-on)
+  (rainbow-mode)
+  (visual-line-mode)
+  (gcr/untabify-buffer-hook)
+  (turn-on-real-auto-save)
+  (local-set-key (kbd "RET") 'newline-and-indent))
+
+(add-hook 'css-mode-hook 'gcr/css-modehook)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Emacs%20Lisp][nil]]
+(defun gcr/elisp-eval-buffer ()
+  "Intelligently evaluate an Elisp buffer."
+  (interactive)
+  (gcr/save-all-file-buffers)
+  (eval-buffer))
+
+(defun gcr/elisp-mode-local-bindings ()
+  "Helpful behavior for Elisp buffers."
+  (local-set-key (kbd "s-l eb") 'gcr/elisp-eval-buffer)
+  (local-set-key (kbd "s-l ep") 'eval-print-last-sexp)
+  (local-set-key (kbd "s-l td") 'toggle-debug-on-error)
+  (local-set-key (kbd "s-l mef") 'macroexpand)
+  (local-set-key (kbd "s-l mea") 'macroexpand-all)
+  (local-set-key (kbd "s-p") 'gcr/describe-thing-in-popup)
+  (local-set-key (kbd "M-:") 'my-eval-expression))
+
+(require 'lexbind-mode)
+
+(defun gcr/emacs-lisp-mode-hook ()
+  (gcr/elisp-mode-local-bindings)
+  (lexbind-mode)
+  (turn-on-eldoc-mode)
+  (gcr/diminish 'eldoc-mode)
+  (aggressive-indent-mode))
+
+(add-hook 'emacs-lisp-mode-hook 'gcr/emacs-lisp-mode-hook)
+
+(setq initial-scratch-message nil)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Graphviz%20%5Bfn:d05878c1:%20http://www.graphviz.org/%5D%20%5Bfn:4c7193c2:%20http://marmalade-repo.org/packages/graphviz-dot-mode%5D%20%5Bfn:04ffff20:%20http://orgmode.org/worg/org-contrib/babel/languages/ob-doc-dot.html%5D][nil]]
 (defun gcr/graphviz-dot-mode-hook ()
   "Personal mode bindings for Graphviz mode."
   (fci-mode)
@@ -1530,6 +2093,8 @@ Attribution: URL `https://lists.gnu.org/archive/html/emacs-orgmode/2014-09/msg00
 
 (add-hook 'graphviz-dot-mode-hook 'gcr/graphviz-dot-mode-hook)
 
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Graphviz%20%5Bfn:d05878c1:%20http://www.graphviz.org/%5D%20%5Bfn:4c7193c2:%20http://marmalade-repo.org/packages/graphviz-dot-mode%5D%20%5Bfn:04ffff20:%20http://orgmode.org/worg/org-contrib/babel/languages/ob-doc-dot.html%5D][nil]]
 (defconst gcr/graphviz-via-cask
   (concat (cask-dependency-path gcr/cask-bundle 'graphviz-dot-mode)
           "/graphviz-dot-mode.el"))
@@ -1539,7 +2104,11 @@ Attribution: URL `https://lists.gnu.org/archive/html/emacs-orgmode/2014-09/msg00
   (unless (gcr/file-exists-not-symlink gcr/graphviz-via-cask)
     (warn "Could not find a Graphviz library. Expected it to be here: %S." gcr/graphviz-via-cask)))
 (gcr/warn-graphviz-via-cask)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Graphviz%20%5Bfn:d05878c1:%20http://www.graphviz.org/%5D%20%5Bfn:4c7193c2:%20http://marmalade-repo.org/packages/graphviz-dot-mode%5D%20%5Bfn:04ffff20:%20http://orgmode.org/worg/org-contrib/babel/languages/ob-doc-dot.html%5D][nil]]
 (load-file gcr/graphviz-via-cask)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*ibuffer][nil]]
 (defun gcr/ibuffer-hook ()
   "Personal customizations"
   (interactive)
@@ -1560,6 +2129,8 @@ Attribution: URL `https://lists.gnu.org/archive/html/emacs-orgmode/2014-09/msg00
               (vc-status 16 16 :left)
               " "
               filename-and-process)))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*IELM%20%5Bfn:2ef924b6:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Lisp-Interaction.html%5D%20%5Bfn:8a08ea9e:%20http://www.emacswiki.org/emacs/InferiorEmacsLispMode%5D%20%5Bfn:5c199b8d:%20http://emacs-fu.blogspot.com/2011/03/ielm-repl-for-emacs.html%5D][nil]]
 (defun gcr/ielm-mode-hook ()
   "Personal customizations."
   (interactive)
@@ -1570,16 +2141,28 @@ Attribution: URL `https://lists.gnu.org/archive/html/emacs-orgmode/2014-09/msg00
 (setq ielm-prompt "𝔼LISP> ")
 
 (add-hook 'ielm-mode-hook 'gcr/ielm-mode-hook)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Imenu%20%5Bfn:58de53db:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Imenu.html%5D%20%5Bfn:6024eee8:%20http://www.emacswiki.org/emacs/ImenuMode%5D][nil]]
 (require 'imenu-anywhere)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Imenu%20%5Bfn:58de53db:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Imenu.html%5D%20%5Bfn:6024eee8:%20http://www.emacswiki.org/emacs/ImenuMode%5D][nil]]
 (setq imenu-sort-function 'imenu--sort-by-name)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Imenu%20%5Bfn:58de53db:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Imenu.html%5D%20%5Bfn:6024eee8:%20http://www.emacswiki.org/emacs/ImenuMode%5D][nil]]
 (require 'imenu+)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Imenu%20%5Bfn:58de53db:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Imenu.html%5D%20%5Bfn:6024eee8:%20http://www.emacswiki.org/emacs/ImenuMode%5D][nil]]
 (defun gcr/try-to-add-imenu ()
   "Add Imenu to modes that have `font-lock-mode' activated.
 
 Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
   (condition-case nil (imenu-add-to-menubar "Imenu") (error nil)))
  (add-hook 'font-lock-mode-hook 'gcr/try-to-add-imenu)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Info%20%5Bfn:c9bf4a1e:%20http://www.emacswiki.org/emacs/InfoMode%5D][nil]]
 (ace-link-setup-default)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Javascript%20%5Bfn:152bafed:%20https://en.wikipedia.org/wiki/ECMAScript%5D%20%5Bfn:42427fc4:%20http://www.emacswiki.org/emacs/JavaScriptMode%5D][nil]]
 (defun gcr/js-mode-hook ()
   (local-set-key (kbd "RET") 'newline-and-indent)
   (setq js-indent-level 2)
@@ -1600,7 +2183,11 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
       (warn
        "Can't seem to find the auto-complete library where it was expected at: %S. You might fix it with: ln -s %s/dict/javascript-mode %s" ac-dir ac-dir js-mode-f))))
 (gcr/warn-autocomplete-js)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Lispy][nil]]
 (require 'rainbow-delimiters)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Lispy][nil]]
 (defconst lispy-modes
   '(clips-mode-hook
     emacs-lisp-mode-hook
@@ -1626,6 +2213,8 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
     (add-hook h (function (lambda ()
                             (add-hook 'local-write-file-hooks
                                       'check-parens))))))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Make%20%5Bfn:da03efe9:%20https://www.gnu.org/software/make/manual/make.html%5D%20%5Bfn:202:%20http://orgmode.org/worg/org-contrib/babel/languages/ob-doc-makefile.html%5D%20%5Bfn:203:%20http://www.emacswiki.org/emacs/MakefileMode%5D][nil]]
 (defun gcr/make-modehook ()
   (fci-mode)
   (whitespace-turn-on)
@@ -1635,6 +2224,8 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
   (local-set-key (kbd "RET") 'newline-and-indent))
 
 (add-hook 'makefile-mode-hook 'gcr/make-modehook)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Markdown%20%5Bfn:e43df485:%20http://jblevins.org/projects/markdown-mode/%5D][nil]]
 (autoload 'markdown-mode "markdown-mode"
   "Major mode for editing Markdown files" +1)
 
@@ -1651,6 +2242,8 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
   (local-set-key (kbd "RET") 'newline-and-indent))
 
 (add-hook 'markdown-mode-hook 'gcr/markdown-mode-hook)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Occur][nil]]
 (defun gcr/occur-mode-hook ()
   "Personal customizations."
   (interactive)
@@ -1658,9 +2251,13 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
   (stripe-listify-buffer))
 
 (add-hook 'occur-mode-hook 'gcr/occur-mode-hook)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Polymode%20%5Bfn:918c4a07:%20https://github.com/vitoshka/polymode%5D][nil]]
 (require 'poly-R)
 (require 'poly-markdown)
 (add-to-list 'auto-mode-alist '("\\.Rmd" . poly-markdown+r-mode))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Polymode%20%5Bfn:918c4a07:%20https://github.com/vitoshka/polymode%5D][nil]]
 (define-key polymode-mode-map (kbd "s-e E") 'polymode-set-exporter)
 (define-key polymode-mode-map (kbd "s-e e") 'polymode-weave)
 (define-key polymode-mode-map (kbd "s-w s") 'polymode-set-weaver)
@@ -1672,6 +2269,8 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
 (define-key polymode-mode-map (kbd "s-o i") 'polymode-insert-new-chunk)
 (define-key polymode-mode-map (kbd "s-o m") 'polymode-mark-or-extend-chunk)
 (define-key polymode-mode-map (kbd "s-o t") 'polymode-toggle-chunk-narrowing)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Ruby%20%5Bfn:e9aab149:%20https://www.ruby-lang.org/en/%5D][nil]]
 (defun gcr/ruby-mode-hook ()
   (fci-mode)
   (rainbow-mode)
@@ -1683,6 +2282,8 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
   (local-set-key (kbd "RET") 'newline-and-indent))
 
 (add-hook 'ruby-mode-hook 'gcr/ruby-mode-hook)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Scheme%20%5Bfn:5c0b0c3e:%20http://library.readscheme.org/index.html%5D][nil]]
 (require 'geiser)
 (setq geiser-active-implementations '(racket))
 
@@ -1703,6 +2304,8 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
 (add-to-list 'auto-mode-alist '("\\.ss\\'" . scheme-mode))
 (add-to-list 'auto-mode-alist '("\\.sls\\'" . scheme-mode))
 (add-to-list 'auto-mode-alist '("\\.sps\\'" . scheme-mode))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Sh(hell)][nil]]
 (defun gcr/sh-mode-hook ()
   "Personal customizations."
   (interactive)
@@ -1719,6 +2322,8 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
   (local-set-key (kbd "RET") 'newline-and-indent))
 
 (add-hook 'sh-mode-hook 'gcr/sh-mode-hook)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Shell][nil]]
 (defun gcr/shell-mode-hook ()
   "Personalizations."
   (interactive)
@@ -1733,6 +2338,8 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
   (local-set-key (kbd "RET") 'newline-and-indent))
 
 (add-hook 'shell-mode-hook 'gcr/shell-mode-hook)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Standard%20ML%20(SML)%20%5Bfn:eb5c01ac:%20https://en.wikipedia.org/wiki/Standard_ML%5D][nil]]
 (require 'sml-mode)
 (defun gcr/sml-mode-hook ()
   "Personal settings."
@@ -1752,10 +2359,18 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
 (setq sml-rightalign-and t)
 (setq sml-electric-pipe-mode t)
 (setq sml-program-name "sml")
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Standard%20ML%20(SML)%20%5Bfn:eb5c01ac:%20https://en.wikipedia.org/wiki/Standard_ML%5D][nil]]
 (setq sml-font-lock-symbols nil)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Standard%20ML%20(SML)%20%5Bfn:eb5c01ac:%20https://en.wikipedia.org/wiki/Standard_ML%5D][nil]]
 (defadvice sml-prog-proc-load-file (before beforesml-prog-proc-load-file activate)
   (gcr/save-all-file-buffers))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Structured%20Query%20Language%20(SQL)%20%5Bfn:a018350e:%20https://en.wikipedia.org/wiki/SQL%5D][nil]]
 (require 'sqlup-mode)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Table][nil]]
 (require 'ctable)
 
 (defun gcr/ctbl:table-mode-hook ()
@@ -1763,6 +2378,8 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
   (interactive))
 
 (add-hook 'ctbl:table-mode-hook 'gcr/ctbl:table-mode-hook)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Tag][nil]]
 (setq
  gcr/tags/milwaukee-data-science
  '(
@@ -1782,8 +2399,12 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
    "Risk Management"
    "Statistical Computing"
    ))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*TeX%20%5Bfn:5bb50e18:%20https://en.wikipedia.org/wiki/TeX%5D%20/%20LaTeX%20%5Bfn:a13f106f:%20%5B%5Bhttps://en.wikipedia.org/wiki/LaTeX%5D%5D%5D%20/%20ConTeXt%20%5Bfn:8a78f8ab:%20https://en.wikipedia.org/wiki/ConTeXt%5D][nil]]
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*TeX%20%5Bfn:5bb50e18:%20https://en.wikipedia.org/wiki/TeX%5D%20/%20LaTeX%20%5Bfn:a13f106f:%20%5B%5Bhttps://en.wikipedia.org/wiki/LaTeX%5D%5D%5D%20/%20ConTeXt%20%5Bfn:8a78f8ab:%20https://en.wikipedia.org/wiki/ConTeXt%5D][nil]]
 (defun gcr/TeX-mode-hook ()
   "Settings applicable to every AUCTeX supported mode."
   (interactive)
@@ -1793,13 +2414,25 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
   (fci-mode))
 
 (add-hook 'TeX-mode-hook 'gcr/TeX-mode-hook)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*TeX%20%5Bfn:5bb50e18:%20https://en.wikipedia.org/wiki/TeX%5D%20/%20LaTeX%20%5Bfn:a13f106f:%20%5B%5Bhttps://en.wikipedia.org/wiki/LaTeX%5D%5D%5D%20/%20ConTeXt%20%5Bfn:8a78f8ab:%20https://en.wikipedia.org/wiki/ConTeXt%5D][nil]]
 (setq TeX-parse-self t) ;
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*TeX%20%5Bfn:5bb50e18:%20https://en.wikipedia.org/wiki/TeX%5D%20/%20LaTeX%20%5Bfn:a13f106f:%20%5B%5Bhttps://en.wikipedia.org/wiki/LaTeX%5D%5D%5D%20/%20ConTeXt%20%5Bfn:8a78f8ab:%20https://en.wikipedia.org/wiki/ConTeXt%5D][nil]]
 (setq TeX-auto-save t) ;
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*TeX%20%5Bfn:5bb50e18:%20https://en.wikipedia.org/wiki/TeX%5D%20/%20LaTeX%20%5Bfn:a13f106f:%20%5B%5Bhttps://en.wikipedia.org/wiki/LaTeX%5D%5D%5D%20/%20ConTeXt%20%5Bfn:8a78f8ab:%20https://en.wikipedia.org/wiki/ConTeXt%5D][nil]]
 (setq TeX-auto-untabify t)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*TeX%20%5Bfn:5bb50e18:%20https://en.wikipedia.org/wiki/TeX%5D%20/%20LaTeX%20%5Bfn:a13f106f:%20%5B%5Bhttps://en.wikipedia.org/wiki/LaTeX%5D%5D%5D%20/%20ConTeXt%20%5Bfn:8a78f8ab:%20https://en.wikipedia.org/wiki/ConTeXt%5D][nil]]
 (defadvice TeX-command-master (before before-TeX-command-master activate)
   (gcr/save-all-file-buffers))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*TeX%20%5Bfn:5bb50e18:%20https://en.wikipedia.org/wiki/TeX%5D%20/%20LaTeX%20%5Bfn:a13f106f:%20%5B%5Bhttps://en.wikipedia.org/wiki/LaTeX%5D%5D%5D%20/%20ConTeXt%20%5Bfn:8a78f8ab:%20https://en.wikipedia.org/wiki/ConTeXt%5D][nil]]
 (setq TeX-PDF-mode +1)
 (setq TeX-DVI-via-PDFTeX +1)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Text][nil]]
 (defun gcr/text-mode-hook ()
   (rainbow-mode)
   (turn-on-real-auto-save)
@@ -1808,9 +2441,15 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
   (gcr/untabify-buffer-hook))
 
 (add-hook 'text-mode-hook 'gcr/text-mode-hook)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Vagrant%20%5Bfn:a83cf3b8:%20http://www.vagrantup.com/%5D][nil]]
 (add-to-list 'auto-mode-alist '("Vagrantfile$" . ruby-mode))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Vagrant%20%5Bfn:a83cf3b8:%20http://www.vagrantup.com/%5D][nil]]
 (eval-after-load 'tramp
   '(vagrant-tramp-enable))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Version%20control%20/%20Git%20%5Bfn:17977be8:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Version-Control.html%5D%20%5Bfn:b573f4e5:%20https://github.com/magit/magit%5D][nil]]
 (defadvice vc-next-action (before save-before-vc first activate)
   "Save all buffers before any VC next-action function calls."
   (gcr/save-all-file-buffers))
@@ -1822,7 +2461,11 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
 (defadvice vc-revert (before save-before-vc-revert first activate)
   "Save all buffers before vc-revert calls."
   (gcr/save-all-file-buffers))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Version%20control%20/%20Git%20%5Bfn:17977be8:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Version-Control.html%5D%20%5Bfn:b573f4e5:%20https://github.com/magit/magit%5D][nil]]
 (global-diff-hl-mode)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Version%20control%20/%20Git%20%5Bfn:17977be8:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Version-Control.html%5D%20%5Bfn:b573f4e5:%20https://github.com/magit/magit%5D][nil]]
 (defun gcr/log-edit-mode-hook ()
   "Personal mode bindings for log-edit-mode."
   (gcr/untabify-buffer-hook)
@@ -1836,13 +2479,21 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
   (local-set-key (kbd "C-;") 'log-edit-done))
 
 (add-hook 'log-edit-mode-hook 'gcr/log-edit-mode-hook-local-bindings)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Version%20control%20/%20Git%20%5Bfn:17977be8:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Version-Control.html%5D%20%5Bfn:b573f4e5:%20https://github.com/magit/magit%5D][nil]]
 (defun gcr/git-commit-mode-hook ()
   "Personal customizations."
   (local-set-key (kbd "C-;") 'git-commit-commit))
 
 (add-hook 'git-commit-mode-hook 'gcr/git-commit-mode-hook)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Version%20control%20/%20Git%20%5Bfn:17977be8:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Version-Control.html%5D%20%5Bfn:b573f4e5:%20https://github.com/magit/magit%5D][nil]]
 (add-to-list 'auto-mode-alist '(".gitignore$" . text-mode))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Version%20control%20/%20Git%20%5Bfn:17977be8:%20https://www.gnu.org/software/emacs/manual/html_node/emacs/Version-Control.html%5D%20%5Bfn:b573f4e5:%20https://github.com/magit/magit%5D][nil]]
 (require 'git-timemachine)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Web%20%5Bfn:857fba7f:%20https://en.wikipedia.org/wiki/HTML%5D][nil]]
 (require 'web-mode)
 
 (setq web-mode-enable-block-partial-invalidation t)
@@ -1870,15 +2521,21 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
 
 (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.json\\'" . web-mode))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Web%20browsing][nil]]
 (setq browse-url-browser-function 'browse-url-generic)
 (gcr/on-gnu/linux (setq browse-url-generic-program "chromium-browser"))
 (gcr/on-osx
  (require 'osx-browse)
  (osx-browse-mode 1))
 (gcr/on-windows (setq browse-url-generic-program "chrome"))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Web%20browsing][nil]]
 (require 'google-this)
 (google-this-mode 1)
 (gcr/diminish 'google-this-mode)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*IRC%20%5Bfn:2a4e660d:%20http://mwolson.org/static/doc/erc.html%5D%20%5Bfn:2477b030:%20http://emacs-fu.blogspot.com/2009/06/erc-emacs-irc-client.html%5D%20%5Bfn:7011e6f3:%20http://edward.oconnor.cx/config/.ercrc.el%5D%20%5Bfn:c98e3673:%20http://www.shakthimaan.com/posts/2011/08/13/gnu-emacs-erc/news.html%5D%20%5Bfn:0a57e0d0:%20https://gitcafe.com/Darksair/dotfiles-mac/blob/master/.emacs-erc.el%5D][nil]]
 (require 'erc)
 
 (setq gcr/erc-after-connect-hook-BODY nil)
@@ -1920,42 +2577,66 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
         (setq gcr/erc-after-connect-hook-BODY gcr/erc-after-connect-hook-IMPL)))))
 
 (define-key erc-mode-map (kbd "C-c C-RET") 'erc-send-current-line)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*IRC%20%5Bfn:2a4e660d:%20http://mwolson.org/static/doc/erc.html%5D%20%5Bfn:2477b030:%20http://emacs-fu.blogspot.com/2009/06/erc-emacs-irc-client.html%5D%20%5Bfn:7011e6f3:%20http://edward.oconnor.cx/config/.ercrc.el%5D%20%5Bfn:c98e3673:%20http://www.shakthimaan.com/posts/2011/08/13/gnu-emacs-erc/news.html%5D%20%5Bfn:0a57e0d0:%20https://gitcafe.com/Darksair/dotfiles-mac/blob/master/.emacs-erc.el%5D][nil]]
 (require 'erc-autoaway)
 (add-to-list 'erc-modules 'autoaway)
 (setq erc-autoaway-idle-seconds 600)
 (setq erc-autoaway-message "autoaway just demanded that I step out now")
 (setq erc-auto-set-away +1)
 (erc-update-modules)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*IRC%20%5Bfn:2a4e660d:%20http://mwolson.org/static/doc/erc.html%5D%20%5Bfn:2477b030:%20http://emacs-fu.blogspot.com/2009/06/erc-emacs-irc-client.html%5D%20%5Bfn:7011e6f3:%20http://edward.oconnor.cx/config/.ercrc.el%5D%20%5Bfn:c98e3673:%20http://www.shakthimaan.com/posts/2011/08/13/gnu-emacs-erc/news.html%5D%20%5Bfn:0a57e0d0:%20https://gitcafe.com/Darksair/dotfiles-mac/blob/master/.emacs-erc.el%5D][nil]]
 (require 'erc-join)
 (erc-autojoin-mode +1)
 (setq erc-autojoin-channels-alist
       '((".*freenode.net" "#emacs" "#org-mode" "#scheme" "#r")))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*IRC%20%5Bfn:2a4e660d:%20http://mwolson.org/static/doc/erc.html%5D%20%5Bfn:2477b030:%20http://emacs-fu.blogspot.com/2009/06/erc-emacs-irc-client.html%5D%20%5Bfn:7011e6f3:%20http://edward.oconnor.cx/config/.ercrc.el%5D%20%5Bfn:c98e3673:%20http://www.shakthimaan.com/posts/2011/08/13/gnu-emacs-erc/news.html%5D%20%5Bfn:0a57e0d0:%20https://gitcafe.com/Darksair/dotfiles-mac/blob/master/.emacs-erc.el%5D][nil]]
 (require 'erc-button)
 (erc-button-mode +1)
 (setq erc-button-wrap-long-urls  nil
       erc-button-buttonize-nicks nil)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*IRC%20%5Bfn:2a4e660d:%20http://mwolson.org/static/doc/erc.html%5D%20%5Bfn:2477b030:%20http://emacs-fu.blogspot.com/2009/06/erc-emacs-irc-client.html%5D%20%5Bfn:7011e6f3:%20http://edward.oconnor.cx/config/.ercrc.el%5D%20%5Bfn:c98e3673:%20http://www.shakthimaan.com/posts/2011/08/13/gnu-emacs-erc/news.html%5D%20%5Bfn:0a57e0d0:%20https://gitcafe.com/Darksair/dotfiles-mac/blob/master/.emacs-erc.el%5D][nil]]
 (require 'erc-fill)
 (erc-fill-mode +1)
 (setq erc-fill-column 72)
 (setq erc-fill-function 'erc-fill-static)
 (setq erc-fill-static-center 0)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*IRC%20%5Bfn:2a4e660d:%20http://mwolson.org/static/doc/erc.html%5D%20%5Bfn:2477b030:%20http://emacs-fu.blogspot.com/2009/06/erc-emacs-irc-client.html%5D%20%5Bfn:7011e6f3:%20http://edward.oconnor.cx/config/.ercrc.el%5D%20%5Bfn:c98e3673:%20http://www.shakthimaan.com/posts/2011/08/13/gnu-emacs-erc/news.html%5D%20%5Bfn:0a57e0d0:%20https://gitcafe.com/Darksair/dotfiles-mac/blob/master/.emacs-erc.el%5D][nil]]
 (erc-irccontrols-enable)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*IRC%20%5Bfn:2a4e660d:%20http://mwolson.org/static/doc/erc.html%5D%20%5Bfn:2477b030:%20http://emacs-fu.blogspot.com/2009/06/erc-emacs-irc-client.html%5D%20%5Bfn:7011e6f3:%20http://edward.oconnor.cx/config/.ercrc.el%5D%20%5Bfn:c98e3673:%20http://www.shakthimaan.com/posts/2011/08/13/gnu-emacs-erc/news.html%5D%20%5Bfn:0a57e0d0:%20https://gitcafe.com/Darksair/dotfiles-mac/blob/master/.emacs-erc.el%5D][nil]]
 (setq erc-current-nick-highlight-type 'keyword)
 (setq erc-pals '("leppie"))
 (setq erc-fools '("lamer" "dude"))
 (remove-hook 'erc-text-matched-hook 'erc-hide-fools)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*IRC%20%5Bfn:2a4e660d:%20http://mwolson.org/static/doc/erc.html%5D%20%5Bfn:2477b030:%20http://emacs-fu.blogspot.com/2009/06/erc-emacs-irc-client.html%5D%20%5Bfn:7011e6f3:%20http://edward.oconnor.cx/config/.ercrc.el%5D%20%5Bfn:c98e3673:%20http://www.shakthimaan.com/posts/2011/08/13/gnu-emacs-erc/news.html%5D%20%5Bfn:0a57e0d0:%20https://gitcafe.com/Darksair/dotfiles-mac/blob/master/.emacs-erc.el%5D][nil]]
 (require 'erc-netsplit)
 (erc-netsplit-mode 1)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*IRC%20%5Bfn:2a4e660d:%20http://mwolson.org/static/doc/erc.html%5D%20%5Bfn:2477b030:%20http://emacs-fu.blogspot.com/2009/06/erc-emacs-irc-client.html%5D%20%5Bfn:7011e6f3:%20http://edward.oconnor.cx/config/.ercrc.el%5D%20%5Bfn:c98e3673:%20http://www.shakthimaan.com/posts/2011/08/13/gnu-emacs-erc/news.html%5D%20%5Bfn:0a57e0d0:%20https://gitcafe.com/Darksair/dotfiles-mac/blob/master/.emacs-erc.el%5D][nil]]
 (add-to-list 'erc-modules 'notify)
 (erc-update-modules)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*IRC%20%5Bfn:2a4e660d:%20http://mwolson.org/static/doc/erc.html%5D%20%5Bfn:2477b030:%20http://emacs-fu.blogspot.com/2009/06/erc-emacs-irc-client.html%5D%20%5Bfn:7011e6f3:%20http://edward.oconnor.cx/config/.ercrc.el%5D%20%5Bfn:c98e3673:%20http://www.shakthimaan.com/posts/2011/08/13/gnu-emacs-erc/news.html%5D%20%5Bfn:0a57e0d0:%20https://gitcafe.com/Darksair/dotfiles-mac/blob/master/.emacs-erc.el%5D][nil]]
 (add-to-list 'erc-modules 'page)
 (require 'erc-page)
 (erc-page-mode 1)
 (erc-update-modules)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*IRC%20%5Bfn:2a4e660d:%20http://mwolson.org/static/doc/erc.html%5D%20%5Bfn:2477b030:%20http://emacs-fu.blogspot.com/2009/06/erc-emacs-irc-client.html%5D%20%5Bfn:7011e6f3:%20http://edward.oconnor.cx/config/.ercrc.el%5D%20%5Bfn:c98e3673:%20http://www.shakthimaan.com/posts/2011/08/13/gnu-emacs-erc/news.html%5D%20%5Bfn:0a57e0d0:%20https://gitcafe.com/Darksair/dotfiles-mac/blob/master/.emacs-erc.el%5D][nil]]
 (require 'erc-ring)
 (erc-ring-mode 1)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*IRC%20%5Bfn:2a4e660d:%20http://mwolson.org/static/doc/erc.html%5D%20%5Bfn:2477b030:%20http://emacs-fu.blogspot.com/2009/06/erc-emacs-irc-client.html%5D%20%5Bfn:7011e6f3:%20http://edward.oconnor.cx/config/.ercrc.el%5D%20%5Bfn:c98e3673:%20http://www.shakthimaan.com/posts/2011/08/13/gnu-emacs-erc/news.html%5D%20%5Bfn:0a57e0d0:%20https://gitcafe.com/Darksair/dotfiles-mac/blob/master/.emacs-erc.el%5D][nil]]
 (add-to-list 'erc-modules 'scrolltobottom)
 (erc-update-modules)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*IRC%20%5Bfn:2a4e660d:%20http://mwolson.org/static/doc/erc.html%5D%20%5Bfn:2477b030:%20http://emacs-fu.blogspot.com/2009/06/erc-emacs-irc-client.html%5D%20%5Bfn:7011e6f3:%20http://edward.oconnor.cx/config/.ercrc.el%5D%20%5Bfn:c98e3673:%20http://www.shakthimaan.com/posts/2011/08/13/gnu-emacs-erc/news.html%5D%20%5Bfn:0a57e0d0:%20https://gitcafe.com/Darksair/dotfiles-mac/blob/master/.emacs-erc.el%5D][nil]]
 (add-to-list 'erc-modules 'stamp)
 (require 'erc-stamp)
 (erc-stamp-mode 1)
@@ -1965,6 +2646,8 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
       erc-insert-away-timestamp-function 'erc-insert-timestamp-left
       erc-away-timestamp-format          "<%H:%M> ")
 (erc-update-modules)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*IRC%20%5Bfn:2a4e660d:%20http://mwolson.org/static/doc/erc.html%5D%20%5Bfn:2477b030:%20http://emacs-fu.blogspot.com/2009/06/erc-emacs-irc-client.html%5D%20%5Bfn:7011e6f3:%20http://edward.oconnor.cx/config/.ercrc.el%5D%20%5Bfn:c98e3673:%20http://www.shakthimaan.com/posts/2011/08/13/gnu-emacs-erc/news.html%5D%20%5Bfn:0a57e0d0:%20https://gitcafe.com/Darksair/dotfiles-mac/blob/master/.emacs-erc.el%5D][nil]]
 (add-to-list 'erc-modules 'track)
 (require 'erc-track)
 (setq erc-track-switch-direction 'importance)
@@ -1984,20 +2667,34 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
     (if target
         (switch-to-buffer target))))
 (erc-update-modules)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*IRC%20%5Bfn:2a4e660d:%20http://mwolson.org/static/doc/erc.html%5D%20%5Bfn:2477b030:%20http://emacs-fu.blogspot.com/2009/06/erc-emacs-irc-client.html%5D%20%5Bfn:7011e6f3:%20http://edward.oconnor.cx/config/.ercrc.el%5D%20%5Bfn:c98e3673:%20http://www.shakthimaan.com/posts/2011/08/13/gnu-emacs-erc/news.html%5D%20%5Bfn:0a57e0d0:%20https://gitcafe.com/Darksair/dotfiles-mac/blob/master/.emacs-erc.el%5D][nil]]
 (require 'erc-tweet)
 (add-to-list 'erc-modules 'tweet)
 (erc-update-modules)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*IRC%20%5Bfn:2a4e660d:%20http://mwolson.org/static/doc/erc.html%5D%20%5Bfn:2477b030:%20http://emacs-fu.blogspot.com/2009/06/erc-emacs-irc-client.html%5D%20%5Bfn:7011e6f3:%20http://edward.oconnor.cx/config/.ercrc.el%5D%20%5Bfn:c98e3673:%20http://www.shakthimaan.com/posts/2011/08/13/gnu-emacs-erc/news.html%5D%20%5Bfn:0a57e0d0:%20https://gitcafe.com/Darksair/dotfiles-mac/blob/master/.emacs-erc.el%5D][nil]]
 (require 'erc-image)
 (add-to-list 'erc-modules 'image)
 (erc-update-modules)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*IRC%20%5Bfn:2a4e660d:%20http://mwolson.org/static/doc/erc.html%5D%20%5Bfn:2477b030:%20http://emacs-fu.blogspot.com/2009/06/erc-emacs-irc-client.html%5D%20%5Bfn:7011e6f3:%20http://edward.oconnor.cx/config/.ercrc.el%5D%20%5Bfn:c98e3673:%20http://www.shakthimaan.com/posts/2011/08/13/gnu-emacs-erc/news.html%5D%20%5Bfn:0a57e0d0:%20https://gitcafe.com/Darksair/dotfiles-mac/blob/master/.emacs-erc.el%5D][nil]]
 (require 'erc-youtube)
 (add-to-list 'erc-modules 'youtube)
 (erc-update-modules)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*IRC%20%5Bfn:2a4e660d:%20http://mwolson.org/static/doc/erc.html%5D%20%5Bfn:2477b030:%20http://emacs-fu.blogspot.com/2009/06/erc-emacs-irc-client.html%5D%20%5Bfn:7011e6f3:%20http://edward.oconnor.cx/config/.ercrc.el%5D%20%5Bfn:c98e3673:%20http://www.shakthimaan.com/posts/2011/08/13/gnu-emacs-erc/news.html%5D%20%5Bfn:0a57e0d0:%20https://gitcafe.com/Darksair/dotfiles-mac/blob/master/.emacs-erc.el%5D][nil]]
 (require 'erc-hl-nicks)
 (add-to-list 'erc-modules 'hl-nicks)
 (erc-update-modules)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*IRC%20%5Bfn:2a4e660d:%20http://mwolson.org/static/doc/erc.html%5D%20%5Bfn:2477b030:%20http://emacs-fu.blogspot.com/2009/06/erc-emacs-irc-client.html%5D%20%5Bfn:7011e6f3:%20http://edward.oconnor.cx/config/.ercrc.el%5D%20%5Bfn:c98e3673:%20http://www.shakthimaan.com/posts/2011/08/13/gnu-emacs-erc/news.html%5D%20%5Bfn:0a57e0d0:%20https://gitcafe.com/Darksair/dotfiles-mac/blob/master/.emacs-erc.el%5D][nil]]
 (require 'erc-dcc)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Generally%20nice][nil]]
 (eval-after-load "dash" '(dash-enable-font-lock))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Generally%20nice][nil]]
 (setq a-tmp-file (make-temp-file "~/"))
 (setq a-tmp-link (concat a-tmp-file "-LINK"))
 (make-symbolic-link a-tmp-file a-tmp-link 'overwrite)
@@ -2014,12 +2711,24 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
 (print (f-exists? a-tmp-link))
 (print (f-file? a-tmp-link))
 (print (f-symlink? a-tmp-link))
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Generally%20nice][nil]]
 (require 'xml-rpc)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Generally%20nice][nil]]
 (require 'metaweblog)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Generally%20nice][nil]]
 (require 'uuid)
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Characters%20/%20Unicode][nil]]
 (require 'figlet)
-(add-to-list 'figlet-fonts-dir-candidates "/usr/local/bin/")
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Characters%20/%20Unicode][nil]]
+(setq figlet-font-directory "/usr/local/bin/")
+;; nil ends here
 
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Custom%20variables][nil]]
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -2027,6 +2736,8 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes (quote ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
  '(display-time-world-list (quote (("America/Chicago" "Chicago") ("Asia/Kolkata" "Kolkata") ("Asia/Kuala_Lumpur" "Kuala Lumpur"))))
+ '(ess-R-font-lock-keywords (quote ((ess-R-fl-keyword:modifiers . t) (ess-R-fl-keyword:fun-defs . t) (ess-R-fl-keyword:keywords . t) (ess-R-fl-keyword:assign-ops . t) (ess-R-fl-keyword:constants . t) (ess-fl-keyword:fun-calls) (ess-fl-keyword:numbers) (ess-fl-keyword:operators) (ess-fl-keyword:delimiters) (ess-fl-keyword:= . t) (ess-R-fl-keyword:F&T))))
+ '(inferior-R-font-lock-keywords (quote ((ess-S-fl-keyword:prompt . t) (ess-R-fl-keyword:messages . t) (ess-R-fl-keyword:modifiers . t) (ess-R-fl-keyword:fun-defs . t) (ess-R-fl-keyword:keywords . t) (ess-R-fl-keyword:assign-ops . t) (ess-R-fl-keyword:constants . t) (ess-fl-keyword:matrix-labels . t) (ess-fl-keyword:fun-calls) (ess-fl-keyword:numbers) (ess-fl-keyword:operators) (ess-fl-keyword:delimiters) (ess-fl-keyword:= . t) (ess-R-fl-keyword:F&T))))
  '(linum-format "%5d")
  '(osx-browse-guess-keystrokes (quote ("s-b k")))
  '(osx-browse-url-keystrokes (quote ("s-b u"))))
@@ -2036,20 +2747,34 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+;; nil ends here
+;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Font%20block][nil]]
 (gcr/on-gui
+  ;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Font%20(Appearance)][nil]]
   (defconst gcr/font-base "DejaVu Sans Mono" "The preferred font name.")
+  ;; nil ends here
+  ;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Font%20(Appearance)][nil]]
   (require 'unicode-fonts)
   (unicode-fonts-setup)
+  ;; nil ends here
+  ;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Font%20(Appearance)][nil]]
   (defvar gcr/font-size 10 "The preferred font size.")
   (gcr/on-osx (setq gcr/font-size 17))
+  ;; nil ends here
+  ;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Font%20(Appearance)][nil]]
   (setq solarized-distinct-fringe-background +1)
   (setq solarized-high-contrast-mode-line +1)
   (setq solarized-use-less-bold +1)
   (setq solarized-use-more-italic nil)
   (setq solarized-emphasize-indicators nil)
   (load-theme 'solarized-dark)
+  ;; nil ends here
+  ;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Font%20(Appearance)][nil]]
   (require 'pretty-mode)
+  ;; nil ends here
+  ;; [[file:~/git/bitbucket-grettke/home/TC3F.org::*Font%20(Appearance)][nil]]
   (setq make-pointer-invisible +1)
+  ;; nil ends here
   (defun gcr/font-ok-p ()
     "Is the configured font valid?"
     (interactive)
@@ -2081,3 +2806,6 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
       (gcr/update-font)))
 
   (gcr/update-font))
+;; nil ends here
+
+;; Fully\ Loaded\ System:1 ends here

@@ -2093,6 +2093,23 @@ Thoughts:
 ;; (wrap-region-add-wrapper "«" "»" "w" 'org-mode) ;; noweb blocks
 #+end_src
 
+<2014-11-06 Thu>
+Make it really easy to intelligently navigate =FIXME= notices of all sorts.
+This is one of those "I didn't know I needed it until I saw it". My after the
+fact justification is that I am really, really happy with issue trackers, but
+be they on Jira or just in =org= and stored in git, and I've been so happy with
+both, that I want to experiment with an even /lighter/ weight means.
+
+#+begin_src emacs-lisp
+(require 'fixmee)
+(global-fixmee-mode 1)
+(gcr/diminish 'fixmee-mode)
+#+end_src
+
+<2014-11-06 Thu>
+I would like to have a =(gcr/diminish 'button-lock-mode)= call here, but again I
+have the load order wrong or something.
+
 **** Line Wrapping [fn:46bfb076: https://www.gnu.org/software/emacs/manual/html_node/emacs/Visual-Line-Mode.html] [fn:210: http://www.emacswiki.org/emacs/VisualLineMode] / Line breaking [fn:0945b707: https://www.gnu.org/software/emacs/manual/html_node/emacs/Auto-Fill.html]
 
 A long time ago I disabled line-wrapping because I kept all of my files less
@@ -2540,7 +2557,7 @@ The keys in that mode are:
 These actions appear in order of importance, and thus frequency of use
 
 Do the /right thing/ for getting to the start of the line!
-#+begin_src emacs-lips
+#+begin_src emacs-lisp
 (global-set-key (kbd "C-a") 'beginning-of-line-dwim)
 #+end_src
 
@@ -2885,6 +2902,8 @@ specifying them. Right now I am still not totally sure because of
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes (quote ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
  '(display-time-world-list (quote (("America/Chicago" "Chicago") ("Asia/Kolkata" "Kolkata") ("Asia/Kuala_Lumpur" "Kuala Lumpur"))))
+ '(ess-R-font-lock-keywords (quote ((ess-R-fl-keyword:modifiers . t) (ess-R-fl-keyword:fun-defs . t) (ess-R-fl-keyword:keywords . t) (ess-R-fl-keyword:assign-ops . t) (ess-R-fl-keyword:constants . t) (ess-fl-keyword:fun-calls) (ess-fl-keyword:numbers) (ess-fl-keyword:operators) (ess-fl-keyword:delimiters) (ess-fl-keyword:= . t) (ess-R-fl-keyword:F&T))))
+ '(inferior-R-font-lock-keywords (quote ((ess-S-fl-keyword:prompt . t) (ess-R-fl-keyword:messages . t) (ess-R-fl-keyword:modifiers . t) (ess-R-fl-keyword:fun-defs . t) (ess-R-fl-keyword:keywords . t) (ess-R-fl-keyword:assign-ops . t) (ess-R-fl-keyword:constants . t) (ess-fl-keyword:matrix-labels . t) (ess-fl-keyword:fun-calls) (ess-fl-keyword:numbers) (ess-fl-keyword:operators) (ess-fl-keyword:delimiters) (ess-fl-keyword:= . t) (ess-R-fl-keyword:F&T))))
  '(linum-format "%5d")
  '(osx-browse-guess-keystrokes (quote ("s-b k")))
  '(osx-browse-url-keystrokes (quote ("s-b u"))))
@@ -2935,6 +2954,10 @@ best option.
   (save-excursion
     (hs-show-block)))
 #+end_src
+
+<2014-11-06 Thu>
+I would like to have a =(gcr/diminish 'hs-minor-mode)= call here, but have the
+load order wrong or something, so it doesn't work.
 
 **** Color visualizing [fn:adb70244: http://elpa.gnu.org/packages/rainbow-mode.html]
 
@@ -3526,7 +3549,7 @@ that, =pp-eval-expression= is even better. Michael Heerdegen shared his solution
   (lexbind-mode)
   (turn-on-eldoc-mode)
   (gcr/diminish 'eldoc-mode)
-  (endless/activate-aggressive-indent))
+  (aggressive-indent-mode))
 
 (add-hook 'emacs-lisp-mode-hook 'gcr/emacs-lisp-mode-hook)
 
@@ -3580,7 +3603,7 @@ In it:
 - Check that =ess= is installed with a call to =ess-version=.
 
 #+begin_src emacs-lisp
-(defconst gcr/ess-version "14.09")
+(defconst gcr/ess-version "14.1x")
 
 (defun gcr/warn-ess-version ()
   "Warn of ess misconfiguration."
@@ -3981,7 +4004,7 @@ here how easy it is to customize it.
   (hs-minor-mode)
   (linum-mode)
   (gcr/turn-on-r-hide-show)
-  (endless/activate-aggressive-indent)
+  (aggressive-indent-mode)
   (lambda () (add-hook 'ess-presend-filter-functions
                   (lambda ()
                     (warn
@@ -4736,6 +4759,11 @@ library(plyr)
 
 dplyr: a grammar of data manipulation in R
 
+The fact that I am loading both =plyr= and =dplyr= is something that I am
+questioning. I do so because I learned them in that order, so left it that way.
+However, this just results in *more* binding shadowing, and I am not sure of the
+implications, and they are usually never good.
+
 #+begin_quote
 [[http://cran.r-project.org/web/packages/dplyr/index.html][A fast, consistent tool]] for working with data frame like objects, both in memory and out of memory.
 #+end_quote
@@ -4757,6 +4785,26 @@ Gives you =assert= and =test_pkg=. Save characters.
 #+begin_src R
 library(testit)
 #+end_src
+
+********* markdown
+
+- [[http://cran.r-project.org/web/packages/markdown/index.html][CRAN]]
+  - [[http://cran.r-project.org/web/packages/markdown/markdown.pdf][reference]]
+  - [[http://cran.r-project.org/web/packages/markdown/vignettes/markdown-examples.html][vignettes: markdown-examples]]
+  - [[http://cran.r-project.org/web/packages/markdown/vignettes/markdown-output.html][vignettes: markdown-output]]
+- [[https://github.com/rstudio/markdown][GitHub]]
+
+#+begin_quote
+install.packages("markdown")
+#+end_quote
+
+#+begin_src R
+library(markdown)
+#+end_src
+
+#+begin_quote
+This package is referred to as R Markdown v1 when combined with knitr. The primary output format is HTML. Now we have introduced R Markdown v2, which is based on Pandoc and knitr, and supports much more types of output formats.
+#+end_quote
 
 ********* knitr
 
@@ -4796,6 +4844,22 @@ Somehow missed the [[http://cran.r-project.org/web/packages/knitr/vignettes/knit
 library(knitr)
 #+end_src
 
+
+********* slidify
+
+- [[http://slidify.org/][HomePage]]
+- No CRAN
+- [[https://github.com/ramnathv/slidify][GitHub]]
+
+#+begin_src R
+install_github("ramnathv/slidify")
+install_github("ramnathv/slidifyLibraries")
+#+end_src
+
+#+begin_src R
+library(slidify)
+#+end_src
+
 ********* fortunes
 
 R Fortunes.
@@ -4826,6 +4890,120 @@ library(fortunes)
 #+begin_src R
 library(ggplot2)
 #+end_src
+
+
+********* tikzDevice
+
+- [[http://cran.r-project.org/web/packages/tikzDevice/index.html][CRAN]]
+  - [[http://cran.r-project.org/web/packages/tikzDevice/tikzDevice.pdf][reference]]
+  - [[http://cran.r-project.org/web/packages/tikzDevice/vignettes/tikzDevice.pdf][vignettes: tikzDevice]]
+- [[https://github.com/yihui/tikzDevice][GitHub]]
+
+#+begin_quote
+install.packages("tikzDevice")
+#+end_quote
+
+#+begin_src R
+library(tikzDevice)
+#+end_src
+
+********* ascii
+
+- [[http://cran.r-project.org/web/packages/ascii/index.html][CRAN]]
+  - [[http://cran.r-project.org/web/packages/ascii/ascii.pdf][reference]]
+- [[https://github.com/eusebe/ascii/][GitHub]]
+
+#+begin_quote
+install.packages("ascii")
+#+end_quote
+
+#+begin_src R
+library(ascii)
+#+end_src
+
+Always display =org= representations; I'm assuming that it will be /the/ dominant
+vehicle for analysis.
+
+#+begin_src R
+options(asciiType="org")
+#+end_src
+
+********* xtable
+
+- [[http://cran.r-project.org/web/packages/xtable/index.html][CRAN]]
+  - [[http://cran.r-project.org/web/packages/xtable/xtable.pdf][reference]]
+  - [[http://cran.r-project.org/web/packages/xtable/vignettes/margintable.pdf][vignettes: margintable]]
+  - [[http://cran.r-project.org/web/packages/xtable/vignettes/xtableGallery.pdf][vignettes: xtableGallery]]
+- [[http://xtable.r-forge.r-project.org/][R-Forge]]
+
+#+begin_quote
+install.packages("xtable")
+#+end_quote
+
+#+begin_src R
+library(xtable)
+#+end_src
+
+********* Hmisc
+
+- [[http://cran.r-project.org/web/packages/Hmisc/index.html][CRAN]]
+  - [[http://cran.r-project.org/web/packages/Hmisc/Hmisc.pdf][reference]]
+- [[https://github.com/harrelfe/Hmisc][GitHub]]
+
+#+begin_quote
+install.packages("Hmisc")
+#+end_quote
+
+#+begin_src R
+library(Hmisc)
+#+end_src
+
+********* log4r
+
+- [[http://cran.r-project.org/web/packages/log4r/index.html][CRAN]]
+  - [[http://cran.r-project.org/web/packages/log4r/log4r.pdf][reference]]
+- [[https://github.com/johnmyleswhite/log4r][GitHub]]
+
+#+begin_quote
+install.packages("log4r")
+#+end_quote
+
+#+begin_src R
+library(log4r)
+#+end_src
+
+********* boot
+
+- [[http://cran.r-project.org/web/packages/boot/index.html][CRAN]]
+  - [[http://cran.r-project.org/web/packages/boot/boot.pdf][reference]]
+
+#+begin_src R
+library(boot)
+#+end_src
+
+********* kernlab
+
+- [[http://cran.r-project.org/web/packages/kernlab/index.html][CRAN]]
+  - [[http://cran.r-project.org/web/packages/kernlab/kernlab.pdf][reference]]
+  - [[http://cran.r-project.org/web/packages/kernlab/vignettes/kernlab.pdf][vignettes: kernlab]]
+- GitHub
+
+#+begin_quote
+install.packages("kernlab")
+#+end_quote
+
+#+begin_src R
+library(kernlab)
+#+end_src
+
+********* Not explicitly loaded, but interesting packages
+
+- [[http://projecttemplate.net/index.html][ProjectTemplate]]
+- [[http://cran.r-project.org/web/packages/evaluate/index.html][evaluate]]
+- [[http://cran.r-project.org/web/packages/yaml/index.html][yaml]]
+- [[http://cran.r-project.org/web/packages/whisker/index.html][whisker]]
+- [[http://cran.r-project.org/web/packages/formatR/index.html][formatR]]
+- General caching [fn:452e6ab4: https://stackoverflow.com/questions/7262485/options-for-caching-memoization-hashing-in-r]
 
 ******* .First
       :PROPERTIES:
@@ -4951,8 +5129,26 @@ That worked fine until I actuarlly starting using that graphics device!
 
 Then even though I was on OSX I *had* to switch to =X11=.
 
-#+begin_src R
+<2014-11-05 Wed>
+That was probably a mistake. The folks on-list said that =quartz= should be super.
+Perhaps the error was between the keyboard and the chair, so I am switching
+back.
+
+<2014-11-08 Sat>
+When I us =ggplot= and quarts on this system, it blows up.
+
+#+begin_src sh
 R_INTERACTIVE_DEVICE=x11
+#+end_src
+
+Explicitly state the timezone. This could be done either here or in the =.profile=.
+I'm not totally sure where to put it. Because I am trying to do *everything* with,
+I will put it here. Perhaps this should get set via =Sys.setenv= instead? I'll
+leave it for now and fix it later if necessary. I did test this out with a call
+to =Sys.time()= and it worked correctly.
+
+#+begin_src sh
+TZ=America/Chicago
 #+end_src
 
 ***** Eshell [fn:063471c9: https://www.gnu.org/software/emacs/manual/html_mono/eshell.html] [fn:46b52b8f: http://www.masteringemacs.org/articles/2010/12/13/complete-guide-mastering-eshell/] [fn:ed7a113f: http://www.khngai.com/emacs/eshell.php]
@@ -4970,7 +5166,7 @@ Elisp commands… and that can bey very pleasant.
 Command completion is available.
 Commands input in eshell are delegated in order to an alias, a built in command,
 an Elisp function with the same name, and finally to a system call. Semicolons
-desperate commands. =which= tells you what implementation will satisfy the call
+separate commands. =which= tells you what implementation will satisfy the call
 that you are going to make. The flag =eshell-prefer-lisp-functions= does what it
 says. =$$= is the result of the last command. Aliases live in
 =eshell-aliases-file=. History is maintained and expandable. =eshell-source-file=
@@ -4983,7 +5179,11 @@ curses by adding it to to =eshell-visual-commands=.
      :noweb-ref: ignore-eshells-config
      :END:
 
-#+begin_src sh :tangle eshell/alias
+<2014-11-06 Thu>
+This file can't seem handle comment lines in =sh= or =emacs-lisp= and I don't want
+to find out why so don't include =org= comments.
+
+#+begin_src sh :tangle eshell/alias :comments no
 alias clear recenter 0
 alias d 'dired $1'
 alias g git $*
@@ -5533,7 +5733,7 @@ it wreren't here:
 Make sure =figlet= may be found on OSX via Brew.
 
 #+begin_src emacs-lisp
-(add-to-list 'figlet-fonts-dir-candidates "/usr/local/bin/")
+(setq figlet-font-directory "/usr/local/bin/")
 #+end_src
 
 ***** Javascript [fn:152bafed: https://en.wikipedia.org/wiki/ECMAScript] [fn:42427fc4: http://www.emacswiki.org/emacs/JavaScriptMode]
@@ -6701,12 +6901,14 @@ it.
 =org-show= need special handling, see the install for details.
 #+begin_src emacs-lisp
 (let ((pkg 'org-show))
-  (if (not (el-get-package-is-installed pkg))
-      (warn "You wanted %S to be installed, but it isnt. Fix this." pkg)
-    (let ((fil (concat (el-get-package-directory pkg) "org-show.el")))
-      (if (not (f-exists? fil))
-          (warn "You wanted %S to exist, but it doesn't. Fix this." fil)
-        (load fil)))))
+  (gcr/on-gui
+   (if (not (el-get-package-is-installed pkg))
+       (warn "You wanted %S to be installed, but it isnt. Fix this." pkg)
+     (let ((fil (concat (el-get-package-directory pkg) "org-show.el")))
+       (if (not (f-exists? fil))
+           (warn "You wanted %S to exist, but it doesn't. Fix this." fil)
+         (load fil)))))
+  (gcr/not-on-gui (warn "You wanted %S to be loaded, but it won't be… it doesn't work without a GUI for some reason." pkg)))
 #+end_src
 
 Building =org= documents is intimately tied to:
@@ -6715,7 +6917,7 @@ Building =org= documents is intimately tied to:
 - Check the former
 - Perhaps someday the latter should be checked?
 #+begin_src emacs-lisp
-(defconst gcr/org-version "8.2.8")
+(defconst gcr/org-version "8.2.10")
 
 (defun gcr/warn-org-version ()
   "Warn of org misconfiguration."
@@ -6818,6 +7020,11 @@ Display emphasized text as you would in a WYSIWYG editor.
 #+end_src
 
 Highlight LaTeX markup.
+Normally, I don't do any syntax highlighting, as I believe that should be
+delegated to source buffers, thinking that to do otherwise is distracting.
+However, I already do configure subscripts and Greek letters to be displayed
+with syntax highlighting, because I want to indicate to the human reader that
+they are special, and specifically /not/-Unicode. Do the same thing for
 #+begin_src emacs-lisp
 (setq org-highlight-latex-and-related '(latex script entities))
 #+end_src
@@ -7016,6 +7223,9 @@ order matters here.
 (add-to-list
  'org-structure-template-alist
  '("p" "#+begin_src plantuml\n?\n#+end_src" "<src lang=\"plantuml\"></src>"))
+(add-to-list
+ 'org-structure-template-alist
+ '("sh" "#+begin_src sh\n?\n#+end_src" "<src lang=\"sh\"></src>"))
 #+end_src
 
 Sometimes tangling and exporting takes a long time and I would like to see some
@@ -7309,8 +7519,13 @@ Now I've got weeks invested and I'm shocked to find that using links in the
 tangled file is worse then useless, it is actually harmful. It just doesn't
 help, atleast in the sytems that I am tangling. As such I am no longer using
 it.
+
+<2014-11-02 Sun>
+Well, just read a post of another person using it (many months after I retired
+it), and I think that I want to try keeping it around. My problem was probably
+between my keyboard and chair so I will give it another go.
 #+begin_src emacs-lisp
-(gcr/set-org-babel-default-header-args :comments "no")
+(gcr/set-org-babel-default-header-args :comments "noweb")
 #+end_src
 
 ********* Results [fn:1625d11f: http://orgmode.org/manual/results.html#results]
@@ -7336,6 +7551,23 @@ do so.
 
 #+begin_src emacs-lisp
 (gcr/set-org-babel-default-header-args :noweb "no-export")
+#+end_src
+
+********* Padline [fn:508104fc: http://orgmode.org/manual/padline.html]
+
+Deals with inserted code blocks and whether or not you havep padding around
+them. For a while I liked that, to make it easier to see. Then I used comments
+to make it clear, but I may or may not use them. Finally, I decided that not to
+make it easier for that form of the code to read for humans, because that is
+what the LP document is for.
+
+<2014-11-02 Sun>
+After doing that, which totally made sense, I decided to give tangle comments a
+go again, and although we are still generating for a computer, it can be nice
+when =de-tangling= to have some space.
+
+#+begin_src emacs-lisp
+(gcr/set-org-babel-default-header-args :padline "yes")
 #+end_src
 
 ********* Eval [fn:f6ab36a6: http://orgmode.org/manual/eval.html#eval]
@@ -7688,7 +7920,7 @@ remaining a mystery for now.
   (local-set-key (kbd "s-;") 'org-babel-view-src-block-info)
   (local-set-key (kbd "s-b s") 'org-babel-switch-to-session)
   (local-set-key (kbd "s-b c") 'org-babel-switch-to-session-with-code)
-  (local-set-key (kbd "s-e") 'org-babel-execute-maybe)
+  (local-set-key (kbd "s-o") 'org-babel-execute-maybe)
   (local-set-key (kbd "s-t") 'org-babel-tangle)
   (local-set-key (kbd "s-x") 'org-babel-do-key-sequence-in-edit-buffer)
   (local-set-key (kbd "s-w w") 'org-export-dispatch)
@@ -7696,6 +7928,7 @@ remaining a mystery for now.
   (local-set-key (kbd "s-i d") 'org-display-inline-images)
   (local-set-key (kbd "s-i r") 'org-remove-inline-images)
   (local-set-key (kbd "C-.") (lambda () (interactive) (insert " \\rarr ")))
+  (local-set-key (kbd "$") 'yf/org-electric-dollar)
   (turn-on-real-auto-save)
   (when (and (fboundp 'guide-key-mode) guide-key-mode)
     (guide-key/add-local-guide-key-sequence "C-c")
@@ -7857,6 +8090,8 @@ far.
 
 (depends-on "ace-window")
 
+(depends-on "aggressive-indent")
+
 (depends-on "alert")
 
 (depends-on "anchored-transpose")
@@ -7916,6 +8151,8 @@ far.
 (depends-on "flx-ido")
 
 (depends-on "flycheck")
+
+(depends-on "fixmee")
 
 (depends-on "fuzzy")
 
@@ -8224,14 +8461,19 @@ manner:
 Even if you never, ever finish reading SICP [fn:9e4cba8b: https://mitpress.mit.edu/sicp/] [fn:27216be9: https://en.wikipedia.org/wiki/Structure_and_Interpretation_of_Computer_Programs],
 you still should always, always have it /on hand/.
 
-#+begin_src emacs-lisp
-(add-to-list 'gcr/el-get-packages 'sicp)
-#+end_src
+<2014-11-08 Sat>
+Today the recipe didn't work, =el-get= couldn't find it. That is pretty bizarre
+because /nothing changed/. The recipe still lives here [fn:b7460ca0: https://github.com/dimitri/el-get/blob/master/recipes/sicp.rcp].
+
+Because this is broken for some unknown reason, I'm omitting it and will simply
+fix it the /next/ time that I want to run it.
+
+#+begin_quote
+=(add-to-list 'gcr/el-get-packages 'sicp)=
+#+end_quote
 
 =emacs-pde= [fn:f3e803df: https://github.com/wenbinye/emacs-pde] provides a Perl
 style regex builder to supplement the built-in [fn:f2270e49: https://www.gnu.org/software/emacs/manual/html_node/elisp/Syntax-of-Regexps.html].
-
-
 
 As el-get to make sure that those desired packages are installed. At the moment
 there are none beyond the custom recipes.
@@ -8313,11 +8555,19 @@ Two systems will be configured here:
 *** Fully Loaded System
 
 Convert decisions into a runnable system.
+
+<2014-11-04 Tue>
+Note the =uxo-frames-decision= inclusion, and how there is a newline between the
+closing round-bracket. As of today, that bracket disappears during tangling and
+it breaks the tangled document. This only seems to occur with when comments and
+padding are on.
+
 #+begin_src emacs-lisp :tangle .emacs.el
 «base-configuration»
 «uxo-windows-decision»
 (gcr/on-gui
- «uxo-frames-decision»)
+ «uxo-frames-decision»
+)
 «uxo-buffers-decision»
 «uxo-modeline-decision»
 «uxo-mark-region-decision»
@@ -8807,6 +9057,21 @@ Attribution: URL `https://github.com/hrs/dotfiles/blob/master/emacs.d/lisp/utils
   "Insert a string form of a UUID."
   (interactive)
   (insert (uuid-to-stringy (uuid-create))))
+
+(defun yf/org-electric-dollar nil
+  "When called once, insert \\(\\) and leave point in between.
+  When called twice, replace the previously inserted \\(\\) by one $.
+
+from Nicolas Richard <theonewiththeevillook@yahoo.fr>
+Date: Fri, 8 Mar 2013 16:23:02 +0100
+Message-ID: <87vc913oh5.fsf@yahoo.fr>"
+  (interactive)
+  (if (and (looking-at "\\\\)") (looking-back "\\\\("))
+      (progn (delete-char 2)
+             (delete-char -2)
+             (insert "$"))
+    (insert "\\(\\)")
+    (backward-char 2)))
 #+end_src
 
 This [fn:d95e8aea: http://endlessparentheses.com/permanent-auto-indentation.html]
@@ -8817,25 +9082,8 @@ their code. Perhaps the bondage and discipline language user would disagree? I
 don't mind, in regards to editors and code at least! Using this approach doesn't
 prevent you from doing anything in particular other than poorly indenting code.
 This will be a fun experiment and I will start out with emacs-lisp and ℝ to see
-how it goes.
-
-#+begin_src emacs-lisp
-(defun endless/indent-defun ()
-  "Indent current defun.
-
-Attribution: URL `http://endlessparentheses.com/permanent-auto-indentation.html'"
-  (interactive)
-  (let ((l (save-excursion (beginning-of-defun 1) (point)))
-        (r (save-excursion (end-of-defun 1) (point))))
-    (indent-region l r)))
-
-(defun endless/activate-aggressive-indent ()
-  "Locally add `endless/indent-defun' to `post-command-hook'.
-
-Attribution: URL `http://endlessparentheses.com/permanent-auto-indentation.html'"
-  (add-hook 'post-command-hook
-            #'endless/indent-defun nil 'local))
-#+end_src
+how it goes. Generally the experiment has gone well, and it is not it's own
+package, and it uses autoload so there is no more code here.
 
 ** Helper scripts
 
