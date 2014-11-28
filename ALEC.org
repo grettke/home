@@ -5003,7 +5003,7 @@ Comment and uncomment anything:
 #+end_src
 
 Do smart new line inside, indenting given the mode:
-#+begin_src
+#+begin_src emacs-lisp
 (global-set-key (kbd "s-<return>") 'gcr/smart-open-line)
 #+end_src
 
