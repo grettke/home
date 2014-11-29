@@ -1,160 +1,144 @@
 
-## [[file:~/git/bitbucket-grettke/home/TC3F.org::*Control%20Files][Control\ Files:1]]
-
-## [[file:~/git/bitbucket-grettke/home/TC3F.org::*.Rprofile%20%5Bfn:89a51cf1:%20https://stackoverflow.com/questions/1189759/expert-r-users-whats-in-your-rprofile%5D][nil]]
 local({
     r = getOption("repos")
     r["CRAN"] = "http://cran.r-project.org/"
     options(repos = r)
 })
-## nil ends here
-## [[file:~/git/bitbucket-grettke/home/TC3F.org::*.Rprofile%20%5Bfn:89a51cf1:%20https://stackoverflow.com/questions/1189759/expert-r-users-whats-in-your-rprofile%5D][nil]]
 options(browserNLdisabled = TRUE)
-## nil ends here
-## [[file:~/git/bitbucket-grettke/home/TC3F.org::*.Rprofile%20%5Bfn:89a51cf1:%20https://stackoverflow.com/questions/1189759/expert-r-users-whats-in-your-rprofile%5D][nil]]
 options("digits.secs"=3)
-## nil ends here
-## [[file:~/git/bitbucket-grettke/home/TC3F.org::*.Rprofile%20%5Bfn:89a51cf1:%20https://stackoverflow.com/questions/1189759/expert-r-users-whats-in-your-rprofile%5D][nil]]
 options(prompt="ℝ> ")
-## nil ends here
-## [[file:~/git/bitbucket-grettke/home/TC3F.org::*.Rprofile%20%5Bfn:89a51cf1:%20https://stackoverflow.com/questions/1189759/expert-r-users-whats-in-your-rprofile%5D][nil]]
 options(stringsAsFactors=TRUE)
-## nil ends here
-## [[file:~/git/bitbucket-grettke/home/TC3F.org::*.Rprofile%20%5Bfn:89a51cf1:%20https://stackoverflow.com/questions/1189759/expert-r-users-whats-in-your-rprofile%5D][nil]]
 options(showWarnCalls=TRUE)
 options(showErrorCalls=TRUE)
-## nil ends here
-## [[file:~/git/bitbucket-grettke/home/TC3F.org::*.Rprofile%20%5Bfn:89a51cf1:%20https://stackoverflow.com/questions/1189759/expert-r-users-whats-in-your-rprofile%5D][nil]]
 options(error=NULL)
 options(warn=0)
-## nil ends here
-## [[file:~/git/bitbucket-grettke/home/TC3F.org::*.Rprofile%20%5Bfn:89a51cf1:%20https://stackoverflow.com/questions/1189759/expert-r-users-whats-in-your-rprofile%5D][nil]]
 options(max.print=500)
-## nil ends here
-## [[file:~/git/bitbucket-grettke/home/TC3F.org::*.Rprofile%20%5Bfn:89a51cf1:%20https://stackoverflow.com/questions/1189759/expert-r-users-whats-in-your-rprofile%5D][nil]]
 options(warnPartialMatchDollar = TRUE)
-## nil ends here
-## [[file:~/git/bitbucket-grettke/home/TC3F.org::*.Rprofile%20%5Bfn:89a51cf1:%20https://stackoverflow.com/questions/1189759/expert-r-users-whats-in-your-rprofile%5D][nil]]
 Sys.setenv(LANG = "en_US.UTF-8")
 Sys.setlocale("LC_COLLATE", "en_US.UTF-8")
 Sys.setlocale("LC_MESSAGES", "en_US.UTF-8")
-## nil ends here
-## [[file:~/git/bitbucket-grettke/home/TC3F.org::*assertthat][nil]]
+if(! require(assertthat)){
+    install.packages("assertthat")
+}
 library(assertthat)
-## nil ends here
-## [[file:~/git/bitbucket-grettke/home/TC3F.org::*testthat][nil]]
+if(! require(testthat)) {
+    install.packages("testthat")
+}
 library(testthat)
-## nil ends here
-## [[file:~/git/bitbucket-grettke/home/TC3F.org::*stringr][nil]]
+if(! require(stringr)) {
+    install.packages("stringr")
+}
 library(stringr)
-## nil ends here
-## [[file:~/git/bitbucket-grettke/home/TC3F.org::*sqldf][nil]]
+if(! require(sqldf)) {
+    install.packages("sqldf")
+}
 library(sqldf)
-## nil ends here
-## [[file:~/git/bitbucket-grettke/home/TC3F.org::*MASS][nil]]
+if(! require(MASS)) {
+    install.packages("MASS")
+}
 library(MASS)
-## nil ends here
-## [[file:~/git/bitbucket-grettke/home/TC3F.org::*jsonlite][nil]]
+if(! require(jsonlite)) {
+    install.packages("jsonlite")
+}
 library(jsonlite)
-## nil ends here
-## [[file:~/git/bitbucket-grettke/home/TC3F.org::*data.table][nil]]
+if(! require(data)) {
+    install.packages("data")
+}
 library(data.table)
-## nil ends here
-## [[file:~/git/bitbucket-grettke/home/TC3F.org::*xlsx][nil]]
+if(! require(xlsx)) {
+    install.packages("xlsx")
+}
 library(xlsx)
-## nil ends here
-## [[file:~/git/bitbucket-grettke/home/TC3F.org::*XML][nil]]
+if(! require(XML)) {
+    install.packages("XML")
+}
 library(XML)
-## nil ends here
-## [[file:~/git/bitbucket-grettke/home/TC3F.org::*magrittr][nil]]
 library(magrittr)
-## nil ends here
-## [[file:~/git/bitbucket-grettke/home/TC3F.org::*devtools][nil]]
 library(devtools)
-## nil ends here
-## [[file:~/git/bitbucket-grettke/home/TC3F.org::*reshape2][nil]]
+if(! require(reshape2)) {
+    install.packages("reshape2")
+}
 library(reshape2)
-## nil ends here
-## [[file:~/git/bitbucket-grettke/home/TC3F.org::*tidyr][nil]]
 library(tidyr)
-## nil ends here
-## [[file:~/git/bitbucket-grettke/home/TC3F.org::*lubridate][nil]]
+if(! require(lubridate)) {
+    install.packages("lubridate")
+}
 library(lubridate)
-## nil ends here
-## [[file:~/git/bitbucket-grettke/home/TC3F.org::*plyr][nil]]
+if(! require(plyr)) {
+    install.packages("plyr")
+}
 library(plyr)
-## nil ends here
-## [[file:~/git/bitbucket-grettke/home/TC3F.org::*dplyr][nil]]
+if(! require(dplyr)) {
+    install.packages("dplyr")
+}
 library(dplyr)
-## nil ends here
-## [[file:~/git/bitbucket-grettke/home/TC3F.org::*testit][nil]]
+if(! require(testit)) {
+    install.packages("testit")
+}
 library(testit)
-## nil ends here
-## [[file:~/git/bitbucket-grettke/home/TC3F.org::*markdown][nil]]
+if(! require(markdown)) {
+    install.packages("markdown")
+}
 library(markdown)
-## nil ends here
-## [[file:~/git/bitbucket-grettke/home/TC3F.org::*knitr][nil]]
+if(! require(knitr)) {
+    install.packages("knitr")
+}
 library(knitr)
-## nil ends here
-## [[file:~/git/bitbucket-grettke/home/TC3F.org::*slidify][nil]]
 install_github("ramnathv/slidify")
 install_github("ramnathv/slidifyLibraries")
-## nil ends here
-## [[file:~/git/bitbucket-grettke/home/TC3F.org::*slidify][nil]]
 library(slidify)
-## nil ends here
-## [[file:~/git/bitbucket-grettke/home/TC3F.org::*fortunes][nil]]
+if(! require(fortunes)) {
+    install.packages("fortunes")
+}
 library(fortunes)
-## nil ends here
-## [[file:~/git/bitbucket-grettke/home/TC3F.org::*ggplot2][nil]]
+if(! require(ggplot2)) {
+    install.packages("ggplot2")
+}
 library(ggplot2)
-## nil ends here
-## [[file:~/git/bitbucket-grettke/home/TC3F.org::*tikzDevice][nil]]
+if(! require(tikzDevice)) {
+    install.packages("tikzDevice")
+}
 library(tikzDevice)
-## nil ends here
-## [[file:~/git/bitbucket-grettke/home/TC3F.org::*ascii][nil]]
+if(! require(ascii)) {
+    install.packages("ascii")
+}
 library(ascii)
-## nil ends here
-## [[file:~/git/bitbucket-grettke/home/TC3F.org::*ascii][nil]]
 options(asciiType="org")
-## nil ends here
-## [[file:~/git/bitbucket-grettke/home/TC3F.org::*xtable][nil]]
+if(! require(xtable)) {
+    install.packages("xtable")
+}
 library(xtable)
-## nil ends here
-## [[file:~/git/bitbucket-grettke/home/TC3F.org::*Hmisc][nil]]
+if(! require(Hmisc)) {
+    install.packages("Hmisc")
+}
 library(Hmisc)
-## nil ends here
-## [[file:~/git/bitbucket-grettke/home/TC3F.org::*log4r][nil]]
+if(! require(log4r)) {
+    install.packages("log4r")
+}
 library(log4r)
-## nil ends here
-## [[file:~/git/bitbucket-grettke/home/TC3F.org::*boot][nil]]
+if(! require(boot)) {
+    install.packages("boot")
+}
 library(boot)
-## nil ends here
-## [[file:~/git/bitbucket-grettke/home/TC3F.org::*kernlab][nil]]
+if(! require(kernlab)) {
+    install.packages("kernlab")
+}
 library(kernlab)
-## nil ends here
 .First <- function() {
     gcr <- new.env()
-    ## [[file:~/git/bitbucket-grettke/home/TC3F.org::*.First][nil]]
     gcr$attach.unsafe <- attach
     gcr$attach <- function(...) {
         warning("NEVER USE ATTACH! Use `unsafe.attach` if you must.")
         attach.unsafe(...)
     }
-    ## nil ends here
-    ## [[file:~/git/bitbucket-grettke/home/TC3F.org::*.First][nil]]
     gcr$require <- function(...) {
         warning("Are you sure you wanted `require` instead of `library`?")
         base::require(...)
     }
-    ## nil ends here
-    ## [[file:~/git/bitbucket-grettke/home/TC3F.org::*.First][nil]]
     gcr$lsnofun <- function(name = parent.frame()) {
         obj <- ls(name = name)
         obj[!sapply(obj, function(x) is.function(get(x)))]
     }
-    ## nil ends here
-    ## [[file:~/git/bitbucket-grettke/home/TC3F.org::*.First][nil]]
     gcr$recoveronerror <- function() {
         options(error=recover)
     }
@@ -162,8 +146,6 @@ library(kernlab)
     gcr$recoveronerroroff <- function() {
         options(error=NULL)
     }
-    ## nil ends here
-    ## [[file:~/git/bitbucket-grettke/home/TC3F.org::*.First][nil]]
     gcr$erroronwarn <- function() {
         options(warn=2)
     }
@@ -171,11 +153,7 @@ library(kernlab)
     gcr$erroronwarnoff <- function() {
         options(warn=0)
     }
-    ## nil ends here
-    ## [[file:~/git/bitbucket-grettke/home/TC3F.org::*.First][nil]]
     options(sqldf.driver = "SQLite")
-    ## nil ends here
-    ## [[file:~/git/bitbucket-grettke/home/TC3F.org::*.First][nil]]
     gcr$printdf <- function(df) {
         if (nrow(df) > 10) {
             print(head(df, 5))
@@ -185,19 +163,12 @@ library(kernlab)
             print(df)
         }
     }
-    ## nil ends here
-    ## [[file:~/git/bitbucket-grettke/home/TC3F.org::*.First][nil]]
     gcr$printlen <- function(len=500) {
         options("max.print" = len)
     }
-    ## nil ends here
-    ## [[file:~/git/bitbucket-grettke/home/TC3F.org::*.First][nil]]
     gcr$hundred <- function(df, idx=0) {
         df[idx:(idx+100),]
     }
-    ## nil ends here
     base::attach(gcr, name="gcr", warn.conflicts=FALSE)
 }
 fortune()
-
-## Control\ Files:1 ends here

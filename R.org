@@ -1,0 +1,1071 @@
+* Control Files
+
+Remember to link these from =~/= here.
+
+*.Rprofile*
+#+begin_src R :tangle .Rprofile :comments no
+«rprofile-def»
+.First <- function() {
+    gcr <- new.env()
+    «rfirst-defs»
+    base::attach(gcr, name="gcr", warn.conflicts=FALSE)
+}
+fortune()
+#+end_src
+
+*.Renviron*
+#+begin_src sh :tangle .Renviron :comments no
+«renviron-def»
+#+end_src
+
+** .Rprofile [fn:89a51cf1: https://stackoverflow.com/questions/1189759/expert-r-users-whats-in-your-rprofile]
+      :PROPERTIES:
+      :noweb-ref: rprofile-def
+      :END:
+
+- When you install packages, R needs to know which repository it should use. If
+  you don't tell it, then it will ask you every time. It is just doing its job.
+  Make it easier for yourself and specify a repo for once and for all.
+  - Via [fn:41269bb7: http://www.r-bloggers.com/installing-r-packages/]
+  - Built-in docs explain that =local= should be used here
+  - This could also be a one-liner: ~options("repos" = c(CRAN = "http://cran.r-project.org/"))~
+#+begin_src R
+local({
+    r = getOption("repos")
+    r["CRAN"] = "http://cran.r-project.org/"
+    options(repos = r)
+})
+#+end_src
+
+- By default, hitting enter in the =browser= will submit a =c= for "continue
+  execution at the next statement"
+  - It is too easy to hit enter when you didn't mean it
+  - It just /feels/ imprecise
+  - Never let this happen, disable that feature
+#+begin_src R
+options(browserNLdisabled = TRUE)
+#+end_src
+
+Show timestamps to 3 sub-seconds:
+#+begin_src R
+options("digits.secs"=3)
+#+end_src
+
+Make the ℝ prompt stand out (be sure to tell ESS how to handle this):
+#+begin_src R
+options(prompt="ℝ> ")
+#+end_src
+
+Do not allow automatic coercion of strings into factors, as you can specify this
+by argument to make it /real/ obvious. Looks like the best way is to leave it
+alone globally and always do it by hand though. hwickam commented that it is
+bad, bad idea to make this option global not because of your code, but because
+of everyone else's that you are using which relies on the option being set to
+=TRUE=.
+#+begin_src R
+options(stringsAsFactors=TRUE)
+#+end_src
+
+This might be /too much/, but always show a call stack when *any* warnings or
+errors occur
+#+begin_src R
+options(showWarnCalls=TRUE)
+options(showErrorCalls=TRUE)
+#+end_src
+
+Be highly conservative about errors and warnings: handle the former immediately
+and cause the latter to be errors. However, only do this after your workspace
+has initialized correctly. Do so too soon and most things won't work because
+this approach is only to handle /my/ issues. Imagine of the whole work just
+handled their own issues! Anway, the safe values are set here, leave them alone.
+Making them more aggressive will break your startup. When you are ready to set
+things to be more aggressive, turn it on yourself
+#+begin_src R
+options(error=NULL)
+options(warn=0)
+#+end_src
+
+Don't print more than 500 lines. If you can grok more than 500 lines then please
+teach me. Be at ease, there is a helper to remove that restriction, just in case.
+#+begin_src R
+options(max.print=500)
+#+end_src
+
+Partial matching is a neat and flexible feature for objects. In theory, it is
+quite powerful and convenient. In practice it seems like a really bad idea to
+me. It is a /personal preference/. It only makes sense from that perspective.
+This could bork 3rd party code.
+#+begin_src R
+options(warnPartialMatchDollar = TRUE)
+#+end_src
+
+Locale:
+- Make sure that the language is set correctly. I couldn't find anything specific
+  about setting it this way other than various posts. In practice you would really
+  put all of this in your system environment configuration, but I'm wanting to be
+  a little more particular here because it affects operations on data structures,
+  in particular sorting.
+- Error messages are mostly useful when they are displayed in English, so make
+  sure that the locale is always English [fn:24499ef7:    http://cran.r-project.org/doc/manuals/r-patched/R-admin.html#Localization-of-messages].
+  "Note that the LANGUAGE environment variable has precedence over ~LC_MESSAGES~ in
+  selecting the language for message translation on most R platforms." [fn:51fe4215: http://stat.ethz.ch/R-manual/R-devel/library/base/html/locales.html]
+- Note:
+  - My previous approach was to define a top level binding for the locale string
+    and pass that reference to bind each of the following settings. That was fine
+    until I wanted to be able to easily clear out all of the top-level bindngs to
+    "reset" it with a =rm(ls())= kind of thing. For that reason, I just use the
+    manifest strings here.
+#+begin_src R
+Sys.setenv(LANG = "en_US.UTF-8")
+Sys.setlocale("LC_COLLATE", "en_US.UTF-8")
+Sys.setlocale("LC_MESSAGES", "en_US.UTF-8")
+#+end_src
+
+*** Packages
+
+<2014-11-14 Fri>
+Below is a try to auto-install packages if they are not available, and, it seems
+to have failed. Perhaps there is a better way, and I do need to find it. Until
+then I will install as-needed. As such, I suppose that I've found it.
+
+**** assertthat
+
+Design-by-contract  [fn:bc0c6d68: http://cran.r-project.org/web/packages/assertthat/index.html
+] is a great, great thing. Make it much easier with valuable
+functionsand useful messages!
+
+Cheatsheet:
+- Always use ~assert_that~
+- Use
+  - ℝ built ins to check tests
+  - Additionally via =assertthat=:
+    - =is.flag=
+    - =is.string=
+    - =has_name=
+    - =has_attr=
+    - =is.count=
+    - =are_equal=
+    - =not_empty=
+    - =noNA=
+    - =is.dir=
+    - =is.writeable= and =is.readable=
+    - =has_extension=
+
+#+begin_src R
+if(! require(assertthat)){
+    install.packages("assertthat")
+}
+library(assertthat)
+#+end_src
+
+**** testthat
+
+Design-by-contract and unit-tests [fn:d61c81a6: http://cran.r-project.org/web/packages/testthat/index.html]
+go hand-in-hand.
+
+Expectations:
+- =equals() :=: uses =all.equal()= to check for equality with numerical tolerance
+  - Shorthand: =expect_equal(x, y)=
+- =is_identical_to()= :: uses =identical()= to check for exact equality
+  - Shorthand: =expect_identical(x, y)=
+- =is_equivalent_to()= :: is a more relaxed version of =equals()= that ignores attributes
+  - Shorthand: =expect_equivalent(x, y)=
+- =is_a()= :: checks that an object =inherit()='s from a specified class
+  - Shorthand: =expect_is(x, y)=
+- =matches()= :: matches a character vector against a regular expression.
+  - The optional all argument controls where all elements or just one element
+    need to match.
+  - Shorthand: =expect_matches(x, y)=
+- =prints_text()= :: matches the printed output from an expression against a
+  regular expression
+  - Shorthand: =expect_output(x, y)=
+- =shows_message()= :: checks that an expression shows a message
+  - Shorthand: =expect_message(x, y)=
+- =gives_warning()= :: expects that you get a warning
+  - Shorthand: =expect_warning(x, y)=
+- =throws_error()= :: verifies that the expression throws an error.
+  - You can also supply a regular expression which is applied to the text of the
+    error
+  - Shorthand: =expect_error(x, y)=
+- =is_true()= :: is a useful catchall if none of the other expectations do what
+  you want - it checks that an expression is true
+  - =is_false()= is the complement of =is_true()=
+  - Shorthand: =expect_true(x)=
+  - Shorthand: =expect_false(x)=
+
+- Notes
+  - "Each test is run in its own environment so it is self-contained."
+    - Plain old code so you can modify the global environment FYI
+
+#+begin_src R
+if(! require(testthat)) {
+    install.packages("testthat")
+}
+library(testthat)
+#+end_src
+
+**** stringr
+
+Make it really easy to work with strings [fn:bb2c9d86: http://cran.r-project.org/web/packages/stringr/index.html]. That is indeed a good goal, and
+the reason that I installed this initially was because =testthat= mentions that
+it is used.
+#+begin_src R
+if(! require(stringr)) {
+    install.packages("stringr")
+}
+library(stringr)
+#+end_src
+
+**** sqldf
+
+How you extract data from a dataframe is flexible and everyone can and may do it
+differently. One option available is to use =SQL= [fn:2e49b888: http://cran.r-project.org/web/packages/sqldf/index.html], so make it available.
+
+Comments taken from [fn:c116c9a5: http://randyzwitch.com/sqldf-package-r/]
+- "This [using SQL] is a skill that every analyst should possess"
+- "Being able to write SQL will save you time and provide you with a way of
+  getting repeatable results so that you don't have to focus on doing the
+  calculations all the time and worrying about errors in Excel"
+- "[instead] You can focus on the task of actually analyzing your data"
+
+Notes from the user manual [fn:0ef50a78: http://cran.r-project.org/web/packages/sqldf/index.html]
+- Interesting package info
+  - "Title Perform SQL Selects on R Data Frames"
+  - "Author G. Grothendieck <ggrothendieck@gmail.com>"
+  - "Description Description: Manipulate R data frames using SQL."
+  - "Depends R (>= 2.14.0), gsubfn (>= 0.6), proto, RSQLite (>= 0.8-0),RSQLite.extfuns"
+- Google group mentioned [fn:0bf2d03a: https://groups.google.com/forum/#!forum/sqldf], joined it
+- Official site mentioned and it has good docs
+- Seems to uses SQLLite
+- =read.csv.sql=
+  - "Read a file into R filtering it with an sql statement. Only the filtered
+    portion is processed by R so that files larger than R can otherwise handle
+    can be accommodated."
+  - Parms
+    - Handles =http= and =ftp= =URLs=
+    - =filter=
+      - "If specified, this should be a shell/batch command that the input file is
+        piped through. For read.csv2.sql it is by default the following on
+        non-Windows systems: tr , .. This translates all commas in the file to
+        dots."
+        - Why is that specific example mentioned?
+    - =field.types=
+      - State the SQLite types for the column names
+      - Rarely needed
+    - =dbname=
+      - "As in =sqldf= except that the default is =tempfile()=. Specifying =NULL= will
+        put the database in memory which may improve speed but will limit the size
+        of the database by the available memory."
+  - Details
+    - "Reads the indicated file into an sql database creating the database if it
+      does not already exist. Then it applies the sql statement returning the
+      result as a data frame. If the database did not exist prior to this
+      statement it is removed."
+    - "Note that it uses facilities of SQLite to read the file which are
+      intended for speed and therefore not as flexible as in R. For example, it
+      does not recognize quoted fields as special but will regard the quotes as
+      part of the field. See the sqldf help for more information."
+    - "=read.csv2.sql= is like =read.csv.sql= except the default sep is ";" and the
+      default filter translates all commas in the file to decimal points (i.e.
+      to dots)."
+  - Value
+    - "If the sql statement is a select statement then a data frame is returned."
+- =sqldf=
+  - Description :: SQL select on data frames
+  - Arguments
+    - =stringsAsFactors does what you think
+    - =row.names= could be useful
+    - =envir= could make it safer
+    - =method= determines how to type the data from the database into a dataframe
+      - Looks like a *powerhouse* feature
+      - Could greatly simplify data brokering
+    - =file.format=
+      - =eol= handling mentioned across platforms
+      - Ran into this with the built-in reader
+    - =dbname=
+      - SQLite creates an in-memory database!
+  - Details
+    - The typical action of sqldf is to
+    - create a database :: in memory
+    - read in the data frames and files :: used in the select statement. This is
+      done by scanning the select statement to see which words in the select
+      statement are of class "data.frame" or "file" in the parent frame, or the
+      specified environment if envir is used, and for each object found by
+      reading it into the database if it is a data frame. Note that this
+      heuristic usually reads in the wanted data frames and files but on
+      occasion may harmlessly reads in extra ones too.
+    - run the select statement :: getting the result as a data frame
+    - assign the classes :: of the returned data frame’s columns if
+      method = "auto". This is done by checking all the column names in the
+      read-in data frames and if any are the same as a column output from the
+      data base then that column is coerced to the class of the column whose
+      name matched. If the class of the column is "factor" or "ordered" or if
+      the column is not matched then the column is returned as is. If
+      method = "auto.factor" then processing is similar except that "factor"
+      and "ordered" classes and their levels will be assigned as well. The
+      "auto.factor" heuristic is less reliable than the "auto" heuristic. If
+      method = "raw" then the classes are returned as is from the database.
+    - cleanup :: If the database was created by sqldf then it is deleted;
+      otherwise, all tables that were created are dropped in order to leave the
+      database in the same state that it was before. The database connection is
+      terminated.
+    - Warning :: Although sqldf is usually used with on-the-fly databases which
+      it automatically sets up and destroys if you wish to use it with existing
+      databases be sure to back up your database prior to using it since
+      incorrect operation could destroy the entire database.
+  - Value
+    - The result of the specified select statement is output as a data frame.
+    - If a vector of sql statements is given as x then the result of the last
+      one is returned.
+    - If the x and connection arguments are missing then it returns a new
+      connection and also places this connection in the option sqldf.connection.
+      - Great to know that the connection is cached!
+  - Notes
+    - Big FYI: Commas in columns will be parsed as column separators!
+      - Recommends using =read.table= if this matter
+  - Examples
+    - They all demonstrate how to do it in R and then again with SQL
+    - Super helpful
+    - You seem to be able to do everything that you would expect possible
+  - Thoughts
+    - Need to grok both R and SQL to use this safely
+    - Using temp tables is kind of huge
+    - Via [fn:55ef7537: https://stackoverflow.com/questions/19019883/how-to-handle-column-names-not-supported-by-sqldf-in-r]
+      - Use =_= instead lf =.= in column names from a R call
+        - Where is this in the documentation?
+
+Notes from the official site [fn:078aba0c: https://code.google.com/p/sqldf/]
+- Opening
+  - How it works
+    - The user simply specifies an SQL statement
+    - in R using data frame names in place of table names
+    - and a database with appropriate table layouts/schema is automatically
+      created,
+    - the data frames are automatically loaded into the database,
+    - the specified SQL statement is performed,
+    - the result is read back into R
+    - and the database is deleted all automatically behind the scenes making the
+      database's existence transparent to the user who only specifies the SQL
+      statement.
+  - Supports
+    - SQLite
+    - H2
+    - PostgreSQL
+    - MySQL
+  - The FAQ mostly talks about SQLite
+- Overview
+  - with sqldf the user is freed from having to do the following, all of which
+    are automatically done:
+    - database setup
+    - writing the create table statement which defines each table
+    - importing and exporting to and from the database
+    - coercing of the returned columns to the appropriate class in common cases
+  - It an be used for
+    - learning R if you know SQL
+    - Doing it faster than R
+    - Load portions of a really large file
+- Troubleshooting
+  - Set the driver expicitly
+  - "error messages regarding a data frame that has a dot in its name. The dot
+    is an SQL operator. Either quote the name appropriately or change the name
+    of the data frame to one without a dot."
+- FAQ
+  - Column class conversion touched upon
+  - Dots in names
+    - Dots are SQL operators so can't use them
+      - See =?SQL92Keywords=
+    - For columns
+      - Either use underscore
+      - Or simply remove them
+    - For tables
+      - Double quote the name
+  - H2 supports date types, which seems quite helpful
+  - Name a column ending with two underscores and a type and the library will
+    convert the type to R correctly
+    - Mentioned in the docs
+  - SQL is case *insensitive*
+    - Don't rely on casing to differentiate column names
+  - We may examine the in-memory database table structure
+  - Be quite careful about CSV data that contains commas again as this lib
+    won't handle it
+  - Good examples of cleaning data gettig int into a R friendly format
+  - Be sure to specify numeric values as integers or doubles so you get expected
+    results from division
+- Examples
+  - Example 1. Ordering and Limiting
+  - Example 2. Averaging and Grouping
+  - Example 3. Nested Select
+  - Example 4. Join
+  - Example 5. Insert Variables
+    - Hugely convenient
+  - Example 6. File Input
+  - Example 7. Nested Select
+  - Example 8. Specifying File Format
+  - Example 9. Working with Databases
+  - Example 10. Persistent Connections
+  - Example 11. Between and Alternatives
+  - Example 12. Combine two files in permanent database
+  - Example 13. read.csv.sql and read.csv2.sql
+    - Uses SQLite's import facility to create an in-memory database
+    - Then it reads the results of the query into R
+    - The import does not involve R so it can handle larger files than R can
+      assuming that the query results in a size that does fit
+  - Example 14. Use of spatialite library functions
+  - Example 15. Use of RSQLite.extfuns library functions
+  - Example 16. Moving Average
+
+SQLite, SQL As Understood By SQLite:
+- [[https://www.sqlite.org/lang_corefunc.html][Core Functions]]
+- [[https://www.sqlite.org/lang_aggfunc.html][Aggregate Functions]]
+- [[https://www.sqlite.org/lang_datefunc.html][Date And Time Functions]]
+- These previous are all provided by [[http://cran.r-project.org/web/packages/RSQLite.extfuns/index.html][RSQLite.extfuns]]
+
+#+begin_src R
+if(! require(sqldf)) {
+    install.packages("sqldf")
+}
+library(sqldf)
+#+end_src
+
+**** MASS
+
+"Functions and datasets to support Venables and Ripley, 'Modern Applied
+Statistics with S' (4th edition, 2002)." Also, =sqldf= recommended it be
+installed, so it is the right time. [fn:4d284c54: http://cran.r-project.org/web/packages/MASS/index.html]
+
+#+begin_src R
+if(! require(MASS)) {
+    install.packages("MASS")
+}
+library(MASS)
+#+end_src
+
+**** jsonlite
+
+Make it easy to work with JSON [37138455: http://cran.r-project.org/web/packages/jsonlite/index.html].
+Reading the vignette's, it does a lot more, for example =rbind.pages=.
+
+#+begin_src R
+if(! require(jsonlite)) {
+    install.packages("jsonlite")
+}
+library(jsonlite)
+#+end_src
+
+**** data.table
+
+=data.table= [fn:de30b846: http://cran.r-project.org/web/packages/data.table/index.html ]
+is quite nice.
+
+#+begin_src R
+if(! require(data)) {
+    install.packages("data")
+}
+library(data.table)
+#+end_src
+
+**** xlsx
+
+Read and write Excel files [fn:ed7756d2: http://cran.r-project.org/web/packages/xlsx/index.html].
+
+#+begin_src R
+if(! require(xlsx)) {
+    install.packages("xlsx")
+}
+library(xlsx)
+#+end_src
+
+**** XML
+
+Make ℝ truly enterprise [fn:bf8a1f82: http://cran.r-project.org/web/packages/XML/index.html].
+
+#+begin_src R
+if(! require(XML)) {
+    install.packages("XML")
+}
+library(XML)
+#+end_src
+
+**** magrittr
+
+This is a add from the /most understated package definition/ of the year
+department. =magrittr= [fn:73ee53da: http://cran.r-project.org/web/packages/magrittr/index.html]
+is, much like every Scheme library ever, deceptively simple in its power and
+ease of use that it provides.
+
+#+begin_src R :noweb-ref ignore
+devtools::install_github("smbache/magrittr")
+#+end_src
+
+#+begin_src R
+library(magrittr)
+#+end_src
+
+**** devtools
+
+=devtools=: Tools to make developing ℝ code easier
+
+#+begin_quote
+[[http://cran.r-project.org/web/packages/devtools/index.html][Collection of package development tools]]
+#+end_quote
+
+That is a bit too terse. Intro to the README follows
+
+#+begin_quote
+The aim of devtools is to make your life as a package developer easier by providing R functions that simplify many common tasks. R packages are actually really simple, and with the right tools it should be easier to use the package structure than not. Package development in R can feel intimidating, but devtools does every thing it can to make it as welcoming as possible. devtools comes with a small guarantee: if because of a bug in devtools a member of R-core gets angry with you, I will send you a handwritten apology note. Just forward me the email and your address, and I'll get a card in the mail.
+#+end_quote
+
+Excellent.
+
+[[http://cran.r-project.org/web/packages/devtools/README.html][Readme]]. [[http://cran.r-project.org/web/packages/devtools/devtools.pdf][Manual]]. [[https://github.com/hadley/devtools][Github]].
+
+At the very least, just /know of/ this package, as you will be installing it if
+you want to us =tidyr=.
+
+#+begin_src R :noweb-ref ignore
+install.packages("devtools")
+devtools::install_github("devtools")
+#+end_src
+
+#+begin_src R
+library(devtools)
+#+end_src
+
+**** reshape2
+
+=reshape2=: Flexibly reshape data: a reboot of the =reshape= package
+
+#+begin_quote
+Reshape lets you flexibly restructure and aggregate data using just two functions: melt and cast.
+#+end_quote
+
+[[http://cran.r-project.org/web/packages/reshape2/index.html][CRAN]]. [[http://cran.r-project.org/web/packages/reshape2/reshape2.pdf][Manual]]. [[https://github.com/hadley/reshape/blob/master/README.md][Github]].
+
+This seems to be a defacto standard.
+
+#+begin_src R
+if(! require(reshape2)) {
+    install.packages("reshape2")
+}
+library(reshape2)
+#+end_src
+
+**** tidyr
+
+=tidyr=: Easily tidy data with spread and gather functions for ℝ
+
+#+begin_quote
+[[http://cran.r-project.org/web/packages/tidyr/index.html][tidyr]] is an evolution of reshape2. It's design specifically for data tidying (not general reshaping or aggregating) and works well with dplyr data pipelines.
+#+end_quote
+
+[[http://cran.r-project.org/web/packages/tidyr/README.html][Readme]]. [[http://cran.r-project.org/web/packages/tidyr/tidyr.pdf][Manual]]. [[https://github.com/hadley/tidyr][Github]].
+
+Not on CRAN yet so install via
+
+#+begin_src R :noweb-ref ignore
+devtools::install_github("hadley/tidyr")
+#+end_src
+
+#+begin_src R
+library(tidyr)
+#+end_src
+
+**** lubridate
+
+lubridate: Make dealing with dates a little easier in ℝ
+
+#+begin_quote
+[[http://cran.r-project.org/web/packages/lubridate/index.html][Lubridate]] makes it easier to work with dates and times by providing functions to identify and parse date-time data, extract and modify components of a date-time (years, months, days, hours, minutes, and seconds), perform accurate math on date-times, handle time zones and Daylight Savings Time. Lubridate has a consistent, memorable syntax, that makes working with dates fun instead of frustrating.
+#+end_quote
+
+[[http://cran.r-project.org/web/packages/lubridate/lubridate.pdf][Manual]]. [[http://cran.r-project.org/web/packages/lubridate/vignettes/lubridate.html][Vignette]].
+
+#+begin_src R
+if(! require(lubridate)) {
+    install.packages("lubridate")
+}
+library(lubridate)
+#+end_src
+
+Perhaps in some /time/ there will be a unified approach to time-management among
+all programming languages.
+
+**** plyr
+
+plyr: Tools for splitting, applying and combining data in R
+
+#+begin_quote
+[[http://cran.r-project.org/web/packages/plyr/index.html][plyr]] is a set of tools that solves a common set of problems: you need to break a big problem down into manageable pieces, operate on each pieces and then put all the pieces back together. For example, you might want to fit a model to each spatial location or time point in your study, summarise data by panels or collapse high-dimensional arrays to simpler summary statistics. The development of plyr has been generously supported by BD (Becton Dickinson).
+#+end_quote
+
+[[http://cran.r-project.org/web/packages/plyr/README.html][Readme]]. [[http://cran.r-project.org/web/packages/plyr/plyr.pdf][Manual]]. [[http://plyr.had.co.nz/][Home page]]. [[https://github.com/hadley/plyr][Github]].
+
+#+begin_src R
+if(! require(plyr)) {
+    install.packages("plyr")
+}
+library(plyr)
+#+end_src
+
+**** dplyr
+
+dplyr: a grammar of data manipulation in R
+
+The fact that I am loading both =plyr= and =dplyr= is something that I am
+questioning. I do so because I learned them in that order, so left it that way.
+However, this just results in *more* binding shadowing, and I am not sure of the
+implications, and they are usually never good.
+
+#+begin_quote
+[[http://cran.r-project.org/web/packages/dplyr/index.html][A fast, consistent tool]] for working with data frame like objects, both in memory and out of memory.
+#+end_quote
+
+[[http://cran.r-project.org/web/packages/dplyr/README.html][Readme]]. [[http://cran.r-project.org/web/packages/dplyr/dplyr.pdf][Manual]]. [[http://cran.r-project.org/web/packages/dplyr/vignettes/introduction.html][Introduction to dplyr]].
+
+#+begin_src R
+if(! require(dplyr)) {
+    install.packages("dplyr")
+}
+library(dplyr)
+#+end_src
+
+**** testit
+
+testit: A simple package for testing R packages
+
+[[https://github.com/yihui/testit][GitHub]]. [[http://cran.rstudio.com/web/packages/testit/index.html][CRAN]]. [[http://cran.rstudio.com/web/packages/testit/testit.pdf][Manual]].
+
+Gives you =assert= and =test_pkg=. Save characters.
+
+#+begin_src R
+if(! require(testit)) {
+    install.packages("testit")
+}
+library(testit)
+#+end_src
+
+**** markdown
+
+- [[http://cran.r-project.org/web/packages/markdown/index.html][CRAN]]
+  - [[http://cran.r-project.org/web/packages/markdown/markdown.pdf][reference]]
+  - [[http://cran.r-project.org/web/packages/markdown/vignettes/markdown-examples.html][vignettes: markdown-examples]]
+  - [[http://cran.r-project.org/web/packages/markdown/vignettes/markdown-output.html][vignettes: markdown-output]]
+- [[https://github.com/rstudio/markdown][GitHub]]
+
+#+begin_src R
+if(! require(markdown)) {
+    install.packages("markdown")
+}
+library(markdown)
+#+end_src
+
+#+begin_quote
+This package is referred to as R Markdown v1 when combined with knitr. The primary output format is HTML. Now we have introduced R Markdown v2, which is based on Pandoc and knitr, and supports much more types of output formats.
+#+end_quote
+
+**** knitr
+
+knitr: A general-purpose package for dynamic report generation in R
+
+Read the [[http://yihui.name/knitr/][home page]]. It has great resources.
+
+Watched [[https://www.screenr.com/qcv8][the video]]. Very nice to see; comfortable and familiar. Need to set up
+RStudio for it. Clearly a critical tool. Cites Knuth.
+
+Features are amazingly understated. If you've worked with all of these tools,
+you will appreciate the importance of the author's effort!
+
+=Objects=, =Options=, =Hooks=, and =Patterns= … what is this, Emacs?
+
+There are demo [[http://yihui.name/knitr/demos][links]]. There is a [[https://github.com/yihui/knitr-examples][project for examples]]. This [[http://yihui.name/knitr/demo/showcase/][showcase]] has links
+to websites, book reviews, solutions, R packages, courses, workshops and
+presentations, books, papers and reports, wrappers, and blog posts on =knitr=.
+
+[[https://github.com/yihui/knitr][Here]] is the GitHub project. Read the motivations and see the hours and days and
+weeks that you have had spared! Uses =testit=, so read up on that and added it.
+
+Read the [[https://github.com/yihui/knitr/blob/master/FAQ.md][Frequently Asked Questions]]. Joined the [[https://groups.google.com/forum/#!forum/knitr][mailing list]]. =ess= supports it.
+Sure that I can configure the custom prompt. Great =README=.
+
+[[http://cran.r-project.org/web/packages/knitr/index.html][CRAN]] as expected. Much better summary eg HTML, Makrdown, reStructuredText, and
+AsciiDoc are mentioned. Curious about the cacheing, and how I would do it in
+=org=. Custom code to run before and after a hunk are another thoughtful touch one
+would expect coming from =org=. Also support Python and shell. The LaTeX and LyX
+support is also pretty neat. Same [[http://cran.r-project.org/web/packages/knitr/README.html][READM]]E. [[http://cran.r-project.org/web/packages/knitr/knitr.pdf][Reference]].
+
+Somehow missed the [[http://cran.r-project.org/web/packages/knitr/vignettes/knitr-refcard.pdf][reference card]] initially.
+
+[[http://yihui.name/knitr/demo/vignette/][How to build package vignettes with knitr]].
+
+#+begin_src R
+if(! require(knitr)) {
+    install.packages("knitr")
+}
+library(knitr)
+#+end_src
+
+**** slidify
+
+- [[http://slidify.org/][HomePage]]
+- No CRAN
+- [[https://github.com/ramnathv/slidify][GitHub]]
+
+#+begin_src R
+install_github("ramnathv/slidify")
+install_github("ramnathv/slidifyLibraries")
+#+end_src
+
+#+begin_src R
+library(slidify)
+#+end_src
+
+**** fortunes
+
+R Fortunes.
+
+[[http://cran.r-project.org/web/packages/fortunes/index.html][CRAN]].
+
+#+begin_src R
+if(! require(fortunes)) {
+    install.packages("fortunes")
+}
+library(fortunes)
+#+end_src
+
+**** ggplot2
+
+- [[http://cran.r-project.org/web/packages/ggplot2/index.html][CRAN]]
+  - [[http://cran.r-project.org/web/packages/ggplot2/ggplot2.pdf][reference]]
+- [[https://github.com/hadley/ggplot2][Github]]
+  - [[https://github.com/hadley/ggplot2/wiki][wiki]]
+    - Lots of great resources
+      - Whyu use it, how to support it, improvide i
+      - Publications using it, around the web
+      - FAQ, roadmap
+    - Case studies
+    - Tips and tricks
+    - Enhancements
+- [[https://groups.google.com/forum/#!forum/ggplot2][Mail list]]
+- [[http://ggplot2.org/][Homepage]]
+  - [[http://docs.ggplot2.org/current/][Documentation]]
+
+#+begin_src R
+if(! require(ggplot2)) {
+    install.packages("ggplot2")
+}
+library(ggplot2)
+#+end_src
+
+**** tikzDevice
+
+- [[http://cran.r-project.org/web/packages/tikzDevice/index.html][CRAN]]
+  - [[http://cran.r-project.org/web/packages/tikzDevice/tikzDevice.pdf][reference]]
+  - [[http://cran.r-project.org/web/packages/tikzDevice/vignettes/tikzDevice.pdf][vignettes: tikzDevice]]
+- [[https://github.com/yihui/tikzDevice][GitHub]]
+
+#+begin_src R
+if(! require(tikzDevice)) {
+    install.packages("tikzDevice")
+}
+library(tikzDevice)
+#+end_src
+
+**** ascii
+
+- [[http://cran.r-project.org/web/packages/ascii/index.html][CRAN]]
+  - [[http://cran.r-project.org/web/packages/ascii/ascii.pdf][reference]]
+- [[https://github.com/eusebe/ascii/][GitHub]]
+
+#+begin_src R
+if(! require(ascii)) {
+    install.packages("ascii")
+}
+library(ascii)
+#+end_src
+
+Always display =org= representations; I'm assuming that it will be /the/ dominant
+vehicle for analysis.
+
+#+begin_src R
+options(asciiType="org")
+#+end_src
+
+**** xtable
+
+- [[http://cran.r-project.org/web/packages/xtable/index.html][CRAN]]
+  - [[http://cran.r-project.org/web/packages/xtable/xtable.pdf][reference]]
+  - [[http://cran.r-project.org/web/packages/xtable/vignettes/margintable.pdf][vignettes: margintable]]
+  - [[http://cran.r-project.org/web/packages/xtable/vignettes/xtableGallery.pdf][vignettes: xtableGallery]]
+- [[http://xtable.r-forge.r-project.org/][R-Forge]]
+
+#+begin_src R
+if(! require(xtable)) {
+    install.packages("xtable")
+}
+library(xtable)
+#+end_src
+
+**** Hmisc
+
+- [[http://cran.r-project.org/web/packages/Hmisc/index.html][CRAN]]
+  - [[http://cran.r-project.org/web/packages/Hmisc/Hmisc.pdf][reference]]
+- [[https://github.com/harrelfe/Hmisc][GitHub]]
+
+#+begin_src R
+if(! require(Hmisc)) {
+    install.packages("Hmisc")
+}
+library(Hmisc)
+#+end_src
+
+**** log4r
+
+- [[http://cran.r-project.org/web/packages/log4r/index.html][CRAN]]
+  - [[http://cran.r-project.org/web/packages/log4r/log4r.pdf][reference]]
+- [[https://github.com/johnmyleswhite/log4r][GitHub]]
+
+#+begin_src R
+if(! require(log4r)) {
+    install.packages("log4r")
+}
+library(log4r)
+#+end_src
+
+**** boot
+
+- [[http://cran.r-project.org/web/packages/boot/index.html][CRAN]]
+  - [[http://cran.r-project.org/web/packages/boot/boot.pdf][reference]]
+
+#+begin_src R
+if(! require(boot)) {
+    install.packages("boot")
+}
+library(boot)
+#+end_src
+
+**** kernlab
+
+- [[http://cran.r-project.org/web/packages/kernlab/index.html][CRAN]]
+  - [[http://cran.r-project.org/web/packages/kernlab/kernlab.pdf][reference]]
+  - [[http://cran.r-project.org/web/packages/kernlab/vignettes/kernlab.pdf][vignettes: kernlab]]
+- GitHub
+
+#+begin_src R
+if(! require(kernlab)) {
+    install.packages("kernlab")
+}
+library(kernlab)
+#+end_src
+
+**** Not explicitly loaded, but interesting packages
+
+- [[http://projecttemplate.net/index.html][ProjectTemplate]]
+- [[http://cran.r-project.org/web/packages/evaluate/index.html][evaluate]]
+- [[http://cran.r-project.org/web/packages/yaml/index.html][yaml]]
+- [[http://cran.r-project.org/web/packages/whisker/index.html][whisker]]
+- [[http://cran.r-project.org/web/packages/formatR/index.html][formatR]]
+- General caching [fn:452e6ab4: https://stackoverflow.com/questions/7262485/options-for-caching-memoization-hashing-in-r]
+- [[http://cran.r-project.org/web/packages/stringi/index.html][stringi]]
+  - [[http://www.r-bloggers.com/faster-easier-and-more-reliable-character-string-processing-with-stringi-0-3-1/?utm_source%3Dfeedburner&utm_medium%3Dfeed&utm_campaign%3DFeed%253A%2BRBloggers%2B%2528R%2Bbloggers%2529][Via]]
+  - Seems focused on Unicode details
+  - Why this instead of =stringr=?
+- [[http://cran.r-project.org/web/packages/futile.options/index.html][futile.options: Futile options management]]
+  - Referenced by the =settings= article
+- [[http://cran.r-project.org/web/packages/settings/][settings: Software Option Settings Manager for R]]
+  - [[http://www.r-bloggers.com/easy-to-use-option-settings-management-with-the-settings-package/?utm_source%3Dfeedburner&utm_medium%3Dfeed&utm_campaign%3DFeed%253A%2BRBloggers%2B%2528R%2Bbloggers%2529][Via]]
+- [[https://github.com/craigcitro/r-travis][r-travis]]
+  - [[http://www.r-bloggers.com/travis-ci-to-github-pages/?utm_source%3Dfeedburner&utm_medium%3Dfeed&utm_campaign%3DFeed%253A%2BRBloggers%2B%2528R%2Bbloggers%2529][Via]]
+- [[https://github.com/MangoTheCat/testCoverage][testCoverage]]
+  - [[http://www.r-statistics.com/2014/11/analyzing-coverage-of-r-unit-tests-in-packages-the-testcoverage-package/][Via]]
+- [[http://cran.r-project.org/web/packages/xkcd/index.html][xkcd]]
+  - [[http://www.exegetic.biz/blog/2014/11/creating-more-effective-graphs/?utm_source%3Drss&utm_medium%3Drss&utm_campaign%3Dcreating-more-effective-graphs][Via]]
+- [[https://github.com/EconometricsBySimulation/Ninja/blob/master/2014/11/circ.graph.R][circ.graph.R]]
+  - [[http://www.r-bloggers.com/make-your-own-hotly-criticised-circle-graph/?utm_source%3Dfeedburner&utm_medium%3Dfeed&utm_campaign%3DFeed%253A%2BRBloggers%2B%2528R%2Bbloggers%2529][Via]]
+- [[https://github.com/yhat/pandasql][pandasql]]
+  - [[http://www.r-bloggers.com/query-pandas-dataframe-with-sql/?utm_source%3Dfeedburner&utm_medium%3Dfeed&utm_campaign%3DFeed%253A%2BRBloggers%2B%2528R%2Bbloggers%2529][Via]]
+- [[http://cran.r-project.org/web/packages/qdap/index.html][qdap: Bridging the Gap Between Qualitative Data and Quantitative Analysis]]
+  - Glad to find this
+  - [[http://www.r-bloggers.com/exploration-of-letter-make-up-of-english-words/?utm_source%3Dfeedburner&utm_medium%3Dfeed&utm_campaign%3DFeed%253A%2BRBloggers%2B%2528R%2Bbloggers%2529][Via]]
+- [[https://github.com/environmentalinformatics-marburg/Rsenal][Rsenal]]
+  - [[http://www.r-bloggers.com/introducing-rsenal-magic-r-functions-for-things-various/?utm_source%3Dfeedburner&utm_medium%3Dfeed&utm_campaign%3DFeed%253A%2BRBloggers%2B%2528R%2Bbloggers%2529][Via]]
+  - Wished I had this the ohther day
+- [[https://rapporter.github.io/pander/][pander]]
+  - [[http://www.r-bloggers.com/pander-0-5-0-the-next-generation-of-markdown-tables-in-r/?utm_source%3Dfeedburner&utm_medium%3Dfeed&utm_campaign%3DFeed%253A%2BRBloggers%2B%2528R%2Bbloggers%2529][Via]]
+- [[http://deployr.revolutionanalytics.com/][DeployR]]
+  - [[http://www.r-bloggers.com/integrate-r-into-applications-with-deployr-open/?utm_source%3Dfeedburner&utm_medium%3Dfeed&utm_campaign%3DFeed%253A%2BRBloggers%2B%2528R%2Bbloggers%2529][Via]]
+- [[http://cran.r-project.org/web/packages/openssl/][openssl: Bindings to OpenSSL]]
+  - [[http://www.r-bloggers.com/generating-secure-random-numbers-with-openssl/?utm_source%3Dfeedburner&utm_medium%3Dfeed&utm_campaign%3DFeed%253A%2BRBloggers%2B%2528R%2Bbloggers%2529][Via]]
+- [[https://github.com/Bart6114/simmer][simmer]]
+  - Again I would have had to have written this myself
+  - [[http://www.r-bloggers.com/simmer-2-0-a-performance-boost-revised-syntax/?utm_source%3Dfeedburner&utm_medium%3Dfeed&utm_campaign%3DFeed%253A%2BRBloggers%2B%2528R%2Bbloggers%2529][Via]]
+- [[http://cran.r-project.org/web/packages/checkpoint/index.html][checkpoint: Install Packages from Snapshots on the Checkpoint Server for Reproducibility]]
+  - [[http://www.r-bloggers.com/introducing-the-reproducible-r-toolkit-and-the-checkpoint-package/?utm_source%3Dfeedburner&utm_medium%3Dfeed&utm_campaign%3DFeed%253A%2BRBloggers%2B%2528R%2Bbloggers%2529][Via]]
+- [[http://cran.r-project.org/web/packages/miniCRAN/index.html][miniCRAN: Tools to create an internally consistent, mini version of CRAN with selected packages only]]
+  - [[http://www.r-bloggers.com/introducing-minicran-an-r-package-to-create-a-private-cran-repository/?utm_source%3Dfeedburner&utm_medium%3Dfeed&utm_campaign%3DFeed%253A%2BRBloggers%2B%2528R%2Bbloggers%2529][Via]]
+- [[http://reaktanz.de/?c%3Dhacking&s%3DroxyPackage][roxyPackage]]
+  - [[http://www.r-bloggers.com/managing-r-package-dependencies/?utm_source%3Dfeedburner&utm_medium%3Dfeed&utm_campaign%3DFeed%253A%2BRBloggers%2B%2528R%2Bbloggers%2529][Via]]
+- [[http://cran.r-project.org/web/packages/roxygen2/index.html][roxygen2: In-source documentation for R]]
+  - =roxypackage= mentioend it
+- [[http://cran.r-project.org/web/packages/archivist/index.html][archivist: Tools for storing, restoring and searching for R objects]]
+  - [[http://www.r-bloggers.com/lazy-load-with-archivist/?utm_source%3Dfeedburner&utm_medium%3Dfeed&utm_campaign%3DFeed%253A%2BRBloggers%2B%2528R%2Bbloggers%2529][Via]]
+- [[http://dirk.eddelbuettel.com/code/pkgkitten.html][pkgKitten]]
+  - [[http://www.r-bloggers.com/pkgkitten-0-1-1-still-creating-r-packages-that-purr/?utm_source%3Dfeedburner&utm_medium%3Dfeed&utm_campaign%3DFeed%253A%2BRBloggers%2B%2528R%2Bbloggers%2529][Via]]
+- [[https://ramnathv.github.io/rCharts/][rCharts]]
+  - [[http://www.r-bloggers.com/interactive-visualizations-from-r-using-rcharts/?utm_source%3Dfeedburner&utm_medium%3Dfeed&utm_campaign%3DFeed%253A%2BRBloggers%2B%2528R%2Bbloggers%2529][Via]]
+- [[https://github.com/dgrtwo/broom][broom: Convert statistical analysis objects from R into tidy format]]
+  - [[http://www.r-bloggers.com/r-package-to-convert-statistical-analysis-objects-to-tidy-data-frames/?utm_source%3Dfeedburner&utm_medium%3Dfeed&utm_campaign%3DFeed%253A%2BRBloggers%2B%2528R%2Bbloggers%2529][Via]]
+- [[http://mran.revolutionanalytics.com/packages/info/?igraph][igraph: Network analysis and visualization]]
+  - Why did they link to MRAN?
+  - Looks like a great tool for learning about graphcs
+  - [[http://www.r-bloggers.com/a-look-at-the-igraph-package/?utm_source=feedburner&utm_medium=feed&utm_campaign=Feed%253A+RBloggers+%2528R+bloggers%2529][Via]]
+
+** .First
+      :PROPERTIES:
+      :noweb-ref: rfirst-defs
+      :END:
+
+Reading:
+- [[http://stat.ethz.ch/R-manual/R-devel/library/base/html/Startup.html][Startup]] :: mandatory reading, the definitive source
+- [[http://cran.r-project.org/doc/contrib/Lemon-kickstart/kr_first.html][Kickstarting R]] :: I just like this tutorial
+
+- =attach= is a powerfuly convenient function. Sure, it can make you and your
+  program go bonkers, but you know, it is worth it for the convenience. Joking
+  aside, it has its place, so it should not go away completely. However, it ought
+  not be used much, and if you do need to use it, the it should be really really
+  obvious.
+  - Eg: [fn:7ce54638: http://www.r-bloggers.com/to-attach-or-not-attach-that-is-the-question/]
+#+begin_src R
+gcr$attach.unsafe <- attach
+gcr$attach <- function(...) {
+    warning("NEVER USE ATTACH! Use `unsafe.attach` if you must.")
+    attach.unsafe(...)
+}
+#+end_src
+
+- =library= reports issues immediately, and by design, =require= does not… remind
+  the useR that they /may/ want the former not the latter
+  - Via [fn:84031d95: http://www.r-bloggers.com/library-vs-require-in-r/]
+  - Just like everything else here, this is a /personal preference/ thing!
+#+begin_src R
+gcr$require <- function(...) {
+    warning("Are you sure you wanted `require` instead of `library`?")
+    base::require(...)
+}
+#+end_src
+
+Sometimes you only want to list everything *but* functions [fn:7b11c35d: https://stackoverflow.com/questions/13094324/hiding-function-names-from-ls-results-to-find-a-variable-name-more-quickly]:
+#+begin_src R
+gcr$lsnofun <- function(name = parent.frame()) {
+    obj <- ls(name = name)
+    obj[!sapply(obj, function(x) is.function(get(x)))]
+}
+#+end_src
+
+Make it really simple to specify how to handle errors in a given session:
+#+begin_src R
+gcr$recoveronerror <- function() {
+    options(error=recover)
+}
+
+gcr$recoveronerroroff <- function() {
+    options(error=NULL)
+}
+#+end_src
+
+Make it really simple to specify how to handle warnings in a given session:
+#+begin_src R
+gcr$erroronwarn <- function() {
+    options(warn=2)
+}
+
+gcr$erroronwarnoff <- function() {
+    options(warn=0)
+}
+#+end_src
+
+=sqldf= should always use =SQLite=.
+
+#+begin_src R
+options(sqldf.driver = "SQLite")
+#+end_src
+
+Save your fingers from having to type =head= the next =n= thousand times [fn:f9fcc455: https://stackoverflow.com/questions/13024167/how-to-make-head-be-applied-automatically-to-output] because I can't. =ess-rdired= and friends use the dataframe print function,
+so I didn't make dataframes print using it.
+#+begin_src R
+gcr$printdf <- function(df) {
+    if (nrow(df) > 10) {
+        print(head(df, 5))
+        cat("---\n")
+        print(tail(df, 5))
+    } else {
+        print(df)
+    }
+}
+#+end_src
+
+Sometimes you want to see all of the data in a dataframe, and sometimes you
+don't. Make it really easy to change whenever you feel like it.
+
+#+begin_src R
+gcr$printlen <- function(len=500) {
+    options("max.print" = len)
+}
+#+end_src
+
+When you've got =n=-thousand rows of data, make it easier to get a sample from it,
+just make it specific and keep it simple.
+
+#+begin_src R
+gcr$hundred <- function(df, idx=0) {
+    df[idx:(idx+100),]
+}
+#+end_src
+
+** .Renviron
+      :PROPERTIES:
+      :noweb-ref: renviron-def
+      :END:
+
+Install all packages to my home directory [fn:daab690d: http://www.r-bloggers.com/installing-r-packages/]
+- Call =.libPaths()= to verify
+- The directory must exist otherwise ℝ will ignore it
+  - Solution:
+    - Manual for now
+    - Unsure of best way to generalize it
+#+begin_src sh
+R_LIBS=~/.Rpackages
+#+end_src
+
+For the time being, GUI work will only be performed on OSX so utilize OSX's
+renderer [91578029: http://emacs.1067599.n5.nabble.com/unable-to-start-device-X11-td330804.html].
+
+That worked fine until I actually starting using that graphics device!
+
+Then even though I was on OSX I *had* to switch to =X11=.
+
+<2014-11-05 Wed>
+That was probably a mistake. The folks on-list said that =quartz= should be super.
+Perhaps the error was between the keyboard and the chair, so I am switching
+back.
+
+<2014-11-08 Sat>
+When I us =ggplot= and quarts on this system, it blows up.
+
+<2014-11-25 Tue>
+Switched to the official CRAN R build, which works fine on OSX.
+
+#+begin_src sh
+R_INTERACTIVE_DEVICE=quartz
+#+end_src
+
+Explicitly state the timezone. This could be done either here or in the =.profile=.
+I'm not totally sure where to put it. Because I am trying to do *everything* with,
+I will put it here. Perhaps this should get set via =Sys.setenv= instead? I'll
+leave it for now and fix it later if necessary. I did test this out with a call
+to =Sys.time()= and it worked correctly.
+
+#+begin_src sh
+TZ=America/Chicago
+#+end_src
+
+

@@ -1,14 +1,4 @@
 
-# [[file:~/git/bitbucket-grettke/home/TC3F.org::*Control%20Files][Control\ Files:1]]
-
-# [[file:~/git/bitbucket-grettke/home/TC3F.org::*.Renviron][nil]]
 R_LIBS=~/.Rpackages
-# nil ends here
-# [[file:~/git/bitbucket-grettke/home/TC3F.org::*.Renviron][nil]]
-R_INTERACTIVE_DEVICE=x11
-# nil ends here
-# [[file:~/git/bitbucket-grettke/home/TC3F.org::*.Renviron][nil]]
+R_INTERACTIVE_DEVICE=quartz
 TZ=America/Chicago
-# nil ends here
-
-# Control\ Files:1 ends here
