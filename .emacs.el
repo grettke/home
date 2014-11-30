@@ -74,6 +74,7 @@
           json-reformat
           magit
           markdown-mode
+          metaweblog
           multiple-cursors
           neotree
           ob-sml
@@ -118,11 +119,11 @@
 (mapcar (lambda (pkg) (add-to-list 'package-pinned-archives `(,pkg . "melpa")))
         '(
           alert
+          autotetris-mode
           dired-details+
           ido-hacks
           imenu-anywhere
           lexbind-mode
-          metaweblog
           nyan-mode
           plantuml-mode
           polymode
@@ -132,8 +133,9 @@
           vagrant-tramp
           xml-rpc
           ))
-(when (not (package-installed-p 'package+))
-  (warn "Please install package+ manually and re-run this script."))
+  (package-refresh-contents)
+  (unless (package-installed-p 'package+)
+    (package-install 'package+))
 (package-manifest
  'ace-jump-mode
  'ace-link
@@ -145,6 +147,7 @@
  'auctex
  'auto-complete
  'auto-complete-chunk
+ 'autotetris-mode
  'boxquote
  'clips-mode
  'ctable
@@ -1447,6 +1450,18 @@ Attribution: URL `https://lists.gnu.org/archive/html/emacs-orgmode/2014-09/msg00
             (org-src-in-org-buffer)
           (error nil))
     (org-edit-src-exit)))
+(defun gcr/src-block-check ()
+  (interactive)
+  (org-element-map (org-element-parse-buffer 'element) 'src-block
+    (lambda (src-block)
+      (let ((language (org-element-property :language src-block)))
+        (cond ((null language)
+               (error "Missing language at position %d"
+                      (org-element-property :post-affiliated src-block)))
+              ((not (assoc-string language org-babel-load-languages))
+               (error "Unknown language at position %d"
+                      (org-element-property :post-affiliated src-block)))))))
+  (message "Source blocks checked in %s." (buffer-name (buffer-base-buffer))))
 (gcr/set-org-babel-default-header-args :comments "noweb")
 (gcr/set-org-babel-default-header-args :results "output replace")
 (gcr/set-org-babel-default-header-args :exports "both")
@@ -1596,6 +1611,7 @@ Attribution: URL `https://lists.gnu.org/archive/html/emacs-orgmode/2014-09/msg00
 (global-set-key (kbd "s-l i") 'gcr/move-line-up)
 (global-set-key (kbd "s-l k") 'gcr/move-line-down)
 (key-chord-define-global "qp" 'ispell)
+(key-chord-define-global "qo" 'ispell-word)
 (global-set-key (kbd "s-d h") 'diff-hl-mode)
 (global-set-key (kbd "s-d l") 'vc-diff)
 (global-set-key (kbd "s-d u") 'vc-revert)

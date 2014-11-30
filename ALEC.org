@@ -169,6 +169,20 @@ and it is time to move on. Here is how to get things working assuming that your
 4. Restart Emacs, an error is thrown due to the wrong version of F installed
 5. Delete the unstable version of F and replace it with the stable version
 
+It is worth mentioning what I've tried to do to resolve this "issue".
+0. Specify MELPA Stable, first
+1. Refresh the package list, install Package+ to assure stable
+2. Initialize all of the other packages repositories and packages
+
+That approach was very easy and made sense, but, at least five packages simply
+did not install. There were no errors or warnings, they just didn't install.
+Having now at least six hours investigating this, I decided to stick with the
+current work-around. This work around is not perfect and is definitely bringing
+in the non-stable dependencies, and, that will just have to be OK for now.
+
+The latest surprises is that Solarized-Theme doesn't install. Clearly there is
+a good opportunity here to utilize a more /predictable/ approach!
+
 *** Package
 
 Before doing any work with Package it must be initialized. Failure to do so is
@@ -275,6 +289,7 @@ Reset the pinned archive list.
           json-reformat
           magit
           markdown-mode
+          metaweblog
           multiple-cursors
           neotree
           ob-sml
@@ -331,11 +346,11 @@ Reset the pinned archive list.
 (mapcar (lambda (pkg) (add-to-list 'package-pinned-archives `(,pkg . "melpa")))
         '(
           alert
+          autotetris-mode
           dired-details+
           ido-hacks
           imenu-anywhere
           lexbind-mode
-          metaweblog
           nyan-mode
           plantuml-mode
           polymode
@@ -347,13 +362,13 @@ Reset the pinned archive list.
           ))
 #+end_src
 
-If Package+ is not installed, then install it. This *should* be automatic, but I
-can't get it working. I do the less-worse thing here and just warn you to go and
-install it manually because *nothing* will work correctly until you do.
+If Package+ is not installed, then install it. First the package list has to be refresehd so that Package
+knows about the new packages.
 
 #+begin_src emacs-lisp
-(when (not (package-installed-p 'package+))
-  (warn "Please install package+ manually and re-run this script."))
+  (package-refresh-contents)
+  (unless (package-installed-p 'package+)
+    (package-install 'package+))
 #+end_src
 
 This is the list of packages that should be installed automatically and loaded.
@@ -370,6 +385,7 @@ This is the list of packages that should be installed automatically and loaded.
  'auctex
  'auto-complete
  'auto-complete-chunk
+ 'autotetris-mode
  'boxquote
  'clips-mode
  'ctable
@@ -689,7 +705,7 @@ Emacs.
 This system is no longer "Emacs". It is not its disparate packages. They are
 tools, yes, and more importantly, they are expressions of creativity. Together
 in Emacs, in ALEC, they are composed, like parts of a symphony, together, to
-allow for the ultimate in the action creative expression. The tools themselves
+allow for the ultimate in the act of creative expression. The tools themselves
 exhibit these traits, both in their implementation and their intent. That is
 traditional, in that, the properties and traits expressed by these "words",
 these compositional units, have the properties and traits of the things
@@ -710,10 +726,10 @@ together to form a perfect symphony of creative expression in a form that
 may be captured and represented as a computer file, so humble and modest, just
 like a small seed of a proud and mighty Redwood tree that will eventually reach
 hundreds and hundreds of feet into the sky and towards Mother Sun, contains
-that which it will become in it's own existence, so too does contains its own
-beautiful destiny the seeds of beauty and creative expression that are produced
-with ALEC (in every form, not just the one described by this document of
-course!).
+that which it will become in it's own existence, so too does it contain its own
+beautiful destiny in the seeds of beauty and creative expression that are
+produced with ALEC (in every form, not just the one described by this document
+of course!).
 
 The blossoming of the expression of the computational act, and the petals that
 opened in the form of the Turing's machine, Church's Lambda calculus, and
@@ -728,7 +744,7 @@ exist after it, which is not subject to the laws of time, space, causality, and
 identity, is the point that everyone surely wishes to re-visit. That quest,
 /the/ great motivator of the most softly spoken and heartfelt desire, itself is
 surely yet another expression of /that which is gentle and kind/. The steps taken
-on that quest, despite being driven by that perfect intent, are /still/ subject
+on that quest, despite being driven by that perfect intent, are /still/ subject to
 the four boundaries of this reality. Those actions, defined by configurations,
 like the petals of the lotus, retaining its sweet fragrance, can, will, and must
 fade, but, we will shine on in the sweet embrace of Mother Sun, knowing that
@@ -2298,6 +2314,8 @@ popup, I think that yet again Purcell and friends make our lives easier.
 Thus far, auto-complete has worked fine. More than a few blog-posts do mention
 company-mode [fn:87ff338a: https://company-mode.github.io/], so I read up on it. It seems quite nice, but right now I
 haven't got a reason to explore it further though.
+
+This package is not happy running under Org Mode, FYI, for some reason.
 
 Still having some mixed feelings about what engine to use to display the popups.
 Popup itself is quite easy for me to read since it uses the same font as
@@ -4130,6 +4148,28 @@ Not sure where to note this, but I do need to do it somewhere:
   the consumable product
 #+end_quote
 
+Thank you Nicolas Goaziou [fn:486109d1: https://lists.gnu.org/archive/html/emacs-orgmode/2014-11/msg00776.html],
+for the beginnings of an =org-lint=. The goal here was to:
+1) Report an error if there is a source block without a language
+   specified
+2) Report an error if there is a source block with a language specified
+   that is *not* present in `org-babel-load-languages'
+And, it does.
+#+begin_src emacs-lisp
+(defun gcr/src-block-check ()
+  (interactive)
+  (org-element-map (org-element-parse-buffer 'element) 'src-block
+    (lambda (src-block)
+      (let ((language (org-element-property :language src-block)))
+        (cond ((null language)
+               (error "Missing language at position %d"
+                      (org-element-property :post-affiliated src-block)))
+              ((not (assoc-string language org-babel-load-languages))
+               (error "Unknown language at position %d"
+                      (org-element-property :post-affiliated src-block)))))))
+  (message "Source blocks checked in %s." (buffer-name (buffer-base-buffer))))
+#+end_src
+
 ***** Core Babel Configuration
 
 ****** Comments [fn:1e1a7e1f: http://orgmode.org/manual/comments.html#comments]
@@ -4880,13 +4920,13 @@ Surprisingly you swap lines enough to justify automating it.
 (global-set-key (kbd "s-l k") 'gcr/move-line-down)
 #+end_src
 
-<2014-11-12 Wed>
 Now that =ispell= is configured nicely, I use it /all/ the time. Make that easy.
 First tried "is" for "ispell". Loved it. Then remembered that it is a common
 key combination. Forehead smack!
 
 #+begin_src emacs-lisp
 (key-chord-define-global "qp" 'ispell)
+(key-chord-define-global "qo" 'ispell-word)
 #+end_src
 
 ** SLIGHTLY-DISRUPTIVE
@@ -6409,6 +6449,9 @@ Take "zoning out" to a whole new level.
 #+begin_src emacs-lisp
 (require 'zone)
 #+end_src
+
+For when you want to watch /someone else/ play Tetris instead of yourself,
+call =autotetris=.
 
 * Customize
     :PROPERTIES:
