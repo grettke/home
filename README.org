@@ -1,1 +1,2 @@
-Hello, world.
+Every 30 days or so after my Emacs system has stabilized, I publish its
+configuration here.8
