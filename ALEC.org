@@ -36,7 +36,7 @@
 #+DATE: <2014-02-24 MON>
 #+OPTIONS: texht:t
 #+LATEX_CLASS: article
-#+LATEX_CLASS_OPTIONS: [letterpaper, 12pt]
+#+LATEX_CLASS_OPTIONS: [letterpaper, 10pt]
 #+LATEX_HEADER: \usepackage[paperwidth=8.5in, paperheight=11in, hmargin=0.5in, vmargin=0.5in]{geometry}
 #+LATEX_HEADER_EXTRA:
 
@@ -126,7 +126,7 @@ EL-Get is powerful, and flexible, and concise. What it lacks in community
 movement, it makes up for in raw power. When I find code that doesn't live in
 packages, and may never, then I start setting up EL-Get to grab it for me.
 
-Based  upon what I've read, it had its time in the sun. Its power is still true,
+Based upon what I've read, it had its time in the sun. Its power is still true,
 and its value is a great, because it truly succeeds at the goals that it set
 forth.
 
@@ -260,6 +260,7 @@ Reset the pinned archive list.
           ace-jump-zap
           ace-link
           ace-window
+          alert
           aggressive-indent
           auto-complete
           auto-complete-chunk
@@ -287,6 +288,7 @@ Reset the pinned archive list.
           ido-vertical-mode
           inlineR
           json-reformat
+          langtool
           magit
           markdown-mode
           metaweblog
@@ -304,13 +306,17 @@ Reset the pinned archive list.
           s
           smartparens
           smex
+          smooth-scrolling
           solarized-theme
           sparkline
+          sqlup-mode
+          string-edit
           stripe-buffer
           unicode-fonts
           vagrant
           web-mode
           wrap-region
+          writegood-mode
           ))
 
 #+end_src
@@ -345,7 +351,6 @@ Reset the pinned archive list.
 #+begin_src emacs-lisp
 (mapcar (lambda (pkg) (add-to-list 'package-pinned-archives `(,pkg . "melpa")))
         '(
-          alert
           autotetris-mode
           dired-details+
           ido-hacks
@@ -355,15 +360,13 @@ Reset the pinned archive list.
           plantuml-mode
           polymode
           pos-tip
-          smooth-scrolling
-          sqlup-mode
           vagrant-tramp
           xml-rpc
           ))
 #+end_src
 
-If Package+ is not installed, then install it. First the package list has to be refresehd so that Package
-knows about the new packages.
+If Package+ is not installed, then install it. First the package list has to be
+refreshed so that Package knows about the new packages.
 
 #+begin_src emacs-lisp
   (package-refresh-contents)
@@ -419,6 +422,7 @@ This is the list of packages that should be installed automatically and loaded.
  'inlineR
  'json-reformat
  'key-chord
+ 'langtool
  'lexbind-mode
  'magit
  'markdown-mode
@@ -447,6 +451,7 @@ This is the list of packages that should be installed automatically and loaded.
  'solarized-theme
  'sparkline
  'sqlup-mode
+ 'string-edit
  'stripe-buffer
  'undo-tree
  'unicode-fonts
@@ -454,6 +459,7 @@ This is the list of packages that should be installed automatically and loaded.
  'vagrant-tramp
  'web-mode
  'wrap-region
+ 'writegood-mode
  'xml-rpc
  )
 #+end_src
@@ -675,7 +681,7 @@ means /ought/ to be concise, they are intended to be read at a single sitting.
 * Ends (ALEC)
 
 This system has changed who I am and how I think. Because it is easier to focus
-on the tools rather than the intent, on the means vs. the end, I focus on this
+on the tools rather than the intent, on the means versus the ends, I focus on this
 system, this configuration of Emacs. My system is a provider, a realization, of
 a language for expressing creativity. 𝔸𝕃𝔼ℂ. ALEC's a Language for Expressing
 Creativity. That is a truly and utterly beautiful thing to ponder.
@@ -693,7 +699,7 @@ different than laughing at a joke, but they are all the creative act. Gardening,
 selling, collecting, tending… they are all part of the creative act that makes
 us again be born human. We always seem to focus on the configuration of those
 actions (time, space, causality, and identity), the build of those tools,
-necessary to perform the creative act. With time and patience, we will see the
+necessary to perform the creative act. With time and patience, we will know the
 true nature of things. Part of the path is indeed attaining mastery. Mastery
 over ourselves, mostly, by some way that is gentle and kind. That action, that
 attempt, for me, has partially culminated in the aggregation of a lifetime of
@@ -706,14 +712,14 @@ This system is no longer "Emacs". It is not its disparate packages. They are
 tools, yes, and more importantly, they are expressions of creativity. Together
 in Emacs, in ALEC, they are composed, like parts of a symphony, together, to
 allow for the ultimate in the act of creative expression. The tools themselves
-exhibit these traits, both in their implementation and their intent. That is
+possess these traits, both in their implementation and their intent. That is
 traditional, in that, the properties and traits expressed by these "words",
 these compositional units, have the properties and traits of the things
 expressed by these "words". "Words" is the  most expressive element that I can
 think of right now, for things that can be atoms, and yet be combined to form
 sentences, something larger and more expressive, in a particular language,
 which itself can quite magically express ideas, about itself, or about anything
-in existence.
+else in existence.
 
 It is like watching a beautiful lotus blooming, spreading its pedals, having
 been nourished by the fertile soil, protected in its pond, knowing that it must
@@ -1318,6 +1324,13 @@ Attribution Nikolaj Schumacher: URL `https://lists.gnu.org/archive/html/help-gnu
   `(let ((time (current-time)))
      ,@body
      (message "%.06f" (float-time (time-since time)))))
+
+(defun gcr/create-non-existent-directory ()
+  "Attribution URL: `https://iqbalansari.github.io/blog/2014/12/07/automatically-create-parent-directories-on-visiting-a-new-file-in-emacs/'"
+  (let ((parent-directory (file-name-directory buffer-file-name)))
+    (when (and (not (file-exists-p parent-directory))
+             (y-or-n-p (format "Directory `%s' does not exist. Create it?" parent-directory)))
+      (make-directory parent-directory t))))
 #+end_src
 
 Emacs lets you set up buffers that won't be re-sized or moved. That is really a
@@ -1620,16 +1633,17 @@ needed, and this does the right thing. There is a bit more though to it,
 namely because the interval is only 20s I still want/need to be sure that
 the file is saved /before/ doing anything like running code or doing a build
 As such, before most operations, all buffers with files attached are saved
-/first/. 2014-11-20T14:20:16-0600 When I switched to =package= again and used
+/first/. When I switched to =package= again and used
 =el-get= to install this instead of =melpa=, =real-auto-save= quit working. Gosh.
 Found [fn:7d587f95: http://lexfridman.com/blogs/research/2011/06/26/auto-save-files-in-emacs/]
 which gives me what I want, since I seemingly couldn't figure that out
 myself in the past!
 #+begin_src emacs-lisp
+(setq auto-save-default t)
 (setq make-backup-files nil)
 (setq auto-save-visited-file-name t)
-(setq auto-save-interval 20)
-(setq auto-save-timeout 10)
+(setq auto-save-interval 05)
+(setq auto-save-timeout 05)
 #+end_src
 
 Make two buffers with the same file name open distinguishable. [fn:de75200e: https://www.gnu.org/software/emacs/manual/html_node/emacs/Uniquify.html]
@@ -1653,11 +1667,6 @@ See also for library paths [fn:58592a74: https://www.gnu.org/software/emacs/manu
 With modern VCS, backup files aren't required. [fn:4c56e8e0: https://www.gnu.org/software/emacs/manual/html_node/elisp/Making-Backups.html]
 #+begin_src emacs-lisp
 (setq backup-inhibited 1)
-#+end_src
-
-The built in auto save isn't required either because of the above. [fn:ed941880: https://www.gnu.org/software/emacs/manual/html_node/emacs/Auto-Save-Control.html]
-#+begin_src emacs-lisp
-(setq auto-save-default nil)
 #+end_src
 
 Ban white-space at end of lines, globally. [fn:cb5158b0: https://www.gnu.org/software/emacs/manual/html_node/emacs/Useless-Whitespace.html]
@@ -1841,7 +1850,8 @@ both, that I want to experiment with an even /lighter/ weight means.
 
 Make the title frame something special.
 #+begin_src emacs-lisp
-(setq frame-title-format '("𝔸𝕃𝔼ℂ"))
+(gcr/on-osx (setq frame-title-format '("𝔸𝕃𝔼ℂ")))
+(gcr/on-windows (setq frame-title-format '("ALEC")))
 #+end_src
 
 The scroll bars are actually quite nice. Despite that, I don't actually
@@ -2822,6 +2832,7 @@ screen, 80 columns wide.
 #+begin_src emacs-lisp
 (defvar gcr/font-size 10 "The preferred font size.")
 (gcr/on-osx (setq gcr/font-size 17))
+(gcr/on-windows (setq gcr/font-size 14))
 #+end_src
 
 Convert common ASCII values into Unicode representations /for display only//.
@@ -4638,6 +4649,7 @@ remaining a mystery for now.
   (local-set-key (kbd "s-k") 'org-babel-next-src-block)
   (local-set-key (kbd "s-l") 'org-babel-demarcate-block)
   (local-set-key (kbd "s-;") 'org-babel-view-src-block-info)
+  (local-set-key (kbd "s-b x") 'org-babel-expand-src-block)
   (local-set-key (kbd "s-b s") 'org-babel-switch-to-session)
   (local-set-key (kbd "s-b c") 'org-babel-switch-to-session-with-code)
   (local-set-key (kbd "s-o") 'org-babel-execute-maybe)
@@ -4916,8 +4928,8 @@ the arrow keys per mode, so use chords instead.
 Surprisingly you swap lines enough to justify automating it.
 
 #+begin_src emacs-lisp
-(global-set-key (kbd "s-l i") 'gcr/move-line-up)
-(global-set-key (kbd "s-l k") 'gcr/move-line-down)
+(global-set-key (kbd "C-s-<up>") 'gcr/move-line-up)
+(global-set-key (kbd "C-s-<down>") 'gcr/move-line-down)
 #+end_src
 
 Now that =ispell= is configured nicely, I use it /all/ the time. Make that easy.
@@ -4927,6 +4939,24 @@ key combination. Forehead smack!
 #+begin_src emacs-lisp
 (key-chord-define-global "qp" 'ispell)
 (key-chord-define-global "qo" 'ispell-word)
+#+end_src
+
+W for Writegood.
+
+#+begin_src emacs-lisp
+(key-chord-define-global "wm" 'writegood-mode)
+(key-chord-define-global "wl" 'writegood-grade-level)
+(key-chord-define-global "wz" 'writegood-reading-ease)
+#+end_src
+
+Use the default Langtool bindings.
+#+begin_src emacs-lisp
+(define-prefix-command 'gcr/langtool-map)
+(key-chord-define-global "qk" 'gcr/langtool-map)
+(define-key gcr/langtool-map "c" 'langtool-check)
+(define-key gcr/langtool-map "C" 'langtool-correct-buffer)
+(define-key gcr/langtool-map "s" 'langtool-show-message-at-point)
+(define-key gcr/langtool-map "q" 'langtool-check-done)
 #+end_src
 
 ** SLIGHTLY-DISRUPTIVE
@@ -5101,9 +5131,10 @@ Start NeoTree:
 
 These do get used a lot believe it or not:
 #+begin_src emacs-lisp
-(global-set-key (kbd "M-7") 'gcr/insert-datestamp)
+(global-set-key (kbd "M-7") 'gcr/insert-timestamp)
 (global-set-key (kbd "s-7") 'gcr/insert-timestamp*)
-(global-set-key (kbd "C-7") 'gcr/insert-timestamp)
+(global-set-key (kbd "C-7") 'gcr/insert-datestamp)
+
 #+end_src
 
 I used to use =F5= to run code. Probably because of various editors that I had
@@ -5316,6 +5347,15 @@ The =eshell= configuration is a version controlled directory
          "> ")))
 #+end_src
 
+** Files
+
+Try to visit a non-existence file and get prompted to create its parent
+directories.
+
+#+begin_src emacs-lisp
+(add-to-list 'find-file-not-found-functions #'gcr/create-non-existent-directory)
+#+end_src
+
 ** Graphviz [fn:d05878c1: http://www.graphviz.org/] [fn:4c7193c2: http://marmalade-repo.org/packages/graphviz-dot-mode] [fn:04ffff20: http://orgmode.org/worg/org-contrib/babel/languages/ob-doc-dot.html]
 
 #+begin_src emacs-lisp
@@ -5341,6 +5381,28 @@ digraph graphviz {
 
 #+NAME:
 [[file:./images/graphviz.png]]
+
+** Grammar
+
+Never though that S&W [fn:be320540: http://www.amazon.com/gp/product/0205632645?ie=UTF8&tag=ucmbread-20&linkCode=as2&camp=1789&creative=390957&creativeASIN=0205632645]
+would find a home here. It shall because of Matt Might [fn:d7db4b2f: http://matt.might.net/articles/shell-scripts-for-passive-voice-weasel-words-duplicates/],
+thank you very much, and Writegood-Mode [fn:0afa6fb0: http://bnbeckwith.com/code/writegood-mode.html]. The [[https://github.com/bnbeckwith/writegood-mode][GitHub]] page has more
+useful notes. Sacha added to it [fn:9dd85741: https://github.com/sachac/artbollocks-mode].
+
+#+begin_src emacs-lisp
+(require 'writegood-mode)
+#+end_src
+
+LanguageTool [fn:94814ced: https://www.languagetool.org/] and
+Langtool [fn:e27e3c52: https://github.com/mhayashi1120/Emacs-langtool] work well
+togethern.
+
+#+begin_src emacs-lisp
+(require 'langtool)
+(setq langtool-language-tool-jar (concat (getenv "EELIB") "/LanguageTool-2.7/languagetool-commandline.jar"))
+(setq langtool-java-bin "/usr/bin/java")
+(setq langtool-mother-tongue "en")
+#+end_src
 
 ** ibuffer
 
@@ -5811,6 +5873,12 @@ Like all programming modes… save everything before evaluating code.
 (defadvice sml-prog-proc-load-file (before beforesml-prog-proc-load-file activate)
   (gcr/save-all-file-buffers))
 #+end_src
+
+** Strings
+
+Sometimes we keep code inside of strings inside of another language. HQL for
+example. Make it easy to edit those strings without worrying about escaping
+everything. String-edit provides a nice helper here.
 
 ** Structured Query Language (SQL) [fn:a018350e: https://en.wikipedia.org/wiki/SQL]
 
@@ -6504,6 +6572,8 @@ My document style does not let itself to tangling-comments.
 «Provisioning»
 «Means»
 «Keybindings»
+(gcr/on-windows
+ «Windows-Helper-Bindings»)
 «Modes»
 «Libraries»
 «Jokes»
@@ -6529,6 +6599,201 @@ alias ll ls -lh $*
 alias s ssh $*
 alias top proced
 #+end_src
+
+* Portability
+
+Portability is a trait of something that may be easily moved. Here it is between
+operating systems. The =gcr/on= prefixed functions have provided portability just
+fine until now. Now I am spending a lot more tim working on Windows and my
+existing setup *reduced* by ability to realize the goals of this sytem. The fastest
+way to define the deficits in my setup is to simply address the solutions. They
+follow.
+
+** Windows
+
+- Install the 32bit Emacs distribution straight from GNU
+  - There are others. The 64-bit sounds pretty but I'm ignorant of the
+    benefits and prefer a mainstream build
+- Extract it to =~/apps= and add the =bin= dir to the exported =PATH=
+- Export =HOME= set to your preference
+  - Your home dir =C:\Users\user= works fine
+- Run =addpm= to add Emacs to the application menu
+- Install [[http://sourceforge.net/projects/ezwinports/][EZWinPorts]]
+  - Want normal Windows users to have a chance so not using MSYS or CYGWIN
+  - Stuff to install
+    - GNUTLS
+- Install [[http://aspell.net/win32/][Aspell Win32]]
+  - Add to PATH
+  - Manually install the English dictionary
+  - Move =dict= and =data= contents/folders
+- Keyboard setup
+  - Goal was to utilize my current keybindings and make no changes
+  - This system uses Super all over the place and maps the WindowsKey to Super
+  - Windows maps a number of actions to WindowsKey
+  - A Windows configuration is /supposed/ to remove those bindings, but it does
+    not. They conflict with my existing bindings and I wasn't going to change
+    after using them for one year. After spending 4 hours trying to find a work
+    around, I pursued a more  simplistic strategy that is defined in a code
+    block under this heading
+- Graphviz
+  - Grabbed from their home page
+  - Installed via the MSI
+  - Added bin dir to path
+- Installed libpng from ezwinports for org display images inline
+
+There are many options for keymapping in Windows. [[https://code.google.com/p/keymapper/][KeyMapper]] and [[https://sharpkeys.codeplex.com/][SharpKeys]] used
+to satisfy my requirements, but then quit doing so. [[http://www.autohotkey.com/][AutoHotKey]] (AHK) now performs
+the task acceptably.
+
+I need to do the simplest possible thing here. I want to do it /the right way/ and
+just deal with low-level key-codes. That is a poor use of time so I am not.
+
+I wanted to figure how to to use AHK to make Enter send Enter when pushed once and
+to make it act as the Control key when held. I didn't have enough time so I am
+making my RightShift key act as Enter. I will post to the forums to find out how.
+
+To avoid generating key combinations that activate the default Windows keybinding
+events I am using a super simple strategy of and where:
+- I make WindowsKey act as to Super
+- Issue is that Super keybindings activate default Windows actions
+- Solution is to make WindowsKey instead send Meta
+  - *Control-super* does not work and I don't know why
+  - That is why I am using Meta here
+- In this sytem must define additional keybindings "on Windows" that do the
+  the same thing with the new =M-s-= bindings
+  - This heading exists to define both
+  - For now doing it manually, no automation, no reuse, just fix what doesn't
+    work
+
+*** Helper Bindings
+  :PROPERTIES:
+  :noweb-ref: Windows-Helper-Bindings
+  :END:
+
+YAS.
+
+#+begin_src emacs-lisp
+(defun gcr/ymh-h ()
+  (define-key yas-minor-mode-map (kbd "M-s-4") 'yas-expand))
+(add-hook 'yas-minor-mode-hook 'gcr/ymh-h)
+#+end_src
+
+ESS ignore until needed.
+
+ORG.
+
+#+begin_src emacs-lisp
+(defun gcr/omh-h ()
+  (local-set-key (kbd "M-s-h") 'org-babel-check-src-block)
+  (local-set-key (kbd "M-s-a i") 'org-babel-insert-header-arg)
+  (local-set-key (kbd "M-s-j") 'org-babel-previous-src-block)
+  (local-set-key (kbd "M-s-k") 'org-babel-next-src-block)
+  (local-set-key (kbd "M-s-l") 'org-babel-demarcate-block)
+  (local-set-key (kbd "M-s-;") 'org-babel-view-src-block-info)
+  (local-set-key (kbd "M-s-b s") 'org-babel-switch-to-session)
+  (local-set-key (kbd "M-s-b c") 'org-babel-switch-to-session-with-code)
+  (local-set-key (kbd "M-s-o") 'org-babel-execute-maybe)
+  (local-set-key (kbd "M-s-t") 'org-babel-tangle)
+  (local-set-key (kbd "M-s-x") 'org-babel-do-key-sequence-in-edit-buffer)
+  (local-set-key (kbd "M-s-w w") 'org-export-dispatch)
+  (local-set-key (kbd "M-s-<f5>") 'org-babel-execute-buffer)
+  (local-set-key (kbd "M-s-i d") 'org-display-inline-images)
+  (local-set-key (kbd "M-s-i r") 'org-remove-inline-images))
+(add-hook 'org-mode-hook 'gcr/omh-h)
+#+end_src
+
+Emacs-lisp.
+
+#+begin_src emacs-lisp
+(defun gcr/emh-h ()
+  (local-set-key (kbd "M-s-l eb") 'gcr/elisp-eval-buffer)
+  (local-set-key (kbd "M-s-l ep") 'eval-print-last-sexp)
+  (local-set-key (kbd "M-s-l td") 'toggle-debug-on-error)
+  (local-set-key (kbd "M-s-l mef") 'macroexpand)
+  (local-set-key (kbd "M-s-l mea") 'macroexpand-all)
+  (local-set-key (kbd "M-s-p") 'gcr/describe-thing-in-popup)
+  )
+
+#+end_src
+
+Various.
+
+#+begin_src emacs-lisp
+(global-set-key (kbd "M-s-d h") 'diff-hl-mode)
+(global-set-key (kbd "M-s-d l") 'vc-diff)
+(global-set-key (kbd "M-s-d u") 'vc-revert)
+(global-set-key (kbd "M-s-f") 'projectile-find-file)
+(global-set-key (kbd "M-s-2") 'gcr/two-key-map)
+(global-set-key (kbd "M-s-p") 'gcr/describe-thing-in-popup)
+(global-set-key (kbd "M-s-<return>") 'gcr/smart-open-line)
+(global-set-key (kbd "M-s-7") 'gcr/insert-timestamp*)
+(global-set-key (kbd "M-s-<f7>") 'gcr/text-scale-increase)
+(global-set-key (kbd "M-s-<up>") 'enlarge-window)
+(global-set-key (kbd "M-s-<down>") 'shrink-window)
+(global-set-key (kbd "M-s-<right>") 'enlarge-window-horizontally)
+(global-set-key (kbd "M-s-<left>") 'shrink-window-horizontally)
+#+end_src
+
+Polymode ignore until needed.
+
+*** AutoHotKey
+
+AHK has been fragile in these ways:
+- Wheel even mapping works fine for a day and quits working
+  - It hasn't worked since
+- Putting the configuration file in =~/Documents= works
+  - Putting it in =~/= does not work
+- Sometimes the left control and caps-lock swap gets reversed
+
+Fixes:
+- Rebooting
+
+**** Config
+  :PROPERTIES:
+  :noweb-ref: AutoHotKey-Config
+  :END:
+
+#+begin_src sh
+WheelUp::
+Send {WheelDown}
+Return
+
+WheelDown::
+Send {WheelUp}
+Return
+
+Capslock::Ctrl
+
+LCtrl::CapsLock
+
+Enter::RCtrl
+
+RShift::Enter
+
+#b::!#b
+
+#d::!#d
+
+#e::!#e
+
+#l::!#l
+
+#p::!#p
+
+^+l::#l
+#+end_src
+
+**** Output
+
+#+begin_src src :tangle AutoHotKey.ahk :comments no
+«AutoHotKey-Config»
+#+end_src
+
+*** Not working
+
+- El-Get
+- Pos-tip
+- Ps-Ccrypt
 
 * Migration Notes
 
@@ -6612,7 +6877,7 @@ is a fine reason. The approach is where I got it wrong. Yet again, for at least
 the third time, I wanted to do a total "clean slate" re-write of this system.
 Generally, the rewrite starts out well and goes well because my mastery of the
 tools is better than before. The problem is that the tools just don't
-synchronize correctly together (non-technical term). They just don't gel
+c-synchronize correctly together (non-technical term). They just don't gel
 together right and things don't wory right in very, very bizarre ways. Mostly it
 has to do with package loading. After a few hours, I blow away the changes and
 try again. The more I work, the more I feel like this system is an organic

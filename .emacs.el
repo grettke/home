@@ -45,6 +45,7 @@
           ace-jump-zap
           ace-link
           ace-window
+          alert
           aggressive-indent
           auto-complete
           auto-complete-chunk
@@ -72,6 +73,7 @@
           ido-vertical-mode
           inlineR
           json-reformat
+          langtool
           magit
           markdown-mode
           metaweblog
@@ -89,13 +91,17 @@
           s
           smartparens
           smex
+          smooth-scrolling
           solarized-theme
           sparkline
+          sqlup-mode
+          string-edit
           stripe-buffer
           unicode-fonts
           vagrant
           web-mode
           wrap-region
+          writegood-mode
           ))
 
 (mapcar (lambda (pkg) (add-to-list 'package-pinned-archives `(,pkg . "gnu")))
@@ -118,7 +124,6 @@
           ))
 (mapcar (lambda (pkg) (add-to-list 'package-pinned-archives `(,pkg . "melpa")))
         '(
-          alert
           autotetris-mode
           dired-details+
           ido-hacks
@@ -128,8 +133,6 @@
           plantuml-mode
           polymode
           pos-tip
-          smooth-scrolling
-          sqlup-mode
           vagrant-tramp
           xml-rpc
           ))
@@ -181,6 +184,7 @@
  'inlineR
  'json-reformat
  'key-chord
+ 'langtool
  'lexbind-mode
  'magit
  'markdown-mode
@@ -209,6 +213,7 @@
  'solarized-theme
  'sparkline
  'sqlup-mode
+ 'string-edit
  'stripe-buffer
  'undo-tree
  'unicode-fonts
@@ -216,6 +221,7 @@
  'vagrant-tramp
  'web-mode
  'wrap-region
+ 'writegood-mode
  'xml-rpc
  )
 (load "~/.emacs.d/elpa/f-0.17.1/f.el")
@@ -780,6 +786,13 @@ Attribution Nikolaj Schumacher: URL `https://lists.gnu.org/archive/html/help-gnu
   `(let ((time (current-time)))
      ,@body
      (message "%.06f" (float-time (time-since time)))))
+
+(defun gcr/create-non-existent-directory ()
+  "Attribution URL: `https://iqbalansari.github.io/blog/2014/12/07/automatically-create-parent-directories-on-visiting-a-new-file-in-emacs/'"
+  (let ((parent-directory (file-name-directory buffer-file-name)))
+    (when (and (not (file-exists-p parent-directory))
+             (y-or-n-p (format "Directory `%s' does not exist. Create it?" parent-directory)))
+      (make-directory parent-directory t))))
 (defun gcr/util-cycle ()
   "Display or hide the utility buffers."
   (interactive)
@@ -870,10 +883,11 @@ Attribution Nikolaj Schumacher: URL `https://lists.gnu.org/archive/html/help-gnu
 (define-key global-map (kbd "C-x SPC") 'ace-jump-mode-pop-mark)
 (desktop-save-mode 1)
 (setq desktop-restore-eager 10)
+(setq auto-save-default t)
 (setq make-backup-files nil)
 (setq auto-save-visited-file-name t)
-(setq auto-save-interval 20)
-(setq auto-save-timeout 10)
+(setq auto-save-interval 05)
+(setq auto-save-timeout 05)
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
 (gcr/on-osx
@@ -884,7 +898,6 @@ Attribution Nikolaj Schumacher: URL `https://lists.gnu.org/archive/html/help-gnu
  (warn "Please configure ccrypt."))
 (require 'ps-ccrypt "ps-ccrypt.el")
 (setq backup-inhibited 1)
-(setq auto-save-default nil)
 (add-hook 'write-file-hooks
           (lambda ()
             (gcr/delete-trailing-whitespace)))
@@ -925,7 +938,8 @@ Attribution Nikolaj Schumacher: URL `https://lists.gnu.org/archive/html/help-gnu
 (require 'fixmee)
 (global-fixmee-mode 1)
 (gcr/diminish 'fixmee-mode)
-(setq frame-title-format '("𝔸𝕃𝔼ℂ"))
+(gcr/on-osx (setq frame-title-format '("𝔸𝕃𝔼ℂ")))
+(gcr/on-windows (setq frame-title-format '("ALEC")))
 (scroll-bar-mode 0)
 (tool-bar-mode 0)
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
@@ -1085,6 +1099,7 @@ Attribution Nikolaj Schumacher: URL `https://lists.gnu.org/archive/html/help-gnu
 (unicode-fonts-setup)
 (defvar gcr/font-size 10 "The preferred font size.")
 (gcr/on-osx (setq gcr/font-size 17))
+(gcr/on-windows (setq gcr/font-size 14))
 (require 'pretty-mode)
 (setq make-pointer-invisible +1)
 (gcr/on-gui
@@ -1521,6 +1536,7 @@ Attribution: URL `https://lists.gnu.org/archive/html/emacs-orgmode/2014-09/msg00
   (local-set-key (kbd "s-k") 'org-babel-next-src-block)
   (local-set-key (kbd "s-l") 'org-babel-demarcate-block)
   (local-set-key (kbd "s-;") 'org-babel-view-src-block-info)
+  (local-set-key (kbd "s-b x") 'org-babel-expand-src-block)
   (local-set-key (kbd "s-b s") 'org-babel-switch-to-session)
   (local-set-key (kbd "s-b c") 'org-babel-switch-to-session-with-code)
   (local-set-key (kbd "s-o") 'org-babel-execute-maybe)
@@ -1608,10 +1624,19 @@ Attribution: URL `https://lists.gnu.org/archive/html/emacs-orgmode/2014-09/msg00
 (global-set-key (kbd "C-;") 'vc-next-action)
 (key-chord-define-global "yu" 'move-text-up)
 (key-chord-define-global "hj" 'move-text-down)
-(global-set-key (kbd "s-l i") 'gcr/move-line-up)
-(global-set-key (kbd "s-l k") 'gcr/move-line-down)
+(global-set-key (kbd "C-s-<up>") 'gcr/move-line-up)
+(global-set-key (kbd "C-s-<down>") 'gcr/move-line-down)
 (key-chord-define-global "qp" 'ispell)
 (key-chord-define-global "qo" 'ispell-word)
+(key-chord-define-global "wm" 'writegood-mode)
+(key-chord-define-global "wl" 'writegood-grade-level)
+(key-chord-define-global "wz" 'writegood-reading-ease)
+(define-prefix-command 'gcr/langtool-map)
+(key-chord-define-global "qk" 'gcr/langtool-map)
+(define-key gcr/langtool-map "c" 'langtool-check)
+(define-key gcr/langtool-map "C" 'langtool-correct-buffer)
+(define-key gcr/langtool-map "s" 'langtool-show-message-at-point)
+(define-key gcr/langtool-map "q" 'langtool-check-done)
 (global-set-key (kbd "s-d h") 'diff-hl-mode)
 (global-set-key (kbd "s-d l") 'vc-diff)
 (global-set-key (kbd "s-d u") 'vc-revert)
@@ -1698,9 +1723,10 @@ Attribution: URL `https://lists.gnu.org/archive/html/emacs-orgmode/2014-09/msg00
 (global-set-key (kbd "<f8>") 'magit-status)
 (global-set-key (kbd "<f9>") 'gcr/util-cycle)
 (global-set-key (kbd "<f12>") 'neotree-toggle)
-(global-set-key (kbd "M-7") 'gcr/insert-datestamp)
+(global-set-key (kbd "M-7") 'gcr/insert-timestamp)
 (global-set-key (kbd "s-7") 'gcr/insert-timestamp*)
-(global-set-key (kbd "C-7") 'gcr/insert-timestamp)
+(global-set-key (kbd "C-7") 'gcr/insert-datestamp)
+
 (gcr/on-gui
  (global-set-key (kbd "s-<f7>") 'gcr/text-scale-increase)
  (global-set-key (kbd "M-<f7>") 'gcr/text-scale-decrease))
@@ -1712,6 +1738,49 @@ Attribution: URL `https://lists.gnu.org/archive/html/emacs-orgmode/2014-09/msg00
 (global-set-key (kbd "s-<right>") 'enlarge-window-horizontally)
 (global-set-key (kbd "s-<left>") 'shrink-window-horizontally)
 (global-set-key (kbd "<f7>") 'list-world-time)
+(gcr/on-windows
+ (defun gcr/ymh-h ()
+   (define-key yas-minor-mode-map (kbd "M-s-4") 'yas-expand))
+ (add-hook 'yas-minor-mode-hook 'gcr/ymh-h)
+ (defun gcr/omh-h ()
+   (local-set-key (kbd "M-s-h") 'org-babel-check-src-block)
+   (local-set-key (kbd "M-s-a i") 'org-babel-insert-header-arg)
+   (local-set-key (kbd "M-s-j") 'org-babel-previous-src-block)
+   (local-set-key (kbd "M-s-k") 'org-babel-next-src-block)
+   (local-set-key (kbd "M-s-l") 'org-babel-demarcate-block)
+   (local-set-key (kbd "M-s-;") 'org-babel-view-src-block-info)
+   (local-set-key (kbd "M-s-b s") 'org-babel-switch-to-session)
+   (local-set-key (kbd "M-s-b c") 'org-babel-switch-to-session-with-code)
+   (local-set-key (kbd "M-s-o") 'org-babel-execute-maybe)
+   (local-set-key (kbd "M-s-t") 'org-babel-tangle)
+   (local-set-key (kbd "M-s-x") 'org-babel-do-key-sequence-in-edit-buffer)
+   (local-set-key (kbd "M-s-w w") 'org-export-dispatch)
+   (local-set-key (kbd "M-s-<f5>") 'org-babel-execute-buffer)
+   (local-set-key (kbd "M-s-i d") 'org-display-inline-images)
+   (local-set-key (kbd "M-s-i r") 'org-remove-inline-images))
+ (add-hook 'org-mode-hook 'gcr/omh-h)
+ (defun gcr/emh-h ()
+   (local-set-key (kbd "M-s-l eb") 'gcr/elisp-eval-buffer)
+   (local-set-key (kbd "M-s-l ep") 'eval-print-last-sexp)
+   (local-set-key (kbd "M-s-l td") 'toggle-debug-on-error)
+   (local-set-key (kbd "M-s-l mef") 'macroexpand)
+   (local-set-key (kbd "M-s-l mea") 'macroexpand-all)
+   (local-set-key (kbd "M-s-p") 'gcr/describe-thing-in-popup)
+   )
+ 
+ (global-set-key (kbd "M-s-d h") 'diff-hl-mode)
+ (global-set-key (kbd "M-s-d l") 'vc-diff)
+ (global-set-key (kbd "M-s-d u") 'vc-revert)
+ (global-set-key (kbd "M-s-f") 'projectile-find-file)
+ (global-set-key (kbd "M-s-2") 'gcr/two-key-map)
+ (global-set-key (kbd "M-s-p") 'gcr/describe-thing-in-popup)
+ (global-set-key (kbd "M-s-<return>") 'gcr/smart-open-line)
+ (global-set-key (kbd "M-s-7") 'gcr/insert-timestamp*)
+ (global-set-key (kbd "M-s-<f7>") 'gcr/text-scale-increase)
+ (global-set-key (kbd "M-s-<up>") 'enlarge-window)
+ (global-set-key (kbd "M-s-<down>") 'shrink-window)
+ (global-set-key (kbd "M-s-<right>") 'enlarge-window-horizontally)
+ (global-set-key (kbd "M-s-<left>") 'shrink-window-horizontally))
 (require 'clips-mode)
 (setq comint-scroll-to-bottom-on-input 'this)
 (setq comint-scroll-to-bottom-on-output 'others)
@@ -1796,12 +1865,18 @@ Attribution: URL `https://lists.gnu.org/archive/html/emacs-orgmode/2014-09/msg00
          ":"
          (eshell/pwd)
          "> ")))
+(add-to-list 'find-file-not-found-functions #'gcr/create-non-existent-directory)
 (defun gcr/graphviz-dot-mode-hook ()
   "Personal mode bindings for Graphviz mode."
   (fci-mode)
   (visual-line-mode))
 
 (add-hook 'graphviz-dot-mode-hook 'gcr/graphviz-dot-mode-hook)
+(require 'writegood-mode)
+(require 'langtool)
+(setq langtool-language-tool-jar (concat (getenv "EELIB") "/LanguageTool-2.7/languagetool-commandline.jar"))
+(setq langtool-java-bin "/usr/bin/java")
+(setq langtool-mother-tongue "en")
 (defun gcr/ibuffer-hook ()
   "Personal customizations"
   (interactive)
