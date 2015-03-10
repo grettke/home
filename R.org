@@ -2,8 +2,26 @@
 
 Remember to link these from =~/= here.
 
+How to run:
+- =.Renviron= is the important thing for telling what to go where
+- First get everything installed
+- Start R, but without the init file, run =.Rinstall= to get everything installed
+- =r --no-init-file=
+- Various things happen now
+  - Java 6 gets installed
+  - CRAN repo site chooser pops up
+    - This is expected, .Rprofile specifies this
+  - R exits
+  - Just keep running the script until there are no issues and everything is
+    installed
+  - Ran it 5 times before there were no complaints
+  - Look forward to automating this
+- Very everything is installed correctly
+- Restart it with the init file and make sure everyting looks right
+
 *.Rprofile*
 #+begin_src R :tangle .Rprofile :comments no
+## -*- mode: R; -*-
 «rprofile-def»
 .First <- function() {
     gcr <- new.env()
@@ -15,7 +33,14 @@ fortune()
 
 *.Renviron*
 #+begin_src sh :tangle .Renviron :comments no
+# -*- mode: sh; -*-
 «renviron-def»
+#+end_src
+
+*.Rinstall*
+#+begin_src sh :tangle .Rinstall :comments no
+# -*- mode: R; -*-
+«rinstall-def»
 #+end_src
 
 ** .Rprofile [fn:89a51cf1: https://stackoverflow.com/questions/1189759/expert-r-users-whats-in-your-rprofile]
@@ -152,10 +177,13 @@ Cheatsheet:
     - =has_extension=
 
 #+begin_src R
+library(assertthat)
+#+end_src
+
+#+begin_src R :noweb-ref rinstall-def
 if(! require(assertthat)){
     install.packages("assertthat")
 }
-library(assertthat)
 #+end_src
 
 **** testthat
@@ -198,10 +226,13 @@ Expectations:
     - Plain old code so you can modify the global environment FYI
 
 #+begin_src R
+library(testthat)
+#+end_src
+
+#+begin_src R :noweb-ref rinstall-def
 if(! require(testthat)) {
     install.packages("testthat")
 }
-library(testthat)
 #+end_src
 
 **** stringr
@@ -210,10 +241,13 @@ Make it really easy to work with strings [fn:bb2c9d86: http://cran.r-project.org
 the reason that I installed this initially was because =testthat= mentions that
 it is used.
 #+begin_src R
+library(stringr)
+#+end_src
+
+#+begin_src R :noweb-ref rinstall-def
 if(! require(stringr)) {
     install.packages("stringr")
 }
-library(stringr)
 #+end_src
 
 **** sqldf
@@ -421,10 +455,13 @@ SQLite, SQL As Understood By SQLite:
 - These previous are all provided by [[http://cran.r-project.org/web/packages/RSQLite.extfuns/index.html][RSQLite.extfuns]]
 
 #+begin_src R
+library(sqldf)
+#+end_src
+
+#+begin_src R :noweb-ref rinstall-def
 if(! require(sqldf)) {
     install.packages("sqldf")
 }
-library(sqldf)
 #+end_src
 
 **** MASS
@@ -434,10 +471,13 @@ Statistics with S' (4th edition, 2002)." Also, =sqldf= recommended it be
 installed, so it is the right time. [fn:4d284c54: http://cran.r-project.org/web/packages/MASS/index.html]
 
 #+begin_src R
+library(MASS)
+#+end_src
+
+#+begin_src R :noweb-ref rinstall-def
 if(! require(MASS)) {
     install.packages("MASS")
 }
-library(MASS)
 #+end_src
 
 **** jsonlite
@@ -446,10 +486,13 @@ Make it easy to work with JSON [37138455: http://cran.r-project.org/web/packages
 Reading the vignette's, it does a lot more, for example =rbind.pages=.
 
 #+begin_src R
+library(jsonlite)
+#+end_src
+
+#+begin_src R :noweb-ref rinstall-def
 if(! require(jsonlite)) {
     install.packages("jsonlite")
 }
-library(jsonlite)
 #+end_src
 
 **** data.table
@@ -458,10 +501,13 @@ library(jsonlite)
 is quite nice.
 
 #+begin_src R
-if(! require(data)) {
-    install.packages("data")
-}
 library(data.table)
+#+end_src
+
+#+begin_src R :noweb-ref rinstall-def
+if(! require(data)) {
+    install.packages("data.table")
+}
 #+end_src
 
 **** xlsx
@@ -469,10 +515,13 @@ library(data.table)
 Read and write Excel files [fn:ed7756d2: http://cran.r-project.org/web/packages/xlsx/index.html].
 
 #+begin_src R
+library(xlsx)
+#+end_src
+
+#+begin_src R :noweb-ref rinstall-def
 if(! require(xlsx)) {
     install.packages("xlsx")
 }
-library(xlsx)
 #+end_src
 
 **** XML
@@ -480,10 +529,13 @@ library(xlsx)
 Make ℝ truly enterprise [fn:bf8a1f82: http://cran.r-project.org/web/packages/XML/index.html].
 
 #+begin_src R
+library(XML)
+#+end_src
+
+#+begin_src R :noweb-ref rinstall-def
 if(! require(XML)) {
     install.packages("XML")
 }
-library(XML)
 #+end_src
 
 **** magrittr
@@ -493,12 +545,12 @@ department. =magrittr= [fn:73ee53da: http://cran.r-project.org/web/packages/magr
 is, much like every Scheme library ever, deceptively simple in its power and
 ease of use that it provides.
 
-#+begin_src R :noweb-ref ignore
-devtools::install_github("smbache/magrittr")
-#+end_src
-
 #+begin_src R
 library(magrittr)
+#+end_src
+
+#+begin_src R :noweb-ref rinstall-def
+devtools::install_github("smbache/magrittr")
 #+end_src
 
 **** devtools
@@ -522,13 +574,13 @@ Excellent.
 At the very least, just /know of/ this package, as you will be installing it if
 you want to us =tidyr=.
 
-#+begin_src R :noweb-ref ignore
-install.packages("devtools")
-devtools::install_github("devtools")
-#+end_src
-
 #+begin_src R
 library(devtools)
+#+end_src
+
+#+begin_src R :noweb-ref rinstall-def
+install.packages("devtools")
+devtools::install_github("devtools")
 #+end_src
 
 **** reshape2
@@ -544,10 +596,13 @@ Reshape lets you flexibly restructure and aggregate data using just two function
 This seems to be a defacto standard.
 
 #+begin_src R
+library(reshape2)
+#+end_src
+
+#+begin_src R :noweb-ref rinstall-def
 if(! require(reshape2)) {
     install.packages("reshape2")
 }
-library(reshape2)
 #+end_src
 
 **** tidyr
@@ -562,12 +617,12 @@ library(reshape2)
 
 Not on CRAN yet so install via
 
-#+begin_src R :noweb-ref ignore
-devtools::install_github("hadley/tidyr")
-#+end_src
-
 #+begin_src R
 library(tidyr)
+#+end_src
+
+#+begin_src R :noweb-ref rinstall-def
+devtools::install_github("hadley/tidyr")
 #+end_src
 
 **** lubridate
@@ -581,10 +636,13 @@ lubridate: Make dealing with dates a little easier in ℝ
 [[http://cran.r-project.org/web/packages/lubridate/lubridate.pdf][Manual]]. [[http://cran.r-project.org/web/packages/lubridate/vignettes/lubridate.html][Vignette]].
 
 #+begin_src R
+library(lubridate)
+#+end_src
+
+#+begin_src R :noweb-ref rinstall-def
 if(! require(lubridate)) {
     install.packages("lubridate")
 }
-library(lubridate)
 #+end_src
 
 Perhaps in some /time/ there will be a unified approach to time-management among
@@ -601,10 +659,13 @@ plyr: Tools for splitting, applying and combining data in R
 [[http://cran.r-project.org/web/packages/plyr/README.html][Readme]]. [[http://cran.r-project.org/web/packages/plyr/plyr.pdf][Manual]]. [[http://plyr.had.co.nz/][Home page]]. [[https://github.com/hadley/plyr][Github]].
 
 #+begin_src R
+library(plyr)
+#+end_src
+
+#+begin_src R :noweb-ref rinstall-def
 if(! require(plyr)) {
     install.packages("plyr")
 }
-library(plyr)
 #+end_src
 
 **** dplyr
@@ -623,10 +684,13 @@ implications, and they are usually never good.
 [[http://cran.r-project.org/web/packages/dplyr/README.html][Readme]]. [[http://cran.r-project.org/web/packages/dplyr/dplyr.pdf][Manual]]. [[http://cran.r-project.org/web/packages/dplyr/vignettes/introduction.html][Introduction to dplyr]].
 
 #+begin_src R
+library(dplyr)
+#+end_src
+
+#+begin_src R :noweb-ref rinstall-def
 if(! require(dplyr)) {
     install.packages("dplyr")
 }
-library(dplyr)
 #+end_src
 
 **** testit
@@ -638,10 +702,13 @@ testit: A simple package for testing R packages
 Gives you =assert= and =test_pkg=. Save characters.
 
 #+begin_src R
+library(testit)
+#+end_src
+
+#+begin_src R :noweb-ref rinstall-def
 if(! require(testit)) {
     install.packages("testit")
 }
-library(testit)
 #+end_src
 
 **** markdown
@@ -653,10 +720,13 @@ library(testit)
 - [[https://github.com/rstudio/markdown][GitHub]]
 
 #+begin_src R
+library(markdown)
+#+end_src
+
+#+begin_src R :noweb-ref rinstall-def
 if(! require(markdown)) {
     install.packages("markdown")
 }
-library(markdown)
 #+end_src
 
 #+begin_quote
@@ -698,10 +768,13 @@ Somehow missed the [[http://cran.r-project.org/web/packages/knitr/vignettes/knit
 [[http://yihui.name/knitr/demo/vignette/][How to build package vignettes with knitr]].
 
 #+begin_src R
+library(knitr)
+#+end_src
+
+#+begin_src R :noweb-ref rinstall-def
 if(! require(knitr)) {
     install.packages("knitr")
 }
-library(knitr)
 #+end_src
 
 **** slidify
@@ -711,12 +784,12 @@ library(knitr)
 - [[https://github.com/ramnathv/slidify][GitHub]]
 
 #+begin_src R
-install_github("ramnathv/slidify")
-install_github("ramnathv/slidifyLibraries")
+library(slidify)
 #+end_src
 
-#+begin_src R
-library(slidify)
+#+begin_src R :noweb-ref rinstall-def
+install_github("ramnathv/slidify")
+install_github("ramnathv/slidifyLibraries")
 #+end_src
 
 **** fortunes
@@ -726,10 +799,13 @@ R Fortunes.
 [[http://cran.r-project.org/web/packages/fortunes/index.html][CRAN]].
 
 #+begin_src R
+library(fortunes)
+#+end_src
+
+#+begin_src R :noweb-ref rinstall-def
 if(! require(fortunes)) {
     install.packages("fortunes")
 }
-library(fortunes)
 #+end_src
 
 **** ggplot2
@@ -750,10 +826,13 @@ library(fortunes)
   - [[http://docs.ggplot2.org/current/][Documentation]]
 
 #+begin_src R
+library(ggplot2)
+#+end_src
+
+#+begin_src R :noweb-ref rinstall-def
 if(! require(ggplot2)) {
     install.packages("ggplot2")
 }
-library(ggplot2)
 #+end_src
 
 **** tikzDevice
@@ -764,10 +843,13 @@ library(ggplot2)
 - [[https://github.com/yihui/tikzDevice][GitHub]]
 
 #+begin_src R
+library(tikzDevice)
+#+end_src
+
+#+begin_src R :noweb-ref rinstall-def
 if(! require(tikzDevice)) {
     install.packages("tikzDevice")
 }
-library(tikzDevice)
 #+end_src
 
 **** ascii
@@ -777,10 +859,13 @@ library(tikzDevice)
 - [[https://github.com/eusebe/ascii/][GitHub]]
 
 #+begin_src R
+library(ascii)
+#+end_src
+
+#+begin_src R :noweb-ref rinstall-def
 if(! require(ascii)) {
     install.packages("ascii")
 }
-library(ascii)
 #+end_src
 
 Always display =org= representations; I'm assuming that it will be /the/ dominant
@@ -799,10 +884,13 @@ options(asciiType="org")
 - [[http://xtable.r-forge.r-project.org/][R-Forge]]
 
 #+begin_src R
+library(xtable)
+#+end_src
+
+#+begin_src R :noweb-ref rinstall-def
 if(! require(xtable)) {
     install.packages("xtable")
 }
-library(xtable)
 #+end_src
 
 **** Hmisc
@@ -812,10 +900,13 @@ library(xtable)
 - [[https://github.com/harrelfe/Hmisc][GitHub]]
 
 #+begin_src R
+library(Hmisc)
+#+end_src
+
+#+begin_src R :noweb-ref rinstall-def
 if(! require(Hmisc)) {
     install.packages("Hmisc")
 }
-library(Hmisc)
 #+end_src
 
 **** log4r
@@ -825,10 +916,13 @@ library(Hmisc)
 - [[https://github.com/johnmyleswhite/log4r][GitHub]]
 
 #+begin_src R
+library(log4r)
+#+end_src
+
+#+begin_src R :noweb-ref rinstall-def
 if(! require(log4r)) {
     install.packages("log4r")
 }
-library(log4r)
 #+end_src
 
 **** boot
@@ -837,10 +931,13 @@ library(log4r)
   - [[http://cran.r-project.org/web/packages/boot/boot.pdf][reference]]
 
 #+begin_src R
+library(boot)
+#+end_src
+
+#+begin_src R :noweb-ref rinstall-def
 if(! require(boot)) {
     install.packages("boot")
 }
-library(boot)
 #+end_src
 
 **** kernlab
@@ -851,10 +948,13 @@ library(boot)
 - GitHub
 
 #+begin_src R
+library(kernlab)
+#+end_src
+
+#+begin_src R :noweb-ref rinstall-def
 if(! require(kernlab)) {
     install.packages("kernlab")
 }
-library(kernlab)
 #+end_src
 
 **** Not explicitly loaded, but interesting packages

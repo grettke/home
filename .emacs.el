@@ -1,4 +1,5 @@
 
+(setq load-prefer-newer t)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -62,7 +63,6 @@
           expand-region
           f
           fill-column-indicator
-          fixmee
           flx-ido
           flycheck
           fuzzy
@@ -71,6 +71,7 @@
           graphviz-dot-mode
           ido-ubiquitous
           ido-vertical-mode
+          imenu-anywhere
           inlineR
           json-reformat
           langtool
@@ -102,6 +103,7 @@
           web-mode
           wrap-region
           writegood-mode
+          yaml-mode
           ))
 
 (mapcar (lambda (pkg) (add-to-list 'package-pinned-archives `(,pkg . "gnu")))
@@ -127,13 +129,11 @@
           autotetris-mode
           dired-details+
           ido-hacks
-          imenu-anywhere
           lexbind-mode
           nyan-mode
           plantuml-mode
           polymode
           pos-tip
-          vagrant-tramp
           xml-rpc
           ))
   (package-refresh-contents)
@@ -167,7 +167,6 @@
  'f
  'figlet
  'fill-column-indicator
- 'fixmee
  'flx-ido
  'flycheck
  'fuzzy
@@ -218,13 +217,13 @@
  'undo-tree
  'unicode-fonts
  'vagrant
- 'vagrant-tramp
  'web-mode
  'wrap-region
  'writegood-mode
  'xml-rpc
+ 'yaml-mode
  )
-(load "~/.emacs.d/elpa/f-0.17.1/f.el")
+(load "~/.emacs.d/elpa/f-0.17.2/f.el")
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
 
 (unless (require 'el-get nil 'noerror)
@@ -321,6 +320,11 @@
                                      :pkgname "nicferrier/emacs-world-time-mode"))
 (add-to-list 'gcr/el-get-packages 'emacs-world-time-mode)
 (el-get 'sync gcr/el-get-packages)
+(defconst +honey-bee-wing-flap+ 5
+  "A honey bee's wing flap in milliseconds.
+
+URL: `https://en.wikipedia.org/wiki/Millisecond'")
+
 (defun gcr/untabify-buffer ()
   "For untabifying the entire buffer."
   (interactive)
@@ -481,7 +485,8 @@ Attribution: URL `http://blog.binchen.org/posts/paste-string-from-clipboard-into
   (dolist (buf (buffer-list))
     (with-current-buffer buf
       (when (and (buffer-file-name) (buffer-modified-p))
-        (save-buffer)))))
+        (save-buffer))))
+  (sleep-for 0 (* 3 +honey-bee-wing-flap+)))
 
 (defun gcr/kill-other-buffers ()
   "Kill all other buffers."
@@ -491,7 +496,6 @@ Attribution: URL `http://blog.binchen.org/posts/paste-string-from-clipboard-into
 (defun gcr/newline ()
   "Locally binds newline."
   (local-set-key (kbd "RET") 'sp-newline))
-
 (defun gcr/describe-thing-in-popup ()
     "Display help information on the current symbol.
 
@@ -638,6 +642,12 @@ Attribution: URL `https://lists.gnu.org/archive/html/help-gnu-emacs/2002-10/msg0
   (interactive)
   (and (file-exists-p f)
      (not (file-symlink-p f))))
+
+(defun gcr/file-exists-is-symlink (f)
+  "True if F exists and is a symlink."
+  (interactive)
+  (and (file-exists-p f)
+     (file-symlink-p f)))
 
 (progn
   (defvar my-read-expression-map
@@ -793,12 +803,36 @@ Attribution Nikolaj Schumacher: URL `https://lists.gnu.org/archive/html/help-gnu
     (when (and (not (file-exists-p parent-directory))
              (y-or-n-p (format "Directory `%s' does not exist. Create it?" parent-directory)))
       (make-directory parent-directory t))))
+
+(defun gcr/occur-dwim ()
+  "Call `occur' with a mostly sane default.
+
+Attribution Oleh Krehel (abo-abo): URL `http://oremacs.com/2015/01/26/occur-dwim/'"
+  (interactive)
+  (push (if (region-active-p)
+            (buffer-substring-no-properties
+             (region-beginning)
+             (region-end))
+          (let ((sym (thing-at-point 'symbol)))
+            (when (stringp sym)
+              (regexp-quote sym))))
+        regexp-history)
+  (call-interactively 'occur))
 (defun gcr/util-cycle ()
   "Display or hide the utility buffers."
   (interactive)
   (if gcr/util-state
       (gcr/util-stop)
     (gcr/util-start)))
+(defun sacha/unfill-paragraph (&optional region)
+  "Takes a multi-line paragraph and makes it into a single line of text.
+
+ATTRIBUTION: SRC https://github.com/sachac/.emacs.d/blob/gh-pages/Sacha.org#unfill-paragraph"
+  (interactive (progn
+                 (barf-if-buffer-read-only)
+                 (list t)))
+  (let ((fill-column (point-max)))
+    (fill-paragraph nil region)))
 (setq solarized-distinct-fringe-background +1)
 (setq solarized-high-contrast-mode-line +1)
 (setq solarized-use-less-bold +1)
@@ -850,7 +884,7 @@ Attribution Nikolaj Schumacher: URL `https://lists.gnu.org/archive/html/help-gnu
     (hs-show-block)))
 (global-linum-mode -1)
 (global-font-lock-mode 1)
-(setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+(setq aw-keys '(?a ?s ?d ?f ?j ?k ?l ?\;))
 (setq blink-matching-paren nil)
 (show-paren-mode +1)
 (setq show-paren-delay 0)
@@ -888,12 +922,24 @@ Attribution Nikolaj Schumacher: URL `https://lists.gnu.org/archive/html/help-gnu
 (setq auto-save-visited-file-name t)
 (setq auto-save-interval 05)
 (setq auto-save-timeout 05)
+(defadvice switch-to-buffer (before gcr/save-all-file-buffers-now activate)
+  (when buffer-file-name (gcr/save-all-file-buffers)))
+(defadvice other-window (before other-window-now activate)
+  (when buffer-file-name (gcr/save-all-file-buffers)))
+(defadvice windmove-up (before other-window-now activate)
+  (when buffer-file-name (gcr/save-all-file-buffers)))
+(defadvice windmove-down (before other-window-now activate)
+  (when buffer-file-name (gcr/save-all-file-buffers)))
+(defadvice windmove-left (before other-window-now activate)
+  (when buffer-file-name (gcr/save-all-file-buffers)))
+(defadvice windmove-right (before other-window-now activate)
+  (when buffer-file-name (gcr/save-all-file-buffers)))
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
 (gcr/on-osx
  (add-to-list 'load-path "/usr/local/Cellar/ccrypt/1.10/share/emacs/site-lisp"))
 (gcr/on-windows
- (warn "Please configure ccrypt."))
+ (add-to-list 'load-path "C:\\opt\\ccrypt-1.10.cygwin-i386\\"))
 (gcr/on-gnu/linux
  (warn "Please configure ccrypt."))
 (require 'ps-ccrypt "ps-ccrypt.el")
@@ -935,9 +981,12 @@ Attribution Nikolaj Schumacher: URL `https://lists.gnu.org/archive/html/help-gnu
 (require 'ibuffer)
 (require 'smooth-scrolling)
 (require 'stripe-buffer)
-(require 'fixmee)
-(global-fixmee-mode 1)
-(gcr/diminish 'fixmee-mode)
+(defadvice save-buffers-kill-terminal (before save-before-save-buffers-kill-terminal first activate)
+  "Save all buffers before save-buffers-kill-terminal calls."
+  (gcr/save-all-file-buffers))
+(setq sentence-end-double-space nil)
+(gcr/diminish 'visual-line-mode)
+(eval-after-load "hideshow" '(diminish 'hs-minor-mode))
 (gcr/on-osx (setq frame-title-format '("𝔸𝕃𝔼ℂ")))
 (gcr/on-windows (setq frame-title-format '("ALEC")))
 (scroll-bar-mode 0)
@@ -959,6 +1008,7 @@ Attribution Nikolaj Schumacher: URL `https://lists.gnu.org/archive/html/help-gnu
   (turn-on-stripe-buffer-mode)
   (stripe-listify-buffer))
 (add-hook 'dired-mode-hook 'gcr/dired-mode-hook)
+(setq dired-dwim-target t)
 (require 'find-dired)
 (setq find-ls-option '("-print0 | xargs -0 ls -ld" . "-ld"))
 (require 'wdired)
@@ -968,7 +1018,7 @@ Attribution Nikolaj Schumacher: URL `https://lists.gnu.org/archive/html/help-gnu
 (setq wdired-confirm-overwrite +1)
 (setq wdired-use-dired-vertical-movement 'sometimes)
 (require 'dired-imenu)
-(defconst gcr/savehist-file-store "~/.emacs.d/savehist")
+(defconst gcr/savehist-file-store "~/.emacs.d/history")
 (defun gcr/warn-savehist-file-store ()
   "Warn of savehist misconfiguration."
   (interactive)
@@ -976,21 +1026,30 @@ Attribution Nikolaj Schumacher: URL `https://lists.gnu.org/archive/html/help-gnu
     (warn "Can't seem to find a savehist store file where it was expected at: %S. Savehist should continue to function normally; but your history may be lost."
           gcr/savehist-file-store)))
 (gcr/warn-savehist-file-store)
-(savehist-mode +1)
-(setq savehist-save-minibuffer-history +1)
+(setq savehist-save-minibuffer-history 1)
 (setq savehist-additional-variables
       '(kill-ring
         search-ring
         regexp-search-ring))
-(defconst gcr/aspell-dict "~/.aspell.en.pws")
-(defun gcr/warn-aspell-dict ()
-  "Warn of aspell misconfiguration."
+(savehist-mode +1)
+(defconst gcr/aspell-personal-dictionary "~/.aspell.en.pws")
+(defun gcr/warn-aspell-personal-dictionary ()
+  "Warn of aspell misconfiguration: personal dictionary."
   (interactive)
-  (unless (f-exists? gcr/aspell-dict)
+  (unless (gcr/file-exists-is-symlink gcr/aspell-personal-dictionary)
     (warn
-     "Can't seem to find an aspell dictionary where it was expected at: %S. aspell should continue to function normally; but your personal dictionary will not be used."
-     gcr/aspell-dict)))
-(gcr/warn-aspell-dict)
+     "Can't seem to find an aspell personal dictionary where it was expected at: %S. aspell should continue to function normally; but your personal dictionary will not be used."
+     gcr/aspell-personal-dictionary)))
+(gcr/warn-aspell-personal-dictionary)
+(defconst gcr/aspell-personal-replacement-dictionary "~/.aspell.en.prepl")
+(defun gcr/warn-aspell-personal-replacement-dictionary ()
+  "Warn of aspell misconfiguration: personal replacement dictionary."
+  (interactive)
+  (unless (gcr/file-exists-is-symlink gcr/aspell-personal-replacement-dictionary)
+    (warn
+     "Can't seem to find an aspell personal replacement dictionary where it was expected at: %S. aspell should continue to function normally; but your personal replacement dictionary will not be used."
+     gcr/aspell-personal-replacement-dictionary)))
+(gcr/warn-aspell-personal-replacement-dictionary)
 (require 'flycheck)
 (add-hook 'after-init-hook #'global-flycheck-mode)
 (gcr/diminish 'flycheck-mode)
@@ -1041,10 +1100,11 @@ Attribution Nikolaj Schumacher: URL `https://lists.gnu.org/archive/html/help-gnu
 (setq isearch-regexp-lax-whitespace +1)
 (setq-default case-fold-search +1)
 (require 'pos-tip)
+(gcr/on-windows
+ (ignore-errors
+   (pos-tip-w32-max-width-height)))
 (setq pos-tip-foreground-color "#073642")
 (setq pos-tip-background-color "#839496")
-(gcr/on-windows
- (pos-tip-w32-max-width-height))
 (require 'fuzzy)
 (require 'auto-complete)
 (require 'auto-complete-config)
@@ -1061,12 +1121,17 @@ Attribution Nikolaj Schumacher: URL `https://lists.gnu.org/archive/html/help-gnu
 (setq-default eval-expression-print-level nil)
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
 (defadvice vc-next-action (before save-before-vc first activate)
   "Save all buffers before any VC next-action function calls."
   (gcr/save-all-file-buffers))
 
 (defadvice vc-diff (before save-before-vc-diff first activate)
   "Save all buffers before vc-diff calls."
+  (gcr/save-all-file-buffers))
+
+(defadvice vc-ediff (before save-before-vc-ediff first activate)
+  "Save all buffers before vc-ediff calls."
   (gcr/save-all-file-buffers))
 
 (defadvice vc-revert (before save-before-vc-revert first activate)
@@ -1090,16 +1155,27 @@ Attribution Nikolaj Schumacher: URL `https://lists.gnu.org/archive/html/help-gnu
   (local-set-key (kbd "C-;") 'git-commit-commit))
 
 (add-hook 'git-commit-mode-hook 'gcr/git-commit-mode-hook)
+(eval-after-load 'log-edit
+  '(remove-hook 'log-edit-hook 'log-edit-insert-message-template))
 (add-to-list 'auto-mode-alist '(".gitignore$" . text-mode))
+(eval-after-load "magit" '(diminish 'magit-auto-revert-mode))
 (require 'smex)
 (smex-initialize)
+(eval-after-load "projectile"
+  '(progn (setq magit-repo-dirs (mapcar (lambda (dir)
+                                          (substring dir 0 -1))
+                                        (remove-if-not (lambda (project)
+                                                         (file-directory-p (concat project "/.git/")))
+                                                       (projectile-relevant-known-projects)))
+
+                magit-repo-dirs-depth 1)))
 (require 'multiple-cursors)
 (defconst gcr/font-base "DejaVu Sans Mono" "The preferred font name.")
 (require 'unicode-fonts)
 (unicode-fonts-setup)
 (defvar gcr/font-size 10 "The preferred font size.")
 (gcr/on-osx (setq gcr/font-size 17))
-(gcr/on-windows (setq gcr/font-size 14))
+(gcr/on-windows (setq gcr/font-size 13))
 (require 'pretty-mode)
 (setq make-pointer-invisible +1)
 (gcr/on-gui
@@ -1220,7 +1296,7 @@ Attribution Nikolaj Schumacher: URL `https://lists.gnu.org/archive/html/help-gnu
   (smartparens-strict-mode t)
   (gcr/untabify-buffer-hook)
   (fci-mode)
-  (hs-minor-mode)
+  (hs-minor-mode 1)
   (linum-mode)
   (gcr/turn-on-r-hide-show)
   (aggressive-indent-mode)
@@ -1297,7 +1373,6 @@ Attribution Nikolaj Schumacher: URL `https://lists.gnu.org/archive/html/help-gnu
 (setq inferior-R-args "--no-save --no-restore")
 (sp-local-pair 'ess-mode "{" nil :post-handlers '((gcr/indent-curly-block "RET")))
 (setq ess-eval-visibly 'nowait)
-(setq org-edit-src-code nil)
 (setq org-list-allow-alphabetical +1)
 (require 'org)
 (require 'ox-beamer)
@@ -1352,10 +1427,11 @@ Attribution Nikolaj Schumacher: URL `https://lists.gnu.org/archive/html/help-gnu
 (setq org-startup-folded "nofold")
 (setq org-image-actual-width t)
 (setq org-hide-emphasis-markers +1)
+(setq org-startup-align-all-tables +1)
 (defun gcr/org-babel-after-execute-hook ()
   "Personal settings for the `org-babel-after-execute-hook'."
   (interactive)
-  (org-display-inline-images nil t))
+  (org-redisplay-inline-images))
 
 (add-hook 'org-babel-after-execute-hook 'gcr/org-babel-after-execute-hook)
 (require 'ob-sml nil 'noerror)
@@ -1377,12 +1453,13 @@ Attribution Nikolaj Schumacher: URL `https://lists.gnu.org/archive/html/help-gnu
    (R . t)
    (scheme . t)
    (sh . t)
-   (sml . t)))
+   (sml . t)
+   (sql . t)))
 (setq org-babel-use-quick-and-dirty-noweb-expansion nil)
 (setq org-src-fontify-natively nil)
 (setq org-src-preserve-indentation +1)
-(setq org-src-strip-leading-and-trailing-blank-lines nil)
 (setq org-edit-src-content-indentation 0)
+(setq org-src-strip-leading-and-trailing-blank-lines nil)
 (add-to-list
  'org-structure-template-alist
  '("el" "#+begin_src emacs-lisp\n?\n#+end_src" "<src lang=\"emacs-lisp\">\n?\n</src>"))
@@ -1477,6 +1554,11 @@ Attribution: URL `https://lists.gnu.org/archive/html/emacs-orgmode/2014-09/msg00
                (error "Unknown language at position %d"
                       (org-element-property :post-affiliated src-block)))))))
   (message "Source blocks checked in %s." (buffer-name (buffer-base-buffer))))
+(defadvice gcr/org-edit-src-code-plus-name (around set-buffer-file-name activate compile)
+  (let ((file-name (buffer-file-name)))
+    ad-do-it
+    (setq buffer-file-name file-name)))
+(setq org-edit-src-code nil)
 (gcr/set-org-babel-default-header-args :comments "noweb")
 (gcr/set-org-babel-default-header-args :results "output replace")
 (gcr/set-org-babel-default-header-args :exports "both")
@@ -1530,6 +1612,7 @@ Attribution: URL `https://lists.gnu.org/archive/html/emacs-orgmode/2014-09/msg00
   (local-set-key (kbd "C-1") 'org-narrow-to-subtree)
   (local-set-key (kbd "M-1") 'widen)
   (local-set-key (kbd "C-2") 'gcr/org-edit-src-code-plus-name)
+  (local-set-key (kbd "C-3") 'org-table-edit-field)
   (local-set-key (kbd "s-h") 'org-babel-check-src-block)
   (local-set-key (kbd "s-a i") 'org-babel-insert-header-arg)
   (local-set-key (kbd "s-j") 'org-babel-previous-src-block)
@@ -1637,15 +1720,19 @@ Attribution: URL `https://lists.gnu.org/archive/html/emacs-orgmode/2014-09/msg00
 (define-key gcr/langtool-map "C" 'langtool-correct-buffer)
 (define-key gcr/langtool-map "s" 'langtool-show-message-at-point)
 (define-key gcr/langtool-map "q" 'langtool-check-done)
+(key-chord-define-global "wm" 'writegood-mode)
+(global-set-key (kbd "M-s p") 'gcr/occur-dwim)
+(key-chord-define-global "eo" 'gcr/comment-or-uncomment)
 (global-set-key (kbd "s-d h") 'diff-hl-mode)
-(global-set-key (kbd "s-d l") 'vc-diff)
+(global-set-key (kbd "s-d e") 'vc-ediff)
+(global-set-key (kbd "s-d d") 'vc-diff)
 (global-set-key (kbd "s-d u") 'vc-revert)
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 (global-set-key (kbd "s-f") 'projectile-find-file)
-(global-set-key (kbd "C-3") 'auto-complete)
-(global-set-key (kbd "C-4") 'ido-switch-buffer)
+(global-set-key (kbd "C-4") 'auto-complete)
+(key-chord-define-global "sb" 'ido-switch-buffer)
 (global-set-key (kbd "C--") 'ace-window)
 (define-prefix-command 'gcr/two-key-map)
 (global-set-key (kbd "s-2") 'gcr/two-key-map)
@@ -1715,7 +1802,6 @@ Attribution: URL `https://lists.gnu.org/archive/html/emacs-orgmode/2014-09/msg00
 (define-key gcr/double-struck-map "9" (lambda () (interactive) (insert "𝟡")))
 (global-set-key (kbd "s-p") 'gcr/describe-thing-in-popup)
 (global-set-key (kbd "M-3") 'hs-toggle-hiding)
-(global-set-key (kbd "C-5") 'gcr/comment-or-uncomment)
 (global-set-key (kbd "s-<return>") 'gcr/smart-open-line)
 (global-set-key (kbd "M-<return>") 'gcr/lazy-new-open-line)
 (global-set-key (kbd "M-:") 'my-eval-expression)
@@ -1733,10 +1819,11 @@ Attribution: URL `https://lists.gnu.org/archive/html/emacs-orgmode/2014-09/msg00
 (global-set-key (kbd "C-<f2>") 'emacs-index-search)
 (global-set-key (kbd "S-<f2>") 'elisp-index-search)
 (global-set-key (kbd "C-<f3>") 'imenu-anywhere)
-(global-set-key (kbd "s-<up>") 'enlarge-window)
-(global-set-key (kbd "s-<down>") 'shrink-window)
+(global-set-key (kbd "s-<up>") 'shrink-window)
+(global-set-key (kbd "s-<down>") 'enlarge-window)
 (global-set-key (kbd "s-<right>") 'enlarge-window-horizontally)
 (global-set-key (kbd "s-<left>") 'shrink-window-horizontally)
+
 (global-set-key (kbd "<f7>") 'list-world-time)
 (gcr/on-windows
  (defun gcr/ymh-h ()
@@ -1769,7 +1856,8 @@ Attribution: URL `https://lists.gnu.org/archive/html/emacs-orgmode/2014-09/msg00
    )
  
  (global-set-key (kbd "M-s-d h") 'diff-hl-mode)
- (global-set-key (kbd "M-s-d l") 'vc-diff)
+ (global-set-key (kbd "M-s-d e") 'vc-ediff)
+ (global-set-key (kbd "M-s-d d") 'vc-diff)
  (global-set-key (kbd "M-s-d u") 'vc-revert)
  (global-set-key (kbd "M-s-f") 'projectile-find-file)
  (global-set-key (kbd "M-s-2") 'gcr/two-key-map)
@@ -1874,9 +1962,10 @@ Attribution: URL `https://lists.gnu.org/archive/html/emacs-orgmode/2014-09/msg00
 (add-hook 'graphviz-dot-mode-hook 'gcr/graphviz-dot-mode-hook)
 (require 'writegood-mode)
 (require 'langtool)
-(setq langtool-language-tool-jar (concat (getenv "EELIB") "/LanguageTool-2.7/languagetool-commandline.jar"))
-(setq langtool-java-bin "/usr/bin/java")
+(setq langtool-language-tool-jar (concat (getenv "EELIB") "/LanguageTool-2.8/languagetool-commandline.jar"))
 (setq langtool-mother-tongue "en")
+(setq langtool-java-bin (concat (getenv "JAVA_HOME") "/bin/java"))
+(setq help-window-select t)
 (defun gcr/ibuffer-hook ()
   "Personal customizations"
   (interactive)
@@ -1945,8 +2034,9 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
     (add-hook h 'turn-on-pretty-mode)
     (add-hook h 'gcr/untabify-buffer-hook)
     (add-hook h 'fci-mode)
-    (add-hook h 'hs-minor-mode)
+    (add-hook h (function (lambda () (hs-minor-mode 1))))
     (add-hook h 'linum-mode)
+    (add-hook h 'visual-line-mode)
     (add-hook h (function (lambda ()
                             (add-hook 'local-write-file-hooks
                                       'check-parens))))))
@@ -2031,7 +2121,7 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
   (fci-mode)
   (whitespace-turn-on)
   (visual-line-mode)
-  (hs-minor-mode)
+  (hs-minor-mode 1)
   (local-set-key (kbd "RET") 'newline-and-indent))
 
 (add-hook 'sh-mode-hook 'gcr/sh-mode-hook)
@@ -2044,7 +2134,7 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
   (fci-mode)
   (whitespace-turn-on)
   (visual-line-mode)
-  (hs-minor-mode)
+  (hs-minor-mode 1)
   (local-set-key (kbd "RET") 'newline-and-indent))
 
 (add-hook 'shell-mode-hook 'gcr/shell-mode-hook)
@@ -2058,7 +2148,7 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
   (gcr/untabify-buffer-hook)
   (gcr/disable-tabs)
   (fci-mode)
-  (hs-minor-mode)
+  (hs-minor-mode 1)
   (visual-line-mode))
 (add-hook 'sml-mode-hook 'gcr/sml-mode-hook)
 (setq sml-indent-level 2)
@@ -2093,6 +2183,7 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
   (gcr/save-all-file-buffers))
 (setq TeX-PDF-mode +1)
 (setq TeX-DVI-via-PDFTeX +1)
+(setq TeX-save-query nil)
 (defun gcr/text-mode-hook ()
   (fci-mode)
   (visual-line-mode)
@@ -2100,8 +2191,6 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
 
 (add-hook 'text-mode-hook 'gcr/text-mode-hook)
 (add-to-list 'auto-mode-alist '("Vagrantfile$" . ruby-mode))
-(eval-after-load 'tramp
-  '(vagrant-tramp-enable))
 (require 'web-mode)
 
 (setq web-mode-enable-block-partial-invalidation t)
@@ -2132,14 +2221,32 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
 (setq browse-url-browser-function 'browse-url-generic)
 (gcr/on-gnu/linux (setq browse-url-generic-program "chromium-browser"))
 (gcr/on-osx
+ (setq browse-url-browser-function 'browse-url-default-macosx-browser)
  (require 'osx-browse)
  (osx-browse-mode 1))
-(gcr/on-windows (setq browse-url-generic-program "chrome"))
+(gcr/on-windows
+ (setq browse-url-browser-function 'browse-url-default-windows-browser))
 (require 'google-this)
 (google-this-mode 1)
 (gcr/diminish 'google-this-mode)
 (setq tramp-default-user "gcr")
 (setq tramp-default-method "ssh")
+(require 'yaml-mode)
+(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
+(defun gcr/yaml-mode-hook ()
+  "Helpful behavior for YAML buffers."
+  (interactive)
+  (turn-on-smartparens-strict-mode)
+  (gcr/newline)
+  (gcr/disable-tabs)
+  (turn-on-pretty-mode)
+  (gcr/untabify-buffer)
+  (fci-mode)
+  (hs-minor-mode 1)
+  (linum-mode)
+  (visual-line-mode))
+
 (require 'sparkline)
 (defconst gcr/ditaa-jar (concat (getenv "EELIB") "/ditaa0_9.jar"))
 (defun gcr/warn-ditaa-jar ()
@@ -2154,7 +2261,7 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
 (add-to-list 'auto-mode-alist '("\\.asc" . artist-mode))
 (add-to-list 'auto-mode-alist '("\\.art" . artist-mode))
 (add-to-list 'auto-mode-alist '("\\.asc" . artist-mode))
-(defconst gcr/plantuml-jar (concat (expand-file-name (getenv "EELIB")) "/plantuml.8008.jar"))
+(defconst gcr/plantuml-jar (concat (expand-file-name (getenv "EELIB")) "/plantuml.8020.jar"))
 (defun gcr/warn-plantuml-jar ()
   "Warn of plantuml misconfiguration."
   (interactive)
@@ -2176,7 +2283,7 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
   (gcr/untabify-buffer-hook)
   (gcr/disable-tabs)
   (fci-mode)
-  (hs-minor-mode)
+  (hs-minor-mode 1)
   (linum-mode)
   (wrap-region-mode t)
   (turn-on-stripe-table-mode))

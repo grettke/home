@@ -15,7 +15,7 @@
 1.1 Audience [1]
 ────────────────
 
-  Who should be reading this?  Possibly…
+  Who should be reading this? Possibly…
   • Entire document: Software engineers who want to do the above [2]
     • If you are using this an excuse to learn Lisp, then know that it
       is really, really simple. Here is how it goes:
@@ -105,8 +105,8 @@
   mostly personal preference. Although org-mode (Babel) lets you tell a
   story, I was coming from a pretty structured configuration file to
   begin with. In the future, it might be interesting to look at this
-  system from scratch in terms of doing literate
-  programming. Fortunately, it provides that freedom out of the box.
+  system from scratch in terms of doing literate programming.
+  Fortunately, it provides that freedom out of the box.
 
 
 1.6.1 Medium

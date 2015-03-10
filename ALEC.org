@@ -42,6 +42,18 @@
 
 #+STARTUP: showeverything
 
+* Start Up
+  :PROPERTIES:
+  :noweb-ref: Start-Up
+  :END:
+
+There are things that must occur during start… *before* everything else.
+
+Load the newer version of a file: bytecode or lisp.
+#+begin_src emacs-lisp
+(setq load-prefer-newer t)
+#+end_src
+
 * Run-time
   :PROPERTIES:
   :noweb-ref: Runtime-Check
@@ -277,7 +289,6 @@ Reset the pinned archive list.
           expand-region
           f
           fill-column-indicator
-          fixmee
           flx-ido
           flycheck
           fuzzy
@@ -286,6 +297,7 @@ Reset the pinned archive list.
           graphviz-dot-mode
           ido-ubiquitous
           ido-vertical-mode
+          imenu-anywhere
           inlineR
           json-reformat
           langtool
@@ -317,6 +329,7 @@ Reset the pinned archive list.
           web-mode
           wrap-region
           writegood-mode
+          yaml-mode
           ))
 
 #+end_src
@@ -354,13 +367,11 @@ Reset the pinned archive list.
           autotetris-mode
           dired-details+
           ido-hacks
-          imenu-anywhere
           lexbind-mode
           nyan-mode
           plantuml-mode
           polymode
           pos-tip
-          vagrant-tramp
           xml-rpc
           ))
 #+end_src
@@ -375,6 +386,12 @@ refreshed so that Package knows about the new packages.
 #+end_src
 
 This is the list of packages that should be installed automatically and loaded.
+
+Why not use =package-pinned-archives= here, since the contents are the same?
+
+I don't recall. Originally I knew that I wanted to turn some packages on and off
+and so I kept this list. Perhaps no other needs developed from there, so I did
+not refactor anything.
 
 #+begin_src emacs-lisp
 (package-manifest
@@ -405,7 +422,6 @@ This is the list of packages that should be installed automatically and loaded.
  'f
  'figlet
  'fill-column-indicator
- 'fixmee
  'flx-ido
  'flycheck
  'fuzzy
@@ -456,11 +472,11 @@ This is the list of packages that should be installed automatically and loaded.
  'undo-tree
  'unicode-fonts
  'vagrant
- 'vagrant-tramp
  'web-mode
  'wrap-region
  'writegood-mode
  'xml-rpc
+ 'yaml-mode
  )
 #+end_src
 
@@ -468,7 +484,7 @@ Why doesn't the =f= package get loaded correctly? Was I the problem? Was it the
 problem? Just work. Yes, this needs to be addressed.
 
 #+begin_src emacs-lisp
-(load "~/.emacs.d/elpa/f-0.17.1/f.el")
+(load "~/.emacs.d/elpa/f-0.17.2/f.el")
 #+end_src
 
 *** el-get
@@ -739,7 +755,7 @@ of course!).
 
 The blossoming of the expression of the computational act, and the petals that
 opened in the form of the Turing's machine, Church's Lambda calculus, and
-Post's Production Systems, are beautiful, and still, are only petals, that
+Post's Tag System, are beautiful, and still, are only petals, that
 carry the sweet fragrance, because a fragrance is part of a moment, which is
 finite, as is every configuration of this reality. The beauty is still as sweet.
 The key is seeing the inherent beauty, the source without start and without end,
@@ -856,9 +872,14 @@ That is the one, only, and single thing that I ever allow influence the design
 and implementation of ALEC in this manifestation because to do anything else
 would be to seriously constrain its operator.
 
-** Functions
+** Functions & Constants
 
 #+begin_src emacs-lisp
+(defconst +honey-bee-wing-flap+ 5
+  "A honey bee's wing flap in milliseconds.
+
+URL: `https://en.wikipedia.org/wiki/Millisecond'")
+
 (defun gcr/untabify-buffer ()
   "For untabifying the entire buffer."
   (interactive)
@@ -1019,17 +1040,27 @@ Attribution: URL `http://blog.binchen.org/posts/paste-string-from-clipboard-into
   (dolist (buf (buffer-list))
     (with-current-buffer buf
       (when (and (buffer-file-name) (buffer-modified-p))
-        (save-buffer)))))
+        (save-buffer))))
+  (sleep-for 0 (* 3 +honey-bee-wing-flap+)))
 
 (defun gcr/kill-other-buffers ()
   "Kill all other buffers."
   (interactive)
   (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
 
+#+end_src
+
+Might be worth investing in new behavior here such that:
+- When the cursor is inside of a comment block, call =comment-indent-new-line=
+- Else, call =sp-newline=
+
+#+begin_src emacs-lisp
 (defun gcr/newline ()
   "Locally binds newline."
   (local-set-key (kbd "RET") 'sp-newline))
+#+end_src
 
+#+begin_src emacs-lisp
 (defun gcr/describe-thing-in-popup ()
     "Display help information on the current symbol.
 
@@ -1176,6 +1207,12 @@ Attribution: URL `https://lists.gnu.org/archive/html/help-gnu-emacs/2002-10/msg0
   (interactive)
   (and (file-exists-p f)
      (not (file-symlink-p f))))
+
+(defun gcr/file-exists-is-symlink (f)
+  "True if F exists and is a symlink."
+  (interactive)
+  (and (file-exists-p f)
+     (file-symlink-p f)))
 
 (progn
   (defvar my-read-expression-map
@@ -1331,6 +1368,21 @@ Attribution Nikolaj Schumacher: URL `https://lists.gnu.org/archive/html/help-gnu
     (when (and (not (file-exists-p parent-directory))
              (y-or-n-p (format "Directory `%s' does not exist. Create it?" parent-directory)))
       (make-directory parent-directory t))))
+
+(defun gcr/occur-dwim ()
+  "Call `occur' with a mostly sane default.
+
+Attribution Oleh Krehel (abo-abo): URL `http://oremacs.com/2015/01/26/occur-dwim/'"
+  (interactive)
+  (push (if (region-active-p)
+            (buffer-substring-no-properties
+             (region-beginning)
+             (region-end))
+          (let ((sym (thing-at-point 'symbol)))
+            (when (stringp sym)
+              (regexp-quote sym))))
+        regexp-history)
+  (call-interactively 'occur))
 #+end_src
 
 Emacs lets you set up buffers that won't be re-sized or moved. That is really a
@@ -1356,6 +1408,20 @@ For now, all of that code may be easily utilized via =gcr/util-cycle=.
   (if gcr/util-state
       (gcr/util-stop)
     (gcr/util-start)))
+#+end_src
+
+Unfill paragraph: because I should have quit doing this by hand 400 posts ago.
+
+#+begin_src emacs-lisp
+(defun sacha/unfill-paragraph (&optional region)
+  "Takes a multi-line paragraph and makes it into a single line of text.
+
+ATTRIBUTION: SRC https://github.com/sachac/.emacs.d/blob/gh-pages/Sacha.org#unfill-paragraph"
+  (interactive (progn
+                 (barf-if-buffer-read-only)
+                 (list t)))
+  (let ((fill-column (point-max)))
+    (fill-paragraph nil region)))
 #+end_src
 
 ** Color Theme
@@ -1397,6 +1463,7 @@ Emacs! Here [fn:af30569b: https://superuser.com/questions/125569/how-to-fix-emac
    (let ((use-dialog-box nil))
      ad-do-it)))
 #+end_src
+
 ** Environment
 
 On OSX, I learned that when you start the GUI version of Emacs that it doesn't
@@ -1497,7 +1564,7 @@ a nice option when I use IRC and want separate windows. ace-window makes this
 easy:
 
 #+begin_src emacs-lisp
-(setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+(setq aw-keys '(?a ?s ?d ?f ?j ?k ?l ?\;))
 #+end_src
 
 Visualize parentheses a certain way. [fn:b352291c: https://www.gnu.org/software/emacs/manual/html_node/emacs/Matching.html]
@@ -1646,6 +1713,22 @@ myself in the past!
 (setq auto-save-timeout 05)
 #+end_src
 
+Bozhidar shared how to get even more default save behavior similar to Idea [fn:e6e85738: http://batsov.com/articles/2012/03/08/emacs-tip-number-5-save-buffers-automatically-on-buffer-or-window-switch/].
+#+begin_src emacs-lisp
+(defadvice switch-to-buffer (before gcr/save-all-file-buffers-now activate)
+  (when buffer-file-name (gcr/save-all-file-buffers)))
+(defadvice other-window (before other-window-now activate)
+  (when buffer-file-name (gcr/save-all-file-buffers)))
+(defadvice windmove-up (before other-window-now activate)
+  (when buffer-file-name (gcr/save-all-file-buffers)))
+(defadvice windmove-down (before other-window-now activate)
+  (when buffer-file-name (gcr/save-all-file-buffers)))
+(defadvice windmove-left (before other-window-now activate)
+  (when buffer-file-name (gcr/save-all-file-buffers)))
+(defadvice windmove-right (before other-window-now activate)
+  (when buffer-file-name (gcr/save-all-file-buffers)))
+#+end_src
+
 Make two buffers with the same file name open distinguishable. [fn:de75200e: https://www.gnu.org/software/emacs/manual/html_node/emacs/Uniquify.html]
 #+begin_src emacs-lisp
 (require 'uniquify)
@@ -1658,7 +1741,7 @@ See also for library paths [fn:58592a74: https://www.gnu.org/software/emacs/manu
 (gcr/on-osx
  (add-to-list 'load-path "/usr/local/Cellar/ccrypt/1.10/share/emacs/site-lisp"))
 (gcr/on-windows
- (warn "Please configure ccrypt."))
+ (add-to-list 'load-path "C:\\opt\\ccrypt-1.10.cygwin-i386\\"))
 (gcr/on-gnu/linux
  (warn "Please configure ccrypt."))
 (require 'ps-ccrypt "ps-ccrypt.el")
@@ -1834,16 +1917,37 @@ it easier.
 (require 'stripe-buffer)
 #+end_src
 
-Make it really easy to intelligently navigate =FIXME= notices of all sorts.
-This is one of those "I didn't know I needed it until I saw it". My after the
-fact justification is that I am really, really happy with issue trackers, but
-be they on Jira or just in =org= and stored in git, and I've been so happy with
-both, that I want to experiment with an even /lighter/ weight means.
+Not sure where to put this right now, but I want all buffers savd before this
+system exits as the default behavior.
+
+The default behavior of this system is that all buffers with files attached
+are always saved, especially before exiting the system.
 
 #+begin_src emacs-lisp
-(require 'fixmee)
-(global-fixmee-mode 1)
-(gcr/diminish 'fixmee-mode)
+(defadvice save-buffers-kill-terminal (before save-before-save-buffers-kill-terminal first activate)
+  "Save all buffers before save-buffers-kill-terminal calls."
+  (gcr/save-all-file-buffers))
+#+end_src
+
+#+begin_quote
+In my world, sentences end with a single space. This makes sentence navigation commands work for me. [fn:85c41faf: https://github.com/sachac/.emacs.d/blob/gh-pages/Sacha.org]
+#+end_quote
+
+#+begin_src emacs-lisp
+(setq sentence-end-double-space nil)
+#+end_src
+
+Visual-line-mode is really, really great. When it is running, I don't need
+to know about it.
+
+#+begin_src emacs-lisp
+(gcr/diminish 'visual-line-mode)
+#+end_src
+
+Hide-show is another sweet mode that I don't need to know is running.
+
+#+begin_src emacs-lisp
+(eval-after-load "hideshow" '(diminish 'hs-minor-mode))
 #+end_src
 
 ** Frames
@@ -1954,6 +2058,11 @@ a while but definitely do need.
 (add-hook 'dired-mode-hook 'gcr/dired-mode-hook)
 #+end_src
 
+Try to guess the target directory for operations.
+#+begin_src emacs-lisp
+(setq dired-dwim-target t)
+#+end_src
+
 After dabbling, something happened that really changed my mind. These three
 articles changed everything: [fn:87e72370: http://www.masteringemacs.org/articles/2014/04/10/dired-shell-commands-find-xargs-replacement/] [fn:d82e40f9: http://www.masteringemacs.org/articles/2011/03/25/working-multiple-files-dired/] [fn:fe52afc4: http://www.masteringemacs.org/articles/2013/10/10/wdired-editable-dired-buffers/].
 They just made the power of Dired so obvious, and so easy to use, that it
@@ -2042,8 +2151,15 @@ need to be version controlled so it is checked as a real file.
 
 The file that =savehist= stores its stuff in is not under version control.
 
+The check for the file may no longer be required. Savehist used to store its
+history in ~/.emacs.d/savehist. I think I copied that from emacs-fu. Recently
+their API updated. My code to store this setting in that file broke. When it
+broke Savehist just saved its stuff in the default file. That works. I didn't
+even notice it. That is fine with me. I am leaving it alone. I kept this check
+code in place to check that the default history file is there.
+
 #+begin_src emacs-lisp
-(defconst gcr/savehist-file-store "~/.emacs.d/savehist")
+(defconst gcr/savehist-file-store "~/.emacs.d/history")
 (defun gcr/warn-savehist-file-store ()
   "Warn of savehist misconfiguration."
   (interactive)
@@ -2055,12 +2171,12 @@ The file that =savehist= stores its stuff in is not under version control.
 =savehist= configuration follows.
 #+begin_src emacs-lisp
 (gcr/warn-savehist-file-store)
-(savehist-mode +1)
-(setq savehist-save-minibuffer-history +1)
+(setq savehist-save-minibuffer-history 1)
 (setq savehist-additional-variables
       '(kill-ring
         search-ring
         regexp-search-ring))
+(savehist-mode +1)
 #+end_src
 
 ** Spell-checking
@@ -2079,18 +2195,33 @@ Even after reading this later, I agree with it despite the fact that I
 constantly wax and wane between wanting to use it and finding something
 /better/ despite having no criteria by which to truly judge in the first place.
 
-The =aspell= directionary is version controlled.
+The =aspell= personal directionary is version controlled.
 
 #+begin_src emacs-lisp
-(defconst gcr/aspell-dict "~/.aspell.en.pws")
-(defun gcr/warn-aspell-dict ()
-  "Warn of aspell misconfiguration."
+(defconst gcr/aspell-personal-dictionary "~/.aspell.en.pws")
+(defun gcr/warn-aspell-personal-dictionary ()
+  "Warn of aspell misconfiguration: personal dictionary."
   (interactive)
-  (unless (f-exists? gcr/aspell-dict)
+  (unless (gcr/file-exists-is-symlink gcr/aspell-personal-dictionary)
     (warn
-     "Can't seem to find an aspell dictionary where it was expected at: %S. aspell should continue to function normally; but your personal dictionary will not be used."
-     gcr/aspell-dict)))
-(gcr/warn-aspell-dict)
+     "Can't seem to find an aspell personal dictionary where it was expected at: %S. aspell should continue to function normally; but your personal dictionary will not be used."
+     gcr/aspell-personal-dictionary)))
+(gcr/warn-aspell-personal-dictionary)
+#+end_src
+
+So is the personal replacement dictionary. This is a copy and paste of the
+previous section. It is obviously a candidate for cleanup.
+
+#+begin_src emacs-lisp
+(defconst gcr/aspell-personal-replacement-dictionary "~/.aspell.en.prepl")
+(defun gcr/warn-aspell-personal-replacement-dictionary ()
+  "Warn of aspell misconfiguration: personal replacement dictionary."
+  (interactive)
+  (unless (gcr/file-exists-is-symlink gcr/aspell-personal-replacement-dictionary)
+    (warn
+     "Can't seem to find an aspell personal replacement dictionary where it was expected at: %S. aspell should continue to function normally; but your personal replacement dictionary will not be used."
+     gcr/aspell-personal-replacement-dictionary)))
+(gcr/warn-aspell-personal-replacement-dictionary)
 #+end_src
 
 ** Syntax checking
@@ -2301,16 +2432,24 @@ Make searches case-insensitive.
 
 If possible, use a better pop-up [fn:002bce83: https://github.com/auto-complete/popup-el] . Pos-tip should help [fn:bd72503b: https://github.com/pitkali/pos-tip].
 Have mixed feelings about this. First, glad it is here, and a lot of packages do
-use it. Eventually I'll need to set up a larger font. My desire was to have
-=pos-tip= use the current theme values, but I couldn't figure out how and the
-folks online weren't quite sure either… it wasn't worth pursuing and I copied the
-values straight out of the theme itself.
+use it. Eventually I'll need to set up a larger font.
 #+begin_src emacs-lisp
 (require 'pos-tip)
+(gcr/on-windows
+ (ignore-errors
+   (pos-tip-w32-max-width-height)))
+#+end_src
+
+My desire was to have =pos-tip= use the current theme values, but I couldn't
+figure out how and the folks online weren't quite sure either… it wasn't
+worth pursuing and I copied the values straight out of the theme itself.
+
+[[https://github.com/bbatsov/solarized-emacs/blob/master/solarized.el#L1989][This]] was added to the theme config, but I prefer non-bold colors, so I will
+leave this for now.
+
+#+begin_src emacs-lisp
 (setq pos-tip-foreground-color "#073642")
 (setq pos-tip-background-color "#839496")
-(gcr/on-windows
- (pos-tip-w32-max-width-height))
 #+end_src
 
 ** Intellisense (Auto Completion) [fn:a5ec7f2e: http://cx4a.org/software/auto-complete/]
@@ -2405,6 +2544,7 @@ Allow these commands:
 #+begin_src emacs-lisp
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
 #+end_src
 
 ** Version control / Git
@@ -2423,6 +2563,7 @@ without the buffering being saved. My solution for that is that before *every*
 VC action, at least the current buffer must be saved. This is OK because I
 believe that VC actions only occur on a per-file basis, versus command line VC
 operations. Then I added he same thing for diff.
+
 #+begin_src emacs-lisp
 (defadvice vc-next-action (before save-before-vc first activate)
   "Save all buffers before any VC next-action function calls."
@@ -2430,6 +2571,10 @@ operations. Then I added he same thing for diff.
 
 (defadvice vc-diff (before save-before-vc-diff first activate)
   "Save all buffers before vc-diff calls."
+  (gcr/save-all-file-buffers))
+
+(defadvice vc-ediff (before save-before-vc-ediff first activate)
+  "Save all buffers before vc-ediff calls."
   (gcr/save-all-file-buffers))
 
 (defadvice vc-revert (before save-before-vc-revert first activate)
@@ -2466,6 +2611,14 @@ configuration.
 (add-hook 'git-commit-mode-hook 'gcr/git-commit-mode-hook)
 #+end_src
 
+The commit messages are not formatted for all vc providers, so just don't use
+the default message at all for [[http://debbugs.gnu.org/cgi/bugreport.cgi?bug%3D18954][now]].
+
+#+begin_src emacs-lisp
+(eval-after-load 'log-edit
+  '(remove-hook 'log-edit-hook 'log-edit-insert-message-template))
+#+end_src
+
 This current configuration that kind of maximizes speed, doesn't account for
 multiple changes that need to be committed. Learning more about =magit= by using
 it I thought that I should change the current =vc= workflow over to use =magit=
@@ -2483,6 +2636,11 @@ Git ignore files are just text files.
 (add-to-list 'auto-mode-alist '(".gitignore$" . text-mode))
 #+end_src
 
+Diminish Magit's auto-revert mode.
+#+begin_src emacs-lisp
+(eval-after-load "magit" '(diminish 'magit-auto-revert-mode))
+#+End_src
+
 ** Command execution helper [fn:e2221a4d: https://github.com/nonsequitur/smex/]
 
 When I call commands, I usually end up running the same commands over and over.
@@ -2492,6 +2650,19 @@ to access it, like =org-html-export-to-html= for example. Smex makes it happen.
 #+begin_src emacs-lisp
 (require 'smex)
 (smex-initialize)
+#+end_src
+
+Tell =magit= about git working copies that =projectile= knows about [fn:b7cb4360: https://iqbalansari.github.io/blog/2014/02/22/switching-repositories-with-magit/].
+
+#+begin_src emacs-lisp
+(eval-after-load "projectile"
+  '(progn (setq magit-repo-dirs (mapcar (lambda (dir)
+                                          (substring dir 0 -1))
+                                        (remove-if-not (lambda (project)
+                                                         (file-directory-p (concat project "/.git/")))
+                                                       (projectile-relevant-known-projects)))
+
+                magit-repo-dirs-depth 1)))
 #+end_src
 
 ** Rectangle / Cursors [fn:8d7c694f: https://www.gnu.org/software/emacs/manual/html_node/emacs/Rectangles.html] [fn:178: https://github.com/magnars/multiple-cursors.el]
@@ -2832,7 +3003,7 @@ screen, 80 columns wide.
 #+begin_src emacs-lisp
 (defvar gcr/font-size 10 "The preferred font size.")
 (gcr/on-osx (setq gcr/font-size 17))
-(gcr/on-windows (setq gcr/font-size 14))
+(gcr/on-windows (setq gcr/font-size 13))
 #+end_src
 
 Convert common ASCII values into Unicode representations /for display only//.
@@ -3325,7 +3496,7 @@ here how easy it is to customize it.
   (smartparens-strict-mode t)
   (gcr/untabify-buffer-hook)
   (fci-mode)
-  (hs-minor-mode)
+  (hs-minor-mode 1)
   (linum-mode)
   (gcr/turn-on-r-hide-show)
   (aggressive-indent-mode)
@@ -3576,11 +3747,7 @@ easier to edit source blocks outside of the vehicle offered by =org-edit-src-cod
 Since my intent is never to edit blocks outside for their proper mode though, I
 will not enable that.
 
-#+begin_src emacs-lisp
-(setq org-edit-src-code nil)
-#+end_src
-
-This approach of mine, I think I touch upon it elsewehre… at some point I would
+This approach of mine, I think I touch upon it elsewhere… at some point I would
 like to refactor this whole document.
 
 This [fn:d58f4050: http://home.fnal.gov/~neilsen/notebook/orgExamples/org-examples.html] article is really fascinating in that crams a ton of information
@@ -3854,6 +4021,11 @@ Hide the delimeter for emphasized text. This may break table alignment.
 (setq org-hide-emphasis-markers +1)
 #+end_src
 
+Realign tables automatically.
+#+begin_src emacs-lisp
+(setq org-startup-align-all-tables +1)
+#+end_src
+
 **** Babel
 
 There is a hook for things to do after a source block has been executed. These
@@ -3862,12 +4034,14 @@ this [fn:edec422c: https://lists.gnu.org/archive/html/emacs-orgmode/2014-07/msg0
 discussion and Nick Dokos agreed here
 that [fn:32dff2df: http://article.gmane.org/gmane.emacs.orgmode/88741]
 that it is the ideal approach because it does /not/ interfere with export.
+This thread [fn:5863d9db: https://lists.gnu.org/archive/html/emacs-orgmode/2015-01/msg00534.html] explained
+the correct approach as of <2015-01-22 Thu>, which meant a simpler function call.
 
 #+begin_src emacs-lisp
 (defun gcr/org-babel-after-execute-hook ()
   "Personal settings for the `org-babel-after-execute-hook'."
   (interactive)
-  (org-display-inline-images nil t))
+  (org-redisplay-inline-images))
 
 (add-hook 'org-babel-after-execute-hook 'gcr/org-babel-after-execute-hook)
 #+end_src
@@ -3898,7 +4072,8 @@ Tell =org= that it may evaluate all of the listed languages.
    (R . t)
    (scheme . t)
    (sh . t)
-   (sml . t)))
+   (sml . t)
+   (sql . t)))
 #+end_src
 
 There is a way to disable property inheritance that speeds up tangling a lot.
@@ -3920,15 +4095,17 @@ anything else would violate the law of least surprise.
 (setq org-src-preserve-indentation +1)
 #+end_src
 
+When source blocks are exported, do not indent them arbitrarily. This does
+nothing given that the previous setting is non-null; however I believe that I
+set this for a reason that I may no longer recall.
+#+begin_src emacs-lisp
+(setq org-edit-src-content-indentation 0)
+#+end_src
+
 When edit mode is exited, the option exists to automatically remove empty
 opening and closed lines for the source block. Never do this.
 #+begin_src emacs-lisp
 (setq org-src-strip-leading-and-trailing-blank-lines nil)
-#+end_src
-
-When source blocks are exported, do not indent them arbitrarily.
-#+begin_src emacs-lisp
-(setq org-edit-src-content-indentation 0)
 #+end_src
 
 For code blocks that I use a *lot*, add templates for source blocks because my
@@ -4045,7 +4222,7 @@ example block.
 (setq org-babel-min-lines-for-block-output 0)
 #+end_src
 
-I've got auto-save enabled for every buffet that has a file attached to it so I
+I've got auto-save enabled for every buffer that has a file attached to it so I
 rarely every think about saving a file. When you edit source code in =org-mode=
 though and do it in a major-mode buffer for that code, =auto-complete= doesn't
 apply because it isn't associated with a buffer. The following turns on auto-
@@ -4179,6 +4356,23 @@ And, it does.
                (error "Unknown language at position %d"
                       (org-element-property :post-affiliated src-block)))))))
   (message "Source blocks checked in %s." (buffer-name (buffer-base-buffer))))
+#+end_src
+
+In [[https://emacs.stackexchange.com/questions/7844/org-mode-have-flycheck-resolve-relative-config-while-editing-code-blocks][this]] post, the author explains how he would source block buffers to appear to
+have a file name so that FlyCheck can do its thing correctly. It is reall
+simple. I have not thorougly tested it. I tested it once.
+
+#+begin_src emacs-lisp
+(defadvice gcr/org-edit-src-code-plus-name (around set-buffer-file-name activate compile)
+  (let ((file-name (buffer-file-name)))
+    ad-do-it
+    (setq buffer-file-name file-name)))
+#+end_src
+
+Why isn't this code documented? I replaced it with =gcr/org-edit-src-code-plus-name=.
+
+#+begin_src emacs-lisp
+(setq org-edit-src-code nil)
 #+end_src
 
 ***** Core Babel Configuration
@@ -4643,6 +4837,7 @@ remaining a mystery for now.
   (local-set-key (kbd "C-1") 'org-narrow-to-subtree)
   (local-set-key (kbd "M-1") 'widen)
   (local-set-key (kbd "C-2") 'gcr/org-edit-src-code-plus-name)
+  (local-set-key (kbd "C-3") 'org-table-edit-field)
   (local-set-key (kbd "s-h") 'org-babel-check-src-block)
   (local-set-key (kbd "s-a i") 'org-babel-insert-header-arg)
   (local-set-key (kbd "s-j") 'org-babel-previous-src-block)
@@ -4684,8 +4879,6 @@ easy to exit. This is consistent with the approach of "same to exit as enter".
 
 (add-hook 'org-src-mode-hook 'gcr/org-src-mode-hook)
 #+end_src
-
-
 
 ** Keyboard
 
@@ -4959,12 +5152,28 @@ Use the default Langtool bindings.
 (define-key gcr/langtool-map "q" 'langtool-check-done)
 #+end_src
 
+Easily browse URLs. Surely there is a more refind way. This is the first step.
+#+begin_src emacs-lisp
+(key-chord-define-global "wm" 'writegood-mode)
+#+end_src
+
+Occur has 3 cases. I like to use it to explore the unknown.
+#+begin_src emacs-lisp
+(global-set-key (kbd "M-s p") 'gcr/occur-dwim)
+#+end_src
+
+Comment and uncomment anything:
+#+begin_src emacs-lisp
+(key-chord-define-global "eo" 'gcr/comment-or-uncomment)
+#+end_src
+
 ** SLIGHTLY-DISRUPTIVE
 
 Anything having to do with version control differences:
 #+begin_src emacs-lisp
 (global-set-key (kbd "s-d h") 'diff-hl-mode)
-(global-set-key (kbd "s-d l") 'vc-diff)
+(global-set-key (kbd "s-d e") 'vc-ediff)
+(global-set-key (kbd "s-d d") 'vc-diff)
 (global-set-key (kbd "s-d u") 'vc-revert)
 #+end_src
 
@@ -4982,13 +5191,13 @@ Try to open a file just in this project:
 
 auto-completeness
 #+begin_src emacs-lisp
-(global-set-key (kbd "C-3") 'auto-complete)
+(global-set-key (kbd "C-4") 'auto-complete)
 #+end_src
 
 Switching buffers occurs so frequently that this needs to be here, and perhaps
 I will know I need a better binding later.
 #+begin_src emacs-lisp
-(global-set-key (kbd "C-4") 'ido-switch-buffer)
+(key-chord-define-global "sb" 'ido-switch-buffer)
 #+end_src
 
 ace-window navigation:
@@ -5082,11 +5291,6 @@ Code-folding:
 (global-set-key (kbd "M-3") 'hs-toggle-hiding)
 #+end_src
 
-Comment and uncomment anything:
-#+begin_src emacs-lisp
-(global-set-key (kbd "C-5") 'gcr/comment-or-uncomment)
-#+end_src
-
 Do smart new line inside, indenting given the mode:
 #+begin_src emacs-lisp
 (global-set-key (kbd "s-<return>") 'gcr/smart-open-line)
@@ -5157,10 +5361,11 @@ Helper stuff:
 
 Re-size the current windows [fn:7293bf39: http://www.emacswiki.org/emacs/WindowResize]:
 #+begin_src emacs-lisp
-(global-set-key (kbd "s-<up>") 'enlarge-window)
-(global-set-key (kbd "s-<down>") 'shrink-window)
+(global-set-key (kbd "s-<up>") 'shrink-window)
+(global-set-key (kbd "s-<down>") 'enlarge-window)
 (global-set-key (kbd "s-<right>") 'enlarge-window-horizontally)
 (global-set-key (kbd "s-<left>") 'shrink-window-horizontally)
+
 #+end_src
 
 *Always* leave =F5= open. It is discussed above.
@@ -5399,9 +5604,18 @@ togethern.
 
 #+begin_src emacs-lisp
 (require 'langtool)
-(setq langtool-language-tool-jar (concat (getenv "EELIB") "/LanguageTool-2.7/languagetool-commandline.jar"))
-(setq langtool-java-bin "/usr/bin/java")
+(setq langtool-language-tool-jar (concat (getenv "EELIB") "/LanguageTool-2.8/languagetool-commandline.jar"))
 (setq langtool-mother-tongue "en")
+(setq langtool-java-bin (concat (getenv "JAVA_HOME") "/bin/java"))
+#+end_src
+
+** Help
+
+My usage pattern for help is to display it, learn what I wish, and move on by
+closing the buffer. Make this work-flow easier [fn:2c2d78bc: https://emacs.stackexchange.com/questions/7471/change-focus-to-help-buffer-after-running-describe-mode].
+
+#+begin_src emacs-lisp
+(setq help-window-select t)
 #+end_src
 
 ** ibuffer
@@ -5580,8 +5794,9 @@ Well, that is me, so I am going to install it too.
     (add-hook h 'turn-on-pretty-mode)
     (add-hook h 'gcr/untabify-buffer-hook)
     (add-hook h 'fci-mode)
-    (add-hook h 'hs-minor-mode)
+    (add-hook h (function (lambda () (hs-minor-mode 1))))
     (add-hook h 'linum-mode)
+    (add-hook h 'visual-line-mode)
     (add-hook h (function (lambda ()
                             (add-hook 'local-write-file-hooks
                                       'check-parens))))))
@@ -5698,6 +5913,7 @@ Skimming it a few things jump out:
 It is not obvious to me how to set it up. This [fn:3dc322e2: http://blog.revolutionanalytics.com/2014/03/emacs-ess-and-r-for-zombies.html]
 seems to indicate that one should do as I have done, read the home page, and
 then go online for tips. Now, I have. This [fn:d1979851: http://johnstantongeddes.org/open%20science/2014/03/26/Rmd-polymode.html] post
+
 was very helpful. A little unsure where to go from here, this https://stat.ethz.ch/pipermail/ess-help/2014-May/009926.html post indicates
 that there are, just as the code said, 4 weaves that may be important:
 - knitR
@@ -5747,6 +5963,9 @@ My first setup of Ruby is primarily for Vagrant, so I didn't dig super deep into
 the options. The defaults will be just fine. The stuff that I commonly use may
 eventually want to end up in =prog-mode=, but I'm still not sure what really
 uses that and how I may being re-factoring.
+
+Chef now, too.
+
 #+begin_src emacs-lisp
 (defun gcr/ruby-mode-hook ()
   (fci-mode)
@@ -5801,7 +6020,7 @@ explore =ac-geiser= [fn:6d6fbd53: https://github.com/xiaohanyu/ac-geiser].
   (fci-mode)
   (whitespace-turn-on)
   (visual-line-mode)
-  (hs-minor-mode)
+  (hs-minor-mode 1)
   (local-set-key (kbd "RET") 'newline-and-indent))
 
 (add-hook 'sh-mode-hook 'gcr/sh-mode-hook)
@@ -5821,7 +6040,7 @@ explore =ac-geiser= [fn:6d6fbd53: https://github.com/xiaohanyu/ac-geiser].
   (fci-mode)
   (whitespace-turn-on)
   (visual-line-mode)
-  (hs-minor-mode)
+  (hs-minor-mode 1)
   (local-set-key (kbd "RET") 'newline-and-indent))
 
 (add-hook 'shell-mode-hook 'gcr/shell-mode-hook)
@@ -5846,7 +6065,7 @@ definition.
   (gcr/untabify-buffer-hook)
   (gcr/disable-tabs)
   (fci-mode)
-  (hs-minor-mode)
+  (hs-minor-mode 1)
   (visual-line-mode))
 (add-hook 'sml-mode-hook 'gcr/sml-mode-hook)
 (setq sml-indent-level 2)
@@ -5989,6 +6208,13 @@ still producing a DVI file. To do that, I did something like this:
 (setq TeX-DVI-via-PDFTeX +1)
 #+end_src
 
+Don't prompt me every time I run =C-c C-c= about saving the file, instead, just
+save it [fn:b2655f5c: http://mbork.pl/2015-01-10_A_few_random_Emacs_tips].
+
+#+begin_src emacs-lisp
+(setq TeX-save-query nil)
+#+end_src
+
 ** Text
 
 #+begin_src emacs-lisp
@@ -6012,12 +6238,6 @@ This belongs in this heading I believe:
 
 Nice package [fn:ccaa2275: https://github.com/ottbot/vagrant.el] for working with Vagrant; hundreds of people already using
 it. No configuration even necessary.
-
-This package [fn:4b850838: https://github.com/dougm/vagrant-tramp] is also quite nice:
-#+begin_src emacs-lisp
-(eval-after-load 'tramp
-  '(vagrant-tramp-enable))
-#+end_src
 
 ** Web [fn:857fba7f: https://en.wikipedia.org/wiki/HTML]
 
@@ -6068,9 +6288,11 @@ EWW looks interesting, too [fn:4c24a298: http://lars.ingebrigtsen.no/2013/06/16/
 (setq browse-url-browser-function 'browse-url-generic)
 (gcr/on-gnu/linux (setq browse-url-generic-program "chromium-browser"))
 (gcr/on-osx
+ (setq browse-url-browser-function 'browse-url-default-macosx-browser)
  (require 'osx-browse)
  (osx-browse-mode 1))
-(gcr/on-windows (setq browse-url-generic-program "chrome"))
+(gcr/on-windows
+ (setq browse-url-browser-function 'browse-url-default-windows-browser))
 #+end_src
 
 Searching for things on the world wide web is a daily occurrence. There are a
@@ -6090,6 +6312,29 @@ really, really beautiful.
 #+begin_src emacs-lisp
 (setq tramp-default-user "gcr")
 (setq tramp-default-method "ssh")
+#+end_src
+
+** YAML
+
+Thank you, Kitchenplan.
+
+#+begin_src emacs-lisp
+(require 'yaml-mode)
+(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
+(defun gcr/yaml-mode-hook ()
+  "Helpful behavior for YAML buffers."
+  (interactive)
+  (turn-on-smartparens-strict-mode)
+  (gcr/newline)
+  (gcr/disable-tabs)
+  (turn-on-pretty-mode)
+  (gcr/untabify-buffer)
+  (fci-mode)
+  (hs-minor-mode 1)
+  (linum-mode)
+  (visual-line-mode))
+
 #+end_src
 
 ** Diagramming, UML creation, Workflow
@@ -6179,7 +6424,7 @@ The =ditaa= library file is not version controlled.
 
 =plantuml= needs a full directory path. It is easier to address it here.
 #+begin_src emacs-lisp
-(defconst gcr/plantuml-jar (concat (expand-file-name (getenv "EELIB")) "/plantuml.8008.jar"))
+(defconst gcr/plantuml-jar (concat (expand-file-name (getenv "EELIB")) "/plantuml.8020.jar"))
 #+end_src
 
 The rest of the configuration is vanilla.
@@ -6205,7 +6450,7 @@ The rest of the configuration is vanilla.
   (gcr/untabify-buffer-hook)
   (gcr/disable-tabs)
   (fci-mode)
-  (hs-minor-mode)
+  (hs-minor-mode 1)
   (linum-mode)
   (wrap-region-mode t)
   (turn-on-stripe-table-mode))
@@ -6567,6 +6812,7 @@ specifying them. Right now I am still not totally sure because of
 My document style does not let itself to tangling-comments.
 
 #+begin_src emacs-lisp :tangle .emacs.el :comments no
+«Start-Up»
 «Customize»
 «Runtime-Check»
 «Provisioning»
@@ -6581,7 +6827,7 @@ My document style does not let itself to tangling-comments.
 
 ** eshell/alias
 
-This file can't seem handle comment lines in =sh= or =emacs-lisp= and I don't want
+This file can't contain comment lines in =sh= or =emacs-lisp= and I don't want
 to find out why so don't include =org= comments.
 
 Be sure to link =~/.emacs.d/eshell= here.
@@ -6612,8 +6858,7 @@ follow.
 ** Windows
 
 - Install the 32bit Emacs distribution straight from GNU
-  - There are others. The 64-bit sounds pretty but I'm ignorant of the
-    benefits and prefer a mainstream build
+  - There are others. Do not use them.
 - Extract it to =~/apps= and add the =bin= dir to the exported =PATH=
 - Export =HOME= set to your preference
   - Your home dir =C:\Users\user= works fine
@@ -6622,10 +6867,13 @@ follow.
   - Want normal Windows users to have a chance so not using MSYS or CYGWIN
   - Stuff to install
     - GNUTLS
+    - LibPNG
+    - make with guile
 - Install [[http://aspell.net/win32/][Aspell Win32]]
   - Add to PATH
-  - Manually install the English dictionary
-  - Move =dict= and =data= contents/folders
+  - Install the English dictionary
+    - Installer /should/ successfully identify the Aspell install directory and
+      install the =dict= and =data= into the corect location
 - Keyboard setup
   - Goal was to utilize my current keybindings and make no changes
   - This system uses Super all over the place and maps the WindowsKey to Super
@@ -6635,18 +6883,19 @@ follow.
     after using them for one year. After spending 4 hours trying to find a work
     around, I pursued a more  simplistic strategy that is defined in a code
     block under this heading
-- Graphviz
+- [[http://www.graphviz.org/Download..php][Graphviz]]
   - Grabbed from their home page
   - Installed via the MSI
   - Added bin dir to path
-- Installed libpng from ezwinports for org display images inline
+- Install [[http://imagemagick.org/][ImageMagick]]
 
 There are many options for keymapping in Windows. [[https://code.google.com/p/keymapper/][KeyMapper]] and [[https://sharpkeys.codeplex.com/][SharpKeys]] used
-to satisfy my requirements, but then quit doing so. [[http://www.autohotkey.com/][AutoHotKey]] (AHK) now performs
-the task acceptably.
+to satisfy my requirements, but then quit doing so. Quite simply, they did not
+work /for me/ on Windows 8.1 despite having worked fine for years on 7. [[http://www.autohotkey.com/][AutoHotKey]]
+(AHK) now performs the task correctly.
 
-I need to do the simplest possible thing here. I want to do it /the right way/ and
-just deal with low-level key-codes. That is a poor use of time so I am not.
+I need to do the simplest possible thing here. I /want/ to do it /the right way/ and
+just deal with low-level key-codes, but that is a poor use of time so I am not.
 
 I wanted to figure how to to use AHK to make Enter send Enter when pushed once and
 to make it act as the Control key when held. I didn't have enough time so I am
@@ -6654,9 +6903,9 @@ making my RightShift key act as Enter. I will post to the forums to find out how
 
 To avoid generating key combinations that activate the default Windows keybinding
 events I am using a super simple strategy of and where:
-- I make WindowsKey act as to Super
+- Make WindowsKey act as to Super
 - Issue is that Super keybindings activate default Windows actions
-- Solution is to make WindowsKey instead send Meta
+- Solution is to make WindowsKey instead send MetaSuper
   - *Control-super* does not work and I don't know why
   - That is why I am using Meta here
 - In this sytem must define additional keybindings "on Windows" that do the
@@ -6664,6 +6913,79 @@ events I am using a super simple strategy of and where:
   - This heading exists to define both
   - For now doing it manually, no automation, no reuse, just fix what doesn't
     work
+
+GitForWindows seems to work fine adding the *safe* stuff to the PATH, but not
+more. Emacs gets started with =runemacs= and picks up the =PATH= correctly. =vc= works
+fine but =magit= does not. I will investigate this.
+
+Thus far, swapping capslock with leftcontrol and enter with rightcontrol has
+been pleasant. It is very doable since Windows keyboards have all of the required
+controls! The Macbook, though, does not, hence the need for the program to make
+enter perform double-duty. It would be really great if we had that on Windows
+too. After spending a combined six hours or so looking at approaches and
+evaluating them I didn't find one that I worked. At that point, I felt that it
+was no longer a valuable pursuit. As such, on Winboxen I'll go with this and
+on Macs I'll go with that. Simpler.
+
+For the record, some researched areas:
+- All of the site literature
+  - Really, really work reading
+  - Feels haphazard but it will make sense after reading it all
+  - Searched all forum posts for similar needs
+- [[http://www.autohotkey.com/board/topic/103044-one-key-acting-as-a-modifier-but-also-as-a-hotkey/?hl%3D%252Bemacs#entry637897][One key acting as a modifier but also as a hotkey]]
+  - Exactly what I want
+  - Not exactly what I need
+- [[http://www.autohotkey.com/board/topic/113282-emacs-pincky/?hl%3D%252Bemacs#entry662239][emacs pincky]]
+  - Good to know
+  - Doens't work
+- [[https://github.com/boblu/EmacsEverywhere/blob/master/EmacsEverywhere.ahk][emacseverywhere]]
+  - Nice to know
+  - Not exactly what I want
+- http://www.autohotkey.com/docs/Tutorial.htmTutorial
+  - Talked about how to handle a key press, using a loop
+    - Interesting because that is definitely "one way" and there are others
+    - Eg: The following example clicks the left mouse button repeatedly while the user is holding down the F1 key
+  - Hotkeys talked about how to get a key to do one thing when held and released
+    and another when using in combinationt
+    - At least how I am reading it
+    - Here is the whole example
+    - Still not what I need
+
+#+begin_quote
+You can define a custom combination of two keys (except joystick buttons) by using " & " between them. In the below example, you would hold down Numpad0 then press the second key to trigger the hotkey:
+#+end_quote
+
+#+begin_src sh
+Numpad0 & Numpad1::MsgBox You pressed Numpad1 while holding down Numpad0.
+Numpad0 & Numpad2::Run Notepad
+#+end_src
+
+#+begin_quote
+In the above example, Numpad0 becomes a prefix key; but this also causes Numpad0 to lose its original/native function when it is pressed by itself. To avoid this, a script may configure Numpad0 to perform a new action such as one of the following:
+#+end_quote
+
+#+begin_src sh
+Numpad0::WinMaximize A   ; Maximize the active/foreground window.
+Numpad0::Send {Numpad0}  ; Make the release of Numpad0 produce a Numpad0 keystroke.
+#+end_src
+
+#+begin_quote
+The presence of one of the above hotkeys causes the release of Numpad0 to perform the indicated action, but only if you did not press any other keys while Numpad0 was being held down.
+#+end_quote
+
+Since I can't be the /only/ Emacs Windows user would like something like this for
+the Windows Emacs build, there could be an opportunity to group-sponsor the
+addition to AHK. Right now I am not pursuing leading such an effort. Perhaps you
+are?
+
+*** Testing
+
+- Windows 7
+  - No installation issues
+  - Works perfectly
+- Windows 8.1
+  - Package installation issues both for Package and ElGet
+  - Unsure, will do more testing
 
 *** Helper Bindings
   :PROPERTIES:
@@ -6720,7 +7042,8 @@ Various.
 
 #+begin_src emacs-lisp
 (global-set-key (kbd "M-s-d h") 'diff-hl-mode)
-(global-set-key (kbd "M-s-d l") 'vc-diff)
+(global-set-key (kbd "M-s-d e") 'vc-ediff)
+(global-set-key (kbd "M-s-d d") 'vc-diff)
 (global-set-key (kbd "M-s-d u") 'vc-revert)
 (global-set-key (kbd "M-s-f") 'projectile-find-file)
 (global-set-key (kbd "M-s-2") 'gcr/two-key-map)
@@ -6753,6 +7076,13 @@ Fixes:
   :noweb-ref: AutoHotKey-Config
   :END:
 
+[[http://www.autohotkey.com/docs/Hotkeys.htm][Hotkey documentation.]]
+
+- =#=: Windows logo key
+- =!=: Alt
+- =^=: Control
+- ~+~: Shift
+
 #+begin_src sh
 WheelUp::
 Send {WheelDown}
@@ -6762,13 +7092,15 @@ WheelDown::
 Send {WheelUp}
 Return
 
-Capslock::Ctrl
+Capslock::LCtrl
 
 LCtrl::CapsLock
 
 Enter::RCtrl
 
-RShift::Enter
+,*RCtrl::Enter
+
+,*AppsKey::Enter
 
 #b::!#b
 
@@ -6780,7 +7112,10 @@ RShift::Enter
 
 #p::!#p
 
+#t::!#t
+
 ^+l::#l
+
 #+end_src
 
 **** Output
@@ -6795,19 +7130,27 @@ RShift::Enter
 - Pos-tip
 - Ps-Ccrypt
 
-* Migration Notes
 
-- Packages I noticed immediately that I am missing
-  - Auto-save and auto-revert
-  - org
-    - ispell
-- Packages I noticed I am missing scalling the gcr/prelude list
-  - boquote
-  - googlethis
-  - lebindmode
-  - pretty
-  - Presonal apperance configurations
-  - Unicode stuff
+** OSX
+
+[[https://pqrs.org/osx/karabiner/][Karabiner]] provides a quite perfect /Return to Control_L (+ When you type Return
+only, send Return)/ to make the return key send "return" when struck and released
+and to act as the "control" key when held and chorded.
+
+*** Keyboard
+
+- Use all F keys as standard function keys: yes
+  Modifier keys:
+  - caps lock \rarr control
+  - control \rarr caps lock
+  - option \rarr option (apple style)
+  - command \rarr command (apple style)
+- Shortcuts
+  Alone, F11 and F12
+  =Apple->System Preferences->Keyboard->Shortcuts->Mission Control= un-check "Show    Desktop" =F11= and "Show Dashboard" =F12=.
+  Mission Control, F1 and F8
+  =Apple->System Preferences->Keyboard->Shortcuts->Keyboard= un-check "Turn keyboard access on or off" =^F1= and "Move focus to status menus" =^F8=.
+
 * Reminders
 
 - *NEVER* edit source blocks outside of their editor mode
@@ -6903,3 +7246,10 @@ mysterious, if you are open to seeing it at least.
 The more I think about it, I am just telling myself stories about reuse, here.
 There isn't really a need. No one else will re-use it. The value would be in the
 collaboration, not the tool. Why does the desire always precede the reason?
+
+<2015-01-03 Sat>
+Since the passage on the means of this system was capture… things have been
+content, and, quiet. I greatly, greatly look forward to enjoying collaborations
+with other people, expressing their selves, too, in the future.
+
+#  LocalWords:  Savehist emacs fu API

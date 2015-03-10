@@ -1,4 +1,5 @@
 
+# -*- mode: sh; -*-
 R_LIBS=~/.Rpackages
 R_INTERACTIVE_DEVICE=quartz
 TZ=America/Chicago

@@ -11,8 +11,27 @@
 
   Remember to link these from `~/' here.
 
+  How to run:
+  • `.Renviron' is the important thing for telling what to go where
+  • First get everything installed
+  • Start R, but without the init file, run `.Rinstall' to get
+    everything installed
+  • `r --no-init-file'
+  • Various things happen now
+    • Java 6 gets installed
+    • CRAN repo site chooser pops up
+      • This is expected, .Rprofile specifies this
+    • R exits
+    • Just keep running the script until there are no issues and
+      everything is installed
+    • Ran it 5 times before there were no complaints
+    • Look forward to automating this
+  • Very everything is installed correctly
+  • Restart it with the init file and make sure everyting looks right
+
   *.Rprofile*
   ┌────
+  │ ## -*- mode: R; -*-
   │ «rprofile-def»
   │ .First <- function() {
   │     gcr <- new.env()
@@ -24,7 +43,14 @@
 
   *.Renviron*
   ┌────
+  │ # -*- mode: sh; -*-
   │ «renviron-def»
+  └────
+
+  *.Rinstall*
+  ┌────
+  │ # -*- mode: R; -*-
+  │ «rinstall-def»
   └────
 
 
@@ -32,9 +58,9 @@
 ─────────────────
 
   • When you install packages, R needs to know which repository it
-    should use. If you don't tell it, then it will ask you every
-    time. It is just doing its job.  Make it easier for yourself and
-    specify a repo for once and for all.
+    should use. If you don't tell it, then it will ask you every time.
+    It is just doing its job. Make it easier for yourself and specify a
+    repo for once and for all.
     • Via [2]
     • Built-in docs explain that `local' should be used here
     • This could also be a one-liner: `options("repos" = c(CRAN =
@@ -88,7 +114,7 @@
   after your workspace has initialized correctly. Do so too soon and
   most things won't work because this approach is only to handle /my/
   issues. Imagine of the whole work just handled their own issues!
-  Anway, the safe values are set here, leave them alone.  Making them
+  Anway, the safe values are set here, leave them alone. Making them
   more aggressive will break your startup. When you are ready to set
   things to be more aggressive, turn it on yourself
   ┌────
@@ -106,7 +132,7 @@
   Partial matching is a neat and flexible feature for objects. In
   theory, it is quite powerful and convenient. In practice it seems like
   a really bad idea to me. It is a /personal preference/. It only makes
-  sense from that perspective.  This could bork 3rd party code.
+  sense from that perspective. This could bork 3rd party code.
   ┌────
   │ options(warnPartialMatchDollar = TRUE)
   └────
@@ -119,7 +145,7 @@
     particular here because it affects operations on data structures, in
     particular sorting.
   • Error messages are mostly useful when they are displayed in English,
-    so make sure that the locale is always English [3].  "Note that the
+    so make sure that the locale is always English [3]. "Note that the
     LANGUAGE environment variable has precedence over `LC_MESSAGES' in
     selecting the language for message translation on most R platforms."
     [4]
@@ -169,10 +195,13 @@
       • `has_extension'
 
   ┌────
+  │ library(assertthat)
+  └────
+
+  ┌────
   │ if(! require(assertthat)){
   │     install.packages("assertthat")
   │ }
-  │ library(assertthat)
   └────
 
 
@@ -217,10 +246,13 @@
       • Plain old code so you can modify the global environment FYI
 
   ┌────
+  │ library(testthat)
+  └────
+
+  ┌────
   │ if(! require(testthat)) {
   │     install.packages("testthat")
   │ }
-  │ library(testthat)
   └────
 
 
@@ -230,10 +262,13 @@
   goal, and the reason that I installed this initially was because
   `testthat' mentions that it is used.
   ┌────
+  │ library(stringr)
+  └────
+
+  ┌────
   │ if(! require(stringr)) {
   │     install.packages("stringr")
   │ }
-  │ library(stringr)
   └────
 
 
@@ -278,23 +313,23 @@
         • State the SQLite types for the column names
         • Rarely needed
       • `dbname'
-        • "As in `sqldf' except that the default is
-          `tempfile()'. Specifying `NULL' will put the database in
-          memory which may improve speed but will limit the size of the
-          database by the available memory."
+        • "As in `sqldf' except that the default is `tempfile()'.
+          Specifying `NULL' will put the database in memory which may
+          improve speed but will limit the size of the database by the
+          available memory."
     • Details
       • "Reads the indicated file into an sql database creating the
         database if it does not already exist. Then it applies the sql
         statement returning the result as a data frame. If the database
         did not exist prior to this statement it is removed."
       • "Note that it uses facilities of SQLite to read the file which
-        are intended for speed and therefore not as flexible as in
-        R. For example, it does not recognize quoted fields as special
-        but will regard the quotes as part of the field. See the sqldf
-        help for more information."
+        are intended for speed and therefore not as flexible as in R.
+        For example, it does not recognize quoted fields as special but
+        will regard the quotes as part of the field. See the sqldf help
+        for more information."
       • "`read.csv2.sql' is like `read.csv.sql' except the default sep
         is ";" and the default filter translates all commas in the file
-        to decimal points (i.e.  to dots)."
+        to decimal points (i.e. to dots)."
     • Value
       • "If the sql statement is a select statement then a data frame is
         returned."
@@ -316,21 +351,20 @@
     : Details
       • The typical action of sqldf is to
       • in memory
-      • used in the select
-        statement. This is done by
-        scanning the select statement to
-        see which words in the select
-        statement are of class
-        "data.frame" or "file" in the
-        parent frame, or the specified
-        environment if envir is used, and
-        for each object found by reading
-        it into the database if it is a
-        data frame. Note that this
-        heuristic usually reads in the
-        wanted data frames and files but
-        on occasion may harmlessly reads
-        in extra ones too.
+      • used in the select statement.
+        This is done by scanning the
+        select statement to see which
+        words in the select statement are
+        of class "data.frame" or "file"
+        in the parent frame, or the
+        specified environment if envir is
+        used, and for each object found
+        by reading it into the database
+        if it is a data frame. Note that
+        this heuristic usually reads in
+        the wanted data frames and files
+        but on occasion may harmlessly
+        reads in extra ones too.
       • getting the result as a data frame
       • of the returned data frame’s columns if method =
         "auto". This is done by checking all the column
@@ -413,10 +447,9 @@
       • Load portions of a really large file
   • Troubleshooting
     • Set the driver expicitly
-    • "error messages regarding a data frame that has a dot in its
-      name. The dot is an SQL operator. Either quote the name
-      appropriately or change the name of the data frame to one without
-      a dot."
+    • "error messages regarding a data frame that has a dot in its name.
+      The dot is an SQL operator. Either quote the name appropriately or
+      change the name of the data frame to one without a dot."
   • FAQ
     • Column class conversion touched upon
     • Dots in names
@@ -469,10 +502,13 @@
   • These previous are all provided by [RSQLite.extfuns]
 
   ┌────
+  │ library(sqldf)
+  └────
+
+  ┌────
   │ if(! require(sqldf)) {
   │     install.packages("sqldf")
   │ }
-  │ library(sqldf)
   └────
 
 
@@ -493,24 +529,30 @@
   recommended it be installed, so it is the right time. [14]
 
   ┌────
+  │ library(MASS)
+  └────
+
+  ┌────
   │ if(! require(MASS)) {
   │     install.packages("MASS")
   │ }
-  │ library(MASS)
   └────
 
 
 ◊ 1.1.1.6 jsonlite
 
   Make it easy to work with JSON [37138455:
-  [http://cran.r-project.org/web/packages/jsonlite/index.html]].
-  Reading the vignette's, it does a lot more, for example `rbind.pages'.
+  [http://cran.r-project.org/web/packages/jsonlite/index.html]]. Reading
+  the vignette's, it does a lot more, for example `rbind.pages'.
+
+  ┌────
+  │ library(jsonlite)
+  └────
 
   ┌────
   │ if(! require(jsonlite)) {
   │     install.packages("jsonlite")
   │ }
-  │ library(jsonlite)
   └────
 
 
@@ -519,10 +561,13 @@
   `data.table' [15] is quite nice.
 
   ┌────
-  │ if(! require(data)) {
-  │     install.packages("data")
-  │ }
   │ library(data.table)
+  └────
+
+  ┌────
+  │ if(! require(data)) {
+  │     install.packages("data.table")
+  │ }
   └────
 
 
@@ -531,10 +576,13 @@
   Read and write Excel files [16].
 
   ┌────
+  │ library(xlsx)
+  └────
+
+  ┌────
   │ if(! require(xlsx)) {
   │     install.packages("xlsx")
   │ }
-  │ library(xlsx)
   └────
 
 
@@ -543,10 +591,13 @@
   Make ℝ truly enterprise [17].
 
   ┌────
+  │ library(XML)
+  └────
+
+  ┌────
   │ if(! require(XML)) {
   │     install.packages("XML")
   │ }
-  │ library(XML)
   └────
 
 
@@ -558,11 +609,11 @@
   provides.
 
   ┌────
-  │ devtools::install_github("smbache/magrittr")
+  │ library(magrittr)
   └────
 
   ┌────
-  │ library(magrittr)
+  │ devtools::install_github("smbache/magrittr")
   └────
 
 
@@ -594,12 +645,12 @@
   installing it if you want to us `tidyr'.
 
   ┌────
-  │ install.packages("devtools")
-  │ devtools::install_github("devtools")
+  │ library(devtools)
   └────
 
   ┌────
-  │ library(devtools)
+  │ install.packages("devtools")
+  │ devtools::install_github("devtools")
   └────
 
 
@@ -625,10 +676,13 @@
   This seems to be a defacto standard.
 
   ┌────
+  │ library(reshape2)
+  └────
+
+  ┌────
   │ if(! require(reshape2)) {
   │     install.packages("reshape2")
   │ }
-  │ library(reshape2)
   └────
 
 
@@ -652,11 +706,11 @@
   Not on CRAN yet so install via
 
   ┌────
-  │ devtools::install_github("hadley/tidyr")
+  │ library(tidyr)
   └────
 
   ┌────
-  │ library(tidyr)
+  │ devtools::install_github("hadley/tidyr")
   └────
 
 
@@ -685,10 +739,13 @@
   [Manual]. [Vignette].
 
   ┌────
+  │ library(lubridate)
+  └────
+
+  ┌────
   │ if(! require(lubridate)) {
   │     install.packages("lubridate")
   │ }
-  │ library(lubridate)
   └────
 
   Perhaps in some /time/ there will be a unified approach to
@@ -722,10 +779,13 @@
   [Readme]. [Manual]. [Home page]. [Github].
 
   ┌────
+  │ library(plyr)
+  └────
+
+  ┌────
   │ if(! require(plyr)) {
   │     install.packages("plyr")
   │ }
-  │ library(plyr)
   └────
 
 
@@ -746,7 +806,7 @@
 
   The fact that I am loading both `plyr' and `dplyr' is something that I
   am questioning. I do so because I learned them in that order, so left
-  it that way.  However, this just results in *more* binding shadowing,
+  it that way. However, this just results in *more* binding shadowing,
   and I am not sure of the implications, and they are usually never
   good.
 
@@ -756,10 +816,13 @@
   [Readme]. [Manual]. [Introduction to dplyr].
 
   ┌────
+  │ library(dplyr)
+  └────
+
+  ┌────
   │ if(! require(dplyr)) {
   │     install.packages("dplyr")
   │ }
-  │ library(dplyr)
   └────
 
 
@@ -783,10 +846,13 @@
   Gives you `assert' and `test_pkg'. Save characters.
 
   ┌────
+  │ library(testit)
+  └────
+
+  ┌────
   │ if(! require(testit)) {
   │     install.packages("testit")
   │ }
-  │ library(testit)
   └────
 
 
@@ -806,10 +872,13 @@
   • [GitHub]
 
   ┌────
+  │ library(markdown)
+  └────
+
+  ┌────
   │ if(! require(markdown)) {
   │     install.packages("markdown")
   │ }
-  │ library(markdown)
   └────
 
         This package is referred to as R Markdown v1 when combined
@@ -855,9 +924,9 @@
   and days and weeks that you have had spared! Uses `testit', so read up
   on that and added it.
 
-  Read the [Frequently Asked Questions]. Joined the [mailing
-  list]. `ess' supports it.  Sure that I can configure the custom
-  prompt. Great `README'.
+  Read the [Frequently Asked Questions]. Joined the [mailing list].
+  `ess' supports it. Sure that I can configure the custom prompt. Great
+  `README'.
 
   [CRAN] as expected. Much better summary eg HTML, Makrdown,
   reStructuredText, and AsciiDoc are mentioned. Curious about the
@@ -871,10 +940,13 @@
   [How to build package vignettes with knitr].
 
   ┌────
+  │ library(knitr)
+  └────
+
+  ┌────
   │ if(! require(knitr)) {
   │     install.packages("knitr")
   │ }
-  │ library(knitr)
   └────
 
 
@@ -915,12 +987,12 @@
   • [GitHub]
 
   ┌────
-  │ install_github("ramnathv/slidify")
-  │ install_github("ramnathv/slidifyLibraries")
+  │ library(slidify)
   └────
 
   ┌────
-  │ library(slidify)
+  │ install_github("ramnathv/slidify")
+  │ install_github("ramnathv/slidifyLibraries")
   └────
 
 
@@ -936,10 +1008,13 @@
   [CRAN].
 
   ┌────
+  │ library(fortunes)
+  └────
+
+  ┌────
   │ if(! require(fortunes)) {
   │     install.packages("fortunes")
   │ }
-  │ library(fortunes)
   └────
 
 
@@ -964,10 +1039,13 @@
     • [Documentation]
 
   ┌────
+  │ library(ggplot2)
+  └────
+
+  ┌────
   │ if(! require(ggplot2)) {
   │     install.packages("ggplot2")
   │ }
-  │ library(ggplot2)
   └────
 
 
@@ -994,10 +1072,13 @@
   • [GitHub]
 
   ┌────
+  │ library(tikzDevice)
+  └────
+
+  ┌────
   │ if(! require(tikzDevice)) {
   │     install.packages("tikzDevice")
   │ }
-  │ library(tikzDevice)
   └────
 
 
@@ -1019,10 +1100,13 @@
   • [GitHub]
 
   ┌────
+  │ library(ascii)
+  └────
+
+  ┌────
   │ if(! require(ascii)) {
   │     install.packages("ascii")
   │ }
-  │ library(ascii)
   └────
 
   Always display `org' representations; I'm assuming that it will be
@@ -1049,10 +1133,13 @@
   • [R-Forge]
 
   ┌────
+  │ library(xtable)
+  └────
+
+  ┌────
   │ if(! require(xtable)) {
   │     install.packages("xtable")
   │ }
-  │ library(xtable)
   └────
 
 
@@ -1076,10 +1163,13 @@
   • [GitHub]
 
   ┌────
+  │ library(Hmisc)
+  └────
+
+  ┌────
   │ if(! require(Hmisc)) {
   │     install.packages("Hmisc")
   │ }
-  │ library(Hmisc)
   └────
 
 
@@ -1097,10 +1187,13 @@
   • [GitHub]
 
   ┌────
+  │ library(log4r)
+  └────
+
+  ┌────
   │ if(! require(log4r)) {
   │     install.packages("log4r")
   │ }
-  │ library(log4r)
   └────
 
 
@@ -1117,10 +1210,13 @@
     • [reference]
 
   ┌────
+  │ library(boot)
+  └────
+
+  ┌────
   │ if(! require(boot)) {
   │     install.packages("boot")
   │ }
-  │ library(boot)
   └────
 
 
@@ -1137,10 +1233,13 @@
   • GitHub
 
   ┌────
+  │ library(kernlab)
+  └────
+
+  ┌────
   │ if(! require(kernlab)) {
   │     install.packages("kernlab")
   │ }
-  │ library(kernlab)
   └────
 
 
@@ -1496,7 +1595,7 @@
   Then even though I was on OSX I *had* to switch to `X11'.
 
   <2014-11-05 Wed> That was probably a mistake. The folks on-list said
-  that `quartz' should be super.  Perhaps the error was between the
+  that `quartz' should be super. Perhaps the error was between the
   keyboard and the chair, so I am switching back.
 
   <2014-11-08 Sat> When I us `ggplot' and quarts on this system, it
@@ -1510,7 +1609,7 @@
   └────
 
   Explicitly state the timezone. This could be done either here or in
-  the `.profile'.  I'm not totally sure where to put it. Because I am
+  the `.profile'. I'm not totally sure where to put it. Because I am
   trying to do *everything* with, I will put it here. Perhaps this
   should get set via `Sys.setenv' instead? I'll leave it for now and fix
   it later if necessary. I did test this out with a call to `Sys.time()'
