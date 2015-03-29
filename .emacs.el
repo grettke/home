@@ -17,7 +17,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(anzu-mode-line ((t (:foreground "#073642" :weight bold)))))
 (defun gcr/emacs-version-check ()
   "Enforce version compliance."
   (interactive)
@@ -39,15 +39,16 @@
              '("melpa-non-github" . "http://melpa.org/packages/") t)
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.org/packages/") t)
-(setq package-pinned-archives nil)
-(add-to-list 'package-pinned-archives '(org-plus-contrib . "org"))
-(mapcar (lambda (pkg) (add-to-list 'package-pinned-archives `(,pkg . "melpa-stable")))
+(setq package-pinned-packages nil)
+(add-to-list 'package-pinned-packages '(org-plus-contrib . "org"))
+(mapcar (lambda (pkg) (add-to-list 'package-pinned-packages `(,pkg . "melpa-stable")))
         '(
           ace-jump-zap
           ace-link
           ace-window
           alert
           aggressive-indent
+          anzu
           auto-complete
           auto-complete-chunk
           boxquote
@@ -106,14 +107,14 @@
           yaml-mode
           ))
 
-(mapcar (lambda (pkg) (add-to-list 'package-pinned-archives `(,pkg . "gnu")))
+(mapcar (lambda (pkg) (add-to-list 'package-pinned-packages `(,pkg . "gnu")))
         '(
           ascii-art-to-unicode
           auctex
           diff-hl
           sml-mode
           ))
-(mapcar (lambda (pkg) (add-to-list 'package-pinned-archives `(,pkg . "melpa-non-github")))
+(mapcar (lambda (pkg) (add-to-list 'package-pinned-packages `(,pkg . "melpa-non-github")))
         '(
           anchored-transpose
           figlet
@@ -124,7 +125,7 @@
           move-text
           undo-tree
           ))
-(mapcar (lambda (pkg) (add-to-list 'package-pinned-archives `(,pkg . "melpa")))
+(mapcar (lambda (pkg) (add-to-list 'package-pinned-packages `(,pkg . "melpa")))
         '(
           autotetris-mode
           dired-details+
@@ -146,6 +147,7 @@
  'aggressive-indent
  'alert
  'anchored-transpose
+ 'anzu
  'ascii-art-to-unicode
  'auctex
  'auto-complete
@@ -188,6 +190,7 @@
  'magit
  'markdown-mode
  'metaweblog
+ 'move-text
  'multiple-cursors
  'neotree
  'nyan-mode
@@ -320,11 +323,6 @@
                                      :pkgname "nicferrier/emacs-world-time-mode"))
 (add-to-list 'gcr/el-get-packages 'emacs-world-time-mode)
 (el-get 'sync gcr/el-get-packages)
-(defconst +honey-bee-wing-flap+ 5
-  "A honey bee's wing flap in milliseconds.
-
-URL: `https://en.wikipedia.org/wiki/Millisecond'")
-
 (defun gcr/untabify-buffer ()
   "For untabifying the entire buffer."
   (interactive)
@@ -352,6 +350,13 @@ URL: `https://en.wikipedia.org/wiki/Millisecond'")
 (defmacro gcr/on-osx (statement &rest statements)
   "Evaluate the enclosed body only when run on OSX."
   `(when (eq system-type 'darwin)
+     ,statement
+     ,@statements))
+
+(defmacro gcr/on-gnu/linux-or-osx (statement &rest statements)
+  "Evaluate the enclosed body only when run on GNU/Linux or OSX."
+  `(when (or (eq system-type 'gnu/linux)
+            (eq system-type 'darwin))
      ,statement
      ,@statements))
 
@@ -432,19 +437,6 @@ This is a copy and paste. Additional languages would warrant a refactor."
   (interactive)
   (add-to-list 'ispell-skip-region-alist block-def))
 
-(defun gcr/paste-from-x-clipboard()
-  "Intelligently grab clipboard information per OS.
-
-Attribution: URL `http://blog.binchen.org/posts/paste-string-from-clipboard-into-minibuffer-in-emacs.html'"
-  (interactive)
-  (shell-command
-   (cond
-    (*cygwin* "getclip")
-    (*is-a-mac* "pbpaste")
-    (t "xsel -ob")
-    )
-   1))
-
 (defun gcr/insert-timestamp ()
   "Produces and inserts a full ISO 8601 format timestamp."
   (interactive)
@@ -486,7 +478,7 @@ Attribution: URL `http://blog.binchen.org/posts/paste-string-from-clipboard-into
     (with-current-buffer buf
       (when (and (buffer-file-name) (buffer-modified-p))
         (save-buffer))))
-  (sleep-for 0 (* 3 +honey-bee-wing-flap+)))
+  (sleep-for 0 250))
 
 (defun gcr/kill-other-buffers ()
   "Kill all other buffers."
@@ -731,23 +723,6 @@ Attribution: URL `http://www.masteringemacs.org/articles/2010/11/29/evaluating-e
   (add-to-list 'ac-modes 'inferior-emacs-lisp-mode)
   (auto-complete-mode 1))
 
-(defun gcr/move-line-up ()
-  "Move the current line up one.
-
-Attribution: URL `https://github.com/hrs/dotfiles/blob/master/emacs.d/lisp/utils.el'"
-  (interactive)
-  (transpose-lines 1)
-  (forward-line -2))
-
-(defun gcr/move-line-down ()
-  "Move the current line down one.
-
-Attribution: URL `https://github.com/hrs/dotfiles/blob/master/emacs.d/lisp/utils.el'"
-  (interactive)
-  (forward-line 1)
-  (transpose-lines 1)
-  (forward-line -1))
-
 (defun gcr/uuid-string ()
   "Insert a string form of a UUID."
   (interactive)
@@ -990,7 +965,7 @@ ATTRIBUTION: SRC https://github.com/sachac/.emacs.d/blob/gh-pages/Sacha.org#unfi
 (gcr/on-osx (setq frame-title-format '("𝔸𝕃𝔼ℂ")))
 (gcr/on-windows (setq frame-title-format '("ALEC")))
 (scroll-bar-mode 0)
-(tool-bar-mode 0)
+(tool-bar-mode -1)
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
 (setq mouse-wheel-progressive-speed nil)
 (setq mouse-wheel-follow-mouse +1)
@@ -1079,11 +1054,9 @@ ATTRIBUTION: SRC https://github.com/sachac/.emacs.d/blob/gh-pages/Sacha.org#unfi
 (setq max-mini-window-height 0.33)
 (setq enable-recursive-minibuffers t)
 (minibuffer-depth-indicate-mode 1)
-(defun gcr/minibuffer-setup-hook ()
-  "Personal setup."
-  (local-set-key "ESC y" 'gcr/paste-from-x-clipboard))
-
-(add-hook 'minibuffer-setup-hook 'gcr/minibuffer-setup-hook)
+(setq isearch-lax-whitespace +1)
+(setq isearch-regexp-lax-whitespace +1)
+(setq-default case-fold-search +1)
 (require 'ido)
 (require 'flx-ido)
 (ido-mode 1)
@@ -1096,9 +1069,22 @@ ATTRIBUTION: SRC https://github.com/sachac/.emacs.d/blob/gh-pages/Sacha.org#unfi
 (require 'ido-vertical-mode)
 (ido-vertical-mode +1)
 (setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right)
-(setq isearch-lax-whitespace +1)
-(setq isearch-regexp-lax-whitespace +1)
-(setq-default case-fold-search +1)
+(require 'anzu)
+(global-anzu-mode +1)
+(global-set-key (kbd "M-%") 'anzu-query-replace)
+(global-set-key (kbd "C-M-%") 'anzu-query-replace-regexp)
+(setq anzu-mode-lighter "")
+(setq anzu-deactivate-region t)
+(setq anzu-search-threshold 1000)
+(setq anzu-replace-to-string-separator " => ")
+(gcr/on-gnu/linux-or-osx
+ (defadvice ido-find-file (after find-file-sudo activate)
+   "Find file as root if necessary.
+
+Attribution: SRC `http://emacsredux.com/blog/2013/04/21/edit-files-as-root/'"
+   (unless (and buffer-file-name
+              (file-writable-p buffer-file-name))
+     (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name)))))
 (require 'pos-tip)
 (gcr/on-windows
  (ignore-errors
@@ -1150,9 +1136,15 @@ ATTRIBUTION: SRC https://github.com/sachac/.emacs.d/blob/gh-pages/Sacha.org#unfi
   (local-set-key (kbd "C-;") 'log-edit-done))
 
 (add-hook 'log-edit-mode-hook 'gcr/log-edit-mode-hook-local-bindings)
+(defun gcr/git-commit-commit ()
+  "Allow commit message to save before committing."
+  (interactive)
+  (sleep-for 1 000)
+  (git-commit-commit))
+
 (defun gcr/git-commit-mode-hook ()
   "Personal customizations."
-  (local-set-key (kbd "C-;") 'git-commit-commit))
+  (local-set-key (kbd "C-;") 'gcr/git-commit-commit))
 
 (add-hook 'git-commit-mode-hook 'gcr/git-commit-mode-hook)
 (eval-after-load 'log-edit
@@ -1378,6 +1370,7 @@ ATTRIBUTION: SRC https://github.com/sachac/.emacs.d/blob/gh-pages/Sacha.org#unfi
 (require 'ox-beamer)
 (require 'ox-md)
 (require 'htmlize)
+(require 'ox-confluence)
 (setq htmlize-output-type 'inline-css)
 (setq org-html-htmlize-output-type htmlize-output-type)
 (let ((pkg 'org-show))
@@ -1614,7 +1607,7 @@ Attribution: URL `https://lists.gnu.org/archive/html/emacs-orgmode/2014-09/msg00
   (local-set-key (kbd "C-2") 'gcr/org-edit-src-code-plus-name)
   (local-set-key (kbd "C-3") 'org-table-edit-field)
   (local-set-key (kbd "s-h") 'org-babel-check-src-block)
-  (local-set-key (kbd "s-a i") 'org-babel-insert-header-arg)
+  (local-set-key (kbd "s-i i") 'org-babel-insert-header-arg)
   (local-set-key (kbd "s-j") 'org-babel-previous-src-block)
   (local-set-key (kbd "s-k") 'org-babel-next-src-block)
   (local-set-key (kbd "s-l") 'org-babel-demarcate-block)
@@ -1671,7 +1664,8 @@ Attribution: URL `https://lists.gnu.org/archive/html/emacs-orgmode/2014-09/msg00
          (not (equal new-command 'diff-hl-mode))
          (not (equal new-command 'my-eval-expression))
          (not (equal old-command 'list-buffers))
-         (not (equal new-command 'gcr/move-line-up))
+         (not (equal new-command 'gcr/vc-map))
+         (not (equal new-command 'projectile-find-file))
          )
       (warn "Just stomped the global-map binding for %S, replaced %S with %S"
             key old-command new-command))))
@@ -1707,8 +1701,6 @@ Attribution: URL `https://lists.gnu.org/archive/html/emacs-orgmode/2014-09/msg00
 (global-set-key (kbd "C-;") 'vc-next-action)
 (key-chord-define-global "yu" 'move-text-up)
 (key-chord-define-global "hj" 'move-text-down)
-(global-set-key (kbd "C-s-<up>") 'gcr/move-line-up)
-(global-set-key (kbd "C-s-<down>") 'gcr/move-line-down)
 (key-chord-define-global "qp" 'ispell)
 (key-chord-define-global "qo" 'ispell-word)
 (key-chord-define-global "wm" 'writegood-mode)
@@ -1716,21 +1708,25 @@ Attribution: URL `https://lists.gnu.org/archive/html/emacs-orgmode/2014-09/msg00
 (key-chord-define-global "wz" 'writegood-reading-ease)
 (define-prefix-command 'gcr/langtool-map)
 (key-chord-define-global "qk" 'gcr/langtool-map)
-(define-key gcr/langtool-map "c" 'langtool-check)
+(define-key gcr/langtool-map "c" 'langtool-check-buffer)
 (define-key gcr/langtool-map "C" 'langtool-correct-buffer)
-(define-key gcr/langtool-map "s" 'langtool-show-message-at-point)
+(define-key gcr/langtool-map "j" 'langtool-goto-previous-error)
+(define-key gcr/langtool-map "k" 'langtool-show-message-at-point)
+(define-key gcr/langtool-map "l" 'langtool-goto-next-error)
 (define-key gcr/langtool-map "q" 'langtool-check-done)
 (key-chord-define-global "wm" 'writegood-mode)
 (global-set-key (kbd "M-s p") 'gcr/occur-dwim)
-(key-chord-define-global "eo" 'gcr/comment-or-uncomment)
-(global-set-key (kbd "s-d h") 'diff-hl-mode)
-(global-set-key (kbd "s-d e") 'vc-ediff)
-(global-set-key (kbd "s-d d") 'vc-diff)
-(global-set-key (kbd "s-d u") 'vc-revert)
+(key-chord-define-global "qi" 'gcr/comment-or-uncomment)
+(define-prefix-command 'gcr/vc-map)
+(global-set-key (kbd "s-d") 'gcr/vc-map)
+(define-key gcr/vc-map "h" 'diff-hl-mode)
+(define-key gcr/vc-map "e" 'vc-ediff)
+(define-key gcr/vc-map "d" 'vc-diff)
+(define-key gcr/vc-map "u" 'vc-revert)
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
-(global-set-key (kbd "s-f") 'projectile-find-file)
+(global-set-key (kbd "C-x C-p") 'projectile-find-file)
 (global-set-key (kbd "C-4") 'auto-complete)
 (key-chord-define-global "sb" 'ido-switch-buffer)
 (global-set-key (kbd "C--") 'ace-window)
@@ -1806,8 +1802,8 @@ Attribution: URL `https://lists.gnu.org/archive/html/emacs-orgmode/2014-09/msg00
 (global-set-key (kbd "M-<return>") 'gcr/lazy-new-open-line)
 (global-set-key (kbd "M-:") 'my-eval-expression)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
-(global-set-key (kbd "<f8>") 'magit-status)
-(global-set-key (kbd "<f9>") 'gcr/util-cycle)
+(key-chord-define-global "f8" 'magit-status)
+(key-chord-define-global "f9" 'gcr/util-cycle)
 (global-set-key (kbd "<f12>") 'neotree-toggle)
 (global-set-key (kbd "M-7") 'gcr/insert-timestamp)
 (global-set-key (kbd "s-7") 'gcr/insert-timestamp*)
@@ -1816,6 +1812,14 @@ Attribution: URL `https://lists.gnu.org/archive/html/emacs-orgmode/2014-09/msg00
 (gcr/on-gui
  (global-set-key (kbd "s-<f7>") 'gcr/text-scale-increase)
  (global-set-key (kbd "M-<f7>") 'gcr/text-scale-decrease))
+(global-set-key (kbd "M-<f1>") 'apropos-map)
+(define-prefix-command 'apropos-map nil "Apropos (a(propos),d(documentation),c(ommand),i(nfo),l(ibrary),v(ariable))")
+(define-key apropos-map (kbd "a") 'apropos)
+(define-key apropos-map (kbd "d") 'apropos-documentation)
+(define-key apropos-map (kbd "c") 'apropos-command)
+(define-key apropos-map (kbd "i") 'info-apropos)
+(define-key apropos-map (kbd "l") 'apropos-library)
+(define-key apropos-map (kbd "v") 'apropos-variable)
 (global-set-key (kbd "C-<f2>") 'emacs-index-search)
 (global-set-key (kbd "S-<f2>") 'elisp-index-search)
 (global-set-key (kbd "C-<f3>") 'imenu-anywhere)
@@ -1831,7 +1835,7 @@ Attribution: URL `https://lists.gnu.org/archive/html/emacs-orgmode/2014-09/msg00
  (add-hook 'yas-minor-mode-hook 'gcr/ymh-h)
  (defun gcr/omh-h ()
    (local-set-key (kbd "M-s-h") 'org-babel-check-src-block)
-   (local-set-key (kbd "M-s-a i") 'org-babel-insert-header-arg)
+   (local-set-key (kbd "M-s-i") 'org-babel-insert-header-arg)
    (local-set-key (kbd "M-s-j") 'org-babel-previous-src-block)
    (local-set-key (kbd "M-s-k") 'org-babel-next-src-block)
    (local-set-key (kbd "M-s-l") 'org-babel-demarcate-block)
@@ -1859,7 +1863,6 @@ Attribution: URL `https://lists.gnu.org/archive/html/emacs-orgmode/2014-09/msg00
  (global-set-key (kbd "M-s-d e") 'vc-ediff)
  (global-set-key (kbd "M-s-d d") 'vc-diff)
  (global-set-key (kbd "M-s-d u") 'vc-revert)
- (global-set-key (kbd "M-s-f") 'projectile-find-file)
  (global-set-key (kbd "M-s-2") 'gcr/two-key-map)
  (global-set-key (kbd "M-s-p") 'gcr/describe-thing-in-popup)
  (global-set-key (kbd "M-s-<return>") 'gcr/smart-open-line)
@@ -1879,7 +1882,6 @@ Attribution: URL `https://lists.gnu.org/archive/html/emacs-orgmode/2014-09/msg00
 (setq comint-prompt-read-only nil)
 (defun gcr/css-modehook ()
   (fci-mode)
-  (whitespace-turn-on)
   (visual-line-mode)
   (gcr/untabify-buffer-hook)
   (local-set-key (kbd "RET") 'newline-and-indent))
@@ -2083,12 +2085,15 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
 (define-key polymode-mode-map (kbd "s-o m") 'polymode-mark-or-extend-chunk)
 (define-key polymode-mode-map (kbd "s-o t") 'polymode-toggle-chunk-narrowing)
 (defun gcr/ruby-mode-hook ()
+  (interactive)
   (fci-mode)
   (gcr/untabify-buffer-hook)
   (visual-line-mode)
   (fci-mode)
   (turn-on-smartparens-strict-mode)
-  (local-set-key (kbd "RET") 'newline-and-indent))
+  (local-set-key (kbd "RET") 'newline-and-indent)
+  (hs-minor-mode 1)
+  (linum-mode))
 
 (add-hook 'ruby-mode-hook 'gcr/ruby-mode-hook)
 (require 'geiser)
@@ -2216,8 +2221,15 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
 
 (require 'json-reformat)
 
-(add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.json\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
 (setq browse-url-browser-function 'browse-url-generic)
 (gcr/on-gnu/linux (setq browse-url-generic-program "chromium-browser"))
 (gcr/on-osx
@@ -2238,7 +2250,7 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
   "Helpful behavior for YAML buffers."
   (interactive)
   (turn-on-smartparens-strict-mode)
-  (gcr/newline)
+  (local-set-key (kbd "RET") 'newline-and-indent)
   (gcr/disable-tabs)
   (turn-on-pretty-mode)
   (gcr/untabify-buffer)
@@ -2261,7 +2273,7 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
 (add-to-list 'auto-mode-alist '("\\.asc" . artist-mode))
 (add-to-list 'auto-mode-alist '("\\.art" . artist-mode))
 (add-to-list 'auto-mode-alist '("\\.asc" . artist-mode))
-(defconst gcr/plantuml-jar (concat (expand-file-name (getenv "EELIB")) "/plantuml.8020.jar"))
+(defconst gcr/plantuml-jar (concat (expand-file-name (getenv "EELIB")) "/plantuml.8021.jar"))
 (defun gcr/warn-plantuml-jar ()
   "Warn of plantuml misconfiguration."
   (interactive)

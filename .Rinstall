@@ -18,7 +18,7 @@ if(! require(MASS)) {
 if(! require(jsonlite)) {
     install.packages("jsonlite")
 }
-if(! require(data)) {
+if(! require(data.table)) {
     install.packages("data.table")
 }
 if(! require(xlsx)) {
@@ -27,13 +27,21 @@ if(! require(xlsx)) {
 if(! require(XML)) {
     install.packages("XML")
 }
-devtools::install_github("smbache/magrittr")
-install.packages("devtools")
-devtools::install_github("devtools")
+if(! require(devtools)) {
+    install.packages("devtools")
+    devtools::install_github("hadley/devtools")
+}
+
+if(! require(magrittr)) {
+    devtools::install_github("smbache/magrittr")
+}
 if(! require(reshape2)) {
     install.packages("reshape2")
 }
-devtools::install_github("hadley/tidyr")
+if(! require(tidyr)) {
+    devtools::install_github("hadley/tidyr")
+}
+
 if(! require(lubridate)) {
     install.packages("lubridate")
 }
@@ -52,8 +60,10 @@ if(! require(markdown)) {
 if(! require(knitr)) {
     install.packages("knitr")
 }
-install_github("ramnathv/slidify")
-install_github("ramnathv/slidifyLibraries")
+if(! require(slidify)) {
+    install_github("ramnathv/slidify")
+    install_github("ramnathv/slidifyLibraries")
+}
 if(! require(fortunes)) {
     install.packages("fortunes")
 }

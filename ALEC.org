@@ -104,7 +104,7 @@ ELPA.
 When I first cut my system over to ELPA I went with GNU ELPA and Marmalade.
 Eventually I found that they weren't the right thing for me since the former had
 a very small collection and the latter, strangely, had exactly what I wasn't
-looking for. About that time, MELPA  was starting to really gain momentum.
+looking for. About that time, MELPA was starting to really gain momentum.
 
 MELPA is really a community and a belief-system in addition to being a package
 repository. They value structure and form, and make sure that the package
@@ -124,8 +124,8 @@ learned about Emacs and the community, the more I found the need to manage
 software not hosted in MELPA.
 
 MELPA is perfect at what it does, and it is still evolving. Rather than try to
-plan for everything, the decided to solve 80% of most problems for most people
-and that is super. Now they are looking at how to handle version-ed packages by
+plan for everything, they decided to solve 80% of most problems for most people
+and that is super. Now they are looking at how to handle versioned packages by
 hosting a stable repository that uses Git tags, and that is super, too. What
 about software that doesn't live in a package though?
 
@@ -135,7 +135,7 @@ on the 'Net? That question got me motivated to learn about other people's
 approaches for package management. That is where I learned about EL-Get.
 
 EL-Get is powerful, and flexible, and concise. What it lacks in community
-movement, it makes up for in raw power. When I find code that doesn't live in
+momentum, it makes up for in raw power. When I find code that doesn't live in
 packages, and may never, then I start setting up EL-Get to grab it for me.
 
 Based upon what I've read, it had its time in the sun. Its power is still true,
@@ -151,7 +151,7 @@ after switching from Subversion to Cask, I dug into the options out there today.
 
 My foray into EL-Get was kind of a mistake, since its role had changed in the
 community between then and its inception. I spent a lot of time not being
-productive there. Then I figured that Cask would be fine, but again at the time
+productive there. Then I figured that Cask would be fine, but at the time
 it did not run easily on Windows, which is really important to me. Based on
 that, I quit pursuing Cask as an option. From what I read, Cask does now run
 easily on Windows, but I am not revisiting it for now.
@@ -194,6 +194,44 @@ in the non-stable dependencies, and, that will just have to be OK for now.
 
 The latest surprises is that Solarized-Theme doesn't install. Clearly there is
 a good opportunity here to utilize a more /predictable/ approach!
+
+Over the last three months I have revisited this issue. I visited it probably
+fifteen times. Each time I spent and hour or two or three. Every time I learned
+something. Every time I did not get the desired results. Packages would
+mysteriously be reported as "not available" despite the fact they appeared in
+the =list-packages= GUI with the correct pinned package repo. Even after manually
+installing the desired package, on startup the packages would be reported as not
+available. I didn't track down the source of that issue. I did see that the
+pinned-packages are probably not respected. At least a few packages that were
+pinned to repos were not installed using a package release from that repo. For
+example, =f= is always installed from MELPA instead of MELPA Stable. I didn't
+track down the source of that issue. This behavior got me thinking. @purcell or
+@bbatsov noted that they run all packages right from MELPA. Other don't do this
+because of the belief that there will be frequent issues and breakages in HEAD.
+They explained though that this is uncommon and not an issue for them. Perhaps
+this is the key. The normal way of doing things is to work with the HEAD of the
+code. If issues occur, then they will be reported resolved pretty quickly. My
+original desire was to /lock down/ package versions as much as possible to avoid
+headaches. My desire fit into the =reproducible research= mind-set of
+predictability. That might be the wrong way to do things here. While researching
+this aspect of ALEC's configuration, I configured many permutations of loading
+packages. Each one provided different results. In the end, I made it work and
+things were fine. Perhaps this is indeed fine. Perhaps I am actually battling
+the Emacs way of doing things. Perhaps that is why the problems exist. I think
+that I am. I am not sure how, but I think so. Perhaps the best thing to do right
+now is to let it sit and let it get closer to how it ought to be. With that in
+mind, I did try configuring the system to pull MELPA packages only from MELPA
+and not MELPA Stable. I still got the behavior where =f= did not load. I still had
+to load it manually. I tried running without MELPA Stable but still couldn't
+produce any configuration without installation issues. Every installation
+required manual steps. This was surprising and tiring. As such, my manual set up
+and separate package sources still remain. This issue makes it difficult for
+anyone to take this configuration file, start Emacs, and be presented with a
+fully functioning system. It is not fully automated. It still requires manual
+steps. If it wasn't clear already, this system is not a product for anyone other
+than myself. I applaud the efforts of the Emacs product [[http://ergoemacs.org/misc/list_of_emacs_starter_kits.html][providers]]. It surely
+takes more work and effort than most of us will ever understand or appreciate.
+Now, I am content with my own.
 
 *** Package
 
@@ -254,26 +292,27 @@ are listed in the same order as they are pulled in, by repository:
 - MELPA NON GitHub
 - MELPA
 
-Reset the pinned archive list.
+Reset the pinned package list.
 
 #+begin_src emacs-lisp
-(setq package-pinned-archives nil)
+(setq package-pinned-packages nil)
 #+end_src
 
 *ORG*
 #+begin_src emacs-lisp
-(add-to-list 'package-pinned-archives '(org-plus-contrib . "org"))
+(add-to-list 'package-pinned-packages '(org-plus-contrib . "org"))
 #+end_src
 
 *MELPA Stable*
 #+begin_src emacs-lisp
-(mapcar (lambda (pkg) (add-to-list 'package-pinned-archives `(,pkg . "melpa-stable")))
+(mapcar (lambda (pkg) (add-to-list 'package-pinned-packages `(,pkg . "melpa-stable")))
         '(
           ace-jump-zap
           ace-link
           ace-window
           alert
           aggressive-indent
+          anzu
           auto-complete
           auto-complete-chunk
           boxquote
@@ -336,7 +375,7 @@ Reset the pinned archive list.
 
 *GNU*
 #+begin_src emacs-lisp
-(mapcar (lambda (pkg) (add-to-list 'package-pinned-archives `(,pkg . "gnu")))
+(mapcar (lambda (pkg) (add-to-list 'package-pinned-packages `(,pkg . "gnu")))
         '(
           ascii-art-to-unicode
           auctex
@@ -347,7 +386,7 @@ Reset the pinned archive list.
 
 *MELPA NON-GitHub*
 #+begin_src emacs-lisp
-(mapcar (lambda (pkg) (add-to-list 'package-pinned-archives `(,pkg . "melpa-non-github")))
+(mapcar (lambda (pkg) (add-to-list 'package-pinned-packages `(,pkg . "melpa-non-github")))
         '(
           anchored-transpose
           figlet
@@ -362,7 +401,7 @@ Reset the pinned archive list.
 
 *MELPA*
 #+begin_src emacs-lisp
-(mapcar (lambda (pkg) (add-to-list 'package-pinned-archives `(,pkg . "melpa")))
+(mapcar (lambda (pkg) (add-to-list 'package-pinned-packages `(,pkg . "melpa")))
         '(
           autotetris-mode
           dired-details+
@@ -387,11 +426,17 @@ refreshed so that Package knows about the new packages.
 
 This is the list of packages that should be installed automatically and loaded.
 
-Why not use =package-pinned-archives= here, since the contents are the same?
+I tried to run it like this:
 
-I don't recall. Originally I knew that I wanted to turn some packages on and off
-and so I kept this list. Perhaps no other needs developed from there, so I did
-not refactor anything.
+#+begin_example
+(setq gcr/packages '())
+(mapcar (lambda (pkg-def) (add-to-list 'gcr/packages (car pkg-def)))
+        package-pinned-packages)
+(apply 'package-manifest gcr/packages)
+#+end_example
+
+It didn't work. I tested out running it with =apply=. I don't know why. In the
+future I would like to fix this.
 
 #+begin_src emacs-lisp
 (package-manifest
@@ -401,6 +446,7 @@ not refactor anything.
  'aggressive-indent
  'alert
  'anchored-transpose
+ 'anzu
  'ascii-art-to-unicode
  'auctex
  'auto-complete
@@ -443,6 +489,7 @@ not refactor anything.
  'magit
  'markdown-mode
  'metaweblog
+ 'move-text
  'multiple-cursors
  'neotree
  'nyan-mode
@@ -875,11 +922,6 @@ would be to seriously constrain its operator.
 ** Functions & Constants
 
 #+begin_src emacs-lisp
-(defconst +honey-bee-wing-flap+ 5
-  "A honey bee's wing flap in milliseconds.
-
-URL: `https://en.wikipedia.org/wiki/Millisecond'")
-
 (defun gcr/untabify-buffer ()
   "For untabifying the entire buffer."
   (interactive)
@@ -907,6 +949,13 @@ URL: `https://en.wikipedia.org/wiki/Millisecond'")
 (defmacro gcr/on-osx (statement &rest statements)
   "Evaluate the enclosed body only when run on OSX."
   `(when (eq system-type 'darwin)
+     ,statement
+     ,@statements))
+
+(defmacro gcr/on-gnu/linux-or-osx (statement &rest statements)
+  "Evaluate the enclosed body only when run on GNU/Linux or OSX."
+  `(when (or (eq system-type 'gnu/linux)
+            (eq system-type 'darwin))
      ,statement
      ,@statements))
 
@@ -987,19 +1036,6 @@ This is a copy and paste. Additional languages would warrant a refactor."
   (interactive)
   (add-to-list 'ispell-skip-region-alist block-def))
 
-(defun gcr/paste-from-x-clipboard()
-  "Intelligently grab clipboard information per OS.
-
-Attribution: URL `http://blog.binchen.org/posts/paste-string-from-clipboard-into-minibuffer-in-emacs.html'"
-  (interactive)
-  (shell-command
-   (cond
-    (*cygwin* "getclip")
-    (*is-a-mac* "pbpaste")
-    (t "xsel -ob")
-    )
-   1))
-
 (defun gcr/insert-timestamp ()
   "Produces and inserts a full ISO 8601 format timestamp."
   (interactive)
@@ -1041,7 +1077,7 @@ Attribution: URL `http://blog.binchen.org/posts/paste-string-from-clipboard-into
     (with-current-buffer buf
       (when (and (buffer-file-name) (buffer-modified-p))
         (save-buffer))))
-  (sleep-for 0 (* 3 +honey-bee-wing-flap+)))
+  (sleep-for 0 250))
 
 (defun gcr/kill-other-buffers ()
   "Kill all other buffers."
@@ -1295,23 +1331,6 @@ Attribution: URL `http://www.masteringemacs.org/articles/2010/11/29/evaluating-e
                      ac-source-words-in-same-mode-buffers))
   (add-to-list 'ac-modes 'inferior-emacs-lisp-mode)
   (auto-complete-mode 1))
-
-(defun gcr/move-line-up ()
-  "Move the current line up one.
-
-Attribution: URL `https://github.com/hrs/dotfiles/blob/master/emacs.d/lisp/utils.el'"
-  (interactive)
-  (transpose-lines 1)
-  (forward-line -2))
-
-(defun gcr/move-line-down ()
-  "Move the current line down one.
-
-Attribution: URL `https://github.com/hrs/dotfiles/blob/master/emacs.d/lisp/utils.el'"
-  (interactive)
-  (forward-line 1)
-  (transpose-lines 1)
-  (forward-line -1))
 
 (defun gcr/uuid-string ()
   "Insert a string form of a UUID."
@@ -1969,7 +1988,7 @@ turned off.
 The tool bars used to be not very nice, but now they are. I really do like this
 because it often provides useful things. Illogically, I don't like to see it.
 #+begin_src emacs-lisp
-(tool-bar-mode 0)
+(tool-bar-mode -1)
 #+end_src
 
 Let the mouse-wheel move the cursor in a sane manner.
@@ -2197,6 +2216,9 @@ constantly wax and wane between wanting to use it and finding something
 
 The =aspell= personal directionary is version controlled.
 
+These Aspell artifacts are valuable. Treat them appropriately. Don't place
+junk in them. Review them periodically. Weed out bad entries.
+
 #+begin_src emacs-lisp
 (defconst gcr/aspell-personal-dictionary "~/.aspell.en.pws")
 (defun gcr/warn-aspell-personal-dictionary ()
@@ -2382,17 +2404,24 @@ recursion.
 (minibuffer-depth-indicate-mode 1)
 #+end_src
 
-Minibuffer preferences:
-- Handle pasting from the clipboard to the minibuffer
-#+begin_src emacs-lisp
-(defun gcr/minibuffer-setup-hook ()
-  "Personal setup."
-  (local-set-key "ESC y" 'gcr/paste-from-x-clipboard))
+** Searching / Finding / Replacing [fn:350ccf16: http://repo.or.cz/w/emacs.git/blob_plain/HEAD:/lisp/ido.el] [fn:137: https://github.com/lewang/flx]
 
-(add-hook 'minibuffer-setup-hook 'gcr/minibuffer-setup-hook)
+*** Searching
+
+Perhaps an odd topic, but how you handle spaces when performing an interactive
+search is a choice:
+#+begin_src emacs-lisp
+(setq isearch-lax-whitespace +1)
+(setq isearch-regexp-lax-whitespace +1)
 #+end_src
 
-** Searching / Finding [fn:350ccf16: http://repo.or.cz/w/emacs.git/blob_plain/HEAD:/lisp/ido.el] [fn:137: https://github.com/lewang/flx]
+Make searches case-insensitive.
+
+#+begin_src emacs-lisp
+(setq-default case-fold-search +1)
+#+end_src
+
+*** Finding
 
 There are many ways to easily find what you need, for a command, for a file,
 and this mode seems to be a quite nice way. Something I had been curious about
@@ -2415,17 +2444,95 @@ unsettling.
 (setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right)
 #+end_src
 
-Perhaps an odd topic, but how you handle spaces when performing an interactive
-search is a choice:
+*** Replacing
+
+When I use search and replace I just keep doing it until the buffer loops
+around. Replacing stops so that works fine. Searching loops around continually.
+I have to pay attention to that looping. I am doing it wrong. Anzu is doing it
+right by showing you what is happening.
+
 #+begin_src emacs-lisp
-(setq isearch-lax-whitespace +1)
-(setq isearch-regexp-lax-whitespace +1)
+(require 'anzu)
+(global-anzu-mode +1)
+(global-set-key (kbd "M-%") 'anzu-query-replace)
+(global-set-key (kbd "C-M-%") 'anzu-query-replace-regexp)
+(setq anzu-mode-lighter "")
+(setq anzu-deactivate-region t)
+(setq anzu-search-threshold 1000)
+(setq anzu-replace-to-string-separator " => ")
 #+end_src
 
-Make searches case-insensitive.
+=anzu-replace-at-cursor-thing= is interesting. I might do exactly the same thing
+with Multiple Cursors instead. It is great having options.
+
+Solarized already has [[https://github.com/bbatsov/solarized-emacs/blob/master/solarized.el#L526][support]] for Anzu. I don't like it. I could only configure
+it using Customize.
+
+** Sudo
+
+Most of the time I work inside Emacs. I never liked how it handled opening up
+files owned by root. I never did anything about it. Instead I just used VI.
+Last week I was editing a HOSTS file. I wanted to double check the
+domain name I had entered. I didn't know how in VI. I did know how in Emacs.
+
+VI is great and I'll never un-learn the five commands that I learned twenty
+years ago. I will always use it on freshly set up systems. I will always use it
+on systems without my personal Emacs configuration. It will always be a valuable
+tool for me.
+
+On systems where I've got Emacs running all of the time it is stupid not to use
+it for files that require sudo. A while ago I made that choice and said that I
+would change when it makes sense. Now it makes sense.
+
+I tried this [fn:0474d420: http://emacsredux.com/blog/2013/04/21/edit-files-as-root/]
+out. When I typed in the root password and hit enter I got the error
+
+#+begin_example
+E RET is undefined
+#+end_example
+
+It looks like "E" got defined as a prefix key? My first reaction was "oh well".
+I don't remember that. I am not very interested in fixing it. That means that it
+is time for some carbohydrates. After searching I found only two posts. The
+second one [fn:f1ce823e: https://lists.gnu.org/archive/html/help-gnu-emacs/2005-08/msg00140.html] was
+the best. It explained how to find out what key-bindings could be activated given
+the key(s) that you have already typed. *WOW*. That is a /big deal/. Type your
+keys and hit =C-h=. Of course you do. With that tip it got real clear real fast
+where the error lie:
+
+#+begin_example
+
+Major Mode Bindings Starting With E:
+key             binding
+---             -------
+
+E S             Prefix Command
+
+E S C           Prefix Command
+
+E S C SPC       Prefix Command
+
+E S C SPC y     gcr/paste-from-x-clipboard
+
+
+Global Bindings Starting With E:
+key             binding
+---             -------
+
+#+end_example
+
+In other words, the error occurred between the chair and the keyboard. Of course
+it did.
 
 #+begin_src emacs-lisp
-(setq-default case-fold-search +1)
+(gcr/on-gnu/linux-or-osx
+ (defadvice ido-find-file (after find-file-sudo activate)
+   "Find file as root if necessary.
+
+Attribution: SRC `http://emacsredux.com/blog/2013/04/21/edit-files-as-root/'"
+   (unless (and buffer-file-name
+              (file-writable-p buffer-file-name))
+     (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name)))))
 #+end_src
 
 ** Popups
@@ -2604,9 +2711,15 @@ configuration.
 =magit= also should have a similar configuration.
 
 #+begin_src emacs-lisp
+(defun gcr/git-commit-commit ()
+  "Allow commit message to save before committing."
+  (interactive)
+  (sleep-for 1 000)
+  (git-commit-commit))
+
 (defun gcr/git-commit-mode-hook ()
   "Personal customizations."
-  (local-set-key (kbd "C-;") 'git-commit-commit))
+  (local-set-key (kbd "C-;") 'gcr/git-commit-commit))
 
 (add-hook 'git-commit-mode-hook 'gcr/git-commit-mode-hook)
 #+end_src
@@ -3793,6 +3906,12 @@ goes here for now. I didn't stick with that, and moved it to package 100% <2014-
 (require 'htmlize)
 #+end_src
 
+Exports to Confluence are very very helpful.
+
+#+begin_src emacs-lisp
+(require 'ox-confluence)
+#+end_src
+
 =htmlize= should eventually be moved out of this =org= block into its own re-usab.e
 section. It does need confguring both for =org= and also for general use. I like
 to be able to copy-and-paste its generated HTML into other documents, and =css= is
@@ -4491,6 +4610,10 @@ After doing that, which totally made sense, I decided to give tangle comments a
 go again, and although we are still generating for a computer, it can be nice
 when =de-tangling= to have some space.
 
+<2015-03-29 Sun>
+Reading the documentation, I see that this setting is required for
+=org-babel-tangle-jump-to-org= to work.
+
 #+begin_src emacs-lisp
 (gcr/set-org-babel-default-header-args :padline "yes")
 #+end_src
@@ -4839,7 +4962,7 @@ remaining a mystery for now.
   (local-set-key (kbd "C-2") 'gcr/org-edit-src-code-plus-name)
   (local-set-key (kbd "C-3") 'org-table-edit-field)
   (local-set-key (kbd "s-h") 'org-babel-check-src-block)
-  (local-set-key (kbd "s-a i") 'org-babel-insert-header-arg)
+  (local-set-key (kbd "s-i i") 'org-babel-insert-header-arg)
   (local-set-key (kbd "s-j") 'org-babel-previous-src-block)
   (local-set-key (kbd "s-k") 'org-babel-next-src-block)
   (local-set-key (kbd "s-l") 'org-babel-demarcate-block)
@@ -4963,7 +5086,8 @@ is all it takes):
          (not (equal new-command 'diff-hl-mode))
          (not (equal new-command 'my-eval-expression))
          (not (equal old-command 'list-buffers))
-         (not (equal new-command 'gcr/move-line-up))
+         (not (equal new-command 'gcr/vc-map))
+         (not (equal new-command 'projectile-find-file))
          )
       (warn "Just stomped the global-map binding for %S, replaced %S with %S"
             key old-command new-command))))
@@ -5118,13 +5242,6 @@ the arrow keys per mode, so use chords instead.
 (key-chord-define-global "hj" 'move-text-down)
 #+end_src
 
-Surprisingly you swap lines enough to justify automating it.
-
-#+begin_src emacs-lisp
-(global-set-key (kbd "C-s-<up>") 'gcr/move-line-up)
-(global-set-key (kbd "C-s-<down>") 'gcr/move-line-down)
-#+end_src
-
 Now that =ispell= is configured nicely, I use it /all/ the time. Make that easy.
 First tried "is" for "ispell". Loved it. Then remembered that it is a common
 key combination. Forehead smack!
@@ -5146,9 +5263,11 @@ Use the default Langtool bindings.
 #+begin_src emacs-lisp
 (define-prefix-command 'gcr/langtool-map)
 (key-chord-define-global "qk" 'gcr/langtool-map)
-(define-key gcr/langtool-map "c" 'langtool-check)
+(define-key gcr/langtool-map "c" 'langtool-check-buffer)
 (define-key gcr/langtool-map "C" 'langtool-correct-buffer)
-(define-key gcr/langtool-map "s" 'langtool-show-message-at-point)
+(define-key gcr/langtool-map "j" 'langtool-goto-previous-error)
+(define-key gcr/langtool-map "k" 'langtool-show-message-at-point)
+(define-key gcr/langtool-map "l" 'langtool-goto-next-error)
 (define-key gcr/langtool-map "q" 'langtool-check-done)
 #+end_src
 
@@ -5164,17 +5283,19 @@ Occur has 3 cases. I like to use it to explore the unknown.
 
 Comment and uncomment anything:
 #+begin_src emacs-lisp
-(key-chord-define-global "eo" 'gcr/comment-or-uncomment)
+(key-chord-define-global "qi" 'gcr/comment-or-uncomment)
 #+end_src
 
 ** SLIGHTLY-DISRUPTIVE
 
 Anything having to do with version control differences:
 #+begin_src emacs-lisp
-(global-set-key (kbd "s-d h") 'diff-hl-mode)
-(global-set-key (kbd "s-d e") 'vc-ediff)
-(global-set-key (kbd "s-d d") 'vc-diff)
-(global-set-key (kbd "s-d u") 'vc-revert)
+(define-prefix-command 'gcr/vc-map)
+(global-set-key (kbd "s-d") 'gcr/vc-map)
+(define-key gcr/vc-map "h" 'diff-hl-mode)
+(define-key gcr/vc-map "e" 'vc-ediff)
+(define-key gcr/vc-map "d" 'vc-diff)
+(define-key gcr/vc-map "u" 'vc-revert)
 #+end_src
 
 smex integration points:
@@ -5186,7 +5307,7 @@ smex integration points:
 
 Try to open a file just in this project:
 #+begin_src emacs-lisp
-(global-set-key (kbd "s-f") 'projectile-find-file)
+(global-set-key (kbd "C-x C-p") 'projectile-find-file)
 #+end_src
 
 auto-completeness
@@ -5314,17 +5435,17 @@ List buffers in a more rich way.
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 #+end_src
 
-** VERY DISRUPTIVE
-
 Check =git= status:
 #+begin_src emacs-lisp
-(global-set-key (kbd "<f8>") 'magit-status)
+(key-chord-define-global "f8" 'magit-status)
 #+end_src
 
 Toggle utility buffers
 #+begin_src emacs-lisp
-(global-set-key (kbd "<f9>") 'gcr/util-cycle)
+(key-chord-define-global "f9" 'gcr/util-cycle)
 #+end_src
+
+** VERY DISRUPTIVE
 
 F10 should be left alone.
 
@@ -5352,7 +5473,28 @@ Manage every font size:
  (global-set-key (kbd "M-<f7>") 'gcr/text-scale-decrease))
 #+end_src
 
+Thank [[http://oremacs.com/2015/03/15/search-with-apropos/][Oleh]] getting us up to speed on all of the =apropos= areas.
+
+Thank you [[https://disqus.com/by/disqus_COwPSAc69c/][Phil]] for the map.
+
+Thank you [[http://irreal.org/blog/?p%3D3792][Jon]] for reminding us.
+
+I have only ever used =apropos=. It was not very often. Great to know of the
+available granularity.
+
+#+begin_src emacs-lisp
+(global-set-key (kbd "M-<f1>") 'apropos-map)
+(define-prefix-command 'apropos-map nil "Apropos (a(propos),d(documentation),c(ommand),i(nfo),l(ibrary),v(ariable))")
+(define-key apropos-map (kbd "a") 'apropos)
+(define-key apropos-map (kbd "d") 'apropos-documentation)
+(define-key apropos-map (kbd "c") 'apropos-command)
+(define-key apropos-map (kbd "i") 'info-apropos)
+(define-key apropos-map (kbd "l") 'apropos-library)
+(define-key apropos-map (kbd "v") 'apropos-variable)
+#+end_src
+
 Helper stuff:
+
 #+begin_src emacs-lisp
 (global-set-key (kbd "C-<f2>") 'emacs-index-search)
 (global-set-key (kbd "S-<f2>") 'elisp-index-search)
@@ -5381,6 +5523,19 @@ Always leave =F11= open.
  :PROPERTIES:
  :noweb-ref: Modes
  :END:
+
+v1:
+
+The stuff that I commonly use may
+-eventually want to end up in =prog-mode=, but I'm still not sure what really
+-uses that and how I may being re-factoring.
+
+v2:
+
+The programming modes have some redundancy. Sometimes I feel like it ought to be
+refactored. Other times I feel like it is not worth the effort because the flavor
+you want for seemingly similar mode configurations may be very different once
+you think about it for a little while.
 
 ** C Language Integrated Production System (CLIPS) [fn:d383cc00: http://clipsrules.sourceforge.net/]
 
@@ -5424,7 +5579,6 @@ obviously is a *big issue* if you actually want to use! ROFL
 #+begin_src emacs-lisp
 (defun gcr/css-modehook ()
   (fci-mode)
-  (whitespace-turn-on)
   (visual-line-mode)
   (gcr/untabify-buffer-hook)
   (local-set-key (kbd "RET") 'newline-and-indent))
@@ -5733,6 +5887,10 @@ ace-link [fn:4023603c: https://github.com/abo-abo/ace-link] is really a nice way
 (ace-link-setup-default)
 #+end_src
 
+A numeric prefix argument will open up unique Info buffers [fn:0c0a1803: http://mbork.pl/2014-12-27_Info_dispatch]. Of course it will. Of course it will!
+That explains how to make it easy to use multiple Info buffers per topic. This
+article makes it easier too using Hydra [fn:68eae9c6: http://oremacs.com/2015/03/17/more-info/].
+
 ** Javascript [fn:152bafed: https://en.wikipedia.org/wiki/ECMAScript] [fn:42427fc4: http://www.emacswiki.org/emacs/JavaScriptMode]
 
 =auto-complete= often needs a symlink from =javascript-mode= to =js-mode= added.
@@ -5960,20 +6118,21 @@ Specify some keymaps that are nearly what I have for =org= for the same tasks:
 ** Ruby [fn:e9aab149: https://www.ruby-lang.org/en/]
 
 My first setup of Ruby is primarily for Vagrant, so I didn't dig super deep into
-the options. The defaults will be just fine. The stuff that I commonly use may
-eventually want to end up in =prog-mode=, but I'm still not sure what really
-uses that and how I may being re-factoring.
+the options. The defaults will be just fine.
 
 Chef now, too.
 
 #+begin_src emacs-lisp
 (defun gcr/ruby-mode-hook ()
+  (interactive)
   (fci-mode)
   (gcr/untabify-buffer-hook)
   (visual-line-mode)
   (fci-mode)
   (turn-on-smartparens-strict-mode)
-  (local-set-key (kbd "RET") 'newline-and-indent))
+  (local-set-key (kbd "RET") 'newline-and-indent)
+  (hs-minor-mode 1)
+  (linum-mode))
 
 (add-hook 'ruby-mode-hook 'gcr/ruby-mode-hook)
 #+end_src
@@ -6275,8 +6434,15 @@ option/reminder was posted for a JSON formatter [fn:9d35fd56: https://github.com
 
 (require 'json-reformat)
 
-(add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.json\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
 #+end_src
 
 ** Web browsing
@@ -6326,7 +6492,7 @@ Thank you, Kitchenplan.
   "Helpful behavior for YAML buffers."
   (interactive)
   (turn-on-smartparens-strict-mode)
-  (gcr/newline)
+  (local-set-key (kbd "RET") 'newline-and-indent)
   (gcr/disable-tabs)
   (turn-on-pretty-mode)
   (gcr/untabify-buffer)
@@ -6424,7 +6590,7 @@ The =ditaa= library file is not version controlled.
 
 =plantuml= needs a full directory path. It is easier to address it here.
 #+begin_src emacs-lisp
-(defconst gcr/plantuml-jar (concat (expand-file-name (getenv "EELIB")) "/plantuml.8020.jar"))
+(defconst gcr/plantuml-jar (concat (expand-file-name (getenv "EELIB")) "/plantuml.8021.jar"))
 #+end_src
 
 The rest of the configuration is vanilla.
@@ -6800,10 +6966,8 @@ specifying them. Right now I am still not totally sure because of
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(anzu-mode-line ((t (:foreground "#073642" :weight bold)))))
 #+end_src
-
-
 
 * Tangling
 
@@ -6978,6 +7142,10 @@ the Windows Emacs build, there could be an opportunity to group-sponsor the
 addition to AHK. Right now I am not pursuing leading such an effort. Perhaps you
 are?
 
+If you are connecting to a Windows box from an OSX box running Karabiner using
+Microsoft Remote Desktop then you must disable AHK. You won't be able to use the
+<enter> key.
+
 *** Testing
 
 - Windows 7
@@ -7007,7 +7175,7 @@ ORG.
 #+begin_src emacs-lisp
 (defun gcr/omh-h ()
   (local-set-key (kbd "M-s-h") 'org-babel-check-src-block)
-  (local-set-key (kbd "M-s-a i") 'org-babel-insert-header-arg)
+  (local-set-key (kbd "M-s-i") 'org-babel-insert-header-arg)
   (local-set-key (kbd "M-s-j") 'org-babel-previous-src-block)
   (local-set-key (kbd "M-s-k") 'org-babel-next-src-block)
   (local-set-key (kbd "M-s-l") 'org-babel-demarcate-block)
@@ -7045,7 +7213,6 @@ Various.
 (global-set-key (kbd "M-s-d e") 'vc-ediff)
 (global-set-key (kbd "M-s-d d") 'vc-diff)
 (global-set-key (kbd "M-s-d u") 'vc-revert)
-(global-set-key (kbd "M-s-f") 'projectile-find-file)
 (global-set-key (kbd "M-s-2") 'gcr/two-key-map)
 (global-set-key (kbd "M-s-p") 'gcr/describe-thing-in-popup)
 (global-set-key (kbd "M-s-<return>") 'gcr/smart-open-line)
@@ -7094,13 +7261,15 @@ Return
 
 Capslock::LCtrl
 
-LCtrl::CapsLock
-
 Enter::RCtrl
 
-,*RCtrl::Enter
+RShift::Enter
 
-,*AppsKey::Enter
+LCtrl::CapsLock
+
+AppsKey::
+
+RCtrl::
 
 #b::!#b
 
@@ -7110,26 +7279,58 @@ Enter::RCtrl
 
 #l::!#l
 
-#p::!#p
-
-#t::!#t
-
 ^+l::#l
 
+#p::!#p
+
+#t::!#t [[WheelUp::
+Send {WheelDown}
+Return
+
+WheelDown::
+Send {WheelUp}
+Return
+
+Capslock::LCtrl
+
+Enter::RCtrl
+
+RShift::Enter
+
+LCtrl::CapsLock
+
+AppsKey::
+
+RCtrl::
+
+#b::!#b
+
+#d::!#d
+
+#e::!#e
+
+#p::!#p
+
+#t::!#t]]
 #+end_src
+
+I could not disable the Windows key on Windows 7. I made many attempts and all
+failed. When I try some s-l and lock the screen I need to remember that I've got
+a binding on M-s-l. That patterns remains the same. The bindings that I removed
+follow: the correct binding and a failed remedy. The problem is that Windows
+processes the key events before they reach AHK.
+
+#+begin_example
+#l::!#l
+
+^+l::#l
+#+end_example
 
 **** Output
 
 #+begin_src src :tangle AutoHotKey.ahk :comments no
 «AutoHotKey-Config»
 #+end_src
-
-*** Not working
-
-- El-Get
-- Pos-tip
-- Ps-Ccrypt
-
 
 ** OSX
 
@@ -7150,6 +7351,8 @@ and to act as the "control" key when held and chorded.
   =Apple->System Preferences->Keyboard->Shortcuts->Mission Control= un-check "Show    Desktop" =F11= and "Show Dashboard" =F12=.
   Mission Control, F1 and F8
   =Apple->System Preferences->Keyboard->Shortcuts->Keyboard= un-check "Turn keyboard access on or off" =^F1= and "Move focus to status menus" =^F8=.
+- <2015-03-29 Sun>
+  - Better yet, [[https://github.com/grettke/osx-provision][automate]] most of this.
 
 * Reminders
 
@@ -7252,4 +7455,16 @@ Since the passage on the means of this system was capture… things have been
 content, and, quiet. I greatly, greatly look forward to enjoying collaborations
 with other people, expressing their selves, too, in the future.
 
-#  LocalWords:  Savehist emacs fu API
+<2015-01-03 Sat>
+
+Added three new headings under one second-level heading.
+
+Before the addition:
+
+=Tangling complete after: 43.274528 seconds=
+
+After the addition:
+
+=Tangling complete after: 43.953333 seconds=
+
+#  LocalWords:  Savehist emacs fu API sudo MELPA purcell bbatsov
