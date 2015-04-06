@@ -32,111 +32,9 @@
 (add-to-list 'package-archives
              '("org" . "http://orgmode.org/elpa/") t)
 (add-to-list 'package-archives
-             '("melpa-stable" . "http://stable.melpa.org/packages/") t)
-(add-to-list 'package-archives
              '("gnu" . "http://elpa.gnu.org/packages/"))
 (add-to-list 'package-archives
-             '("melpa-non-github" . "http://melpa.org/packages/") t)
-(add-to-list 'package-archives
              '("melpa" . "http://melpa.org/packages/") t)
-(setq package-pinned-packages nil)
-(add-to-list 'package-pinned-packages '(org-plus-contrib . "org"))
-(mapcar (lambda (pkg) (add-to-list 'package-pinned-packages `(,pkg . "melpa-stable")))
-        '(
-          ace-jump-zap
-          ace-link
-          ace-window
-          alert
-          aggressive-indent
-          anzu
-          auto-complete
-          auto-complete-chunk
-          boxquote
-          clips-mode
-          ctable
-          diminish
-          dired-imenu
-          ess
-          ess-R-data-view
-          ess-R-object-popup
-          esup
-          exec-path-from-shell
-          expand-region
-          f
-          fill-column-indicator
-          flx-ido
-          flycheck
-          fuzzy
-          geiser
-          google-this
-          graphviz-dot-mode
-          ido-ubiquitous
-          ido-vertical-mode
-          imenu-anywhere
-          inlineR
-          json-reformat
-          langtool
-          magit
-          markdown-mode
-          metaweblog
-          multiple-cursors
-          neotree
-          ob-sml
-          org-ac
-          oxs-browse
-          package+
-          pandoc-mode
-          pretty-mode
-          projectile
-          r-autoyas
-          rainbow-delimeters
-          s
-          smartparens
-          smex
-          smooth-scrolling
-          solarized-theme
-          sparkline
-          sqlup-mode
-          string-edit
-          stripe-buffer
-          unicode-fonts
-          vagrant
-          web-mode
-          wrap-region
-          writegood-mode
-          yaml-mode
-          ))
-
-(mapcar (lambda (pkg) (add-to-list 'package-pinned-packages `(,pkg . "gnu")))
-        '(
-          ascii-art-to-unicode
-          auctex
-          diff-hl
-          sml-mode
-          ))
-(mapcar (lambda (pkg) (add-to-list 'package-pinned-packages `(,pkg . "melpa-non-github")))
-        '(
-          anchored-transpose
-          figlet
-          highlight-tail
-          htmlize
-          imenu+
-          key-chord
-          move-text
-          undo-tree
-          ))
-(mapcar (lambda (pkg) (add-to-list 'package-pinned-packages `(,pkg . "melpa")))
-        '(
-          autotetris-mode
-          dired-details+
-          ido-hacks
-          lexbind-mode
-          nyan-mode
-          plantuml-mode
-          polymode
-          pos-tip
-          xml-rpc
-          ))
   (package-refresh-contents)
   (unless (package-installed-p 'package+)
     (package-install 'package+))
@@ -226,7 +124,7 @@
  'xml-rpc
  'yaml-mode
  )
-(load "~/.emacs.d/elpa/f-0.17.2/f.el")
+(load-library "f")
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
 
 (unless (require 'el-get nil 'noerror)
@@ -1136,6 +1034,7 @@ Attribution: SRC `http://emacsredux.com/blog/2013/04/21/edit-files-as-root/'"
   (local-set-key (kbd "C-;") 'log-edit-done))
 
 (add-hook 'log-edit-mode-hook 'gcr/log-edit-mode-hook-local-bindings)
+(setq magit-last-seen-setup-instructions "1.4.0")
 (defun gcr/git-commit-commit ()
   "Allow commit message to save before committing."
   (interactive)
@@ -1238,7 +1137,6 @@ Attribution: SRC `http://emacsredux.com/blog/2013/04/21/edit-files-as-root/'"
 (setq inferior-ess-program "R")
 (setq inferior-R-program-name "R")
 (setq ess-local-process-name "R")
-(setq inferior-S-prompt "[]a-zA-Z0-9.[]*\\(?:[>+.] \\)*ℝ+> ")
 (setq inferior-ess-same-window nil)
 (setq inferior-ess-own-frame nil)
 (setq ess-help-own-frame nil)
@@ -1264,6 +1162,16 @@ Attribution: SRC `http://emacsredux.com/blog/2013/04/21/edit-files-as-root/'"
 (setq r-autoyas-expand-package-functions-only nil)
 (setq r-autoyas-remove-explicit-assignments nil)
 (setq ess-ac-R-argument-suffix "=")
+(setq gcr/ess-style
+      (copy-alist
+       (assoc 'RRR ess-style-alist)))
+(setf (nth 0 gcr/ess-style) 'GCR)
+(setf (cdr
+       (assoc 'ess-continued-statement-offset
+              (cdr gcr/ess-style)))
+      0)
+(add-to-list 'ess-style-alist gcr/ess-style)
+(setq ess-default-style 'GCR)
 (defun gcr/ess-mode-hook ()
   (local-set-key (kbd "s-e") 'ess-switch-to-end-of-ESS)
   (local-set-key (kbd "s-x") 'r-autoyas-expand)
@@ -1278,10 +1186,9 @@ Attribution: SRC `http://emacsredux.com/blog/2013/04/21/edit-files-as-root/'"
   (local-set-key (kbd "C-.") (lambda () (interactive) (insert " -> ")))
   (local-set-key (kbd "C-M-,") (lambda () (interactive) (insert " <<- ")))
   (local-set-key (kbd "C-M-.") (lambda () (interactive) (insert " ->> ")))
-  (local-set-key (kbd "C-8") (lambda () (interactive) (insert " %<>% ")))
-  (local-set-key (kbd "C-9") (lambda () (interactive) (insert " %>% ")))
+  (key-chord-define-local (kbd ",.") (lambda () (interactive) (insert " %<>% ")))
+  (local-set-key (kbd "s-.") (lambda () (interactive) (insert " %>% ")))
   (local-set-key (kbd "C-0") 'ess-eval-buffer)
-  (ess-set-style 'RRR 'quiet)
   (turn-on-pretty-mode)
   (r-autoyas-ess-activate)
   (visual-line-mode)
@@ -1326,7 +1233,6 @@ Attribution: SRC `http://emacsredux.com/blog/2013/04/21/edit-files-as-root/'"
   (stripe-listify-buffer))
 
 (add-hook 'ess-rdired-mode-hook 'gcr/ess-rdired-mode-hook)
-(setq inferior-ess-primary-prompt "ℝ> ")
 (setq ess-keep-dump-files +1)
 (setq ess-delete-dump-files nil)
 (setq ess-mode-silently-save +1)

@@ -49,7 +49,10 @@
 
 There are things that must occur during start… *before* everything else.
 
-Load the newer version of a file: bytecode or lisp.
+Load the newer version of a file: bytecode or lisp. This says a lot. In the
+users guide it explains why you may want this turned off. That way you can
+develop code and try it out to see how it works and comare it to the old version
+which had been byte-compiled. I am not doing that here.
 #+begin_src emacs-lisp
 (setq load-prefer-newer t)
 #+end_src
@@ -119,7 +122,7 @@ but it isn't. Cask just makes it really easy to obtain ELPA packages from
 different repositories. One reason that I really like is that you see all of
 your packages in a single place rather than sprinkled about all over your
 initialization file. It also lowers the bar for new users to with just one line
-of code add new repositories.  Something funny happened though, the more I
+of code add a new repository. Something funny happened though, the more I
 learned about Emacs and the community, the more I found the need to manage
 software not hosted in MELPA.
 
@@ -139,8 +142,8 @@ momentum, it makes up for in raw power. When I find code that doesn't live in
 packages, and may never, then I start setting up EL-Get to grab it for me.
 
 Based upon what I've read, it had its time in the sun. Its power is still true,
-and its value is a great, because it truly succeeds at the goals that it set
-forth.
+and its value is a great, because it truly succeeds at the goals that it set out
+on.
 
 The first time I set up Cask, it was the only option for easily specifying which
 repository you wanted to use for installing a package. It was great. Then, I got
@@ -164,74 +167,35 @@ The great news as of 24.4 is that Package inside of Emacs allows you to specify
 the source repository from which to install a package. This is a hugely
 important feature and I am thrilled on all user's behalf's. The old problem was
 that sometimes you might want the stable version of Foo and something you want
-the development version of Foo. The problem was that you never quite new which
+the development version of Foo. The problem was that you never quite knew which
 one you would get because the packages lived in *both* repositories! Now, it is no
 longer an issue, and one of the reasons that I don't need to use Cask anymore.
-Package should do it all, and it will, below.
+Package should do it all, and it will, below. That was my plan. It failed.
+
+My approach was simple. First I identified all of the packages that I used that
+were available on MELPA Stable. Then added MELPA Stable as a repository and
+added all of those packages to =package-pinned-packages=. To help me out, I also
+added a separate entry just to pull MELPA packages that were not ELPA packages.
+On this setup, it worked about %75 of the time. I couldn't figure out why. I
+tried every permutation. I removed entries. It wasn't enough. It never worked
+right. Here is what it did:
+
+What is happening is simple
+- Delete the ELPA directory
+- Start this system
+- Packages that are pinned to MELPA Stable are installed from MELPA
+
+Long ago Steve Purcell asked someone on GitHub why they want stable. I don't
+recall the exact conversation. Perhaps I asked something. His answer was really
+simple. It was something like "Going with the TRUNK tends to be fine. If it
+breaks, it usually gets fixed quickly". I understood. I just *really* wanted to
+try the /reproducible research/ thing with this system. I was very gung-ho about
+it. It didn't work out though. Then I started loading everything from MELPA. At
+that point, everything worked _perfectly_. I tested it 5 times. I look forward to
+seeing how it works out in the future. It is certainly consistent with what
+Purcell shared.
 
 ** Steps
-
-There is a /small/ problem here, Package+ won't load F. Looked at it long enough
-and it is time to move on. Here is how to get things working assuming that your
-.emacs.d/elpa folder no longer exists:
-0. Drop this init file in place and start Emacs
-1. An error occurs and the load stops
-2. Manually install the stable version of Package+
-3. Restart and let Package and EL-Get perform their installations
-4. Restart Emacs, an error is thrown due to the wrong version of F installed
-5. Delete the unstable version of F and replace it with the stable version
-
-It is worth mentioning what I've tried to do to resolve this "issue".
-0. Specify MELPA Stable, first
-1. Refresh the package list, install Package+ to assure stable
-2. Initialize all of the other packages repositories and packages
-
-That approach was very easy and made sense, but, at least five packages simply
-did not install. There were no errors or warnings, they just didn't install.
-Having now at least six hours investigating this, I decided to stick with the
-current work-around. This work around is not perfect and is definitely bringing
-in the non-stable dependencies, and, that will just have to be OK for now.
-
-The latest surprises is that Solarized-Theme doesn't install. Clearly there is
-a good opportunity here to utilize a more /predictable/ approach!
-
-Over the last three months I have revisited this issue. I visited it probably
-fifteen times. Each time I spent and hour or two or three. Every time I learned
-something. Every time I did not get the desired results. Packages would
-mysteriously be reported as "not available" despite the fact they appeared in
-the =list-packages= GUI with the correct pinned package repo. Even after manually
-installing the desired package, on startup the packages would be reported as not
-available. I didn't track down the source of that issue. I did see that the
-pinned-packages are probably not respected. At least a few packages that were
-pinned to repos were not installed using a package release from that repo. For
-example, =f= is always installed from MELPA instead of MELPA Stable. I didn't
-track down the source of that issue. This behavior got me thinking. @purcell or
-@bbatsov noted that they run all packages right from MELPA. Other don't do this
-because of the belief that there will be frequent issues and breakages in HEAD.
-They explained though that this is uncommon and not an issue for them. Perhaps
-this is the key. The normal way of doing things is to work with the HEAD of the
-code. If issues occur, then they will be reported resolved pretty quickly. My
-original desire was to /lock down/ package versions as much as possible to avoid
-headaches. My desire fit into the =reproducible research= mind-set of
-predictability. That might be the wrong way to do things here. While researching
-this aspect of ALEC's configuration, I configured many permutations of loading
-packages. Each one provided different results. In the end, I made it work and
-things were fine. Perhaps this is indeed fine. Perhaps I am actually battling
-the Emacs way of doing things. Perhaps that is why the problems exist. I think
-that I am. I am not sure how, but I think so. Perhaps the best thing to do right
-now is to let it sit and let it get closer to how it ought to be. With that in
-mind, I did try configuring the system to pull MELPA packages only from MELPA
-and not MELPA Stable. I still got the behavior where =f= did not load. I still had
-to load it manually. I tried running without MELPA Stable but still couldn't
-produce any configuration without installation issues. Every installation
-required manual steps. This was surprising and tiring. As such, my manual set up
-and separate package sources still remain. This issue makes it difficult for
-anyone to take this configuration file, start Emacs, and be presented with a
-fully functioning system. It is not fully automated. It still requires manual
-steps. If it wasn't clear already, this system is not a product for anyone other
-than myself. I applaud the efforts of the Emacs product [[http://ergoemacs.org/misc/list_of_emacs_starter_kits.html][providers]]. It surely
-takes more work and effort than most of us will ever understand or appreciate.
-Now, I am content with my own.
 
 *** Package
 
@@ -250,13 +214,6 @@ to be stable. In the Org configuration, I'll at warning for specific features.
              '("org" . "http://orgmode.org/elpa/") t)
 #+end_src
 
-My preference will *always* be the stable version of MELPA packages.
-
-#+begin_src emacs-lisp
-(add-to-list 'package-archives
-             '("melpa-stable" . "http://stable.melpa.org/packages/") t)
-#+end_src
-
 GNU stuff is always good.
 
 #+begin_src emacs-lisp
@@ -264,155 +221,11 @@ GNU stuff is always good.
              '("gnu" . "http://elpa.gnu.org/packages/"))
 #+end_src
 
-I *only* use recipes on MELPA for source code that:
-- Lives on GitHub
-- May end up on MELPA Stable
-
-For anything that is not that case, I am referring to a fake repository,
-"MELPA NON GitHub" just to help me keep track of where that code really lives.
-
-#+begin_src emacs-lisp
-(add-to-list 'package-archives
-             '("melpa-non-github" . "http://melpa.org/packages/") t)
-#+end_src
-
-There are still *tons* of packages *not* on MELPA Stable, so this will be around for
-a long time.
+MELPA is critical.
 
 #+begin_src emacs-lisp
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.org/packages/") t)
-#+end_src
-
-Specify the repositories from which the packages should be installed. They
-are listed in the same order as they are pulled in, by repository:
-- ORG
-- MELPA Stable
-- GNU
-- MELPA NON GitHub
-- MELPA
-
-Reset the pinned package list.
-
-#+begin_src emacs-lisp
-(setq package-pinned-packages nil)
-#+end_src
-
-*ORG*
-#+begin_src emacs-lisp
-(add-to-list 'package-pinned-packages '(org-plus-contrib . "org"))
-#+end_src
-
-*MELPA Stable*
-#+begin_src emacs-lisp
-(mapcar (lambda (pkg) (add-to-list 'package-pinned-packages `(,pkg . "melpa-stable")))
-        '(
-          ace-jump-zap
-          ace-link
-          ace-window
-          alert
-          aggressive-indent
-          anzu
-          auto-complete
-          auto-complete-chunk
-          boxquote
-          clips-mode
-          ctable
-          diminish
-          dired-imenu
-          ess
-          ess-R-data-view
-          ess-R-object-popup
-          esup
-          exec-path-from-shell
-          expand-region
-          f
-          fill-column-indicator
-          flx-ido
-          flycheck
-          fuzzy
-          geiser
-          google-this
-          graphviz-dot-mode
-          ido-ubiquitous
-          ido-vertical-mode
-          imenu-anywhere
-          inlineR
-          json-reformat
-          langtool
-          magit
-          markdown-mode
-          metaweblog
-          multiple-cursors
-          neotree
-          ob-sml
-          org-ac
-          oxs-browse
-          package+
-          pandoc-mode
-          pretty-mode
-          projectile
-          r-autoyas
-          rainbow-delimeters
-          s
-          smartparens
-          smex
-          smooth-scrolling
-          solarized-theme
-          sparkline
-          sqlup-mode
-          string-edit
-          stripe-buffer
-          unicode-fonts
-          vagrant
-          web-mode
-          wrap-region
-          writegood-mode
-          yaml-mode
-          ))
-
-#+end_src
-
-*GNU*
-#+begin_src emacs-lisp
-(mapcar (lambda (pkg) (add-to-list 'package-pinned-packages `(,pkg . "gnu")))
-        '(
-          ascii-art-to-unicode
-          auctex
-          diff-hl
-          sml-mode
-          ))
-#+end_src
-
-*MELPA NON-GitHub*
-#+begin_src emacs-lisp
-(mapcar (lambda (pkg) (add-to-list 'package-pinned-packages `(,pkg . "melpa-non-github")))
-        '(
-          anchored-transpose
-          figlet
-          highlight-tail
-          htmlize
-          imenu+
-          key-chord
-          move-text
-          undo-tree
-          ))
-#+end_src
-
-*MELPA*
-#+begin_src emacs-lisp
-(mapcar (lambda (pkg) (add-to-list 'package-pinned-packages `(,pkg . "melpa")))
-        '(
-          autotetris-mode
-          dired-details+
-          ido-hacks
-          lexbind-mode
-          nyan-mode
-          plantuml-mode
-          polymode
-          pos-tip
-          xml-rpc
-          ))
 #+end_src
 
 If Package+ is not installed, then install it. First the package list has to be
@@ -425,18 +238,7 @@ refreshed so that Package knows about the new packages.
 #+end_src
 
 This is the list of packages that should be installed automatically and loaded.
-
-I tried to run it like this:
-
-#+begin_example
-(setq gcr/packages '())
-(mapcar (lambda (pkg-def) (add-to-list 'gcr/packages (car pkg-def)))
-        package-pinned-packages)
-(apply 'package-manifest gcr/packages)
-#+end_example
-
-It didn't work. I tested out running it with =apply=. I don't know why. In the
-future I would like to fix this.
+Any packages not listed here that Package+ finds are removed.
 
 #+begin_src emacs-lisp
 (package-manifest
@@ -527,11 +329,17 @@ future I would like to fix this.
  )
 #+end_src
 
-Why doesn't the =f= package get loaded correctly? Was I the problem? Was it the
-problem? Just work. Yes, this needs to be addressed.
+Why doesn't the =F= package get loaded correctly? The directory is in the
+=load-path=. The auto-load is in there. It is only on my machine. I will look
+into this.
+
+This manual step used to use =load=. That was a mistake. It relied upon specifying
+the package directory. The package directory can change on every install so I
+had to update this line every time. That was stupid. =load-library= searches for
+libraries by name. It works.
 
 #+begin_src emacs-lisp
-(load "~/.emacs.d/elpa/f-0.17.2/f.el")
+(load-library "f")
 #+end_src
 
 *** el-get
@@ -2708,7 +2516,13 @@ configuration.
 (add-hook 'log-edit-mode-hook 'gcr/log-edit-mode-hook-local-bindings)
 #+end_src
 
-=magit= also should have a similar configuration.
+=magit= also should have a similar configuration. Magit is very important.
+Eventually it will go under its own heading.
+
+Make sure Magit knows that I read the warning. It wasn't instructions.
+#+begin_src emacs-lisp
+(setq magit-last-seen-setup-instructions "1.4.0")
+#+end_src
 
 #+begin_src emacs-lisp
 (defun gcr/git-commit-commit ()
@@ -3197,7 +3011,7 @@ For a brief, brief overview and release history, read the readme [fn:1b644ec0: h
 For a comprehensive overview, read the manual [fn:adfd9a4c: http://ess.r-project.org/Manual/ess.html].
 
 In it:
-- =S= refers to any language in the family.
+- 𝕊 refers to any language in the family.
   - ℝ is what I'm interested in.
 - First 2.5 pages do some nice expectation-setting.
 - Generally seems like a highly rich development environment with support for
@@ -3470,11 +3284,6 @@ Since I'm using ℝ for everything, configure /everything/ to be using ℝ.
 (setq ess-local-process-name "R")
 #+end_src
 
-Handle the custom ℝ prompt in =ess=. Don't use custom here.
-#+begin_src emacs-lisp
-(setq inferior-S-prompt "[]a-zA-Z0-9.[]*\\(?:[>+.] \\)*ℝ+> ")
-#+end_src
-
 Always start =ess= within the curent =emacs= frame, it doesn't need to be separate.
 #+begin_src emacs-lisp
 (setq inferior-ess-same-window nil)
@@ -3580,9 +3389,30 @@ Save two spaces showing function information in the mini-buffer.
 (setq ess-ac-R-argument-suffix "=")
 #+end_src
 
-When I started to standardize arrows across modes, I recalled teh =ess=
+When I started to standardize arrows across modes, I recalled the =ess=
 documentation and was also reminded [fn:645cef99: http://www.r-bloggers.com/a-small-customization-of-ess/]
 here how easy it is to customize it.
+
+Not sure where I put the notes, but long ago I researched the ℝ coding
+standards. [[http://stackoverflow.com/questions/7502540/make-emacs-ess-follow-r-style-guide][This post]] by Eddelbuettel led me to believe that the ℝ [[http://cran.r-project.org/doc/manuals/R-ints.html#R-coding-standards][standard]]
+definition is the best. That made me think that =RRR= would be the best because
+it has identical settings to the =C++= style at the time of the post. That makes
+sense to me. I only want to change one thing to make Magrittr chains easier to
+read. The stock =RRR= indenting makes expressions trail off to the right forever.
+Here is how, make a copy of =RRR= and change one property.
+
+#+begin_src emacs-lisp
+(setq gcr/ess-style
+      (copy-alist
+       (assoc 'RRR ess-style-alist)))
+(setf (nth 0 gcr/ess-style) 'GCR)
+(setf (cdr
+       (assoc 'ess-continued-statement-offset
+              (cdr gcr/ess-style)))
+      0)
+(add-to-list 'ess-style-alist gcr/ess-style)
+(setq ess-default-style 'GCR)
+#+end_src
 
 #+begin_src emacs-lisp
 (defun gcr/ess-mode-hook ()
@@ -3599,10 +3429,9 @@ here how easy it is to customize it.
   (local-set-key (kbd "C-.") (lambda () (interactive) (insert " -> ")))
   (local-set-key (kbd "C-M-,") (lambda () (interactive) (insert " <<- ")))
   (local-set-key (kbd "C-M-.") (lambda () (interactive) (insert " ->> ")))
-  (local-set-key (kbd "C-8") (lambda () (interactive) (insert " %<>% ")))
-  (local-set-key (kbd "C-9") (lambda () (interactive) (insert " %>% ")))
+  (key-chord-define-local (kbd ",.") (lambda () (interactive) (insert " %<>% ")))
+  (local-set-key (kbd "s-.") (lambda () (interactive) (insert " %>% ")))
   (local-set-key (kbd "C-0") 'ess-eval-buffer)
-  (ess-set-style 'RRR 'quiet)
   (turn-on-pretty-mode)
   (r-autoyas-ess-activate)
   (visual-line-mode)
@@ -3649,11 +3478,6 @@ here how easy it is to customize it.
 (add-hook 'ess-rdired-mode-hook 'gcr/ess-rdired-mode-hook)
 #+end_src
 
-Tell ESS how to handle my custom prompt:
-#+begin_src emacs-lisp
-(setq inferior-ess-primary-prompt "ℝ> ")
-#+end_src
-
 This [fn:1ffa40c2: http://www.r-bloggers.com/a-small-customization-of-ess/]
 post shares a nice setup for the assignment key; primarily if
 you use underscores in your variable names, which I do on occasions. After
@@ -3677,7 +3501,7 @@ need to be kept.
 (setq ess-keep-dump-files +1)
 #+end_src
 
-=ESS= allows us to quite easily modify live =S= objects and functions. It provides
+=ESS= allows us to quite easily modify live 𝕊 objects and functions. It provides
 this functionality via =ess-dump-object-into-edit-buffer=. These changes are
 considered to be experimental, and not part of the master record according to
 our philosophy. As such, we don't care to know that these new versions ever
@@ -4478,7 +4302,7 @@ And, it does.
 #+end_src
 
 In [[https://emacs.stackexchange.com/questions/7844/org-mode-have-flycheck-resolve-relative-config-while-editing-code-blocks][this]] post, the author explains how he would source block buffers to appear to
-have a file name so that FlyCheck can do its thing correctly. It is reall
+have a file name so that FlyCheck can do its thing correctly. It is really
 simple. I have not thorougly tested it. I tested it once.
 
 #+begin_src emacs-lisp
@@ -5019,9 +4843,14 @@ Key-Chord [fn:93a799cf: http://melpa.org/#/key-chord] everything. It's
 documentation gives /the/ tip: keep chords limited to two fingers on the same hand
 if you can. I'll expand on this to use two hands, intionally, to specify the
 urgency of the operation about to be performed. The package /just works/ exactly
-as you would expect, and it is delightful. Think if it as letting you add
-modifier keys *anywhere* and *anyhow* you want (be open minded here). Be pretty
-careful in chord specification though. My rough approach is:
+as you would expect, and it is delightful. It is really fast, too. I tried out
+Key-Combo [fn:6f1e75f8: https://github.com/uk-ar/key-combo] and it seems really
+great. I just couldn't get it working quickly though, so I didn't try migrating
+beyond the hour or two that I invested.
+
+Think of Key-Chord as letting you add modifier keys *anywhere* and *anyhow* you want
+(be open minded here). Be pretty careful in chord specification though. My rough
+approach is:
 
 - *CLOSE* (continuity keys)
   - Use alphanumeric/symbol key-chords when
@@ -5143,7 +4972,6 @@ ace-window is frequent, is beginning to adhere to a pattern of dual approaches:
 #+begin_src emacs-lisp
 (key-chord-define-global "nm" 'ace-window)
 #+end_src
-
 
 Save 3 bytes:
 #+begin_src emacs-lisp
@@ -7467,4 +7295,4 @@ After the addition:
 
 =Tangling complete after: 43.953333 seconds=
 
-#  LocalWords:  Savehist emacs fu API sudo MELPA purcell bbatsov
+#  LocalWords:  Savehist emacs fu API sudo MELPA purcell bbatsov ELPA
