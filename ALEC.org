@@ -884,8 +884,7 @@ This is a copy and paste. Additional languages would warrant a refactor."
   (dolist (buf (buffer-list))
     (with-current-buffer buf
       (when (and (buffer-file-name) (buffer-modified-p))
-        (save-buffer))))
-  (sleep-for 0 250))
+        (save-buffer)))))
 
 (defun gcr/kill-other-buffers ()
   "Kill all other buffers."
@@ -2519,6 +2518,15 @@ configuration.
 =magit= also should have a similar configuration. Magit is very important.
 Eventually it will go under its own heading.
 
+Save every buffer with a file attached before starting Magit. This is how it is
+done with VC up above.
+
+#+begin_src emacs-lisp
+(defadvice magit-status (before save-before-magit first activate)
+  "Save all buffers before using Magit."
+  (gcr/save-all-file-buffers))
+#+end_src
+
 Make sure Magit knows that I read the warning. It wasn't instructions.
 #+begin_src emacs-lisp
 (setq magit-last-seen-setup-instructions "1.4.0")
@@ -2528,7 +2536,7 @@ Make sure Magit knows that I read the warning. It wasn't instructions.
 (defun gcr/git-commit-commit ()
   "Allow commit message to save before committing."
   (interactive)
-  (sleep-for 1 000)
+  (save-buffer)
   (git-commit-commit))
 
 (defun gcr/git-commit-mode-hook ()
@@ -2613,256 +2621,6 @@ also using the cursor location along with that interactivity.
 
 ** Font
 
-*** How to choose a font
-
-Audience: Computer users. Programmers. User experience designers (UXD).
-
-Every computer-user has a different strategy for choosing the best font for long
-periods working at the computer. They all involve many metrics, strategies, and
-rubrics. Based on that, they are probably all wrong. Well not really, they are
-right based upon experience, and experience is really all that matters.
-
-I was curious about whether my experience had any basis in reality, and I really
-wanted to dig into what is the "right way" to choose a font for any particular
-user or situation. The following are notes and ultimately a decision on what is
-the best for me. Hopefully the notes alone are revealing and help you reach your
-own conclusion, too. At the very least you ought to be educated, informed, and
-probably surprised, too, about some of the factors involved in font selection.
-
-[[http://thenextweb.com/dd/2011/03/02/whats-the-most-readable-font-for-the-screen/][What’s the most readable font for the screen?]]
-
-Serifs are tips for the reader's eyes for flow.
-
-San-serifs are better for low-res.
-
-Simultaneously states that is no difference between serif and san-serif.
-
-Rec: Helvetica/Arial
-
-Comment recommendations:
-
-Designed for digital, Hermann Zapf's Optima, or as a backup Verdana
-
-Designed for digital, Open Sans
-
-Both, Calibri
-
-San-serifs are easier on the eyes as you get older, citing retinal tears
-specifically
-
-[[http://www.webpagecontent.com/arc_archive/182/5/][Time to change your fonts]]
-
-Designed for screen: Verdana, Trebuchet MS, and (the serif) Georgia.
-
-Easy to read, available on virtually all machines.
-
-Let go of times new roman, Arial, and Helvetica.
-
-Traditionally a serif font was used for the main body of a document, and
-sans-serif for headings. Today, those principles are often reversed.
-
-[[http://www.awaionline.com/2011/10/the-best-fonts-to-use-in-print-online-and-email/][The Best Fonts to Use in Print, Online, and Email]]
-
-Popular serif fonts are Times New Roman, Palatino, Georgia, Courier,
-Bookman and Garamond.
-
-Some popular San Serif fonts are Helvetica, Arial, Calibri, Century
-Gothic and Verdana.
-
-It's been said that serif fonts are for "readability," while sans-serif
-fonts are for "legibility."
-
-Best fonts for online: go with sans-serif.
-
-2002 study by the Software Usability and Research Laboratory:
-- The most legible fonts were Arial, Courier, and Verdana.
-- At 10-point size, participants preferred Verdana. Times New Roman was
-  the least preferred.
-- At 12-point size, Arial was preferred and Times New Roman was the
-  least preferred.
-- The preferred font overall was Verdana, and Times New Roman was the
-  least preferred.
-
-For easiest online reading, use Arial 12-point size and larger. If
-you're going smaller than 12 points, Verdana at 10 points is your best
-choice. If you're after a formal look, use the font "Georgia." And for
-older readers, use at least a 14-point font.
-
-Dr. Ralph F. Wilson, an e-commerce consultant, did a series of tests in
-2001. He also came to the conclusion that the sans-serif fonts are more
-suited to the computer screen.Some of the highlights of the test results
-were that at 12 points, respondents showed a preference for Arial over
-Verdana -- 53% to 43% (with 4% not being able to distinguish between the
-two).Two-thirds of respondents found that Verdana at 12 points was too
-large for body text, but Verdana at 10 points was voted more readable
-than Arial at 10 points by a 2 to 1 margin.In conclusion, for the best
-font readability, use Arial 12 point or Verdana at 10 points and 9
-points for body text. For headlines, he suggests using larger bold
-Verdana.
-
-Comments: Good.
-
-My comments: no links to cited papers
-
-[[https://tex.stackexchange.com/questions/20149/which-font-is-the-most-comfortable-for-on-screen-viewing][Which font is the most comfortable for on-screen viewing?]]
-
-Post: Advice to use san-serif is outdated and inappropriate for today's
-high resolution screens. San-serif or not is irrelevant; instead the
-measure of success is to use a large font that was specifically designed
-for on-screen usage. For inspiration, look at the free fonts listed at
-the Google Web Fonts directory, especially Vollkorn or the Droid Serif
-font which was particularly developed with small font size in mind.
-
-GCR: That post is confusing because he later explains that we are not
-there yet, but rather getting close.
-
-Post: Sans-serif are best for on-screen.
-
-[[http://www.google.com/fonts/specimen/Vollkorn][Vollkorn]]
-
-[[http://www.google.com/fonts/specimen/Droid+Serif][Droid Serif]]
-
-[[http://river-valley.tv/minion-math-a-new-math-font-family/][The Design of a New Math Font Family]]
-
-Interesting.
-
-[[http://edutechwiki.unige.ch/en/Font_readability][Font readability]]
-
-Legibility refers to being able to read a text in bad conditions.
-“Legibility is concerned with the very fine details of typeface design,
-and in an operational context this usually means the ability to
-recognize individual letters or words. Readability however concerns the
-optimum arrangement and layout of whole bodies of text”
-
-Studies that contrast serif vs. non-serif fonts seem to be
-controversial.
-
-There are some ground rules one can find, like:
-- Don't make long lines nor too long paragraphs
-- Use wide fonts such as Palatino or Verdana for small fonts
-- Use spaces between lines, e.g. about 1.2 at least. E.g. in Word 2007,
-  1.15 is the default I believe. to be controversial.
-
-Sans serif: Verdana (a humanist font) or Arial
-
-Serif: Georgia
-
-Some references for studies and research done on fonts.
-
-“two roles for type: a functional role (relating to legibility) and an
-aesthetic/semantic role, which impacts the "apparent 'fitness' or
-'suitability' for different functions, and which imbue it with the power
-to evoke in the perceiver certain emotional and cognitive response" (p.
-38)””
-
-In her study: Calibri came out as a winner against Courier New and Curlz.
-
-GCR: Very exciting and interesting with good links
-
-[[http://usabilitynews.org/the-effect-of-typeface-on-the-perception-of-email/][The Effect of Typeface on the Perception of Email]]
-
-People take Calibri seriously via this study.
-
-[[http://usabilitynews.org/know-your-typefaces-semantic-differential-presentation-of-40-onscreen-typefaces/][Know Your Typefaces! Semantic Differential Presentation of 40 Onscreen Typefaces]]
-
-Study showing how people emotionally react to certain fonts.
-
-[[http://typoface.blogspot.com/2009/08/academic-base.html][The Academic Evidence Base for Typeface Readability]]
-
-Study.
-
-Young people like serif; older like sans-serif.
-
-[[http://liinwww.ira.uka.de/bibliography/Typesetting/reading.html][Bibliography on font readability]]
-
-Links to papers on font readability.
-
-[[http://www.kathymarks.com/archives/2006/11/best_fonts_for_the_web_1.html][Best Fonts for the Web]]
-
-Serif: Georgia. It was designed especially for screen. Other options are
-listed.
-
-Sans-Serif: Tahoma. Geneva, Tahoma, and Verdana were designed especially
-for the screen. Tahoma in particular is cited for legibility. Another
-pick: Lucida Sans Unicode: Cited as remarkably legible for some reason.
-
-Monospaced: Monaco/Lucida Console.
-
-GCR: Great article.
-
-[[http://psychology.wichita.edu/surl/usabilitynews/52/uk_font.htm][A Comparison of Two Computer Fonts: Serif versus Ornate Sans Serif]]
-
-Another study, unsure what to conclude from it.
-
-[[http://usabilitynews.org/a-comparison-of-popular-online-fonts-which-size-and-type-is-best/][A Comparison of Popular Online Fonts: Which Size and Type is Best?]]
-
-Excellent details.
-
-Tahoma and Verdana, sans-serifs, were designed specifically for viewing
-on computer screens. J, I, and 1 were made distinguishable. Tahoma is
-wider than Verdana.
-
-Great article but leaves so many questions and stuff unanswered and
-explored.
-
-[[http://usabilitynews.org/a-comparison-of-popular-online-fonts-which-is-best-and-when/][A Comparison of Popular Online Fonts: Which is Best and When?]]
-
-Big fonts generally don't matter and are easy to read.
-
-Tahoma is well-read.
-
-Verdana and Georgia have good legibility.
-
-Whole other range of evaluations: personality, elegant, youthful and
-fun, business-like,
-
-Most legible: Courier, Comic, Verdana, Georgia, and Times.
-
-[[http://kadavy.net/blog/posts/design-for-hackers-why-you-dont-use-garamond-on-the-web/][Design for Hackers: Why You Don’t Use Garamond on The Web]]
-
-I only read this article months after reading the bulk of references in this
-section. It took time it to sink and for me to accept it. It is so easy to
-produce a letter in LaTeX, and just send a PDF. It should really be printed,
-though. So, what is the right medium and what is the right font? For formal
-things, things worth writng, I say paper.
-
-**** Thoughts
-
-- Ideals
-- Current state of technology along with aging-eyes means that
-  sans-serif is the best option
-- Emacs suggest mono-spaced fonts for coding
-- Experienced teaches me that Unicode support is mandatory
-- Matching
-- Prefer fonts that focus on legibility over emotional evocation
-- Results: Verdana, Calibri, Tahoma, Lucida Sans Unicode, Lucida Sans
-  Console
-- Notes: [[http://ergoemacs.org/emacs/emacs_unicode_fonts.html][Best Unicode Fonts for Programming]]
-- DejaVu Sans Mono: best Unicode support
-- Based on Andale Mono, a monospaced san-serif designed for coding
-- [[http://www.slant.co/topics/67/viewpoints/4/~what-are-the-best-programming-fonts~dejavu-sans-mono][What are the best programming fonts?]]
-- Tons of coding related fonts. Why not for reading?!
-- Source Code Pro is highest ranked, then Consolas, and Monaco
-- [[http://www.codeproject.com/Articles/30040/Font-Survey-42-of-the-Best-Monospaced-Programming][Font Survey: 42 of the Best Monospaced Programming Fonts]]
-- The options, although only 42, are insanely overwhelming.
-  - Comments
-  - There isn't a ton of digestible info available on Unicode support for
-    the fonts that I listed.
-  - I am recalling now that my original selection of DejaVu Sans Mono was
-    specifically for its excellent Unicode support; specifically that it
-    had better support than Lucida Console which is monospaced but lacked
-    characters and looks at least as nice.
-  - Seems like it is just haphazard and quasi-scientific how people are
-    choosing fonts; and maybe even designing them.
-  - Founds evidence that Lucida is just fine for display; and thus
-    DejaVu Sans Mono is fine for display.
-- Conclusion
-  - DejaVu Sans Mono is the best available font for computer work.
-
-***
-
-*** The choice
-
 The studies cited above indicate that the two major factors that contribute to
 readability of a document are contrast and font-face. Sayre's law [fn:17910758: https://en.wikipedia.org/wiki/Sayre's_law] however
 demands that any number of other things are critical to how your IDE looks! That
@@ -2933,7 +2691,7 @@ screen, 80 columns wide.
 (gcr/on-windows (setq gcr/font-size 13))
 #+end_src
 
-Convert common ASCII values into Unicode representations /for display only//.
+Convert common ASCII values into Unicode representations /for display only/.
 #+begin_src emacs-lisp
 (require 'pretty-mode)
 #+end_src
@@ -2945,7 +2703,7 @@ that you have to stare at it all of the time!
 (setq make-pointer-invisible +1)
 #+end_src
 
-*** Setup
+Load font utilities when on a GUI.
 
 #+begin_src emacs-lisp
 (gcr/on-gui
@@ -3737,7 +3495,7 @@ Exports to Confluence are very very helpful.
 #+end_src
 
 =htmlize= should eventually be moved out of this =org= block into its own re-usab.e
-section. It does need confguring both for =org= and also for general use. I like
+section. It does need configuring both for =org= and also for general use. I like
 to be able to copy-and-paste its generated HTML into other documents, and =css= is
 the easiest way to achieve it. At some future date, it would be nice to developer
 a proper style sheet to handle any situation. The problem is that right now I don't
@@ -4684,6 +4442,117 @@ Then I read this [fn:16e26884: http://comments.gmane.org/gmane.emacs.orgmode/328
 *WOW*. That is worth another millions bucks for Eric's prolific contribution to
 humanity with org-babel.
 
+**** KOMA-Script
+
+I enjoy writing letters. I enjoy reading letters. LaTeX produces letters that
+are easy to print and read. Org provides a [[http://orgmode.org/worg/exporters/koma-letter-export.html][KOMA Script exporter]] for [[https://www.ctan.org/pkg/koma-script?lang%3Den][koma-script]].
+The Org documentation mentions that the user should read the [[http://orgmode.org/cgit.cgi/org-mode.git/plain/contrib/lisp/ox-koma-letter.el][ox-koma-letter.el]]
+header documentation.
+
+The [[https://www.ctan.org/pkg/babel?lang%3Den][babel]] packages is mentioned in the Org documentation. The package
+documentation explains that it should be used with LaTeX, but not XeTeX. Some
+time ago I decided to stick with LaTeX.
+
+Load the KOMA exporter.
+
+#+begin_src emacs-lisp
+(eval-after-load 'ox '(require 'ox-koma-letter))
+#+end_src
+
+- Understanding KOMA and how to use it
+  - There are 4 ways to set letter metadata, listed "from the most specific to
+    the most general" (not sure exactly what this statement means, and the conclusion of my notes tries to make sense of what is really going on here and what is the best way to do things)
+    - Org option lines (ORG)
+    - Separate Org latex classes (LTX)
+    - Emacs Lisp variables (LISP)
+    - Letter Class Option files (LCO)
+- Notes and thoughts on the ways to use it
+  - LTX
+    - By following the setup directions, you do this, creating "my-letter" class
+    - Familiar and easy if you already know LaTeX
+      - At some point in your workflow, you *must* define a class to use, anyway
+    - Very easy to do, just define the class template and set =org-koma-letter-default-class=
+  - ORG
+    - Simple way that makes it very easy to just focus on the document content
+    - This metadata takes highest priority in the workflow
+      - So you should set your typical defaults in LISP or LCO and customize it
+        here. This is exactly what I wanted to know.
+      - This lets you do your tweaking in each unique file while relying on the
+        most common defaults defined elsewhere
+  - LISP
+    - Very familiar style of configuring things
+  - LCO
+    - LCO == Letter Class Option filess
+    - LCO files are TeX
+    - They are included in the generated TeX source code from the letter
+    - Gives *full* access to KOMA-Script
+      - Big deal, because not everything is exposed through ORG or LISP
+      - Also gives full access to any and all TeX and LaTeX code
+    - LCO files are a KOMA-Script thing, so they are a LaTeX thing
+    -
+      #+begin_quote
+      Letter metadata set in LCO files overwrites letter metadata set in Emacs
+      variables but not letter metadata set in the Org file.
+      #+end_quote
+    - When you include multiple LCO files, they are evaluted LIFO. Properties
+      are set as they first appear, and are not set again. Say you include
+      "MyGeneralStuffForAnyLetter.lco" and then include
+      "MyStuffSpecificToThisLetter.lco". The specific stuff will get set first.
+      Then general stuff will get set last.
+      - Surely there is a better way to phrase this. I will work on that.
+- Recommendations
+  - What is the easiest way to starat using KOMA-Script based on what you know
+    today?
+  - If you don't know any of the approaches
+    - Then choose between learning LaTeX and Org
+  - If you only know LaTeX
+    - Then you will use the LTX/LCO metadata approach
+  - If you only know ORG
+    - Then you will use the ORG metadata approach
+  - If you only know ORG and LISP
+    - Then you will use the LISP approach for general metadata and the ORG
+      approach specific metadata
+  - If you know LTX/LCO, ORG, and LISP
+    - Then you have total flexibility
+    - The fact is that
+      - ORG settings always trump LTX/LCO and LISP
+      - LISP settings are a subset of all of the settings available in
+        KOMA-Script, so you will always have to fall back to LTX/LCO if you want
+        to use unexposed features
+      - LCO files are just plain old LaTeX, which you already know
+    - So the best thing to do
+      - Is to use ORG for letter-specific settings
+      - And LTX for general settings
+      - Everything is a lot simpler this way because
+        - One less metadata approach to keep track of
+        - All KOMA-Script features are present
+        - Need to learn details of KOMA-Script package anyway
+
+Configure the default class.
+
+[[https://tex.stackexchange.com/questions/102922/how-can-i-get-us-letter-output-from-koma-scripts-scrlttr2-class][This]] post explains how to default the US letter size. That is the likely default
+for my printed correspondence.
+
+#+begin_src emacs-lisp
+(eval-after-load 'ox-koma-letter
+  '(progn
+     (add-to-list 'org-latex-classes
+                  '("my-letter"
+                    "\\documentclass[paper=letter, pagesize, fontsize=10pt, parskip]{scrlttr2}
+\\usepackage[english]{babel}
+\\usepackage[osf]{mathpazo}"))
+
+     (setq org-koma-letter-default-class "my-letter")))
+#+end_src
+
+There are two formats for the letters: [[http://orgmode.org/w/?p%3Dworg.git%3Ba%3Dblob%3Bf%3Dexporters/koma-letter-new-example.org%3Bh%3D180a9a0e10dd8f7483a67946daf36732c316f821%3Bhb%3D180a9a0e10dd8f7483a67946daf36732c316f821][heading-based]] and [[http://orgmode.org/w/?p%3Dworg.git%3Ba%3Dblob%3Bf%3Dexporters/koma-letter-example.org%3Bh%3De21b8b00c3e895be9dd573d02ea84b08796296a3%3Bhb%3De21b8b00c3e895be9dd573d02ea84b08796296a3][property-based]].
+
+Set up my default LCO files.
+
+#+begin_src emacs-lisp
+(setq org-koma-letter-class-option-file "UScommercial9 KomaDefault")
+#+end_src
+
 **** ispell
 
 Doing literate programming a *lot*… it is a hassle to spell-check source blocks,
@@ -5018,7 +4887,13 @@ sense that the granularity of your actions changes and all actions provided here
 are helpful for those different situations. This used to be =kc-df= but I typed
 =df= for data.frame so I had to change it, as well as the following which used to
 be =cv=. That wasn't good either because it is a painful reach. I need to document
-the lessons learned above.
+the lessons learned above. df-jk make so much more sense, though, and I came
+back to this to recall why I made this choice. This is an exploration question
+again because the simplicity and symmettry of df-jk is simpler. I am going to
+try using shift as a modifier key in the key-chord space. I'll use capital
+letters. Upon typing that I realized that I don't like this idea, it takes this
+binding from a non-disruptive to slightly-disruptive. I'll leave this alone
+again.
 #+begin_src emacs-lisp
 (key-chord-define-global "fg" 'goto-line)
 #+end_src
@@ -5061,6 +4936,11 @@ Do the /right thing/ for getting to the start of the line!
 I use VC quite frequently. This is easy to reach, and does what must be done:
 #+begin_src emacs-lisp
 (global-set-key (kbd "C-;") 'vc-next-action)
+#+end_src
+
+Check =git= status:
+#+begin_src emacs-lisp
+(global-set-key (kbd "C-M-;") 'magit-status)
 #+end_src
 
 You don't moves lines or regions a ton, but when you do, you usually can't use
@@ -5261,11 +5141,6 @@ Use a nicer =eval-expression= approach.
 List buffers in a more rich way.
 #+begin_src emacs-lisp
 (global-set-key (kbd "C-x C-b") 'ibuffer)
-#+end_src
-
-Check =git= status:
-#+begin_src emacs-lisp
-(key-chord-define-global "f8" 'magit-status)
 #+end_src
 
 Toggle utility buffers
@@ -6160,7 +6035,8 @@ For a start, I will just do some basic stuff that I do for most modes.
   (interactive)
   (turn-on-smartparens-strict-mode)
   (gcr/disable-tabs)
-  (fci-mode))
+  (fci-mode)
+  (linum-mode))
 
 (add-hook 'TeX-mode-hook 'gcr/TeX-mode-hook)
 #+end_src
@@ -6200,6 +6076,12 @@ save it [fn:b2655f5c: http://mbork.pl/2015-01-10_A_few_random_Emacs_tips].
 
 #+begin_src emacs-lisp
 (setq TeX-save-query nil)
+#+end_src
+
+Start the proper mode for LCO files.
+
+#+begin_src emacs-lisp
+(add-to-list 'auto-mode-alist '("\\.lco?\\'" . TeX-latex-mode))
 #+end_src
 
 ** Text
@@ -6418,7 +6300,7 @@ The =ditaa= library file is not version controlled.
 
 =plantuml= needs a full directory path. It is easier to address it here.
 #+begin_src emacs-lisp
-(defconst gcr/plantuml-jar (concat (expand-file-name (getenv "EELIB")) "/plantuml.8021.jar"))
+(defconst gcr/plantuml-jar (concat (expand-file-name (getenv "EELIB")) "/plantuml.8026.jar"))
 #+end_src
 
 The rest of the configuration is vanilla.
@@ -6610,8 +6492,6 @@ Object01 <|-- Object02
 
 - Internationalization
   - Full Unicode character support
-
-
 
 * Libraries
    :PROPERTIES:
@@ -6825,10 +6705,13 @@ to find out why so don't include =org= comments.
 Be sure to link =~/.emacs.d/eshell= here.
 
 #+begin_src sh :tangle eshell/alias :comments no
+alias bbc ~/git/github-grettke/stathon/stathon.py ~/git/bitbucket-grettke/ | grep True
 alias clear recenter 0
 alias d 'dired $1'
+alias ff find-file $1
 alias g git $*
 alias gb git branch $*
+alias gbc ~/git/github-grettke/stathon/stathon.py ~/git/github-grettke/ | grep True
 alias gco git checkout $*
 alias gpom git push origin master
 alias gst git status
@@ -7062,15 +6945,23 @@ AHK has been fragile in these ways:
 - Putting the configuration file in =~/Documents= works
   - Putting it in =~/= does not work
 - Sometimes the left control and caps-lock swap gets reversed
+- Observations
+  - Using this setup worked perfectly for a while because I used it only on my
+    home machine
+  - Once I used it for a while at work that changed everything because
+    - The keyboard was layed out differently
+    - 99% of my work was inside of VMWare
+    - With that in mind I set up the two different profiles
+      - They need to be refactored, and splitting them up is the first step
+- AHK seems to make itself when running both in the host and in a guest VM
+  - The caps-lock swap often becomes confused and the caps lock turns on causing
+    hilarious consequences
+  - For this reason, there are two configurations
+    - One for Windows "on the metal"
+    - One for Windows "on a VM"
 
 Fixes:
 - Rebooting
-
-**** Config
-  :PROPERTIES:
-  :noweb-ref: AutoHotKey-Config
-  :END:
-
 [[http://www.autohotkey.com/docs/Hotkeys.htm][Hotkey documentation.]]
 
 - =#=: Windows logo key
@@ -7078,7 +6969,46 @@ Fixes:
 - =^=: Control
 - ~+~: Shift
 
+I could not disable the Windows key on Windows 7. I made many attempts and all
+failed. When I try some s-l and lock the screen I need to remember that I've got
+a binding on M-s-l. That patterns remains the same. The bindings that I removed
+follow: the correct binding and a failed remedy. The problem is that Windows
+processes the key events before they reach AHK.
+
+**** Common Config
+  :PROPERTIES:
+  :noweb-ref: AutoHotKey-Common-Config
+  :END:
+
 #+begin_src sh
+Capslock::LCtrl
+
+LCtrl::CapsLock
+
+Enter::RCtrl
+
+,*RCtrl::Enter
+
+,*AppsKey::Enter
+
+#b::!#b
+
+#d::!#d
+
+#e::!#e
+
+#l::!#l
+
+#p::!#p
+
+#t::!#t
+
+^+l::#l
+#+end_src
+
+**** OTM Config
+
+#+begin_src src :tangle AutoHotKeyOTM.ahk :comments no
 WheelUp::
 Send {WheelDown}
 Return
@@ -7087,77 +7017,18 @@ WheelDown::
 Send {WheelUp}
 Return
 
-Capslock::LCtrl
-
-Enter::RCtrl
-
-RShift::Enter
-
-LCtrl::CapsLock
-
-AppsKey::
-
-RCtrl::
-
-#b::!#b
-
-#d::!#d
-
-#e::!#e
-
-#l::!#l
-
-^+l::#l
-
-#p::!#p
-
-#t::!#t [[WheelUp::
-Send {WheelDown}
-Return
-
-WheelDown::
-Send {WheelUp}
-Return
-
-Capslock::LCtrl
-
-Enter::RCtrl
-
-RShift::Enter
-
-LCtrl::CapsLock
-
-AppsKey::
-
-RCtrl::
-
-#b::!#b
-
-#d::!#d
-
-#e::!#e
-
-#p::!#p
-
-#t::!#t]]
+«AutoHotKey-Common-Config»
 #+end_src
 
-I could not disable the Windows key on Windows 7. I made many attempts and all
-failed. When I try some s-l and lock the screen I need to remember that I've got
-a binding on M-s-l. That patterns remains the same. The bindings that I removed
-follow: the correct binding and a failed remedy. The problem is that Windows
-processes the key events before they reach AHK.
+**** OAV Config
 
-#+begin_example
-#l::!#l
+After months of trial and error, I decided that I will make this work. What I
+mean is that the bindings should be the same whether AHK is running OTM or OAV.
+The one thing that never seems to work is the these wheel mouse bindings. So,
+they are in OTM and not OAV. This is good because they are nearly identical.
 
-^+l::#l
-#+end_example
-
-**** Output
-
-#+begin_src src :tangle AutoHotKey.ahk :comments no
-«AutoHotKey-Config»
+#+begin_src src :tangle AutoHotKeyOAV.ahk :comments no
+«AutoHotKey-Common-Config»
 #+end_src
 
 ** OSX
@@ -7295,4 +7166,5 @@ After the addition:
 
 =Tangling complete after: 43.953333 seconds=
 
-#  LocalWords:  Savehist emacs fu API sudo MELPA purcell bbatsov ELPA
+#  LocalWords:  Savehist emacs fu API sudo MELPA purcell bbatsov ELPA LCO AHK
+#  LocalWords:  VM

@@ -375,8 +375,7 @@ This is a copy and paste. Additional languages would warrant a refactor."
   (dolist (buf (buffer-list))
     (with-current-buffer buf
       (when (and (buffer-file-name) (buffer-modified-p))
-        (save-buffer))))
-  (sleep-for 0 250))
+        (save-buffer)))))
 
 (defun gcr/kill-other-buffers ()
   "Kill all other buffers."
@@ -1034,11 +1033,14 @@ Attribution: SRC `http://emacsredux.com/blog/2013/04/21/edit-files-as-root/'"
   (local-set-key (kbd "C-;") 'log-edit-done))
 
 (add-hook 'log-edit-mode-hook 'gcr/log-edit-mode-hook-local-bindings)
+(defadvice magit-status (before save-before-magit first activate)
+  "Save all buffers before using Magit."
+  (gcr/save-all-file-buffers))
 (setq magit-last-seen-setup-instructions "1.4.0")
 (defun gcr/git-commit-commit ()
   "Allow commit message to save before committing."
   (interactive)
-  (sleep-for 1 000)
+  (save-buffer)
   (git-commit-commit))
 
 (defun gcr/git-commit-mode-hook ()
@@ -1469,6 +1471,17 @@ Attribution: URL `https://lists.gnu.org/archive/html/emacs-orgmode/2014-09/msg00
 (gcr/set-org-babel-default-inline-header-args :eval "always")
 (gcr/set-org-babel-default-inline-header-args :results "value replace")
 (gcr/set-org-babel-default-header-args:R :session "*R*")
+(eval-after-load 'ox '(require 'ox-koma-letter))
+(eval-after-load 'ox-koma-letter
+  '(progn
+     (add-to-list 'org-latex-classes
+                  '("my-letter"
+                    "\\documentclass[paper=letter, pagesize, fontsize=10pt, parskip]{scrlttr2}
+\\usepackage[english]{babel}
+\\usepackage[osf]{mathpazo}"))
+
+     (setq org-koma-letter-default-class "my-letter")))
+(setq org-koma-letter-class-option-file "UScommercial9 KomaDefault")
 (add-to-list 'ispell-skip-region-alist '("^#\\+begin_src ". "#\\+end_src$"))
 (add-to-list 'ispell-skip-region-alist '("^#\\+BEGIN_SRC ". "#\\+END_SRC$"))
 (add-to-list 'ispell-skip-region-alist '("^#\\+begin_example ". "#\\+end_example$"))
@@ -1605,6 +1618,7 @@ Attribution: URL `https://lists.gnu.org/archive/html/emacs-orgmode/2014-09/msg00
 (key-chord-define-global "gt" 'google-this-mode-submap)
 (global-set-key (kbd "C-a") 'beginning-of-line-dwim)
 (global-set-key (kbd "C-;") 'vc-next-action)
+(global-set-key (kbd "C-M-;") 'magit-status)
 (key-chord-define-global "yu" 'move-text-up)
 (key-chord-define-global "hj" 'move-text-down)
 (key-chord-define-global "qp" 'ispell)
@@ -1708,7 +1722,6 @@ Attribution: URL `https://lists.gnu.org/archive/html/emacs-orgmode/2014-09/msg00
 (global-set-key (kbd "M-<return>") 'gcr/lazy-new-open-line)
 (global-set-key (kbd "M-:") 'my-eval-expression)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
-(key-chord-define-global "f8" 'magit-status)
 (key-chord-define-global "f9" 'gcr/util-cycle)
 (global-set-key (kbd "<f12>") 'neotree-toggle)
 (global-set-key (kbd "M-7") 'gcr/insert-timestamp)
@@ -2084,7 +2097,8 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
   (interactive)
   (turn-on-smartparens-strict-mode)
   (gcr/disable-tabs)
-  (fci-mode))
+  (fci-mode)
+  (linum-mode))
 
 (add-hook 'TeX-mode-hook 'gcr/TeX-mode-hook)
 (setq TeX-parse-self t) ;
@@ -2095,6 +2109,7 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
 (setq TeX-PDF-mode +1)
 (setq TeX-DVI-via-PDFTeX +1)
 (setq TeX-save-query nil)
+(add-to-list 'auto-mode-alist '("\\.lco?\\'" . TeX-latex-mode))
 (defun gcr/text-mode-hook ()
   (fci-mode)
   (visual-line-mode)
@@ -2179,7 +2194,7 @@ Attribution: SRC http://www.emacswiki.org/emacs/ImenuMode"
 (add-to-list 'auto-mode-alist '("\\.asc" . artist-mode))
 (add-to-list 'auto-mode-alist '("\\.art" . artist-mode))
 (add-to-list 'auto-mode-alist '("\\.asc" . artist-mode))
-(defconst gcr/plantuml-jar (concat (expand-file-name (getenv "EELIB")) "/plantuml.8021.jar"))
+(defconst gcr/plantuml-jar (concat (expand-file-name (getenv "EELIB")) "/plantuml.8026.jar"))
 (defun gcr/warn-plantuml-jar ()
   "Warn of plantuml misconfiguration."
   (interactive)

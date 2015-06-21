@@ -7,7 +7,6 @@ local({
 })
 options(browserNLdisabled = TRUE)
 options("digits.secs"=3)
-options(prompt="ℝ> ")
 options(stringsAsFactors=TRUE)
 options(showWarnCalls=TRUE)
 options(showErrorCalls=TRUE)

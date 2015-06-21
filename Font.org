@@ -1,0 +1,654 @@
+# -- Latex template
+#+DATE: <2014-02-24 MON>
+#+OPTIONS: texht:t
+#+LATEX_CLASS: article
+#+LATEX_CLASS_OPTIONS: [letterpaper, 10pt]
+#+LATEX_HEADER: \usepackage[paperwidth=8.5in, paperheight=11in, hmargin=0.5in, vmargin=0.5in]{geometry}
+#+LATEX_HEADER_EXTRA:
+
+* Introduction
+
+Choosing my font for ALEC has been a journey. Gosh, that is a very serious word.
+It has been a /learning experience/. I never questioned font choice before. Font
+design is an art form. Font choice is an art form, too. I learned something.
+
+The purpose of this document is to capture parts of that journey that I valued.
+
+* Audience
+
+- Computer
+  - Users
+  - Programmers
+  - User experience designers (UXD)
+- Non-Computer
+  - Readers
+
+Every computer-user has a different strategy for choosing the best font for long
+periods working at the computer. They all involve many metrics, strategies, and
+rubrics. Based on that, they are probably all wrong. Well not really, they are
+right based upon experience, and experience is really all that matters.
+
+Non-computer users are important too. I am one. I love being able to sent a
+printed letter for /important things/. I love being able to read when /not/ at a
+computer. This journey helped reveal that for me.
+
+I was curious about whether my experience had any basis in reality, and I really
+wanted to dig into what is the "right way" to choose a font for any particular
+user or situation. The following are notes and ultimately a decision on what is
+the best for me. Hopefully the notes alone are revealing and help you reach your
+own conclusion, too. At the very least you ought to be educated, informed, and
+probably surprised, too, about some of the factors involved in font selection.
+
+* Resources
+
+I started researching fonts using Internet search engines. I found a bunch of
+resources. I read all of them and took notes. This heading captures addresses to
+those resources and notes about them.
+
+** [[http://thenextweb.com/dd/2011/03/02/whats-the-most-readable-font-for-the-screen/][What’s the most readable font for the screen?]]
+
+Serifs are tips for the reader's eyes for flow.
+
+San-serifs are better for low-res.
+
+Simultaneously states that is no difference between serif and san-serif.
+
+Rec: Helvetica/Arial
+
+Comment recommendations:
+
+Designed for digital, Hermann Zapf's Optima, or as a backup Verdana
+
+Designed for digital, Open Sans
+
+Both, Calibri
+
+San-serifs are easier on the eyes as you get older, citing retinal tears
+specifically
+
+** [[http://www.webpagecontent.com/arc_archive/182/5/][Time to change your fonts]]
+
+Designed for screen: Verdana, Trebuchet MS, and (the serif) Georgia.
+
+Easy to read, available on virtually all machines.
+
+Let go of times new roman, Arial, and Helvetica.
+
+Traditionally a serif font was used for the main body of a document, and
+sans-serif for headings. Today, those principles are often reversed.
+
+** [[http://www.awaionline.com/2011/10/the-best-fonts-to-use-in-print-online-and-email/][The Best Fonts to Use in Print, Online, and Email]]
+
+Popular serif fonts are Times New Roman, Palatino, Georgia, Courier,
+Bookman and Garamond.
+
+Some popular San Serif fonts are Helvetica, Arial, Calibri, Century
+Gothic and Verdana.
+
+It's been said that serif fonts are for "readability," while sans-serif
+fonts are for "legibility."
+
+Best fonts for online: go with sans-serif.
+
+2002 study by the Software Usability and Research Laboratory:
+- The most legible fonts were Arial, Courier, and Verdana.
+- At 10-point size, participants preferred Verdana. Times New Roman was
+  the least preferred.
+- At 12-point size, Arial was preferred and Times New Roman was the
+  least preferred.
+- The preferred font overall was Verdana, and Times New Roman was the
+  least preferred.
+
+For easiest online reading, use Arial 12-point size and larger. If
+you're going smaller than 12 points, Verdana at 10 points is your best
+choice. If you're after a formal look, use the font "Georgia." And for
+older readers, use at least a 14-point font.
+
+Dr. Ralph F. Wilson, an e-commerce consultant, did a series of tests in
+2001. He also came to the conclusion that the sans-serif fonts are more
+suited to the computer screen.Some of the highlights of the test results
+were that at 12 points, respondents showed a preference for Arial over
+Verdana -- 53% to 43% (with 4% not being able to distinguish between the
+two).Two-thirds of respondents found that Verdana at 12 points was too
+large for body text, but Verdana at 10 points was voted more readable
+than Arial at 10 points by a 2 to 1 margin.In conclusion, for the best
+font readability, use Arial 12 point or Verdana at 10 points and 9
+points for body text. For headlines, he suggests using larger bold
+Verdana.
+
+Comments: Good.
+
+My comments: no links to cited papers
+
+** [[https://tex.stackexchange.com/questions/20149/which-font-is-the-most-comfortable-for-on-screen-viewing][Which font is the most comfortable for on-screen viewing?]]
+
+Post: Advice to use san-serif is outdated and inappropriate for today's
+high resolution screens. San-serif or not is irrelevant; instead the
+measure of success is to use a large font that was specifically designed
+for on-screen usage. For inspiration, look at the free fonts listed at
+the Google Web Fonts directory, especially Vollkorn or the Droid Serif
+font which was particularly developed with small font size in mind.
+
+GCR: That post is confusing because he later explains that we are not
+there yet, but rather getting close.
+
+Post: Sans-serif are best for on-screen.
+
+** [[http://www.google.com/fonts/specimen/Vollkorn][Vollkorn]]
+
+** [[http://www.google.com/fonts/specimen/Droid+Serif][Droid Serif]]
+
+** [[http://river-valley.zeeba.tv/minion-math-a-new-math-font-family/][The Design of a New Math Font Family]]
+
+Interesting.
+
+** [[http://edutechwiki.unige.ch/en/Font_readability][Font readability]]
+
+Legibility refers to being able to read a text in bad conditions.
+“Legibility is concerned with the very fine details of typeface design,
+and in an operational context this usually means the ability to
+recognize individual letters or words. Readability however concerns the
+optimum arrangement and layout of whole bodies of text”
+
+Studies that contrast serif vs. non-serif fonts seem to be
+controversial.
+
+There are some ground rules one can find, like:
+- Don't make long lines nor too long paragraphs
+- Use wide fonts such as Palatino or Verdana for small fonts
+- Use spaces between lines, e.g. about 1.2 at least. E.g. in Word 2007,
+  1.15 is the default I believe. to be controversial.
+
+Sans serif: Verdana (a humanist font) or Arial
+
+Serif: Georgia
+
+Some references for studies and research done on fonts.
+
+“two roles for type: a functional role (relating to legibility) and an
+aesthetic/semantic role, which impacts the "apparent 'fitness' or
+'suitability' for different functions, and which imbue it with the power
+to evoke in the perceiver certain emotional and cognitive response" (p.
+38)””
+
+In her study: Calibri came out as a winner against Courier New and Curlz.
+
+GCR: Very exciting and interesting with good links
+
+** [[http://usabilitynews.org/the-effect-of-typeface-on-the-perception-of-email/][The Effect of Typeface on the Perception of Email]]
+
+People take Calibri seriously via this study.
+
+** [[http://usabilitynews.org/know-your-typefaces-semantic-differential-presentation-of-40-onscreen-typefaces/][Know Your Typefaces! Semantic Differential Presentation of 40 Onscreen Typefaces]]
+
+Study showing how people emotionally react to certain fonts.
+
+** [[http://typoface.blogspot.com/2009/08/academic-base.html][The Academic Evidence Base for Typeface Readability]]
+
+Study.
+
+Young people like serif; older like sans-serif.
+
+** [[http://liinwww.ira.uka.de/bibliography/Typesetting/reading.html][Bibliography on font readability]]
+
+Links to papers on font readability.
+
+** [[http://www.kathymarks.com/archives/2006/11/best_fonts_for_the_web_1.html][Best Fonts for the Web]]
+
+Serif: Georgia. It was designed especially for screen. Other options are
+listed.
+
+Sans-Serif: Tahoma. Geneva, Tahoma, and Verdana were designed especially
+for the screen. Tahoma in particular is cited for legibility. Another
+pick: Lucida Sans Unicode: Cited as remarkably legible for some reason.
+
+Monospaced: Monaco/Lucida Console.
+
+GCR: Great article.
+
+** [[http://psychology.wichita.edu/surl/usabilitynews/52/uk_font.htm][A Comparison of Two Computer Fonts: Serif versus Ornate Sans Serif]]
+
+Another study, unsure what to conclude from it.
+
+** [[http://usabilitynews.org/a-comparison-of-popular-online-fonts-which-size-and-type-is-best/][A Comparison of Popular Online Fonts: Which Size and Type is Best?]]
+
+Excellent details.
+
+Tahoma and Verdana, sans-serifs, were designed specifically for viewing
+on computer screens. J, I, and 1 were made distinguishable. Tahoma is
+wider than Verdana.
+
+Great article but leaves so many questions and stuff unanswered and
+explored.
+
+** [[http://usabilitynews.org/a-comparison-of-popular-online-fonts-which-is-best-and-when/][A Comparison of Popular Online Fonts: Which is Best and When?]]
+
+Big fonts generally don't matter and are easy to read.
+
+Tahoma is well-read.
+
+Verdana and Georgia have good legibility.
+
+Whole other range of evaluations: personality, elegant, youthful and
+fun, business-like,
+
+Most legible: Courier, Comic, Verdana, Georgia, and Times.
+
+** [[http://kadavy.net/blog/posts/design-for-hackers-why-you-dont-use-garamond-on-the-web/][Design for Hackers: Why You Don’t Use Garamond on The Web]]
+
+I only read this article months after reading the bulk of references in this
+section. It took time it to sink and for me to accept it. It is so easy to
+produce a letter in LaTeX, and just send a PDF. It should really be printed,
+though. So, what is the right medium and what is the right font? For formal
+things, things worth writng, I say paper.
+
+I read it again and noted the following:
+
+You must know your target market's viewing medium. If it is computer-users, then
+"its better to use a modern font that has been drawn with the screen in mind.".
+The fact "is that our display technology isn’t up to par with paper.".
+
+That makes it simple: I don't know the target audience. I loved the printed
+word. I love something real that engages touch and smell in addition to sight.
+By that measure, I am my own target audience, and it is simple: printed
+literature will be done using Garamond.
+
+** [[http://www.webdesignerdepot.com/2013/03/serif-vs-sans-the-final-battle/][SERIF VS. SANS: THE FINAL BATTLE]]
+
+I was curious again so I searched for articles to share with people who haven't
+done any research on the topic. I found this one. It is good. It "expertly
+explains why serif is better for print and sans serif is best suited for web".
+"For web" really means "For a low-resolution monitor". What is the right thing?
+In modern times, obviously the screen. That makes the most sense. Perhaps there
+is a really easy way to switch printed fonts? My use case is quite minimal: I
+love easily read text for important letters. They are few and far between.
+However, they are important. Is a resume that important? Not really.
+Correspondence is, though. That is the thing that I value. Printed
+correspondence. Perhaps that is just fine? If it is kind sorta not super perfect
+on-screen, perhaps that is OK, because the printed, viewable, touchable, and
+smellable form will always be the most delightful.
+
+* Questions & Answers
+
+The questions are simple.
+
+Reality is high-resolution. Computer screens are low-resolution. Font designers
+create fonts to make it easy for you to read given the medium. Choose the right
+font for the medium. Serif is for printed text. San-serif is for computer
+screens.
+
+You must make a decision about your medium. To do that, you you must be able to
+define your intent and your goal.
+
+Most of my trade work is performed on a computer screen. This is at least six
+hour a day. I value this tool, the computer and its screen. This is an important
+medium.
+
+My content publishing is performed on a computer screen. I consume blogs using a
+computer screen. I value that. I publish a personal notebook style blog. I value
+that.
+
+Most of my important personal interaction is performed on a printed piece of
+paper. This is called correspondence. Org and TeX produce fine documents that
+are easy to read. Important things deserve to be printed and shared without a
+power cord. This is an important medium.
+
+I want a good font for all 3 mediums.
+
+** Retrospective
+
+This definition of 3 mediums became clear only later. It took time for me to
+understand them, the difference, and their value. Font decisions become to clear
+once you understand your audience and your medium. That is when the fun starts
+skyrocketing. There is so much creativity in entire process. It is really all
+quite delightful.
+
+* Goals & Medium
+
+** Literate Programming on a Computer
+
+- Research
+  - Emacs is the primary environment
+  - [[Resources]] provided plenty
+  - [[http://ergoemacs.org/emacs/emacs_unicode_fonts.html][Best Unicode Fonts for Programming]]
+    - Nice article
+    - Nice discussion
+    - Great link to the [[http://www.fsd.it/fonts/pragmatapro.htm][PragmataPro]] font
+      - As you read about the font, you can feel the passion of the designer
+      - Excellent examples, clearly a lot of love went into this!
+  - [[http://www.slant.co/topics/67/viewpoints/4/~what-are-the-best-programming-fonts~dejavu-sans-mono][What are the best programming fonts?]]
+    - Tons of coding related fonts. Why not for reading?!
+    - Source Code Pro is highest ranked, then Consolas, and Monaco
+    - I really care about reading, too, literate programming is a big big deal
+    - I've since changed this heading to make it obvious what the use case
+      really is
+  - [[http://www.codeproject.com/Articles/30040/Font-Survey-42-of-the-Best-Monospaced-Programming][Font Survey: 42 of the Best Monospaced Programming Fonts]]
+    - The options, although only 42, are insanely overwhelming.
+
+- Thoughts
+  - Current state of technology along with aging-eyes means that sans-serif is the
+    best option
+  - Emacs suggest mono-spaced fonts for coding
+  - Experienced teaches me that Unicode support is mandatory
+  - Prefer fonts that focus on legibility over emotional evocation
+  - Like: Verdana, Calibri, Tahoma, Lucida Sans Unicode, Lucida Sans Console
+  - DejaVu Sans Mono: best Unicode support
+    - Based on Andale Mono, a monospaced san-serif designed for coding
+
+- Conclusions
+  - There isn't a ton of digestible info available on Unicode support for
+    the fonts that I listed.
+  - I am recalling now that my original selection of DejaVu Sans Mono was
+    specifically for its excellent Unicode support; specifically that it
+    had better support than Lucida Console which is monospaced but lacked
+    characters and looks at least as nice.
+  - Seems like it is just haphazard and quasi-scientific how people are
+    choosing fonts; and maybe even designing them.
+  - Found evidence that Lucida is just fine for display; and thus
+    DejaVu Sans Mono is fine for display.
+  - PragmataPro is intriguing
+  - I want a great font for Literate Programming
+    - Good for code
+    - Good for the written word
+    - On a computer screen, both are first class citizens
+    - Must be perfect for both
+
+- Decisions
+  - DejaVu Sans Mono is the best available font
+
+** Publishing on a Computer
+
+- Research
+  - WordPress is the primary environment
+  - [[Resources]] provided plenty
+
+- Thoughts
+  - Nothing to add: Georgia is a serif designed for the web
+
+- Conclusions
+  - MS Word introduced me to Georgia and I loved it >7 years ago
+  - Georgia has served me well on W&W for 7 years
+    - That is for content
+    - Headings are Arial (san-serif)
+  - Georgia readily available and I already love it for on-screen reading
+
+- Decisions
+  - Georgia is the best available font
+
+** IN-PROGRESS Correspondence on Printed Paper
+
+- Research
+  - TeX
+    - Limiting study to first 3 pages or search results, or so
+    - TeX is the primary environment
+      - There is plenty of history out there, and it is delightful
+      - [[https://www.tug.org/levels.html][The levels of TeX]] and [[https://tex.stackexchange.com/questions/42594/tex-family-tree-with-timeline%5D][TeX family tree with timeline]]
+        - Distribution :: Provides computer artifacts
+          - What are TeX Live and MikTeX defaults for the following?
+        - Front end :: An editor for the artifact input to an engine
+        - Engine :: Programs that implement TeX, aka compiler
+        - Format :: The TeX language used, eg TeX vs LaTeX
+        - Package :: Software artefact extending the base feature of the engine
+      - Engines
+        - Current
+          - TeX :: Never touched (NT)
+          - pdfTeX :: Used this for a while because it is the same as TeX
+          - XeTeX :: Provides first-class UTF8 (FCU) and [system, OpenType,
+            TrueType]-font support (SFS), NT
+          - LuaTeX :: Nearly switched to this, then I learned Org, FCU, SFS, NT
+            - [[https://tex.stackexchange.com/questions/126206/why-choose-lualatex-over-xelatex][Why choose LuaLaTeX over XeLaTeX?]]
+            - The more I re-visit this the *more* intriguing it becomes
+        - I want to
+          - Maximize reuse of existing experience
+          - Get pleasant documents
+          - Always end up with PDF
+          - Get nice optimization and fonts
+          - Stay very close to the mainstream
+        - pdfTeX seems like the best choice
+      - Formats
+        - Current
+          - TeX :: Don't know it
+          - LaTeX :: Know it
+          - ConTeXt :: Don't know it
+            - [[http://www.berenddeboer.net/tex/LaTeX2ConTeXt.pdf][LaTeX in proper ConTeXt]]
+        - LaTeX seems like the best choice
+    - Knuth's LP
+      - [[https://en.wikipedia.org/wiki/WEB][WEB]] :: Knuth's LP compiler
+      - [[https://tug.org/web2c/][Web2C]] :: "is an implementation of TeX and friends which translates the
+        original WEB sources written by Donald Knuth into C, so they can be readily
+        compiled on modern systems. Kpathsea is a library providing path searching
+        and other common functionality that Web2C and other programs use."
+        - Wonder if they mean "translate" instead of "compile"?
+    - How To and Other Posts about Engines
+      - [[https://yoo2080.wordpress.com/2014/03/09/how-to-use-unicode-in-latex-by-luatex-or-xetex/][use Unicode in LaTeX (by LuaTeX or XeTeX)]]
+        - What is my primary language? English.
+      - [[http://www.faqoverflow.com/tex/3094.html][FAQ overflow question about switching from pdfTeX to Xe/LuaTeX]]
+        - "multilanguage support is more problematic"
+      - [[http://www.texdev.net/2009/05/21/lua-tex-latex-and-context/][Lua, TeX, LaTeX and ConTeXt]]
+        - Thoughts about understanding the engines and formats
+    - TeX Packages Mentioned
+      - [[http://www.ctan.org/tex-archive/macros/latex/contrib/fontspec/][fontspec]] :: "provides an automatic and unified inter­face to feature-rich
+        AAT and OpenType fonts through the NFSS in LATEX run­ning on X∃TEX or
+        LuaTEX engines Mentioned: features here are provided in base LuaTeX and
+        XeTeX"
+      - [[http://www.ctan.org/pkg/microtype][microtype]] :: "interface to the microtypographic extensions that were
+        introduced by pdfTEX and have since also propagated to X∃TEX and LuaTEX:
+        most prominently, character protrusion and font expansion, furthermore the
+        adjustment of interword spacing and additional kerning, as well as
+        hyphenatable letterspacing (tracking) and the possibility to disable all
+        or selected ligatures."
+      - [[https://www.ctan.org/tex-archive/fonts/utilities/fontinst?lang%3Den][fontinst]] :: "a program that helps with installing fonts for (La)TeX"
+      - [[https://www.ctan.org/pkg/babel?lang%3Den][babel]] :: "manages culturally-determined typographical (and other) rules,
+        and hyphenation patterns for a wide range of languages". Single or
+        multiple in a single document.
+      - [[https://www.ctan.org/pkg/polyglossia?lang%3Den][polyglossia]] :: "pro­vides a com­plete Ba­bel re­place­ment for users of
+        LuaLATEX and X∃LATEX; it re­lies on the fontspec pack­age, ver­sion 2.0 at
+        least."
+      - [[http://www.ctan.org/tex-archive/fonts/utilities/fontools/][fontools]] :: "Tools to sim­plify us­ing fonts (especially TT/OTF ones)"
+      - [[https://www.ctan.org/pkg/fontenc?lang%3Den][fontenc]] :: Standard package for selecting font encodings
+        - The package allows the user to select font encodings, and for each
+          encoding provides an interface to ‘font-encoding-specific’ commands
+          for each font. Its most powerful effect is to enable hyphenation to
+          operate on texts containing any character in the font.
+        - The fact that one should use =T1= pops up quite frequently
+  - Fonts
+    - Some time ago I concluded that Garamond is the ideal font for printed page.
+      The work to do now, here, is to identify the best version of Garamond
+      available that works with pdfTeX and LaTeX
+    - Providers
+      - [[http://www.tug.dk/FontCatalogue/garamond/][URW Garamond]]
+        - Have used this for correspondence before and liked it
+        - Free
+        - Available as Type 1, might be important for quality
+        - Seems to be part of mathedesign
+      - [[http://www.georgduffner.at/ebgaramond/][EB Garamond]]
+        - Stuf from the home page
+          - Index
+            - Very exciting to read about
+            - Cool to do OSS
+            - Seems to be learning about fontography, very cool
+          - Design
+            - Not a mathematician
+            - 12 point is ready for use
+            - 10 point might be ready for use
+            - 6, 8, 18, and 40 are not ready for use
+          - Features
+            - Font design looks really fun to learn about
+            - From the Specimen doc
+              - "This font is intended primarily for texts"
+            - Download
+              - [[https://github.com/georgd/EB-Garamond][GitHub]]
+              - qt
+                #+begin_quote
+                This project is under heavy development. Don’t expect the fonts
+                to be anywhere near to ready or perfect. Everything might be
+                subject to change—from the dots on the i’s to the very name of
+                this project and of the fonts.
+                #+end_quote
+        - [[http://www.ctan.org/tex-archive/fonts/ebgaramond][EB Garamond CTAN page]]
+        - LaTeX, pdfLaTeX, XeLaTeX and LuaLaTeX
+        - Includes microtype configuration
+        - MiKTeX and TeX-Live call it =ebgaramond=
+        - Adobe Type 1 and OpenType
+        - Via [[https://tex.stackexchange.com/questions/60098/eb-garamond-on-latex][EB Garamond on LaTeX]]
+          - "Package options for old style/lining figures, and
+             proportional/tabular figures are osf, lf, p, and t, among others."
+      - [[https://store1.adobe.com/cfusion/store/html/index.cfm?event%3DdisplayFontPackage&code%3D1703][Adobe Garamond Pro]]
+        - From the home page
+          - Separate fonts as regular, italic, semibold, semibold-italic,
+            bold, bold-italic (+ 35 35 35 35 35 35) $210USD
+            - Adobe® Garamond® Pro Regular
+            - Adobe® Garamond® Pro Italic
+            - Adobe® Garamond® Pro Semibold
+            - Adobe® Garamond® Pro Semibold Italic
+            - Adobe® Garamond® Pro Bold
+            - Adobe® Garamond® Pro Bold Italic
+          - "Buy this package": $169USD
+          - [[http://www.fonts.com/font/adobe/adobe-garamond/complete-family-pack][Fonts.com]]: $169USD
+            - Lists actual file names
+              - AGaramondPro-Regular.otf
+              - AGaramondPro-Italic.otf
+              - AGaramondPro-Semibold.otf
+              - AGaramondPro-SemiboldItalic.otf
+              - AGaramondPro-Bold.otf
+              - AGaramondPro-BoldItalic.otf
+          - Related OpenType package: [[https://store1.adobe.com/cfusion/store/html/index.cfm?store%3DOLS-US&event%3DdisplayFontPackage&code%3D1902][Adobe Type Basics OpenType Edition]]
+            - Adobe® Garamond® Pro Regular
+            - Adobe® Garamond® Pro Italic
+            - Adobe® Garamond® Pro Semibold
+            - Adobe® Garamond® Pro Semibold Italic
+            - Gill Sans® Std Roman
+            - Gill Sans® Std Italic
+            - Gill Sans® Std Condensed
+            - Gill Sans® Std Bold Condensed
+            - $99USD
+          - Font type: OpenType
+          - EUL: 5 computers
+          - Typeface notes: Nice
+          - Optical size: Adobe Garamond Pro family is designed to be used at a
+            text size of 12.0 points.
+          - [[https://store1.adobe.com/type/browser/pdfs/AdobeGaramondPro.pdf][Specimen Book]]
+            - Great overview of the history and the tech
+            - Talks about how Garamond wasn't Garamond for a while!
+            - Garamond *and* Granjon!
+            - Two approaches: chose particular size
+            - Egenolff-Berner Speciment mentioned!
+            - Interesting to see oldstyle and lining figures
+            - Titling capitals, too
+            - Ligatures, fractions, superiors, inferiors, numerators,
+              denominators
+            - Superior letters
+            - Accented glyphs
+            - Ornaments
+        - Referenced [[http://www.tex.ac.uk/tex-archive/info/fontname/adobe.map][font map]], assume that these are the Adobe Garamond!
+          - AGaramond-Regular
+          - Agaramond-Italic
+          - AGaramond-Semibold
+          - AGaramond-SemiboldItalic
+          - AGaramond-Bold
+          - AGaramond-BoldItalic
+      - [[http://www.ctan.org/tex-archive/fonts/mathdesign/][mathedesign Mathematical fonts for URW and Adobe]]
+        - Does this provide fonts or a wrapper/integrator for them?
+        - Mentions both URW and Adobe Gramond Pro... what is this?
+        - Contain directions for how to install the AdobeGaramondPro font!
+          #+begin_quote
+          The Math Design project offers free mathematical fonts that match
+          with existing text fonts.
+          To date, three free font families are available: Adobe Utopia, URW
+          Garamond and Bitstream Charter. Three commercial fonts are also
+          supported: Adobe Garamond Pro, Adobe UtopiaStd and ITC Charter.
+          Mathdesign covers the whole LATEX glyph set, including AMS symbols
+          and some extra. Both roman and bold versions of these symbols can be
+          used. Moreover you can choose between three greek fonts (two of them
+          created by the Greek Font Society).
+          #+end_quote
+    - Adobe Garamond and mathedesign seem like the best choice
+  - Setting it up: Fonts and Engine
+    - Articles
+      - [[http://arstechnica.com/civis/viewtopic.php?t%3D214368][Using Garamond font in LaTeX?]]
+        - Note about how the Adbobe is the best
+        - At the time only Type 1 was available
+      - [[http://gael-varoquaux.info/science/garamond-fonts-for-latex.html][A Post]]
+        - "One remark on this example: you should never, ever, use the standards
+          out-of-the-box T1 fonts with pdfLaTeX, they look ugly. Always include
+          the “lmodern” or “pslatex” package, that uses much better postscript
+          fonts."
+        - Wonder if this is important for pdfTeX? Know that T1 is mentioned in the
+          Org setup
+          - Seems you can choose to [[http://orgmode.org/worg/org-contrib/babel/examples/article-class.html][not load it]] at all, see fontenc.
+      - [[http://www.latex-community.org/forum/viewtopic.php?f%3D44&p%3D49978][Garamond font in LaTeX?]]
+        - Mentions that you should use =mathdesign= with Garamond
+      - [[http://www.lagom.nl/latex/agaramond.html][Adobe Garamond and math symbols in LaTeX]]
+        - A stand-alone implementation?!
+        - Lists out exactly which fonts *must* be installed
+          - Good to know, I should check how they are handled in the above
+        - Mention Touch of Classics Adobe Garamond
+          - [[http://www.logisoft.com/clp-adobe-type-classics-for-learning.html][Here]]
+            - $37.59USD
+            - Has Garamond listed
+      - [[http://latexniques.wikidot.com/garamond][Garamond]]
+        - Helper page to resources
+        - There is a package for Gael's changes to urw-garamond
+
+- TO READ
+  - Firstly
+    - http://nitens.org/taraborelli/latex
+    - http://tex.blogoverflow.com/2011/08/putting-colors-in-initials/
+    - http://bengreen.eu/fancyhtml/techiestuff/latexongentoo.html
+    - http://mactex-wiki.tug.org/wiki/index.php/Typefaces
+    - http://web.willbenton.com/writing/2008/better-latex
+    - http://www.ntg.nl/maps/29/13.pdf
+  - Secondly
+    - https://tex.stackexchange.com/questions/112313/adobe-garamond-pro-otf-with-mathdesign
+    - https://tex.stackexchange.com/questions/83707/adobe-garamond-and-latex-linux
+    - http://web.ece.ucdavis.edu/~jowens/code/otfinst/
+    - http://www.techques.com/question/31-2798/Adobe-Garamond-Pro-not-working-with-XeLaTeX
+    - http://latex-community.org/forum/viewtopic.php?f=62&t=25922
+    - http://garamond.org/
+    - https://bbs.archlinux.org/viewtopic.php?id=59353
+    - http://dluat.com/adobe-garamond-pro-in-latex/
+    - https://www.tug.org/pipermail/macostex-archives/2008-May/035245.html
+    - https://www.tug.org/pipermail/xetex/2004-November/001235.html
+    - http://miktex.org/packages/mathdesign
+    - https://groups.google.com/forum/#!topic/comp.text.tex/owbCsQVb2N0
+    - http://snorriheim.dnsdojo.com/doku/doku.php/en:linux:publishing:xelatex:fonts
+    - http://poset.jp/agaramond/
+    - http://compgroups.net/comp.text.tex/installing-open-type-fonts-in-latex/1913431
+    - http://thetrendythings.com/read/12944
+    - http://latex-alive.tumblr.com/post/643148677/fontspec-for-luatex
+    - http://bbs.ctex.org/forum.php?mod=viewthread&tid=59901
+  - Thirdly
+    - https://lists.gnu.org/archive/html/emacs-orgmode/2010-07/msg01060.html
+    - https://github.com/tlvince/latex-letter/tree/master/src
+    - http://tex.stackexchange.com/questions/134087/why-shouldnt-i-use-the-mathdesign-package
+    - http://tug.ctan.org/fonts/psfonts/w-a-schmidt/pad.txt
+    - http://web.ece.ucdavis.edu/~jowens/code/otfinst/
+    - http://tex.stackexchange.com/questions/178544/install-adobe-garamond-pfb-afm-for-miktex
+    - http://mirrors.ibiblio.org/CTAN/fonts/psfonts/w-a-schmidt/README
+    - https://bbs.archlinux.org/viewtopic.php?id=59353
+    - https://www.ctan.org/pkg/microtype?lang=en
+    - http://tex.stackexchange.com/questions/3395/which-packages-can-you-use-to-improve-the-typographic-quality
+  - http://tex.stackexchange.com/questions/24691/how-to-install-otf-fonts-with-otfinst-py
+  - Out There
+    - What if I never printed one of these letters?
+      - What if they were electronic only?
+      - Could it be?
+      - [[https://tex.stackexchange.com/questions/188200/georgia-font-lookalike][Georgia font lookalike {closed}]]
+        - Palatino with the osf option, =[osf]{mathpazo}=
+
+- Thoughts
+
+- Conclusions
+
+- Decisions
+
+* TODO This
+
+- Add font names in here to my dictionary
+- Copy this document in publishing
+- Get open tabs from ipad on this topic
+- Take tons of notes
+- Get it working
+- So many, microtype and more omg, mathworks
+- Signature image from paint.net, where is the original?
+  - PDF?

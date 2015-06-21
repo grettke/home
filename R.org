@@ -82,11 +82,6 @@ Show timestamps to 3 sub-seconds:
 options("digits.secs"=3)
 #+end_src
 
-Make the ℝ prompt stand out (be sure to tell ESS how to handle this):
-#+begin_src R
-options(prompt="ℝ> ")
-#+end_src
-
 Do not allow automatic coercion of strings into factors, as you can specify this
 by argument to make it /real/ obvious. Looks like the best way is to leave it
 alone globally and always do it by hand though. hwickam commented that it is

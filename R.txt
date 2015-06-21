@@ -9,25 +9,31 @@
 1 Control Files
 ═══════════════
 
-  Remember to link these from `~/' here.
+  Remember to link these from `~/' to here. Automate it.
 
-  How to run:
-  • `.Renviron' is the important thing for telling what to go where
-  • First get everything installed
-  • Start R, but without the init file, run `.Rinstall' to get
-    everything installed
-  • `r --no-init-file'
-  • Various things happen now
-    • Java 6 gets installed
-    • CRAN repo site chooser pops up
-      • This is expected, .Rprofile specifies this
-    • R exits
-    • Just keep running the script until there are no issues and
-      everything is installed
-    • Ran it 5 times before there were no complaints
-    • Look forward to automating this
-  • Very everything is installed correctly
-  • Restart it with the init file and make sure everyting looks right
+  The goal here is to get R set up thoughtfully and quickly. The profile
+  and environ set it up correctly. Always remember this and run R using
+  those configuration files.
+
+  When R starts, it won't find any of the required packages. It will
+  complain a lot. That is OK. Just keep running the install script until
+  it is happy `source("~/.Rinstall")'. Then restart R and everything
+  should be fine.
+
+  Many things happen during this package installation process. Some are
+  R specific and some have to do with the machine that you are running
+  on. Both are mentioned here:
+
+  • Check the version that is running
+  • Go back and read the transcript and make sure that it looks right
+  • Eventually that script will fail, for example
+    • there is no package called ‘devtools’
+      • Called `install.packages("devtools")' manually
+      • Install order error
+  • After running it a couple of times, it is finished
+
+  My old config started R without the init-file. That was dumb. It
+  created a lot of needless hassle without any significant benefit.
 
   *.Rprofile*
   ┌────
@@ -85,11 +91,6 @@
   Show timestamps to 3 sub-seconds:
   ┌────
   │ options("digits.secs"=3)
-  └────
-
-  Make the ℝ prompt stand out (be sure to tell ESS how to handle this):
-  ┌────
-  │ options(prompt="ℝ> ")
   └────
 
   Do not allow automatic coercion of strings into factors, as you can
@@ -565,7 +566,7 @@
   └────
 
   ┌────
-  │ if(! require(data)) {
+  │ if(! require(data.table)) {
   │     install.packages("data.table")
   │ }
   └────
@@ -601,23 +602,7 @@
   └────
 
 
-◊ 1.1.1.10 magrittr
-
-  This is a add from the /most understated package definition/ of the
-  year department. `magrittr' [18] is, much like every Scheme library
-  ever, deceptively simple in its power and ease of use that it
-  provides.
-
-  ┌────
-  │ library(magrittr)
-  └────
-
-  ┌────
-  │ devtools::install_github("smbache/magrittr")
-  └────
-
-
-◊ 1.1.1.11 devtools
+◊ 1.1.1.10 devtools
 
   `devtools': Tools to make developing ℝ code easier
 
@@ -649,8 +634,10 @@
   └────
 
   ┌────
-  │ install.packages("devtools")
-  │ devtools::install_github("devtools")
+  │ if(! require(devtools)) {
+  │     install.packages("devtools")
+  │     devtools::install_github("hadley/devtools")
+  │ }
   └────
 
 
@@ -662,6 +649,24 @@
   [Manual] http://cran.r-project.org/web/packages/devtools/devtools.pdf
 
   [Github] https://github.com/hadley/devtools
+
+
+◊ 1.1.1.11 magrittr
+
+  This is a add from the /most understated package definition/ of the
+  year department. `magrittr' [18] is, much like every Scheme library
+  ever, deceptively simple in its power and ease of use that it
+  provides.
+
+  ┌────
+  │ library(magrittr)
+  └────
+
+  ┌────
+  │ if(! require(magrittr)) {
+  │     devtools::install_github("smbache/magrittr")
+  │ }
+  └────
 
 
 ◊ 1.1.1.12 reshape2
@@ -710,7 +715,9 @@
   └────
 
   ┌────
-  │ devtools::install_github("hadley/tidyr")
+  │ if(! require(tidyr)) {
+  │     devtools::install_github("hadley/tidyr")
+  │ }
   └────
 
 
@@ -991,8 +998,10 @@
   └────
 
   ┌────
-  │ install_github("ramnathv/slidify")
-  │ install_github("ramnathv/slidifyLibraries")
+  │ if(! require(slidify)) {
+  │     install_github("ramnathv/slidify")
+  │     install_github("ramnathv/slidifyLibraries")
+  │ }
   └────
 
 
