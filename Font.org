@@ -504,7 +504,7 @@ quite delightful.
             - Adobe® Garamond® Pro Bold
             - Adobe® Garamond® Pro Bold Italic
           - "Buy this package": $169USD
-          - [[http://www.fonts.com/font/adobe/adobe-garamond/complete-family-pack][Fonts.com]]: $169USD
+          - [[http://www.fonts.com/font/adobe/adobe-garamond/complete-family-pack][Fonts .com]]: $169USD
             - Lists actual file names
               - AGaramondPro-Regular.otf
               - AGaramondPro-Italic.otf
@@ -525,7 +525,7 @@ quite delightful.
           - Font type: OpenType
           - EUL: 5 computers
           - Typeface notes: Nice
-          - Optical size: Adobe Garamond Pro family is designed to be used at a
+          - Optimal size: Adobe Garamond Pro family is designed to be used at a
             text size of 12.0 points.
           - [[https://store1.adobe.com/type/browser/pdfs/AdobeGaramondPro.pdf][Specimen Book]]
             - Great overview of the history and the tech
