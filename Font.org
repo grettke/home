@@ -375,7 +375,7 @@ quite delightful.
 - Decisions
   - Georgia is the best available font
 
-** IN-PROGRESS Correspondence on Printed Paper
+** Correspondence on Printed Paper
 
 - Research
   - TeX
@@ -563,6 +563,7 @@ quite delightful.
           created by the Greek Font Society).
           #+end_quote
     - Adobe Garamond and mathedesign seem like the best choice
+  - Garamond comes with macOS and XeTeX can use it.
   - Setting it up: Fonts and Engine
     - Articles
       - [[http://arstechnica.com/civis/viewtopic.php?t%3D214368][Using Garamond font in LaTeX?]]
@@ -589,6 +590,12 @@ quite delightful.
       - [[http://latexniques.wikidot.com/garamond][Garamond]]
         - Helper page to resources
         - There is a package for Gael's changes to urw-garamond
+- Thoughts
+  - Nothing to add: Garamond is best for printing
+- Conclusions
+  - Classics like Times New Roman also work.
+- Decisions
+  - Garamond is the best available font
 
 - TO READ
   - Firstly
