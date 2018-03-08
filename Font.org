@@ -371,6 +371,7 @@ quite delightful.
     - That is for content
     - Headings are Arial (san-serif)
   - Georgia readily available and I already love it for on-screen reading
+  - Times New Roman is difficult to read on a computer
 
 - Decisions
   - Georgia is the best available font
@@ -593,7 +594,7 @@ quite delightful.
 - Thoughts
   - Nothing to add: Garamond is best for printing
 - Conclusions
-  - Classics like Times New Roman also work.
+  - Classics like Times New Roman also work but to my eyes it is too
 - Decisions
   - Garamond is the best available font
 
